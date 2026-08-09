@@ -20,29 +20,29 @@
 
     #matrix {
       position: fixed;
-      inset: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 1;
-      opacity: 0.3;
+      opacity: 0.35;
     }
 
     .container {
       position: relative;
-      z-index: 20;
+      z-index: 10;
       text-align: center;
-      max-width: 460px;
-      width: 92%;
-      padding: 24px 20px;
-      background: rgba(0, 0, 0, 0.78);
-      border: 1px solid #00ff9f33;
-      border-radius: 10px;
+      max-width: 480px;
+      width: 90%;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 12px;
     }
 
     .logo {
-      font-size: clamp(1.9rem, 8vw, 2.8rem);
+      font-size: clamp(1.9rem, 8vw, 2.9rem);
       font-weight: 700;
       letter-spacing: 0.05em;
       line-height: 1.15;
-      text-shadow: 0 0 18px #00ff9f;
+      text-shadow: 0 0 15px #00ff9f;
     }
 
     .logo span {
@@ -54,15 +54,17 @@
 
     .status {
       display: inline-block;
-      border: 1px solid #00ff9f55;
-      padding: 0.5rem 1.2rem;
-      margin: 1.6rem 0 1.8rem;
-      font-size: 0.8rem;
+      border: 1px solid #00ff9f66;
+      padding: 0.55rem 1.3rem;
+      margin: 1.8rem 0 2rem;
+      font-size: 0.82rem;
       letter-spacing: 0.1em;
       background: rgba(0, 255, 159, 0.08);
     }
 
-    form { text-align: left; }
+    form {
+      text-align: left;
+    }
 
     label {
       display: block;
@@ -83,7 +85,7 @@
       margin-bottom: 1rem;
     }
 
-    textarea { min-height: 95px; }
+    textarea { min-height: 100px; }
 
     button {
       width: 100%;
@@ -98,7 +100,7 @@
     }
 
     .footer {
-      margin-top: 1.6rem;
+      margin-top: 1.8rem;
       font-size: 0.75rem;
       color: #00ff9f99;
     }
