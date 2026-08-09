@@ -5,46 +5,178 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coin-Op 4 Charity — Coming Soon</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #050505;
+      background: #000;
       color: #00ff9f;
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Courier New", monospace;
       min-height: 100vh;
-      overflow-x: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.15) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      pointer-events: none;
-      z-index: 10;
+      overflow: hidden;
     }
 
     #matrix {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 0.35;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 480px;
+      width: 90%;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 12px;
+    }
+
+    .logo {
+      font-size: clamp(1.9rem, 8vw, 2.9rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1.15;
+      text-shadow: 0 0 15px #00ff9f;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 0.68em;
+      letter-spacing: 0.18em;
+      margin-top: 6px;
+    }
+
+    .status {
+      display: inline-block;
+      border: 1px solid #00ff9f66;
+      padding: 0.55rem 1.3rem;
+      margin: 1.8rem 0 2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      background: rgba(0, 255, 159, 0.08);
+    }
+
+    form {
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      margin-bottom: 0.25rem;
+      color: #7dffc8;
+    }
+
+    input, textarea {
       width: 100%;
-      height: 100%;
-      z-index
+      background: #0a0a0a;
+      border: 1px solid #00ff9f55;
+      color: #00ff9f;
+      padding: 0.7rem;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    textarea { min-height: 100px; }
+
+    button {
+      width: 100%;
+      background: #00ff9f;
+      color: #000;
+      border: none;
+      padding: 0.9rem;
+      font-weight: bold;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+    }
+
+    .footer {
+      margin-top: 1.8rem;
+      font-size: 0.75rem;
+      color: #00ff9f99;
+    }
+
+    .heart { color: #ff4d8d; }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="container">
+    <div class="logo">
+      COIN-OP<br>
+      <span>4 CHARITY</span>
+    </div>
+
+    <div class="status">
+      SYSTEM ONLINE // FULL SITE COMING SOON
+    </div>
+
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="inquiry">Inquiry</label>
+      <textarea id="inquiry" name="inquiry" required></textarea>
+
+      <input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
+
+      <button type="submit">SEND MESSAGE</button>
+    </form>
+
+    <div class="footer">
+      coinop4charity.org • We love you all. <span class="heart">♥</span>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░";
+    const fontSize = 15;
+    const columns = Math.floor(window.innerWidth / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff9f";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 45);
+  </script>
+</body>
+</html>
