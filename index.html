@@ -476,6 +476,115 @@
       opacity: 0.85;
       text-align: center;
     }
+
+    /* ========== REACTIVE / TRIPPY / GLITCH EFFECTS ========== */
+
+    #fx-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      overflow: hidden;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid #00ff9f;
+      box-shadow: 0 0 12px #00ff9f, 0 0 30px #00ff9f88, inset 0 0 20px #00ff9f44;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+      animation: rippleExpand 0.7s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes rippleExpand {
+      0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; border-width: 3px; }
+      60%  { opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; border-width: 1px; }
+    }
+
+    .ripple.rgb {
+      border-color: transparent;
+      box-shadow:
+        -3px 0 0 #ff00cc,
+         3px 0 0 #00ffff,
+         0 0 18px #00ff9f;
+    }
+
+    #scan-interference {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 45;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 255, 159, 0.03) 2px,
+        rgba(0, 255, 159, 0.03) 4px
+      );
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      animation: scanMove 9s linear infinite;
+    }
+
+    @keyframes scanMove {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 100px; }
+    }
+
+    body.glitching {
+      animation: screenGlitch 0.18s steps(2) infinite;
+    }
+
+    @keyframes screenGlitch {
+      0%   { filter: none; transform: translate(0,0); }
+      20%  { filter: brightness(1.2) contrast(1.1); transform: translate(-3px, 1px) skewX(-0.6deg); }
+      40%  { filter: hue-rotate(15deg) brightness(0.9); transform: translate(3px, -1px); }
+      60%  { filter: none; transform: translate(-1px, 0); }
+      80%  { filter: brightness(1.15); transform: translate(2px, 0.5px) skewX(0.4deg); }
+      100% { filter: none; transform: translate(0,0); }
+    }
+
+    body.aberration .container,
+    body.aberration .logo,
+    body.aberration .status,
+    body.aberration .mission {
+      text-shadow:
+        -1.5px 0 #ff00cc,
+         1.5px 0 #00ffff,
+         0 0 12px #00ff9f;
+    }
+
+    body.idle-unstable .logo {
+      animation: logoPulse 1.2s ease-in-out infinite alternate, idleShake 0.15s linear infinite;
+    }
+
+    @keyframes idleShake {
+      0%, 100% { transform: translate(0,0); }
+      25% { transform: translate(-1px, 0.5px); }
+      50% { transform: translate(1px, -0.5px); }
+      75% { transform: translate(-0.5px, 0); }
+    }
+
+    .corrupt-text {
+      animation: corruptFlash 0.35s linear;
+    }
+
+    @keyframes corruptFlash {
+      0%, 100% { opacity: 1; filter: none; }
+      30% { opacity: 0.7; filter: brightness(1.4) contrast(1.3); }
+      50% { opacity: 0.85; letter-spacing: 0.2em; }
+    }
+
+    #matrix {
+      transition: opacity 0.3s ease;
+    }
+
+    body.activity-high #matrix {
+      opacity: 0.55;
+    }
   </style>
 </head>
 <body>
@@ -494,6 +603,9 @@
   </div>
 
   <canvas id="matrix"></canvas>
+
+  <div id="fx-overlay"></div>
+  <div id="scan-interference"></div>
 
   <div class="container" id="main">
     <div class="logo">
@@ -663,12 +775,14 @@
       }
     }, 6000);
 
-    // ========== Matrix ==========
+    // ========== Matrix (Reactive) ==========
     const mCanvas = document.getElementById('matrix');
     const mCtx = mCanvas.getContext('2d');
     const fontSize = 14;
     const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░';
     let columns, drops = [], mFrame = 0;
+    let matrixBoost = 0;          // 0–1, higher = faster/more intense near interactions
+    let lastTouchX = -999, lastTouchY = -999;
 
     function resizeMatrix() {
       mCanvas.width = window.innerWidth;
@@ -676,23 +790,191 @@
       columns = Math.ceil(mCanvas.width / fontSize);
       drops = new Array(columns).fill(0).map(() => Math.random() * -50);
     }
+
     function drawMatrix() {
       requestAnimationFrame(drawMatrix);
       mFrame++;
       if (mFrame % 2 !== 0) return;
+
+      // Fade
       mCtx.fillStyle = 'rgba(0, 0, 0, 0.13)';
       mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-      mCtx.fillStyle = '#00ff9f';
+
+      // Boost decays
+      matrixBoost *= 0.96;
+
       mCtx.font = fontSize + 'px monospace';
+
       for (let i = 0; i < drops.length; i++) {
-        mCtx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
+        const x = i * fontSize;
+        const dist = Math.hypot(x - lastTouchX, drops[i] * fontSize - lastTouchY);
+        const near = dist < 180 ? 1 - dist / 180 : 0;
+        const localBoost = matrixBoost * 0.7 + near * 0.8;
+
+        // Brighter + slightly different color near interaction
+        if (localBoost > 0.15) {
+          mCtx.fillStyle = `rgba(0, 255, 200, ${0.7 + localBoost * 0.3})`;
+        } else {
+          mCtx.fillStyle = '#00ff9f';
+        }
+
+        mCtx.fillText(chars[Math.floor(Math.random() * chars.length)], x, drops[i] * fontSize);
+
+        // Faster fall when boosted
+        const speed = 1 + localBoost * 2.8;
+        drops[i] += speed;
+
+        if (drops[i] * fontSize > mCanvas.height && Math.random() > (0.975 - localBoost * 0.1)) {
+          drops[i] = 0;
+        }
       }
     }
     window.addEventListener('resize', resizeMatrix);
     resizeMatrix();
     drawMatrix();
+
+    // ========== REACTIVE / TRIPPY FX ENGINE ==========
+    const fxOverlay = document.getElementById('fx-overlay');
+    let activityLevel = 0;       // 0–1
+    let idleTimer = 0;
+    let lastInteraction = Date.now();
+    let glitchTimeout = null;
+
+    function spawnRipple(x, y, rgb = false) {
+      const el = document.createElement('div');
+      el.className = 'ripple' + (rgb ? ' rgb' : '');
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      const size = 80 + Math.random() * 120;
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      fxOverlay.appendChild(el);
+      setTimeout(() => el.remove(), 750);
+    }
+
+    function triggerScreenGlitch(duration = 180) {
+      document.body.classList.add('glitching');
+      clearTimeout(glitchTimeout);
+      glitchTimeout = setTimeout(() => {
+        document.body.classList.remove('glitching');
+      }, duration);
+    }
+
+    function bumpActivity(amount = 0.35) {
+      activityLevel = Math.min(1, activityLevel + amount);
+      lastInteraction = Date.now();
+      idleTimer = 0;
+      document.body.classList.remove('idle-unstable');
+
+      if (activityLevel > 0.55) {
+        document.body.classList.add('aberration', 'activity-high');
+      }
+    }
+
+    function onInteraction(e) {
+      let x, y;
+      if (e.touches && e.touches[0]) {
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
+      } else {
+        x = e.clientX;
+        y = e.clientY;
+      }
+
+      lastTouchX = x;
+      lastTouchY = y;
+      matrixBoost = Math.min(1, matrixBoost + 0.55);
+
+      // Ripple (sometimes RGB split version)
+      spawnRipple(x, y, Math.random() > 0.55);
+
+      // Chance of short screen glitch
+      if (Math.random() > 0.45) {
+        triggerScreenGlitch(140 + Math.random() * 120);
+      }
+
+      bumpActivity(0.4);
+    }
+
+    // Global interaction listeners (ignore game overlay to avoid interference)
+    document.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#game-overlay')) return;
+      onInteraction(e);
+    }, { passive: true });
+
+    document.addEventListener('touchstart', (e) => {
+      if (e.target.closest('#game-overlay')) return;
+      onInteraction(e);
+    }, { passive: true });
+
+    // Occasional random ambient glitches
+    setInterval(() => {
+      if (Math.random() > 0.78 && !document.body.classList.contains('glitching')) {
+        triggerScreenGlitch(90 + Math.random() * 100);
+      }
+    }, 2800);
+
+    // Idle escalation + activity decay
+    setInterval(() => {
+      const now = Date.now();
+      const idleMs = now - lastInteraction;
+
+      // Decay activity
+      activityLevel *= 0.92;
+      if (activityLevel < 0.25) {
+        document.body.classList.remove('aberration', 'activity-high');
+      }
+
+      // Idle escalation
+      if (idleMs > 9000) {
+        idleTimer++;
+        if (idleTimer > 4) {
+          document.body.classList.add('idle-unstable');
+          if (Math.random() > 0.6) triggerScreenGlitch(60 + Math.random() * 80);
+        }
+      } else {
+        idleTimer = 0;
+        document.body.classList.remove('idle-unstable');
+      }
+    }, 900);
+
+    // Occasional text corruption on logo / status
+    function corruptElement(el, duration = 320) {
+      if (!el || el.classList.contains('corrupt-text')) return;
+      const original = el.innerHTML;
+      el.classList.add('corrupt-text');
+
+      // Temporary visual corruption
+      const glitchChars = '█▓▒░$#@%&*01';
+      let steps = 0;
+      const interval = setInterval(() => {
+        steps++;
+        if (steps > 4) {
+          clearInterval(interval);
+          el.innerHTML = original;
+          el.classList.remove('corrupt-text');
+          return;
+        }
+        // Only corrupt a bit of the text for subtlety
+        el.innerHTML = original.split('').map(c => {
+          if (c === ' ' || c === '<' || c === '>' || c === '/' || Math.random() > 0.18) return c;
+          return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        }).join('');
+      }, 55);
+    }
+
+    setInterval(() => {
+      if (Math.random() > 0.72) {
+        const targets = [
+          document.querySelector('.logo'),
+          document.querySelector('.status'),
+          document.querySelector('.free-games h3')
+        ].filter(Boolean);
+        if (targets.length) {
+          corruptElement(targets[Math.floor(Math.random() * targets.length)]);
+        }
+      }
+    }, 5200);
 
     // ========== SHARED ==========
     const overlay = document.getElementById('game-overlay');
