@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coin-Op 4 Charity — Coming Soon</title>
-  <meta name="description" content="Restoring vintage arcade machines and placing them in youth centers across Nevada to raise funds and support kids.">
+  <meta name="description" content="Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to raise funds and support kids.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -21,10 +21,12 @@
 
     #matrix {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
-      opacity: 0.28;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.32;
     }
 
     .container {
@@ -34,9 +36,6 @@
       max-width: 480px;
       width: 90%;
       padding: 24px 20px;
-      background: rgba(0, 0, 0, 0.72);
-      border-radius: 12px;
-      border: 1px solid #00ff9f22;
     }
 
     .logo {
@@ -44,7 +43,7 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       line-height: 1.15;
-      text-shadow: 0 0 15px #00ff9f;
+      text-shadow: 0 0 18px #00ff9f, 0 0 35px #00ff9f55;
     }
 
     .logo span {
@@ -61,13 +60,13 @@
       margin: 1.5rem 0 1.2rem;
       font-size: 0.82rem;
       letter-spacing: 0.1em;
-      background: rgba(0, 255, 159, 0.08);
+      background: rgba(0, 0, 0, 0.5);
       animation: pulse 3.2s ease-in-out infinite;
     }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.72; }
+      50% { opacity: 0.7; }
     }
 
     .mission {
@@ -75,23 +74,22 @@
       line-height: 1.45;
       color: #7dffc8;
       margin-bottom: 1.6rem;
-      letter-spacing: 0.02em;
+      text-shadow: 0 1px 5px #000;
     }
 
-    form {
-      text-align: left;
-    }
+    form { text-align: left; }
 
     label {
       display: block;
       font-size: 0.78rem;
       margin-bottom: 0.25rem;
       color: #7dffc8;
+      text-shadow: 0 1px 3px #000;
     }
 
     input, textarea, select {
       width: 100%;
-      background: #0a0a0a;
+      background: rgba(0, 0, 0, 0.6);
       border: 1px solid #00ff9f55;
       color: #00ff9f;
       padding: 0.7rem;
@@ -100,7 +98,6 @@
       font-size: 0.95rem;
       margin-bottom: 1rem;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus, textarea:focus, select:focus {
@@ -117,19 +114,17 @@
     }
 
     select option {
-      background: #0a0a0a;
+      background: #111;
       color: #00ff9f;
     }
 
     textarea { min-height: 100px; resize: vertical; }
 
-    /* honeypot */
     .hp {
       position: absolute;
       left: -9999px;
       opacity: 0;
       height: 0;
-      width: 0;
       overflow: hidden;
     }
 
@@ -152,14 +147,13 @@
       box-shadow: 0 0 18px #00ff9f88;
     }
 
-    button:active {
-      transform: scale(0.98);
-    }
+    button:active { transform: scale(0.98); }
 
     .footer {
       margin-top: 1.6rem;
       font-size: 0.75rem;
       color: #00ff9f99;
+      text-shadow: 0 1px 3px #000;
     }
 
     .heart { color: #ff4d8d; }
@@ -179,7 +173,7 @@
     </div>
 
     <p class="mission">
-      Restoring vintage arcade machines and placing them in youth centers across Nevada to create fun, raise funds, and support kids.
+      Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, raise funds, and support kids.
     </p>
 
     <form action="https://formspree.io/f/mrpzenbr" method="POST">
@@ -205,14 +199,11 @@
       <label for="inquiry">Message</label>
       <textarea id="inquiry" name="inquiry" required></textarea>
 
-      <!-- honeypot -->
       <div class="hp" aria-hidden="true">
-        <label for="website">Website</label>
-        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
       </div>
 
       <input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
-
       <button type="submit">SEND MESSAGE</button>
     </form>
 
@@ -222,33 +213,39 @@
   </div>
 
   <script>
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
 
-    let columns, drops;
     const fontSize = 15;
-    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░";
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░';
+    let columns;
+    let drops = [];
+    let frame = 0;
 
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      columns = Math.floor(window.innerWidth / fontSize);
-      drops = Array(columns).fill(1);
+      columns = Math.ceil(canvas.width / fontSize);
+      drops = new Array(columns).fill(0).map(() => Math.random() * -40);
     }
-    resize();
-    window.addEventListener("resize", resize);
 
     function draw() {
-      if (document.visibilityState === "hidden") return;
+      requestAnimationFrame(draw);
+      frame++;
 
-      ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      // only update every 3 frames → slower rain
+      if (frame % 3 !== 0) return;
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#00ff9f";
-      ctx.font = fontSize + "px monospace";
+
+      ctx.fillStyle = '#00ff9f';
+      ctx.font = fontSize + 'px monospace';
 
       for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
@@ -256,7 +253,9 @@
       }
     }
 
-    setInterval(draw, 50);
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
   </script>
 </body>
 </html>
