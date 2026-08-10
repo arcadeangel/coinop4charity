@@ -243,7 +243,6 @@
 
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Milder CRT glitch – short bursts only */
     .mission.glitch {
       animation: mildGlitch 0.22s linear;
     }
@@ -599,6 +598,18 @@
           PULSE PADDLE
           <span>Break the blocks • Drag or arrows</span>
         </button>
+        <button class="game-btn" data-game="slugger">
+          PIXELBALL SLUGGER
+          <span>Time the swing • Move + Fire</span>
+        </button>
+        <button class="game-btn" data-game="yeti">
+          YETI SLOPES
+          <span>Ski the mountain • Dodge & survive</span>
+        </button>
+        <button class="game-btn" data-game="rocks">
+          SPACE ROCK SWARM
+          <span>Blast the rocks • Rotate + Thrust</span>
+        </button>
       </div>
     </div>
 
@@ -782,6 +793,18 @@
         hintEl.textContent = '← →  |  Mobile: drag paddle or buttons';
         setupTouchControls(['left', 'right']);
         initPaddle();
+      } else if (name === 'slugger') {
+        hintEl.textContent = '← → move  •  Space/Fire to swing';
+        setupTouchControls(['left', 'right', 'fire']);
+        initSlugger();
+      } else if (name === 'yeti') {
+        hintEl.textContent = '← → to steer  |  Mobile: buttons';
+        setupTouchControls(['left', 'right']);
+        initYeti();
+      } else if (name === 'rocks') {
+        hintEl.textContent = '← → rotate  •  ▲ thrust  •  Fire';
+        setupTouchControls(['left', 'right', 'up', 'fire']);
+        initRocks();
       }
     }
 
@@ -1197,6 +1220,480 @@
       const scaleX = canvas.width / rect.width;
       const x = (touch.clientX - rect.left) * scaleX;
       paddle.paddle.x = Math.max(0, Math.min(480 - paddle.paddle.w, x - paddle.paddle.w / 2));
+    }
+
+    // ========== 4. PIXELBALL SLUGGER ==========
+    let slugger = {};
+
+    function initSlugger() {
+      slugger = {
+        score: 0,
+        strikes: 0,
+        batter: { x: 200, y: 305, w: 60, h: 18 },
+        ball: { x: 240, y: 30, vx: (Math.random() - 0.5) * 1.8, vy: 3.8, active: true, hit: false },
+        swinging: false,
+        swingTimer: 0,
+        lastSwing: 0
+      };
+      updateUI(0, 3);
+      loopSlugger();
+    }
+
+    function newPitch() {
+      slugger.ball = {
+        x: 180 + Math.random() * 120,
+        y: 20 + Math.random() * 20,
+        vx: (Math.random() - 0.5) * 2.2,
+        vy: 3.6 + Math.random() * 0.8,
+        active: true,
+        hit: false
+      };
+    }
+
+    function loopSlugger() {
+      if (currentGame !== 'slugger') return;
+      const s = slugger;
+
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const fire  = keys[' '] || keys['Space'] || touchState.fire;
+
+      if (left)  s.batter.x -= 5.5;
+      if (right) s.batter.x += 5.5;
+      s.batter.x = Math.max(10, Math.min(410, s.batter.x));
+
+      // Swing
+      if (fire && Date.now() - s.lastSwing > 350 && !s.swinging) {
+        s.swinging = true;
+        s.swingTimer = 18;
+        s.lastSwing = Date.now();
+      }
+      if (s.swinging) {
+        s.swingTimer--;
+        if (s.swingTimer <= 0) s.swinging = false;
+      }
+
+      // Ball movement
+      if (s.ball.active) {
+        s.ball.x += s.ball.vx;
+        s.ball.y += s.ball.vy;
+
+        // Hit detection
+        if (s.swinging && !s.ball.hit &&
+            s.ball.y > s.batter.y - 25 && s.ball.y < s.batter.y + 25 &&
+            s.ball.x > s.batter.x - 10 && s.ball.x < s.batter.x + s.batter.w + 10) {
+          s.ball.hit = true;
+          s.ball.vy = -7 - Math.random() * 3;
+          s.ball.vx = (s.ball.x - (s.batter.x + s.batter.w / 2)) * 0.18;
+          s.score += 10 + Math.floor(Math.random() * 15);
+          updateUI(s.score, 3 - s.strikes);
+        }
+
+        // Missed pitch
+        if (s.ball.y > 380 && !s.ball.hit) {
+          s.strikes++;
+          updateUI(s.score, 3 - s.strikes);
+          if (s.strikes >= 3) {
+            drawSlugger();
+            showGameOver('STRIKE OUT!');
+            return;
+          }
+          newPitch();
+        }
+
+        // Ball flew off after hit
+        if (s.ball.hit && (s.ball.y < -30 || s.ball.x < -40 || s.ball.x > 520)) {
+          newPitch();
+        }
+      }
+
+      drawSlugger();
+      animId = requestAnimationFrame(loopSlugger);
+    }
+
+    function drawSlugger() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      // Simple diamond / plate lines
+      ctx.strokeStyle = '#00ff9f33';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(240, 40);
+      ctx.lineTo(80, 340);
+      ctx.lineTo(400, 340);
+      ctx.closePath();
+      ctx.stroke();
+
+      // Batter
+      ctx.fillStyle = '#00ff9f';
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(slugger.batter.x, slugger.batter.y, slugger.batter.w, slugger.batter.h);
+      // Bat
+      if (slugger.swinging) {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(slugger.batter.x - 8, slugger.batter.y - 6, 76, 8);
+      } else {
+        ctx.fillStyle = '#7dffc8';
+        ctx.fillRect(slugger.batter.x + slugger.batter.w - 4, slugger.batter.y - 18, 6, 22);
+      }
+      ctx.shadowBlur = 0;
+
+      // Ball
+      if (slugger.ball.active) {
+        ctx.beginPath();
+        ctx.arc(slugger.ball.x, slugger.ball.y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = slugger.ball.hit ? '#ffff00' : '#fff';
+        ctx.fill();
+      }
+    }
+
+    // ========== 5. YETI SLOPES ==========
+    let yeti = {};
+
+    function initYeti() {
+      yeti = {
+        score: 0,
+        skier: { x: 230, y: 70 },
+        trees: [],
+        speed: 2.4,
+        yetiActive: false,
+        yeti: { x: 200, y: -80 },
+        frame: 0,
+        gameOver: false
+      };
+      // initial trees
+      for (let i = 0; i < 8; i++) {
+        yeti.trees.push({
+          x: 40 + Math.random() * 400,
+          y: 120 + i * 50 + Math.random() * 30
+        });
+      }
+      updateUI(0, null);
+      loopYeti();
+    }
+
+    function loopYeti() {
+      if (currentGame !== 'yeti') return;
+      if (yeti.gameOver) return;
+
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+
+      if (left)  yeti.skier.x -= 5.2;
+      if (right) yeti.skier.x += 5.2;
+      yeti.skier.x = Math.max(20, Math.min(460, yeti.skier.x));
+
+      yeti.frame++;
+      yeti.speed += 0.0015;
+      yeti.score += 1;
+      if (yeti.frame % 6 === 0) updateUI(yeti.score, null);
+
+      // Move trees up (skier going down)
+      for (let i = yeti.trees.length - 1; i >= 0; i--) {
+        yeti.trees[i].y -= yeti.speed;
+        if (yeti.trees[i].y < -40) {
+          yeti.trees.splice(i, 1);
+          yeti.trees.push({
+            x: 30 + Math.random() * 420,
+            y: 360 + Math.random() * 80
+          });
+        }
+      }
+
+      // Tree collision
+      for (const t of yeti.trees) {
+        if (Math.abs(t.x - yeti.skier.x) < 22 && Math.abs(t.y - yeti.skier.y) < 28) {
+          yeti.gameOver = true;
+          drawYeti();
+          showGameOver('WIPED OUT');
+          return;
+        }
+      }
+
+      // Yeti appears after score 400
+      if (yeti.score > 400 && !yeti.yetiActive) {
+        yeti.yetiActive = true;
+        yeti.yeti.y = -60;
+        yeti.yeti.x = yeti.skier.x;
+      }
+
+      if (yeti.yetiActive) {
+        // Chase
+        const dx = yeti.skier.x - yeti.yeti.x;
+        yeti.yeti.x += Math.sign(dx) * Math.min(Math.abs(dx), 3.8);
+        yeti.yeti.y += yeti.speed * 0.85;
+
+        if (Math.abs(yeti.yeti.x - yeti.skier.x) < 30 && Math.abs(yeti.yeti.y - yeti.skier.y) < 35) {
+          yeti.gameOver = true;
+          drawYeti();
+          showGameOver('YETI GOT YOU');
+          return;
+        }
+      }
+
+      drawYeti();
+      animId = requestAnimationFrame(loopYeti);
+    }
+
+    function drawYeti() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      // Simple snow lines
+      ctx.strokeStyle = '#00ff9f15';
+      ctx.beginPath();
+      for (let y = 0; y < 360; y += 40) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(480, y);
+      }
+      ctx.stroke();
+
+      // Trees
+      yeti.trees.forEach(t => {
+        // trunk
+        ctx.fillStyle = '#005533';
+        ctx.fillRect(t.x - 4, t.y + 8, 8, 18);
+        // foliage
+        ctx.fillStyle = '#00ff9f';
+        ctx.beginPath();
+        ctx.moveTo(t.x, t.y - 18);
+        ctx.lineTo(t.x - 16, t.y + 12);
+        ctx.lineTo(t.x + 16, t.y + 12);
+        ctx.closePath();
+        ctx.fill();
+      });
+
+      // Skier
+      ctx.fillStyle = '#00ff9f';
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 10;
+      // body
+      ctx.fillRect(yeti.skier.x - 8, yeti.skier.y - 6, 16, 20);
+      // skis
+      ctx.fillRect(yeti.skier.x - 18, yeti.skier.y + 14, 36, 4);
+      ctx.shadowBlur = 0;
+
+      // Yeti
+      if (yeti.yetiActive) {
+        ctx.fillStyle = '#ff4d8d';
+        ctx.shadowColor = '#ff4d8d';
+        ctx.shadowBlur = 12;
+        // body
+        ctx.fillRect(yeti.yeti.x - 22, yeti.yeti.y - 10, 44, 40);
+        // head
+        ctx.fillRect(yeti.yeti.x - 16, yeti.yeti.y - 28, 32, 22);
+        // eyes
+        ctx.fillStyle = '#000';
+        ctx.fillRect(yeti.yeti.x - 10, yeti.yeti.y - 22, 6, 6);
+        ctx.fillRect(yeti.yeti.x + 4, yeti.yeti.y - 22, 6, 6);
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    // ========== 6. SPACE ROCK SWARM ==========
+    let rocks = {};
+
+    function initRocks() {
+      rocks = {
+        score: 0,
+        lives: 3,
+        ship: { x: 240, y: 180, angle: 0, vx: 0, vy: 0 },
+        bullets: [],
+        asteroids: [],
+        lastShot: 0,
+        invuln: 0
+      };
+      // spawn starting rocks
+      for (let i = 0; i < 5; i++) {
+        spawnAsteroid(3);
+      }
+      updateUI(0, 3);
+      loopRocks();
+    }
+
+    function spawnAsteroid(size, x, y) {
+      const speed = 0.6 + Math.random() * 1.4;
+      const angle = Math.random() * Math.PI * 2;
+      rocks.asteroids.push({
+        x: x !== undefined ? x : Math.random() * 480,
+        y: y !== undefined ? y : Math.random() * 360,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: size, // 3 big, 2 med, 1 small
+        r: size * 14
+      });
+    }
+
+    function loopRocks() {
+      if (currentGame !== 'rocks') return;
+      const r = rocks;
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const thrust = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
+      const fire  = keys[' '] || keys['Space'] || touchState.fire;
+
+      if (left)  r.ship.angle -= 0.085;
+      if (right) r.ship.angle += 0.085;
+
+      if (thrust) {
+        r.ship.vx += Math.cos(r.ship.angle) * 0.18;
+        r.ship.vy += Math.sin(r.ship.angle) * 0.18;
+      }
+
+      // friction
+      r.ship.vx *= 0.985;
+      r.ship.vy *= 0.985;
+
+      r.ship.x += r.ship.vx;
+      r.ship.y += r.ship.vy;
+
+      // wrap
+      if (r.ship.x < 0) r.ship.x = 480;
+      if (r.ship.x > 480) r.ship.x = 0;
+      if (r.ship.y < 0) r.ship.y = 360;
+      if (r.ship.y > 360) r.ship.y = 0;
+
+      // shoot
+      if (fire && Date.now() - r.lastShot > 200) {
+        r.bullets.push({
+          x: r.ship.x + Math.cos(r.ship.angle) * 14,
+          y: r.ship.y + Math.sin(r.ship.angle) * 14,
+          vx: Math.cos(r.ship.angle) * 7.5 + r.ship.vx,
+          vy: Math.sin(r.ship.angle) * 7.5 + r.ship.vy,
+          life: 50
+        });
+        r.lastShot = Date.now();
+      }
+
+      // bullets
+      for (let i = r.bullets.length - 1; i >= 0; i--) {
+        const b = r.bullets[i];
+        b.x += b.vx;
+        b.y += b.vy;
+        b.life--;
+        if (b.life <= 0 || b.x < -20 || b.x > 500 || b.y < -20 || b.y > 380) {
+          r.bullets.splice(i, 1);
+        }
+      }
+
+      // asteroids move + wrap
+      r.asteroids.forEach(a => {
+        a.x += a.vx;
+        a.y += a.vy;
+        if (a.x < -a.r) a.x = 480 + a.r;
+        if (a.x > 480 + a.r) a.x = -a.r;
+        if (a.y < -a.r) a.y = 360 + a.r;
+        if (a.y > 360 + a.r) a.y = -a.r;
+      });
+
+      // bullet vs asteroid
+      for (let bi = r.bullets.length - 1; bi >= 0; bi--) {
+        const b = r.bullets[bi];
+        for (let ai = r.asteroids.length - 1; ai >= 0; ai--) {
+          const a = r.asteroids[ai];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          if (dx * dx + dy * dy < a.r * a.r) {
+            r.bullets.splice(bi, 1);
+            r.score += (4 - a.size) * 20;
+            updateUI(r.score, r.lives);
+
+            if (a.size > 1) {
+              spawnAsteroid(a.size - 1, a.x, a.y);
+              spawnAsteroid(a.size - 1, a.x, a.y);
+            }
+            r.asteroids.splice(ai, 1);
+            break;
+          }
+        }
+      }
+
+      // ship vs asteroid
+      if (r.invuln > 0) r.invuln--;
+      else {
+        for (const a of r.asteroids) {
+          const dx = r.ship.x - a.x;
+          const dy = r.ship.y - a.y;
+          if (dx * dx + dy * dy < (a.r + 8) * (a.r + 8)) {
+            r.lives--;
+            updateUI(r.score, r.lives);
+            if (r.lives <= 0) {
+              drawRocks();
+              showGameOver('SHIP DESTROYED');
+              return;
+            }
+            r.ship.x = 240;
+            r.ship.y = 180;
+            r.ship.vx = 0;
+            r.ship.vy = 0;
+            r.invuln = 90;
+            break;
+          }
+        }
+      }
+
+      // respawn rocks if cleared
+      if (r.asteroids.length === 0) {
+        for (let i = 0; i < 5 + Math.floor(r.score / 400); i++) {
+          spawnAsteroid(3);
+        }
+      }
+
+      drawRocks();
+      animId = requestAnimationFrame(loopRocks);
+    }
+
+    function drawRocks() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      // asteroids
+      rocks.asteroids.forEach(a => {
+        ctx.strokeStyle = '#00ff9f';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        const pts = 7 + a.size;
+        for (let i = 0; i < pts; i++) {
+          const ang = (i / pts) * Math.PI * 2;
+          const rad = a.r * (0.75 + Math.sin(i * 2.3) * 0.25);
+          const px = a.x + Math.cos(ang) * rad;
+          const py = a.y + Math.sin(ang) * rad;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      });
+
+      // bullets
+      ctx.fillStyle = '#fff';
+      rocks.bullets.forEach(b => {
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // ship
+      if (rocks.invuln === 0 || Math.floor(rocks.invuln / 4) % 2 === 0) {
+        ctx.save();
+        ctx.translate(rocks.ship.x, rocks.ship.y);
+        ctx.rotate(rocks.ship.angle);
+        ctx.strokeStyle = '#00ff9f';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = '#00ff9f';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.moveTo(14, 0);
+        ctx.lineTo(-10, -9);
+        ctx.lineTo(-6, 0);
+        ctx.lineTo(-10, 9);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+      }
     }
   </script>
 </body>
