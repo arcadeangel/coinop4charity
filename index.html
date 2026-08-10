@@ -19,6 +19,45 @@
       overflow-x: hidden;
       overflow-y: auto;
       padding: 40px 0;
+      animation: powerOn 1.6s ease-out;
+    }
+
+    @keyframes powerOn {
+      0%   { opacity: 0; filter: brightness(4) contrast(3) saturate(2); }
+      15%  { opacity: 0.3; filter: brightness(2.5) contrast(1.8); }
+      40%  { opacity: 0.7; }
+      70%  { opacity: 0.95; filter: brightness(1.2); }
+      100% { opacity: 1; filter: none; }
+    }
+
+    /* Heavy CRT scanlines */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 1px,
+        rgba(0, 0, 0, 0.25) 1px,
+        rgba(0, 0, 0, 0.25) 3px
+      );
+      pointer-events: none;
+      z-index: 30;
+      opacity: 0.55;
+    }
+
+    /* Subtle Tron grid */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 159, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 159, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 5;
     }
 
     #matrix {
@@ -45,7 +84,23 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       line-height: 1.15;
-      text-shadow: 0 0 18px #00ff9f, 0 0 35px #00ff9f55;
+      text-shadow: 
+        0 0 10px #00ff9f,
+        0 0 25px #00ff9faa,
+        0 0 45px #00ff9f66,
+        0 0 70px #00ff9f33;
+      animation: logoPulse 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      from { 
+        text-shadow: 0 0 10px #00ff9f, 0 0 25px #00ff9faa, 0 0 45px #00ff9f66;
+        filter: brightness(1);
+      }
+      to { 
+        text-shadow: 0 0 18px #00ff9f, 0 0 40px #00ff9fcc, 0 0 70px #00ff9f88, 0 0 100px #00ff9f44;
+        filter: brightness(1.15);
+      }
     }
 
     .logo span {
@@ -57,35 +112,113 @@
 
     .status {
       display: inline-block;
-      border: 1px solid #00ff9f66;
+      border: 1px solid #00ff9f88;
       padding: 0.55rem 1.3rem;
-      margin: 1.5rem 0 1.2rem;
+      margin: 1.5rem 0 1.3rem;
       font-size: 0.82rem;
-      letter-spacing: 0.1em;
-      background: rgba(0, 0, 0, 0.5);
-      animation: pulse 3.2s ease-in-out infinite;
+      letter-spacing: 0.12em;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 
+        0 0 12px #00ff9f44,
+        inset 0 0 12px #00ff9f11;
+      animation: statusPulse 2.8s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
+    @keyframes statusPulse {
+      0%, 100% { 
+        opacity: 1; 
+        box-shadow: 0 0 12px #00ff9f44, inset 0 0 12px #00ff9f11;
+        border-color: #00ff9f88;
+      }
+      50% { 
+        opacity: 0.82; 
+        box-shadow: 0 0 22px #00ff9f77, inset 0 0 18px #00ff9f22;
+        border-color: #00ff9fcc;
+      }
     }
 
     .mission {
       font-size: 0.88rem;
-      line-height: 1.45;
+      line-height: 1.55;
       color: #7dffc8;
-      margin-bottom: 0.6rem;
-      text-shadow: 0 1px 5px #000;
+      margin-bottom: 1.1rem;
+      text-shadow: 0 0 10px #00ff9f66;
+      min-height: 5.8em;
+      text-align: center;
+      position: relative;
     }
 
-    .open-source {
-      font-size: 0.78rem;
-      color: #5ad9a8;
-      margin-bottom: 1.6rem;
-      letter-spacing: 0.03em;
-      opacity: 0.9;
-      text-shadow: 0 1px 4px #000;
+    .mission .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.1em;
+      background: #00ff9f;
+      margin-left: 3px;
+      vertical-align: text-bottom;
+      animation: blink 0.65s step-end infinite;
+      box-shadow: 0 0 10px #00ff9f, 0 0 20px #00ff9f88;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Aggressive glitch styles */
+    .mission.glitch {
+      animation: heavyGlitch 0.22s linear;
+    }
+
+    @keyframes heavyGlitch {
+      0%   { 
+        transform: translate(0); 
+        text-shadow: 0 0 10px #00ff9f66;
+        filter: none;
+      }
+      10%  { 
+        transform: translate(-4px, 1px); 
+        text-shadow: -3px 0 #ff00cc, 3px 0 #00ffff;
+        filter: hue-rotate(20deg);
+      }
+      25%  { 
+        transform: translate(5px, -2px) skewX(-3deg); 
+        text-shadow: 4px 0 #ff00cc, -4px 0 #00ffff;
+      }
+      40%  { 
+        transform: translate(-3px, 0) skewX(2deg); 
+        text-shadow: -5px 0 #ff00cc, 5px 0 #00ffff;
+        filter: brightness(1.4);
+      }
+      55%  { 
+        transform: translate(3px, 1px); 
+        text-shadow: 3px 0 #ff00cc, -3px 0 #00ffff;
+      }
+      70%  { 
+        transform: translate(-2px, -1px) skewX(-1deg); 
+        filter: hue-rotate(-15deg);
+      }
+      85%  { 
+        transform: translate(2px, 0); 
+        text-shadow: -2px 0 #ff00cc, 2px 0 #00ffff;
+      }
+      100% { 
+        transform: translate(0); 
+        text-shadow: 0 0 10px #00ff9f66;
+        filter: none;
+      }
+    }
+
+    /* occasional full container glitch */
+    .container.glitchHard {
+      animation: containerGlitch 0.18s linear;
+    }
+
+    @keyframes containerGlitch {
+      0%   { transform: translate(0); filter: none; }
+      20%  { transform: translate(-6px, 2px); filter: hue-rotate(90deg) contrast(1.4); }
+      40%  { transform: translate(7px, -3px); filter: hue-rotate(-60deg) brightness(1.3); }
+      60%  { transform: translate(-4px, 1px) skewX(4deg); }
+      80%  { transform: translate(3px, -1px); }
+      100% { transform: translate(0); filter: none; }
     }
 
     form { text-align: left; }
@@ -95,25 +228,26 @@
       font-size: 0.78rem;
       margin-bottom: 0.25rem;
       color: #7dffc8;
-      text-shadow: 0 1px 3px #000;
+      text-shadow: 0 0 6px #00ff9f44;
     }
 
     input, textarea, select {
       width: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       border: 1px solid #00ff9f55;
       color: #00ff9f;
       padding: 0.7rem;
-      border-radius: 4px;
+      border-radius: 3px;
       font-family: inherit;
       font-size: 0.95rem;
       margin-bottom: 1rem;
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus, textarea:focus, select:focus {
       border-color: #00ff9f;
-      box-shadow: 0 0 0 1px #00ff9f44;
+      box-shadow: 0 0 0 1px #00ff9f55, 0 0 18px #00ff9f33;
     }
 
     select {
@@ -125,7 +259,7 @@
     }
 
     select option {
-      background: #111;
+      background: #0a0a0a;
       color: #00ff9f;
     }
 
@@ -147,33 +281,36 @@
       padding: 0.9rem;
       font-weight: bold;
       font-size: 1rem;
-      letter-spacing: 0.08em;
-      border-radius: 4px;
+      letter-spacing: 0.1em;
+      border-radius: 3px;
       cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      transition: all 0.2s;
+      box-shadow: 0 0 18px #00ff9f66;
+      text-transform: uppercase;
     }
 
     button:hover {
       background: #33ffb3;
-      box-shadow: 0 0 18px #00ff9f88;
+      box-shadow: 0 0 30px #00ff9fcc, 0 0 50px #00ff9f55;
+      transform: translateY(-1px);
     }
 
-    button:active { transform: scale(0.98); }
+    button:active { transform: scale(0.97); }
 
     .footer {
-      margin-top: 1.6rem;
+      margin-top: 1.7rem;
       font-size: 0.75rem;
       color: #00ff9f99;
-      text-shadow: 0 1px 3px #000;
+      text-shadow: 0 0 6px #00ff9f33;
     }
 
-    .heart { color: #ff4d8d; }
+    .heart { color: #ff4d8d; text-shadow: 0 0 8px #ff4d8d88; }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
 
-  <div class="container">
+  <div class="container" id="main">
     <div class="logo">
       COIN-OP<br>
       <span>4 CHARITY</span>
@@ -183,13 +320,7 @@
       SYSTEM ONLINE // ACCEPTING PARTNERSHIPS
     </div>
 
-    <p class="mission">
-      Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.
-    </p>
-
-    <p class="open-source">
-      Restoration tools & scripts shared publicly on GitHub as we build.
-    </p>
+    <p class="mission" id="mission"></p>
 
     <form action="https://formspree.io/f/mrpzenbr" method="POST">
       <label for="name">Name</label>
@@ -228,11 +359,73 @@
   </div>
 
   <script>
+    // ========== Word-by-word Typewriter + Heavy Glitch ==========
+    const lines = [
+      "Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.",
+      "Restoration tools & scripts shared publicly on GitHub as we build."
+    ];
+
+    const missionEl = document.getElementById('mission');
+    const mainEl = document.getElementById('main');
+    let lineIndex = 0;
+    let wordIndex = 0;
+    let currentText = "";
+
+    function typeNextWord() {
+      if (lineIndex >= lines.length) {
+        setTimeout(() => {
+          missionEl.innerHTML = currentText;
+        }, 2400);
+        return;
+      }
+
+      const words = lines[lineIndex].split(" ");
+
+      if (wordIndex < words.length) {
+        currentText += (wordIndex === 0 && lineIndex > 0 ? "<br><br>" : "") + (wordIndex > 0 ? " " : "") + words[wordIndex];
+        missionEl.innerHTML = currentText + '<span class="cursor"></span>';
+
+        // More frequent + stronger glitches
+        if (Math.random() < 0.32) {
+          missionEl.classList.add('glitch');
+          setTimeout(() => missionEl.classList.remove('glitch'), 220);
+        }
+
+        // Occasional hard container glitch
+        if (Math.random() < 0.09) {
+          mainEl.classList.add('glitchHard');
+          setTimeout(() => mainEl.classList.remove('glitchHard'), 180);
+        }
+
+        wordIndex++;
+        setTimeout(typeNextWord, 195);
+      } else {
+        lineIndex++;
+        wordIndex = 0;
+        setTimeout(typeNextWord, 700);
+      }
+    }
+
+    setTimeout(typeNextWord, 1100);
+
+    // Random ambient glitches even after typing finishes
+    setInterval(() => {
+      if (Math.random() < 0.18) {
+        missionEl.classList.add('glitch');
+        setTimeout(() => missionEl.classList.remove('glitch'), 200);
+      }
+      if (Math.random() < 0.06) {
+        mainEl.classList.add('glitchHard');
+        setTimeout(() => mainEl.classList.remove('glitchHard'), 160);
+      }
+    }, 2800);
+
+    // ========== Matrix Rain ==========
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
 
-    const fontSize = 15;
-    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░';
+    const fontSize = 14;
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░<>/\\';
     let columns;
     let drops = [];
     let frame = 0;
@@ -241,17 +434,16 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       columns = Math.ceil(canvas.width / fontSize);
-      drops = new Array(columns).fill(0).map(() => Math.random() * -40);
+      drops = new Array(columns).fill(0).map(() => Math.random() * -50);
     }
 
     function draw() {
       requestAnimationFrame(draw);
       frame++;
 
-      // only update every 3 frames → slower rain
-      if (frame % 3 !== 0) return;
+      if (frame % 2 !== 0) return;
 
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.13)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = '#00ff9f';
