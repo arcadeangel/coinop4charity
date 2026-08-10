@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Coin-Op 4 Charity</title>
-  <meta name="description" content="Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.">
+  <meta name="description" content="Placing arcade and coin-op machines with Nevada youth organizations and community partners — creating free play for kids and new ways to fundraise.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -315,6 +315,22 @@
       box-shadow: 0 0 10px #00ff9f;
     }
 
+    .mission a.gh-link {
+      color: #00ff9f;
+      text-decoration: none;
+      border-bottom: 1px solid #00ff9f88;
+      text-shadow: 0 0 8px #00ff9f;
+      padding: 0 2px;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    }
+    .mission a.gh-link:hover,
+    .mission a.gh-link:focus {
+      background: #00ff9f;
+      color: #000;
+      box-shadow: 0 0 14px #00ff9f;
+      outline: none;
+    }
+
     @keyframes blink { 50% { opacity: 0; } }
 
     .mission.glitch {
@@ -451,9 +467,123 @@
       margin-top: 1.8rem;
       font-size: 0.75rem;
       color: #00ff9f99;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
 
     .heart { color: #ff4d8d; }
+
+    .share-btn {
+      background: transparent;
+      border: 1px solid #00ff9f66;
+      color: #00ff9f;
+      font-family: "Courier New", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      padding: 8px 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .share-btn:hover,
+    .share-btn:focus {
+      background: #00ff9f18;
+      border-color: #00ff9f;
+      box-shadow: 0 0 12px #00ff9f44;
+      outline: none;
+    }
+    .share-btn.copied {
+      background: #00ff9f;
+      color: #000;
+      border-color: #00ff9f;
+      box-shadow: 0 0 16px #00ff9f88;
+    }
+
+    #share-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #share-panel.open { display: flex; }
+    .share-card {
+      background: #000;
+      border: 1px solid #00ff9f;
+      box-shadow: 0 0 30px #00ff9f44, inset 0 0 40px #00ff9f11;
+      padding: 22px 20px 18px;
+      max-width: 300px;
+      width: 100%;
+      text-align: center;
+      font-family: "Courier New", monospace;
+      color: #00ff9f;
+    }
+    .share-card h4 {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 14px;
+      text-shadow: 0 0 10px #00ff9f;
+    }
+    .share-card .qr-wrap {
+      background: #fff;
+      padding: 10px;
+      display: inline-block;
+      margin-bottom: 14px;
+      line-height: 0;
+    }
+    .share-card .qr-wrap img {
+      width: 140px;
+      height: 140px;
+      display: block;
+    }
+    .share-card .share-url {
+      font-size: 0.7rem;
+      color: #7dffc8;
+      word-break: break-all;
+      margin-bottom: 14px;
+      opacity: 0.9;
+    }
+    .share-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .share-actions button {
+      background: transparent;
+      border: 1px solid #00ff9f88;
+      color: #00ff9f;
+      font-family: "Courier New", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+    }
+    .share-actions button:hover {
+      background: #00ff9f;
+      color: #000;
+    }
+    .share-actions button.primary {
+      border-color: #00ff9f;
+      box-shadow: 0 0 10px #00ff9f33;
+    }
+    .share-close {
+      margin-top: 12px;
+      background: none;
+      border: none;
+      color: #00ff9f99;
+      font-family: "Courier New", monospace;
+      font-size: 0.7rem;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+    .share-close:hover { color: #00ff9f; }
 
     #game-overlay {
       display: none;
@@ -752,7 +882,7 @@
         </button>
         <button class="game-btn" data-game="racer">
           NEON RACER
-          <span>Cruise the neon tropics</span>
+          <span>Cruise the neon tropics • Steering</span>
         </button>
         <button class="game-btn" data-game="rocks">
           SPACE ROCK SWARM
@@ -778,7 +908,23 @@
     </div>
 
     <div class="footer">
-      coinop4charity.org • We love you all. <span class="heart">♥</span>
+      <button type="button" class="share-btn" id="shareBtn" title="Share this site">SHARE THIS TERMINAL</button>
+      <div>coinop4charity.org • We love you all. <span class="heart">♥</span></div>
+    </div>
+  </div>
+
+  <div id="share-panel" aria-hidden="true">
+    <div class="share-card">
+      <h4>TRANSMIT LINK</h4>
+      <div class="qr-wrap">
+        <img id="shareQr" alt="QR code for coinop4charity.org" width="140" height="140">
+      </div>
+      <div class="share-url">coinop4charity.org</div>
+      <div class="share-actions">
+        <button type="button" class="primary" id="shareNative">SHARE VIA DEVICE</button>
+        <button type="button" id="shareCopy">COPY LINK</button>
+      </div>
+      <button type="button" class="share-close" id="shareClose">[ CLOSE ]</button>
     </div>
   </div>
 
@@ -797,7 +943,6 @@
     // ========== CRT POWER-ON ==========
     (function crtBoot() {
       const boot = document.getElementById('crt-boot');
-      // Play a subtle power-on tone if audio is allowed later
       setTimeout(() => {
         document.body.classList.add('crt-on');
       }, 550);
@@ -806,15 +951,110 @@
       }, 1450);
     })();
 
+    // ========== SHARE PANEL (QR + Web Share + Clipboard) ==========
+    (function setupShare() {
+      const link = 'https://coinop4charity.org';
+      const btn = document.getElementById('shareBtn');
+      const panel = document.getElementById('share-panel');
+      const qrImg = document.getElementById('shareQr');
+      const nativeBtn = document.getElementById('shareNative');
+      const copyBtn = document.getElementById('shareCopy');
+      const closeBtn = document.getElementById('shareClose');
+      if (!btn || !panel) return;
+
+      // QR via public API (no extra JS library)
+      if (qrImg) {
+        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=8&data=' +
+          encodeURIComponent(link);
+      }
+
+      // Hide native share if unsupported
+      if (nativeBtn && !navigator.share) {
+        nativeBtn.style.display = 'none';
+      }
+
+      function openPanel() {
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+      function closePanel() {
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+
+      async function copyLink() {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(link);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = link;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          const prev = copyBtn.textContent;
+          copyBtn.textContent = 'COPIED';
+          copyBtn.style.background = '#00ff9f';
+          copyBtn.style.color = '#000';
+          setTimeout(() => {
+            copyBtn.textContent = prev;
+            copyBtn.style.background = '';
+            copyBtn.style.color = '';
+          }, 1800);
+        } catch (e) {
+          copyBtn.textContent = 'COPY FAILED';
+          setTimeout(() => { copyBtn.textContent = 'COPY LINK'; }, 1800);
+        }
+      }
+
+      async function nativeShare() {
+        if (!navigator.share) return;
+        try {
+          await navigator.share({
+            title: 'Coin-Op 4 Charity',
+            text: 'Arcade machines for Nevada youth centers — free play & fundraising.',
+            url: link
+          });
+          closePanel();
+        } catch (e) {
+          if (e && e.name === 'AbortError') return;
+        }
+      }
+
+      btn.addEventListener('click', openPanel);
+      if (closeBtn) closeBtn.addEventListener('click', closePanel);
+      if (copyBtn) copyBtn.addEventListener('click', copyLink);
+      if (nativeBtn) nativeBtn.addEventListener('click', nativeShare);
+      panel.addEventListener('click', (e) => {
+        if (e.target === panel) closePanel();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+      });
+    })();
+
     // ========== Typewriter ==========
     const missionEl = document.getElementById('mission');
-    const fullText1 = "Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.";
-    const fullText2 = "Restoration tools & scripts shared publicly on GitHub as we build.";
+    const fullText1 = "Placing arcade and coin-op machines with Nevada youth organizations and community partners — creating free play for kids and new ways to fundraise.";
+    const fullText2 = "Modern tools make restoration more possible than it’s been in decades. Tools & scripts on GitHub as we build.";
+    const ghUrl = "https://github.com/arcadeangel/coinop4charity";
+    const typeSpeed = 48; // slower than before (was 28)
 
     let display = "";
     let phase = 0;
     let charIndex = 0;
     let glitchInterval = null;
+
+    function withGitHubLink(html) {
+      return html.replace(
+        /GitHub/g,
+        '<a class="gh-link" href="' + ghUrl + '" target="_blank" rel="noopener noreferrer" title="Open GitHub repo">GitHub</a>'
+      );
+    }
 
     function triggerGlitch() {
       missionEl.classList.remove('glitch');
@@ -839,22 +1079,22 @@
           display += fullText1.charAt(charIndex);
           missionEl.innerHTML = display + '<span class="cursor"></span>';
           charIndex++;
-          setTimeout(typeWriter, 28);
+          setTimeout(typeWriter, typeSpeed);
         } else {
           phase = 1;
           charIndex = 0;
           display += "<br><br>";
-          setTimeout(typeWriter, 700);
+          setTimeout(typeWriter, 900);
         }
       } else if (phase === 1) {
         if (charIndex < fullText2.length) {
           display += fullText2.charAt(charIndex);
           missionEl.innerHTML = display + '<span class="cursor"></span>';
           charIndex++;
-          setTimeout(typeWriter, 28);
+          setTimeout(typeWriter, typeSpeed);
         } else {
           setTimeout(() => {
-            missionEl.innerHTML = display;
+            missionEl.innerHTML = withGitHubLink(display);
             setTimeout(() => {
               triggerGlitch();
               setTimeout(stopOccasionalGlitch, 400);
@@ -867,14 +1107,14 @@
     setTimeout(() => {
       typeWriter();
       startOccasionalGlitch();
-    }, 900);
+    }, 1100);
 
     setTimeout(() => {
       if (missionEl.innerText.trim().length < 20) {
-        missionEl.innerHTML = fullText1 + "<br><br>" + fullText2;
+        missionEl.innerHTML = withGitHubLink(fullText1 + "<br><br>" + fullText2);
         stopOccasionalGlitch();
       }
-    }, 6000);
+    }, 9000);
 
     // ========== Matrix (Reactive) ==========
     const mCanvas = document.getElementById('matrix');
@@ -1871,7 +2111,7 @@
           yeti.gameOver = true;
           drawYeti();
           shake(10);
-          showGameOver('WIPED OUT', 'yeti', yeti.score);
+          showGameOver('TREE HUGGED', 'yeti', yeti.score);
           return;
         }
       }
@@ -1899,7 +2139,7 @@
           yeti.gameOver = true;
           drawYeti();
           shake(12);
-          showGameOver('YETI GOT YOU', 'yeti', yeti.score);
+          showGameOver('GOT SNOGGED', 'yeti', yeti.score);
           return;
         }
       }
@@ -1973,96 +2213,152 @@
         ctx.restore();
       });
 
-      // skier (detailed)
+      // skier (goofy panicked)
       const sk = yeti.skier;
       ctx.save();
       ctx.translate(sk.x, sk.y);
-      // lean with horizontal movement feel
-      const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left) ? -0.15 :
-                    (keys['ArrowRight'] || keys['d'] || touchState.right) ? 0.15 : 0;
+      const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left) ? -0.2 :
+                    (keys['ArrowRight'] || keys['d'] || touchState.right) ? 0.2 : 0;
       ctx.rotate(leanX);
-      // skis
+      // skis (wonky)
       ctx.fillStyle = '#7dffc8';
       ctx.shadowColor = '#00ff9f';
       ctx.shadowBlur = 8;
-      ctx.fillRect(-22, 14, 44, 5);
-      ctx.fillRect(-20, 12, 8, 3);
-      ctx.fillRect(12, 12, 8, 3);
-      // body
+      ctx.fillRect(-24, 15, 20, 5);
+      ctx.fillRect(2, 14, 22, 5);
+      // body - slightly hunched
       ctx.fillStyle = '#00ff9f';
-      ctx.fillRect(-8, -10, 16, 24);
-      // head / helmet
+      ctx.fillRect(-9, -8, 18, 22);
+      // flailing arms
+      const armWiggle = Math.sin(yeti.frame * 0.4) * 6;
+      ctx.fillRect(-16, -2 + armWiggle * 0.3, 8, 14);
+      ctx.fillRect(8, -2 - armWiggle * 0.3, 8, 14);
+      // big goofy head
       ctx.beginPath();
-      ctx.arc(0, -16, 8, 0, Math.PI * 2);
+      ctx.arc(0, -18, 11, 0, Math.PI * 2);
       ctx.fill();
-      // visor
-      ctx.fillStyle = '#001a12';
-      ctx.fillRect(-5, -18, 10, 5);
-      // poles
-      ctx.strokeStyle = '#00cc7a';
-      ctx.lineWidth = 2;
+      // huge panicked eyes
+      ctx.fillStyle = '#fff';
       ctx.beginPath();
-      ctx.moveTo(-12, 0); ctx.lineTo(-18, 18);
-      ctx.moveTo(12, 0); ctx.lineTo(18, 18);
-      ctx.stroke();
+      ctx.arc(-4, -20, 4.5, 0, Math.PI * 2);
+      ctx.arc(5, -19, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#000';
+      ctx.beginPath();
+      ctx.arc(-3, -19, 2, 0, Math.PI * 2);
+      ctx.arc(6, -18, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      // open scream mouth
+      ctx.fillStyle = '#003322';
+      ctx.beginPath();
+      ctx.ellipse(0, -12, 4, 3.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // little beanie
+      ctx.fillStyle = '#00cc7a';
+      ctx.fillRect(-8, -28, 16, 6);
+      ctx.beginPath();
+      ctx.arc(0, -28, 8, Math.PI, 0);
+      ctx.fill();
+      // pom pom
+      ctx.beginPath();
+      ctx.arc(0, -34, 3.5, 0, Math.PI * 2);
+      ctx.fill();
       ctx.shadowBlur = 0;
       ctx.restore();
 
       // warning banner
       if (yeti.warning > 0) {
-        ctx.fillStyle = `rgba(255, 40, 80, ${0.35 + Math.sin(yeti.frame * 0.35) * 0.2})`;
+        ctx.fillStyle = `rgba(255, 180, 50, ${0.3 + Math.sin(yeti.frame * 0.35) * 0.2})`;
         ctx.fillRect(0, 0, 480, 52);
-        ctx.fillStyle = '#ff4d8d';
-        ctx.font = 'bold 18px Courier New';
+        ctx.fillStyle = '#ffcc44';
+        ctx.font = 'bold 17px Courier New';
         ctx.textAlign = 'center';
-        ctx.shadowColor = '#ff4d8d';
+        ctx.shadowColor = '#ffaa00';
         ctx.shadowBlur = 10;
-        ctx.fillText('⚠ YETI INCOMING ⚠', 240, 34);
+        ctx.fillText('⚠ HUNGRY YETI INCOMING ⚠', 240, 34);
         ctx.shadowBlur = 0;
       }
 
-      // yeti creature (much better)
+      // yeti — funny, desperate, sick-looking fluffy goof
       if (yeti.yetiActive) {
         const yx = yeti.yeti.x, yy = yeti.yeti.y;
+        const pant = Math.sin(yeti.frame * 0.25) * 2;
         ctx.save();
         ctx.translate(yx, yy);
-        ctx.shadowColor = '#ff4d8d';
-        ctx.shadowBlur = 18;
-        // body
-        ctx.fillStyle = '#ff2a6a';
+        ctx.shadowColor = '#aaddff';
+        ctx.shadowBlur = 14;
+
+        // shaggy white/gray body
+        ctx.fillStyle = '#d8e8f0';
         ctx.beginPath();
-        ctx.ellipse(0, 8, 28, 26, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 10 + pant * 0.3, 30, 28, 0, 0, Math.PI * 2);
         ctx.fill();
-        // head
+        // belly
+        ctx.fillStyle = '#eef6fa';
         ctx.beginPath();
-        ctx.ellipse(0, -22, 20, 18, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 14, 18, 16, 0, 0, Math.PI * 2);
         ctx.fill();
-        // arms
-        ctx.fillRect(-36, -5, 14, 28);
-        ctx.fillRect(22, -5, 14, 28);
-        // eyes
+
+        // head (big & soft)
+        ctx.fillStyle = '#d8e8f0';
+        ctx.beginPath();
+        ctx.ellipse(0, -24 + pant, 22, 20, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // floppy arms reaching
+        ctx.fillStyle = '#c8d8e0';
+        ctx.beginPath();
+        ctx.ellipse(-32, 0 + pant, 12, 22, -0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(32, 0 - pant, 12, 22, 0.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // desperate googly eyes (uneven)
         ctx.fillStyle = '#fff';
         ctx.beginPath();
-        ctx.arc(-8, -24, 5, 0, Math.PI * 2);
-        ctx.arc(8, -24, 5, 0, Math.PI * 2);
+        ctx.arc(-9, -26 + pant, 7, 0, Math.PI * 2);
+        ctx.arc(10, -25 + pant, 8, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#000';
+        // pupils looking slightly different directions (crazy)
+        ctx.fillStyle = '#223';
         ctx.beginPath();
-        ctx.arc(-7, -23, 2.5, 0, Math.PI * 2);
-        ctx.arc(9, -23, 2.5, 0, Math.PI * 2);
+        ctx.arc(-7, -24 + pant, 3, 0, Math.PI * 2);
+        ctx.arc(12, -27 + pant, 3.5, 0, Math.PI * 2);
         ctx.fill();
-        // mouth
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
+        // tired bags under eyes
+        ctx.strokeStyle = '#99aab5';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(0, -14, 6, 0.2, Math.PI - 0.2);
+        ctx.arc(-9, -20 + pant, 5, 0.2, Math.PI - 0.2);
         ctx.stroke();
-        // horns
-        ctx.fillStyle = '#ffccaa';
+
+        // open panting mouth + tongue
+        ctx.fillStyle = '#4a3030';
         ctx.beginPath();
-        ctx.moveTo(-14, -36); ctx.lineTo(-18, -48); ctx.lineTo(-8, -38);
-        ctx.moveTo(14, -36); ctx.lineTo(18, -48); ctx.lineTo(8, -38);
+        ctx.ellipse(0, -14 + pant, 8, 6, 0, 0, Math.PI * 2);
         ctx.fill();
+        // tongue hanging out
+        ctx.fillStyle = '#ff6b8a';
+        ctx.beginPath();
+        ctx.ellipse(3, -10 + pant, 4, 5, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // messy hair tufts (not horns)
+        ctx.fillStyle = '#b0c4d0';
+        ctx.beginPath();
+        ctx.ellipse(-12, -40 + pant, 6, 8, -0.3, 0, Math.PI * 2);
+        ctx.ellipse(0, -44 + pant, 7, 9, 0, 0, Math.PI * 2);
+        ctx.ellipse(12, -40 + pant, 6, 8, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // sweat / desperation drops
+        ctx.fillStyle = '#7ec8e3';
+        ctx.beginPath();
+        ctx.ellipse(-20, -30 + pant, 2, 3, 0, 0, Math.PI * 2);
+        ctx.ellipse(22, -28 + pant, 2.5, 3.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
         ctx.shadowBlur = 0;
         ctx.restore();
       }
