@@ -380,7 +380,6 @@
 
     .heart { color: #ff4d8d; }
 
-    /* Game Overlay */
     #game-overlay {
       display: none;
       position: fixed;
@@ -542,7 +541,7 @@
     </form>
 
     <div class="free-games">
-      <h3>FREE GAMES :)</h3>
+      <h3>FREE GAMES</h3>
       <div class="game-buttons">
         <button class="game-btn" data-game="swarm">
           NEON SWARM
@@ -576,6 +575,556 @@
   </div>
 
   <script>
-    // ========== Typewriter ==========
-    const lines = [
-      "Placing arcade and coin-op machines — new and classic — in youth centers
+    // ========== Typewriter (fixed & more reliable) ==========
+    const missionEl = document.getElementById('mission');
+    const fullText1 = "Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.";
+    const fullText2 = "Restoration tools & scripts shared publicly on GitHub as we build.";
+
+    let display = "";
+    let phase = 0; // 0 = first sentence, 1 = second
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (phase === 0) {
+        if (charIndex < fullText1.length) {
+          display += fullText1.charAt(charIndex);
+          missionEl.innerHTML = display + '<span class="cursor"></span>';
+          charIndex++;
+          setTimeout(typeWriter, 28);
+        } else {
+          // finished first sentence, pause then start second
+          phase = 1;
+          charIndex = 0;
+          display += "<br><br>";
+          setTimeout(typeWriter, 700);
+        }
+      } else if (phase === 1) {
+        if (charIndex < fullText2.length) {
+          display += fullText2.charAt(charIndex);
+          missionEl.innerHTML = display + '<span class="cursor"></span>';
+          charIndex++;
+          setTimeout(typeWriter, 28);
+        } else {
+          // finished everything – remove cursor after a short delay
+          setTimeout(() => {
+            missionEl.innerHTML = display;
+          }, 1800);
+        }
+      }
+    }
+
+    // Start typing after short delay
+    setTimeout(typeWriter, 900);
+
+    // Fallback: if something goes wrong, show the text after 6 seconds
+    setTimeout(() => {
+      if (missionEl.innerText.trim().length < 20) {
+        missionEl.innerHTML = fullText1 + "<br><br>" + fullText2;
+      }
+    }, 6000);
+
+    // ========== Matrix ==========
+    const mCanvas = document.getElementById('matrix');
+    const mCtx = mCanvas.getContext('2d');
+    const fontSize = 14;
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░';
+    let columns, drops = [], mFrame = 0;
+
+    function resizeMatrix() {
+      mCanvas.width = window.innerWidth;
+      mCanvas.height = window.innerHeight;
+      columns = Math.ceil(mCanvas.width / fontSize);
+      drops = new Array(columns).fill(0).map(() => Math.random() * -50);
+    }
+    function drawMatrix() {
+      requestAnimationFrame(drawMatrix);
+      mFrame++;
+      if (mFrame % 2 !== 0) return;
+      mCtx.fillStyle = 'rgba(0, 0, 0, 0.13)';
+      mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+      mCtx.fillStyle = '#00ff9f';
+      mCtx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        mCtx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    window.addEventListener('resize', resizeMatrix);
+    resizeMatrix();
+    drawMatrix();
+
+    // ========== SHARED GAME ENGINE ==========
+    const overlay = document.getElementById('game-overlay');
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const livesEl = document.getElementById('lives');
+    const hintEl = document.getElementById('hint');
+    const touchContainer = document.getElementById('touch-controls');
+
+    let currentGame = null;
+    let animId = null;
+    let keys = {};
+    let touchState = { left: false, right: false, up: false, down: false, fire: false };
+
+    window.addEventListener('keydown', e => {
+      keys[e.key] = true;
+      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','a','A','d','D','w','W','s','S'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+    window.addEventListener('keyup', e => { keys[e.key] = false; });
+
+    function stopGame() {
+      currentGame = null;
+      if (animId) cancelAnimationFrame(animId);
+      animId = null;
+      keys = {};
+      touchState = { left: false, right: false, up: false, down: false, fire: false };
+      overlay.classList.remove('active');
+      touchContainer.innerHTML = '';
+    }
+
+    document.getElementById('closeGame').addEventListener('click', stopGame);
+
+    document.querySelectorAll('.game-btn').forEach(btn => {
+      btn.addEventListener('click', () => startGame(btn.dataset.game));
+    });
+
+    function startGame(name) {
+      stopGame();
+      overlay.classList.add('active');
+      currentGame = name;
+
+      if (name === 'swarm') {
+        hintEl.textContent = '← → + Space  |  Mobile: buttons';
+        setupTouchControls(['left', 'right', 'fire']);
+        initSwarm();
+      } else if (name === 'worm') {
+        hintEl.textContent = 'Arrow keys  |  Mobile: swipe or buttons';
+        setupTouchControls(['up', 'left', 'down', 'right']);
+        initWorm();
+      } else if (name === 'paddle') {
+        hintEl.textContent = '← →  |  Mobile: drag paddle or buttons';
+        setupTouchControls(['left', 'right']);
+        initPaddle();
+      }
+    }
+
+    function setupTouchControls(buttons) {
+      touchContainer.innerHTML = '';
+      const map = {
+        left:  { label: '◀', key: 'left' },
+        right: { label: '▶', key: 'right' },
+        up:    { label: '▲', key: 'up' },
+        down:  { label: '▼', key: 'down' },
+        fire:  { label: 'FIRE', key: 'fire', wide: true }
+      };
+      buttons.forEach(b => {
+        const conf = map[b];
+        const el = document.createElement('button');
+        el.className = 'touch-btn' + (conf.wide ? ' wide' : '');
+        el.textContent = conf.label;
+        const down = e => { e.preventDefault(); touchState[conf.key] = true; };
+        const up   = e => { e.preventDefault(); touchState[conf.key] = false; };
+        el.addEventListener('touchstart', down, { passive: false });
+        el.addEventListener('touchend', up, { passive: false });
+        el.addEventListener('touchcancel', up);
+        el.addEventListener('mousedown', () => touchState[conf.key] = true);
+        el.addEventListener('mouseup', () => touchState[conf.key] = false);
+        el.addEventListener('mouseleave', () => touchState[conf.key] = false);
+        touchContainer.appendChild(el);
+      });
+    }
+
+    function updateUI(score, lives) {
+      scoreEl.textContent = `SCORE: ${score}`;
+      livesEl.textContent = (lives !== undefined && lives !== null) ? `LIVES: ${lives}` : '';
+    }
+
+    function showGameOver(text) {
+      ctx.fillStyle = 'rgba(0,0,0,0.75)';
+      ctx.fillRect(0, 0, 480, 360);
+      ctx.fillStyle = '#00ff9f';
+      ctx.font = 'bold 24px Courier New';
+      ctx.textAlign = 'center';
+      ctx.fillText(text, 240, 170);
+      ctx.font = '14px Courier New';
+      ctx.fillText('Tap CLOSE to exit', 240, 205);
+    }
+
+    // ========== 1. NEON SWARM ==========
+    let swarm = {};
+
+    function initSwarm() {
+      swarm = {
+        score: 0, lives: 3,
+        player: { x: 220, y: 320, w: 42, h: 14 },
+        bullets: [], enemies: [],
+        dir: 1, speed: 0.7, lastShot: 0
+      };
+      createSwarmEnemies();
+      updateUI(0, 3);
+      loopSwarm();
+    }
+
+    function createSwarmEnemies() {
+      swarm.enemies = [];
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 8; c++) {
+          swarm.enemies.push({ x: 48 + c * 48, y: 36 + r * 34, w: 26, h: 18, alive: true });
+        }
+      }
+    }
+
+    function loopSwarm() {
+      if (currentGame !== 'swarm') return;
+      const s = swarm;
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const fire  = keys[' '] || keys['Space'] || touchState.fire;
+
+      if (left)  s.player.x -= 5.5;
+      if (right) s.player.x += 5.5;
+      s.player.x = Math.max(4, Math.min(434, s.player.x));
+
+      if (fire && Date.now() - s.lastShot > 220) {
+        s.bullets.push({ x: s.player.x + s.player.w / 2 - 1.5, y: s.player.y - 10 });
+        s.lastShot = Date.now();
+      }
+
+      for (let i = s.bullets.length - 1; i >= 0; i--) {
+        s.bullets[i].y -= 8.5;
+        if (s.bullets[i].y < -15) s.bullets.splice(i, 1);
+      }
+
+      let hitEdge = false;
+      s.enemies.forEach(e => {
+        if (!e.alive) return;
+        e.x += s.speed * s.dir;
+        if (e.x < 6 || e.x + e.w > 474) hitEdge = true;
+      });
+      if (hitEdge) {
+        s.dir *= -1;
+        s.enemies.forEach(e => { if (e.alive) e.y += 15; });
+        s.speed += 0.045;
+      }
+
+      for (let bi = s.bullets.length - 1; bi >= 0; bi--) {
+        const b = s.bullets[bi];
+        for (const e of s.enemies) {
+          if (!e.alive) continue;
+          if (b.x < e.x + e.w && b.x + 3 > e.x && b.y < e.y + e.h && b.y + 10 > e.y) {
+            e.alive = false;
+            s.bullets.splice(bi, 1);
+            s.score += 10;
+            updateUI(s.score, s.lives);
+            break;
+          }
+        }
+      }
+
+      if (s.enemies.every(e => !e.alive)) {
+        createSwarmEnemies();
+        s.speed += 0.2;
+      }
+
+      for (const e of s.enemies) {
+        if (e.alive && e.y + e.h >= s.player.y) {
+          s.lives--;
+          updateUI(s.score, s.lives);
+          if (s.lives <= 0) {
+            drawSwarm();
+            showGameOver('SYSTEM FAILURE');
+            return;
+          }
+          s.enemies.forEach(en => { if (en.alive) en.y -= 50; });
+          break;
+        }
+      }
+
+      drawSwarm();
+      animId = requestAnimationFrame(loopSwarm);
+    }
+
+    function drawSwarm() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      ctx.fillStyle = '#00ff9f';
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(swarm.player.x, swarm.player.y, swarm.player.w, swarm.player.h);
+      ctx.beginPath();
+      ctx.moveTo(swarm.player.x + 6, swarm.player.y);
+      ctx.lineTo(swarm.player.x + swarm.player.w / 2, swarm.player.y - 12);
+      ctx.lineTo(swarm.player.x + swarm.player.w - 6, swarm.player.y);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = '#fff';
+      swarm.bullets.forEach(b => ctx.fillRect(b.x, b.y, 3, 11));
+
+      swarm.enemies.forEach(e => {
+        if (!e.alive) return;
+        ctx.fillStyle = '#00ff9f';
+        ctx.fillRect(e.x, e.y, e.w, e.h);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(e.x + 5, e.y + 5, 4, 4);
+        ctx.fillRect(e.x + 17, e.y + 5, 4, 4);
+      });
+    }
+
+    // ========== 2. GLOW WORM ==========
+    let worm = {};
+
+    function initWorm() {
+      worm = {
+        score: 0,
+        grid: 20,
+        snake: [{ x: 11, y: 9 }, { x: 10, y: 9 }, { x: 9, y: 9 }],
+        dir: { x: 1, y: 0 },
+        nextDir: { x: 1, y: 0 },
+        food: { x: 16, y: 9 },
+        lastMove: 0,
+        moveDelay: 130,
+        gameOver: false
+      };
+      placeFood();
+      updateUI(0, null);
+      loopWorm();
+    }
+
+    function placeFood() {
+      let ok = false;
+      while (!ok) {
+        worm.food.x = Math.floor(Math.random() * 24);
+        worm.food.y = Math.floor(Math.random() * 18);
+        ok = !worm.snake.some(s => s.x === worm.food.x && s.y === worm.food.y);
+      }
+    }
+
+    function loopWorm() {
+      if (currentGame !== 'worm') return;
+
+      if ((keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up) && worm.dir.y === 0)
+        worm.nextDir = { x: 0, y: -1 };
+      if ((keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down) && worm.dir.y === 0)
+        worm.nextDir = { x: 0, y: 1 };
+      if ((keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left) && worm.dir.x === 0)
+        worm.nextDir = { x: -1, y: 0 };
+      if ((keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right) && worm.dir.x === 0)
+        worm.nextDir = { x: 1, y: 0 };
+
+      const now = Date.now();
+      if (now - worm.lastMove >= worm.moveDelay && !worm.gameOver) {
+        worm.lastMove = now;
+        worm.dir = { ...worm.nextDir };
+
+        const head = {
+          x: worm.snake[0].x + worm.dir.x,
+          y: worm.snake[0].y + worm.dir.y
+        };
+
+        if (head.x < 0) head.x = 23;
+        if (head.x > 23) head.x = 0;
+        if (head.y < 0) head.y = 17;
+        if (head.y > 17) head.y = 0;
+
+        if (worm.snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+          worm.gameOver = true;
+        } else {
+          worm.snake.unshift(head);
+          if (head.x === worm.food.x && head.y === worm.food.y) {
+            worm.score += 10;
+            updateUI(worm.score, null);
+            placeFood();
+            worm.moveDelay = Math.max(55, worm.moveDelay - 5);
+          } else {
+            worm.snake.pop();
+          }
+        }
+      }
+
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      ctx.fillStyle = '#ff4d8d';
+      ctx.shadowColor = '#ff4d8d';
+      ctx.shadowBlur = 10;
+      ctx.fillRect(worm.food.x * 20 + 3, worm.food.y * 20 + 3, 14, 14);
+      ctx.shadowBlur = 0;
+
+      worm.snake.forEach((seg, i) => {
+        ctx.fillStyle = i === 0 ? '#00ff9f' : '#00cc7a';
+        ctx.fillRect(seg.x * 20 + 1, seg.y * 20 + 1, 18, 18);
+      });
+
+      if (worm.gameOver) {
+        showGameOver('WORM DOWN');
+        return;
+      }
+
+      animId = requestAnimationFrame(loopWorm);
+    }
+
+    // Swipe support
+    let touchStartPos = null;
+    canvas.addEventListener('touchstart', e => {
+      if (currentGame !== 'worm') return;
+      const t = e.changedTouches[0];
+      touchStartPos = { x: t.clientX, y: t.clientY };
+    }, { passive: true });
+
+    canvas.addEventListener('touchend', e => {
+      if (currentGame !== 'worm' || !touchStartPos) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartPos.x;
+      const dy = t.clientY - touchStartPos.y;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 28) {
+        if (dx > 0 && worm.dir.x === 0) worm.nextDir = { x: 1, y: 0 };
+        if (dx < 0 && worm.dir.x === 0) worm.nextDir = { x: -1, y: 0 };
+      } else if (Math.abs(dy) > 28) {
+        if (dy > 0 && worm.dir.y === 0) worm.nextDir = { x: 0, y: 1 };
+        if (dy < 0 && worm.dir.y === 0) worm.nextDir = { x: 0, y: -1 };
+      }
+      touchStartPos = null;
+    }, { passive: true });
+
+    // ========== 3. PULSE PADDLE ==========
+    let paddle = {};
+
+    function initPaddle() {
+      paddle = {
+        score: 0, lives: 3,
+        paddle: { x: 190, y: 330, w: 100, h: 12 },
+        ball: { x: 240, y: 300, vx: 3.4, vy: -3.9, r: 7 },
+        bricks: [], cols: 8, rows: 5
+      };
+      createBricks();
+      updateUI(0, 3);
+      loopPaddle();
+    }
+
+    function createBricks() {
+      paddle.bricks = [];
+      const bw = 52, bh = 18;
+      for (let r = 0; r < paddle.rows; r++) {
+        for (let c = 0; c < paddle.cols; c++) {
+          paddle.bricks.push({
+            x: 16 + c * (bw + 6),
+            y: 40 + r * (bh + 8),
+            w: bw, h: bh, alive: true
+          });
+        }
+      }
+    }
+
+    function loopPaddle() {
+      if (currentGame !== 'paddle') return;
+      const p = paddle;
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+
+      if (left)  p.paddle.x -= 6.8;
+      if (right) p.paddle.x += 6.8;
+      p.paddle.x = Math.max(0, Math.min(480 - p.paddle.w, p.paddle.x));
+
+      p.ball.x += p.ball.vx;
+      p.ball.y += p.ball.vy;
+
+      if (p.ball.x - p.ball.r < 0 || p.ball.x + p.ball.r > 480) p.ball.vx *= -1;
+      if (p.ball.y - p.ball.r < 0) p.ball.vy *= -1;
+
+      if (p.ball.y + p.ball.r >= p.paddle.y &&
+          p.ball.y - p.ball.r <= p.paddle.y + p.paddle.h &&
+          p.ball.x > p.paddle.x && p.ball.x < p.paddle.x + p.paddle.w) {
+        p.ball.vy = -Math.abs(p.ball.vy);
+        const hitPos = (p.ball.x - p.paddle.x) / p.paddle.w;
+        p.ball.vx = (hitPos - 0.5) * 8.5;
+      }
+
+      for (const b of p.bricks) {
+        if (!b.alive) continue;
+        if (p.ball.x + p.ball.r > b.x && p.ball.x - p.ball.r < b.x + b.w &&
+            p.ball.y + p.ball.r > b.y && p.ball.y - p.ball.r < b.y + b.h) {
+          b.alive = false;
+          p.ball.vy *= -1;
+          p.score += 10;
+          updateUI(p.score, p.lives);
+          break;
+        }
+      }
+
+      if (p.ball.y > 370) {
+        p.lives--;
+        updateUI(p.score, p.lives);
+        if (p.lives <= 0) {
+          drawPaddle();
+          showGameOver('PADDLE DOWN');
+          return;
+        }
+        p.ball.x = 240;
+        p.ball.y = 300;
+        p.ball.vx = 3.4 * (Math.random() > 0.5 ? 1 : -1);
+        p.ball.vy = -3.9;
+      }
+
+      if (p.bricks.every(b => !b.alive)) {
+        createBricks();
+        p.ball.vx *= 1.07;
+        p.ball.vy *= 1.07;
+      }
+
+      drawPaddle();
+      animId = requestAnimationFrame(loopPaddle);
+    }
+
+    function drawPaddle() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 480, 360);
+
+      paddle.bricks.forEach(b => {
+        if (!b.alive) return;
+        ctx.fillStyle = '#00ff9f';
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+      });
+
+      ctx.fillStyle = '#00ff9f';
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(paddle.paddle.x, paddle.paddle.y, paddle.paddle.w, paddle.paddle.h);
+      ctx.shadowBlur = 0;
+
+      ctx.beginPath();
+      ctx.arc(paddle.ball.x, paddle.ball.y, paddle.ball.r, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+    }
+
+    // Drag support
+    let dragging = false;
+    canvas.addEventListener('touchstart', e => {
+      if (currentGame !== 'paddle') return;
+      dragging = true;
+      movePaddleToTouch(e.touches[0]);
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', e => {
+      if (currentGame !== 'paddle' || !dragging) return;
+      e.preventDefault();
+      movePaddleToTouch(e.touches[0]);
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', () => { dragging = false; });
+
+    function movePaddleToTouch(touch) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const x = (touch.clientX - rect.left) * scaleX;
+      paddle.paddle.x = Math.max(0, Math.min(480 - paddle.paddle.w, x - paddle.paddle.w / 2));
+    }
+  </script>
+</body>
+</html>
