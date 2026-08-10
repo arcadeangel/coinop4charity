@@ -227,6 +227,7 @@
       text-shadow: 0 0 10px #00ff9f66;
       min-height: 5.8em;
       text-align: center;
+      position: relative;
     }
 
     .mission .cursor {
@@ -242,17 +243,60 @@
 
     @keyframes blink { 50% { opacity: 0; } }
 
+    /* Milder CRT glitch – short bursts only */
     .mission.glitch {
-      animation: heavyGlitch 0.22s linear;
+      animation: mildGlitch 0.22s linear;
     }
 
-    @keyframes heavyGlitch {
-      0%   { transform: translate(0); }
-      20%  { transform: translate(-4px, 1px); text-shadow: -3px 0 #ff00cc, 3px 0 #00ffff; }
-      40%  { transform: translate(5px, -2px) skewX(-3deg); }
-      60%  { transform: translate(-3px, 0); filter: brightness(1.3); }
-      80%  { transform: translate(3px, 1px); text-shadow: 3px 0 #ff00cc, -3px 0 #00ffff; }
-      100% { transform: translate(0); }
+    @keyframes mildGlitch {
+      0% {
+        transform: translate(0, 0) skewX(0);
+        text-shadow: 0 0 10px #00ff9f66;
+        filter: none;
+        opacity: 1;
+      }
+      15% {
+        transform: translate(-2px, 0.5px) skewX(-1.2deg);
+        text-shadow:
+          -2px 0 #ff00cc,
+          2px 0 #00ffff,
+          0 0 10px #00ff9f66;
+        filter: brightness(1.15);
+        opacity: 0.95;
+      }
+      30% {
+        transform: translate(2.5px, -1px) skewX(1deg);
+        text-shadow:
+          2px 0 #ff00cc,
+          -1.5px 0 #00ffff,
+          0 0 10px #00ff9f66;
+        filter: brightness(0.95);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-1.5px, 0) skewX(-0.8deg);
+        text-shadow:
+          -1.5px 0 #ff00cc,
+          2px 0 #00ffff,
+          0 0 10px #00ff9f66;
+        filter: brightness(1.1);
+        opacity: 0.97;
+      }
+      70% {
+        transform: translate(1.8px, 0.5px) skewX(0.9deg);
+        text-shadow:
+          1.5px 0 #ff00cc,
+          -2px 0 #00ffff,
+          0 0 10px #00ff9f66;
+        filter: brightness(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(0, 0) skewX(0);
+        text-shadow: 0 0 10px #00ff9f66;
+        filter: none;
+        opacity: 1;
+      }
     }
 
     form { text-align: left; margin-bottom: 2rem; }
@@ -575,14 +619,39 @@
   </div>
 
   <script>
-    // ========== Typewriter (fixed & more reliable) ==========
+    // ========== Typewriter + mild CRT glitch (bursts only) ==========
     const missionEl = document.getElementById('mission');
     const fullText1 = "Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.";
     const fullText2 = "Restoration tools & scripts shared publicly on GitHub as we build.";
 
     let display = "";
-    let phase = 0; // 0 = first sentence, 1 = second
+    let phase = 0;
     let charIndex = 0;
+    let glitchInterval = null;
+
+    function triggerGlitch() {
+      missionEl.classList.remove('glitch');
+      void missionEl.offsetWidth;
+      missionEl.classList.add('glitch');
+      setTimeout(() => {
+        missionEl.classList.remove('glitch');
+      }, 230);
+    }
+
+    function startOccasionalGlitch() {
+      setTimeout(triggerGlitch, 400);
+      glitchInterval = setInterval(() => {
+        triggerGlitch();
+      }, 1400 + Math.random() * 1200);
+    }
+
+    function stopOccasionalGlitch() {
+      if (glitchInterval) {
+        clearInterval(glitchInterval);
+        glitchInterval = null;
+      }
+      missionEl.classList.remove('glitch');
+    }
 
     function typeWriter() {
       if (phase === 0) {
@@ -592,7 +661,6 @@
           charIndex++;
           setTimeout(typeWriter, 28);
         } else {
-          // finished first sentence, pause then start second
           phase = 1;
           charIndex = 0;
           display += "<br><br>";
@@ -605,21 +673,26 @@
           charIndex++;
           setTimeout(typeWriter, 28);
         } else {
-          // finished everything – remove cursor after a short delay
           setTimeout(() => {
             missionEl.innerHTML = display;
-          }, 1800);
+            setTimeout(() => {
+              triggerGlitch();
+              setTimeout(stopOccasionalGlitch, 400);
+            }, 600);
+          }, 1600);
         }
       }
     }
 
-    // Start typing after short delay
-    setTimeout(typeWriter, 900);
+    setTimeout(() => {
+      typeWriter();
+      startOccasionalGlitch();
+    }, 900);
 
-    // Fallback: if something goes wrong, show the text after 6 seconds
     setTimeout(() => {
       if (missionEl.innerText.trim().length < 20) {
         missionEl.innerHTML = fullText1 + "<br><br>" + fullText2;
+        stopOccasionalGlitch();
       }
     }, 6000);
 
