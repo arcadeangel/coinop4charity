@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coin-Op 4 Charity — Coming Soon</title>
+  <meta name="description" content="Restoring vintage arcade machines and placing them in youth centers across Nevada to raise funds and support kids.">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -23,7 +24,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 1;
-      opacity: 0.35;
+      opacity: 0.28;
     }
 
     .container {
@@ -32,9 +33,10 @@
       text-align: center;
       max-width: 480px;
       width: 90%;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.65);
+      padding: 24px 20px;
+      background: rgba(0, 0, 0, 0.72);
       border-radius: 12px;
+      border: 1px solid #00ff9f22;
     }
 
     .logo {
@@ -56,10 +58,24 @@
       display: inline-block;
       border: 1px solid #00ff9f66;
       padding: 0.55rem 1.3rem;
-      margin: 1.8rem 0 2rem;
+      margin: 1.5rem 0 1.2rem;
       font-size: 0.82rem;
       letter-spacing: 0.1em;
       background: rgba(0, 255, 159, 0.08);
+      animation: pulse 3.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.72; }
+    }
+
+    .mission {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #7dffc8;
+      margin-bottom: 1.6rem;
+      letter-spacing: 0.02em;
     }
 
     form {
@@ -73,7 +89,7 @@
       color: #7dffc8;
     }
 
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       background: #0a0a0a;
       border: 1px solid #00ff9f55;
@@ -83,9 +99,39 @@
       font-family: inherit;
       font-size: 0.95rem;
       margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    textarea { min-height: 100px; }
+    input:focus, textarea:focus, select:focus {
+      border-color: #00ff9f;
+      box-shadow: 0 0 0 1px #00ff9f44;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300ff9f' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 2rem;
+    }
+
+    select option {
+      background: #0a0a0a;
+      color: #00ff9f;
+    }
+
+    textarea { min-height: 100px; resize: vertical; }
+
+    /* honeypot */
+    .hp {
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+      height: 0;
+      width: 0;
+      overflow: hidden;
+    }
 
     button {
       width: 100%;
@@ -97,10 +143,21 @@
       font-size: 1rem;
       letter-spacing: 0.08em;
       border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #33ffb3;
+      box-shadow: 0 0 18px #00ff9f88;
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     .footer {
-      margin-top: 1.8rem;
+      margin-top: 1.6rem;
       font-size: 0.75rem;
       color: #00ff9f99;
     }
@@ -121,18 +178,38 @@
       SYSTEM ONLINE // FULL SITE COMING SOON
     </div>
 
+    <p class="mission">
+      Restoring vintage arcade machines and placing them in youth centers across Nevada to create fun, raise funds, and support kids.
+    </p>
+
     <form action="https://formspree.io/f/mrpzenbr" method="POST">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" required>
 
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone">
-
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="inquiry">Inquiry</label>
+      <label for="phone">Phone <span style="opacity:0.6">(optional)</span></label>
+      <input type="tel" id="phone" name="phone">
+
+      <label for="interest">I'm interested in...</label>
+      <select id="interest" name="interest">
+        <option value="">Select one</option>
+        <option value="host">Hosting a machine</option>
+        <option value="donate">Donating a machine</option>
+        <option value="partner">Partnership / sponsorship</option>
+        <option value="volunteer">Volunteering</option>
+        <option value="other">Other / general inquiry</option>
+      </select>
+
+      <label for="inquiry">Message</label>
       <textarea id="inquiry" name="inquiry" required></textarea>
+
+      <!-- honeypot -->
+      <div class="hp" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
 
       <input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
 
@@ -148,19 +225,22 @@
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
+    let columns, drops;
+    const fontSize = 15;
+    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░";
+
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      columns = Math.floor(window.innerWidth / fontSize);
+      drops = Array(columns).fill(1);
     }
     resize();
     window.addEventListener("resize", resize);
 
-    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン$█▓▒░";
-    const fontSize = 15;
-    const columns = Math.floor(window.innerWidth / fontSize);
-    const drops = Array(columns).fill(1);
-
     function draw() {
+      if (document.visibilityState === "hidden") return;
+
       ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#00ff9f";
@@ -176,7 +256,7 @@
       }
     }
 
-    setInterval(draw, 45);
+    setInterval(draw, 50);
   </script>
 </body>
 </html>
