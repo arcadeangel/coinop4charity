@@ -67,111 +67,116 @@
       opacity: 0.3;
     }
 
+    /* ===== NEW HACKER-PIRATE SHIP INTRO ===== */
     .arcade-intro {
       position: fixed;
-      top: 110px;
+      top: 95px;
       left: 0;
       width: 100%;
-      height: 40px;
+      height: 55px;
       z-index: 100;
       pointer-events: none;
       opacity: 0;
-      animation: introFade 3.5s ease-in-out forwards;
+      animation: introFade 4s ease-in-out forwards;
     }
 
     @keyframes introFade {
       0%   { opacity: 0; }
-      10%  { opacity: 1; }
-      80%  { opacity: 1; }
+      12%  { opacity: 1; }
+      78%  { opacity: 1; }
       100% { opacity: 0; visibility: hidden; }
     }
 
-    .pacman {
+    .neon-ship {
       position: absolute;
-      top: 7px;
+      top: 0;
       left: 0;
-      width: 26px;
-      height: 26px;
-      background: #ffff00;
-      border-radius: 50%;
-      clip-path: polygon(0 0, 100% 0, 100% 38%, 52% 50%, 100% 62%, 100% 100%, 0 100%);
-      animation: chomp 0.22s infinite alternate, runPac 2.9s linear forwards;
-      box-shadow: 0 0 14px #ffff00cc;
+      width: 110px;
+      height: 50px;
+      animation: sailAcross 3.3s linear forwards;
     }
 
-    @keyframes chomp {
-      from { clip-path: polygon(0 0, 100% 0, 100% 38%, 52% 50%, 100% 62%, 100% 100%, 0 100%); }
-      to   { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    @keyframes sailAcross {
+      from { transform: translateX(-130px); }
+      to   { transform: translateX(calc(100vw + 60px)); }
     }
 
-    @keyframes runPac {
-      from { transform: translateX(-50px); }
-      to   { transform: translateX(calc(100vw + 50px)); }
-    }
-
-    .ghost {
+    /* Ship hull */
+    .ship-hull {
       position: absolute;
-      top: 5px;
-      width: 24px;
-      height: 26px;
-      border-radius: 12px 12px 0 0;
+      bottom: 2px;
+      left: 8px;
+      width: 78px;
+      height: 18px;
+      background: #00ff9f;
+      border-radius: 4px 4px 18px 18px;
+      box-shadow: 0 0 12px #00ff9f, 0 0 4px #00ff9fcc;
     }
 
-    .ghost::before {
-      content: "";
+    /* Main mast */
+    .ship-mast {
       position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background: inherit;
-      clip-path: polygon(0 0, 20% 100%, 40% 0, 60% 100%, 80% 0, 100% 100%, 100% 0);
+      bottom: 18px;
+      left: 42px;
+      width: 3px;
+      height: 28px;
+      background: #00ff9f;
+      box-shadow: 0 0 6px #00ff9f;
     }
 
-    .ghost.red {
-      background: #ff2a2a;
-      box-shadow: 0 0 12px #ff2a2acc;
-      animation: runGhost1 2.9s linear forwards;
-    }
-
-    .ghost.pink {
-      background: #ff79c6;
-      box-shadow: 0 0 12px #ff79c6cc;
-      animation: runGhost2 2.9s linear forwards;
-    }
-
-    @keyframes runGhost1 {
-      from { transform: translateX(-110px); }
-      to   { transform: translateX(calc(100vw + 20px)); }
-    }
-
-    @keyframes runGhost2 {
-      from { transform: translateX(-160px); }
-      to   { transform: translateX(calc(100vw - 10px)); }
-    }
-
-    .ghost::after {
-      content: "";
+    /* Sail */
+    .ship-sail {
       position: absolute;
-      top: 7px;
-      left: 5px;
-      width: 5px;
-      height: 5px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 9px 0 0 #fff;
+      bottom: 20px;
+      left: 28px;
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-bottom: 26px solid #00ff9f;
+      filter: drop-shadow(0 0 6px #00ff9f);
+      opacity: 0.9;
     }
 
-    .dot {
+    /* Skull flag */
+    .ship-flag {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      border-radius: 50%;
-      top: 15px;
-      box-shadow: 0 0 5px #fff;
+      top: 2px;
+      left: 48px;
+      font-size: 14px;
+      color: #00ff9f;
+      text-shadow: 0 0 8px #00ff9f;
+      animation: flagWave 0.6s ease-in-out infinite alternate;
     }
 
+    @keyframes flagWave {
+      from { transform: rotate(-6deg); }
+      to   { transform: rotate(6deg); }
+    }
+
+    /* Floating hacker / wizard elements */
+    .float-symbol {
+      position: absolute;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: bold;
+      color: #00ff9f;
+      text-shadow: 0 0 8px #00ff9f;
+      opacity: 0.85;
+      animation: codeFloat 1.1s ease-in-out infinite alternate;
+    }
+
+    .float-symbol:nth-child(5) { top: 4px; left: -18px; animation-delay: 0.1s; }
+    .float-symbol:nth-child(6) { top: 18px; left: 95px; animation-delay: 0.3s; }
+    .float-symbol:nth-child(7) { top: 2px; left: 105px; animation-delay: 0.5s; }
+    .float-symbol:nth-child(8) { top: 28px; left: -10px; animation-delay: 0.2s; }
+
+    @keyframes codeFloat {
+      from { opacity: 0.5; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(-4px); }
+    }
+
+    /* ===== REST OF THE ORIGINAL STYLES ===== */
     .container {
       position: relative;
       z-index: 10;
@@ -524,18 +529,18 @@
 </head>
 <body>
 
+  <!-- NEW HACKER-PIRATE SHIP INTRO -->
   <div class="arcade-intro">
-    <div class="pacman"></div>
-    <div class="ghost red"></div>
-    <div class="ghost pink"></div>
-    <div class="dot" style="left: 14%"></div>
-    <div class="dot" style="left: 24%"></div>
-    <div class="dot" style="left: 34%"></div>
-    <div class="dot" style="left: 44%"></div>
-    <div class="dot" style="left: 54%"></div>
-    <div class="dot" style="left: 64%"></div>
-    <div class="dot" style="left: 74%"></div>
-    <div class="dot" style="left: 84%"></div>
+    <div class="neon-ship">
+      <div class="ship-hull"></div>
+      <div class="ship-mast"></div>
+      <div class="ship-sail"></div>
+      <div class="ship-flag">☠</div>
+      <div class="float-symbol">01</div>
+      <div class="float-symbol">$</div>
+      <div class="float-symbol">#</div>
+      <div class="float-symbol">10</div>
+    </div>
   </div>
 
   <canvas id="matrix"></canvas>
@@ -630,7 +635,7 @@
   </div>
 
   <script>
-    // ========== Typewriter + mild CRT glitch (bursts only) ==========
+    // ========== Typewriter + mild CRT glitch ==========
     const missionEl = document.getElementById('mission');
     const fullText1 = "Placing arcade and coin-op machines — new and classic — in youth centers across Nevada to create fun, offer free play, and raise funds for kids.";
     const fullText2 = "Restoration tools & scripts shared publicly on GitHub as we build.";
@@ -1262,7 +1267,6 @@
       if (right) s.batter.x += 5.5;
       s.batter.x = Math.max(10, Math.min(410, s.batter.x));
 
-      // Swing
       if (fire && Date.now() - s.lastSwing > 350 && !s.swinging) {
         s.swinging = true;
         s.swingTimer = 18;
@@ -1273,12 +1277,10 @@
         if (s.swingTimer <= 0) s.swinging = false;
       }
 
-      // Ball movement
       if (s.ball.active) {
         s.ball.x += s.ball.vx;
         s.ball.y += s.ball.vy;
 
-        // Hit detection
         if (s.swinging && !s.ball.hit &&
             s.ball.y > s.batter.y - 25 && s.ball.y < s.batter.y + 25 &&
             s.ball.x > s.batter.x - 10 && s.ball.x < s.batter.x + s.batter.w + 10) {
@@ -1289,7 +1291,6 @@
           updateUI(s.score, 3 - s.strikes);
         }
 
-        // Missed pitch
         if (s.ball.y > 380 && !s.ball.hit) {
           s.strikes++;
           updateUI(s.score, 3 - s.strikes);
@@ -1301,7 +1302,6 @@
           newPitch();
         }
 
-        // Ball flew off after hit
         if (s.ball.hit && (s.ball.y < -30 || s.ball.x < -40 || s.ball.x > 520)) {
           newPitch();
         }
@@ -1315,7 +1315,6 @@
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, 480, 360);
 
-      // Simple diamond / plate lines
       ctx.strokeStyle = '#00ff9f33';
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -1325,12 +1324,10 @@
       ctx.closePath();
       ctx.stroke();
 
-      // Batter
       ctx.fillStyle = '#00ff9f';
       ctx.shadowColor = '#00ff9f';
       ctx.shadowBlur = 8;
       ctx.fillRect(slugger.batter.x, slugger.batter.y, slugger.batter.w, slugger.batter.h);
-      // Bat
       if (slugger.swinging) {
         ctx.fillStyle = '#fff';
         ctx.fillRect(slugger.batter.x - 8, slugger.batter.y - 6, 76, 8);
@@ -1340,7 +1337,6 @@
       }
       ctx.shadowBlur = 0;
 
-      // Ball
       if (slugger.ball.active) {
         ctx.beginPath();
         ctx.arc(slugger.ball.x, slugger.ball.y, 7, 0, Math.PI * 2);
@@ -1363,7 +1359,6 @@
         frame: 0,
         gameOver: false
       };
-      // initial trees
       for (let i = 0; i < 8; i++) {
         yeti.trees.push({
           x: 40 + Math.random() * 400,
@@ -1390,7 +1385,6 @@
       yeti.score += 1;
       if (yeti.frame % 6 === 0) updateUI(yeti.score, null);
 
-      // Move trees up (skier going down)
       for (let i = yeti.trees.length - 1; i >= 0; i--) {
         yeti.trees[i].y -= yeti.speed;
         if (yeti.trees[i].y < -40) {
@@ -1402,7 +1396,6 @@
         }
       }
 
-      // Tree collision
       for (const t of yeti.trees) {
         if (Math.abs(t.x - yeti.skier.x) < 22 && Math.abs(t.y - yeti.skier.y) < 28) {
           yeti.gameOver = true;
@@ -1412,7 +1405,6 @@
         }
       }
 
-      // Yeti appears after score 400
       if (yeti.score > 400 && !yeti.yetiActive) {
         yeti.yetiActive = true;
         yeti.yeti.y = -60;
@@ -1420,7 +1412,6 @@
       }
 
       if (yeti.yetiActive) {
-        // Chase
         const dx = yeti.skier.x - yeti.yeti.x;
         yeti.yeti.x += Math.sign(dx) * Math.min(Math.abs(dx), 3.8);
         yeti.yeti.y += yeti.speed * 0.85;
@@ -1441,7 +1432,6 @@
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, 480, 360);
 
-      // Simple snow lines
       ctx.strokeStyle = '#00ff9f15';
       ctx.beginPath();
       for (let y = 0; y < 360; y += 40) {
@@ -1450,12 +1440,9 @@
       }
       ctx.stroke();
 
-      // Trees
       yeti.trees.forEach(t => {
-        // trunk
         ctx.fillStyle = '#005533';
         ctx.fillRect(t.x - 4, t.y + 8, 8, 18);
-        // foliage
         ctx.fillStyle = '#00ff9f';
         ctx.beginPath();
         ctx.moveTo(t.x, t.y - 18);
@@ -1465,26 +1452,19 @@
         ctx.fill();
       });
 
-      // Skier
       ctx.fillStyle = '#00ff9f';
       ctx.shadowColor = '#00ff9f';
       ctx.shadowBlur = 10;
-      // body
       ctx.fillRect(yeti.skier.x - 8, yeti.skier.y - 6, 16, 20);
-      // skis
       ctx.fillRect(yeti.skier.x - 18, yeti.skier.y + 14, 36, 4);
       ctx.shadowBlur = 0;
 
-      // Yeti
       if (yeti.yetiActive) {
         ctx.fillStyle = '#ff4d8d';
         ctx.shadowColor = '#ff4d8d';
         ctx.shadowBlur = 12;
-        // body
         ctx.fillRect(yeti.yeti.x - 22, yeti.yeti.y - 10, 44, 40);
-        // head
         ctx.fillRect(yeti.yeti.x - 16, yeti.yeti.y - 28, 32, 22);
-        // eyes
         ctx.fillStyle = '#000';
         ctx.fillRect(yeti.yeti.x - 10, yeti.yeti.y - 22, 6, 6);
         ctx.fillRect(yeti.yeti.x + 4, yeti.yeti.y - 22, 6, 6);
@@ -1505,7 +1485,6 @@
         lastShot: 0,
         invuln: 0
       };
-      // spawn starting rocks
       for (let i = 0; i < 5; i++) {
         spawnAsteroid(3);
       }
@@ -1521,7 +1500,7 @@
         y: y !== undefined ? y : Math.random() * 360,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: size, // 3 big, 2 med, 1 small
+        size: size,
         r: size * 14
       });
     }
@@ -1542,20 +1521,17 @@
         r.ship.vy += Math.sin(r.ship.angle) * 0.18;
       }
 
-      // friction
       r.ship.vx *= 0.985;
       r.ship.vy *= 0.985;
 
       r.ship.x += r.ship.vx;
       r.ship.y += r.ship.vy;
 
-      // wrap
       if (r.ship.x < 0) r.ship.x = 480;
       if (r.ship.x > 480) r.ship.x = 0;
       if (r.ship.y < 0) r.ship.y = 360;
       if (r.ship.y > 360) r.ship.y = 0;
 
-      // shoot
       if (fire && Date.now() - r.lastShot > 200) {
         r.bullets.push({
           x: r.ship.x + Math.cos(r.ship.angle) * 14,
@@ -1567,7 +1543,6 @@
         r.lastShot = Date.now();
       }
 
-      // bullets
       for (let i = r.bullets.length - 1; i >= 0; i--) {
         const b = r.bullets[i];
         b.x += b.vx;
@@ -1578,7 +1553,6 @@
         }
       }
 
-      // asteroids move + wrap
       r.asteroids.forEach(a => {
         a.x += a.vx;
         a.y += a.vy;
@@ -1588,7 +1562,6 @@
         if (a.y > 360 + a.r) a.y = -a.r;
       });
 
-      // bullet vs asteroid
       for (let bi = r.bullets.length - 1; bi >= 0; bi--) {
         const b = r.bullets[bi];
         for (let ai = r.asteroids.length - 1; ai >= 0; ai--) {
@@ -1610,7 +1583,6 @@
         }
       }
 
-      // ship vs asteroid
       if (r.invuln > 0) r.invuln--;
       else {
         for (const a of r.asteroids) {
@@ -1634,7 +1606,6 @@
         }
       }
 
-      // respawn rocks if cleared
       if (r.asteroids.length === 0) {
         for (let i = 0; i < 5 + Math.floor(r.score / 400); i++) {
           spawnAsteroid(3);
@@ -1649,7 +1620,6 @@
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, 480, 360);
 
-      // asteroids
       rocks.asteroids.forEach(a => {
         ctx.strokeStyle = '#00ff9f';
         ctx.lineWidth = 2;
@@ -1667,7 +1637,6 @@
         ctx.stroke();
       });
 
-      // bullets
       ctx.fillStyle = '#fff';
       rocks.bullets.forEach(b => {
         ctx.beginPath();
@@ -1675,7 +1644,6 @@
         ctx.fill();
       });
 
-      // ship
       if (rocks.invuln === 0 || Math.floor(rocks.invuln / 4) % 2 === 0) {
         ctx.save();
         ctx.translate(rocks.ship.x, rocks.ship.y);
