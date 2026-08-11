@@ -15,19 +15,25 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html {
+      height: 100%;
+      height: 100dvh;
+    }
     body {
       background: #000;
       color: #00ff9f;
       font-family: "Courier New", monospace;
-      min-height: 100vh;
+      min-height: 100%;
+      min-height: 100dvh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       overflow-x: hidden;
       overflow-y: auto;
-      padding: 40px 0;
+      padding: 20px 0 max(28px, env(safe-area-inset-bottom));
       opacity: 0;
       -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
     }
 
     body.crt-on {
@@ -66,15 +72,15 @@
         0 0 60px #00ff9faa,
         0 0 100px #00ff9f55;
       transform: scaleY(1);
-      animation: crtExpand 1.4s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+      animation: crtExpand 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
     }
 
     @keyframes crtExpand {
       0%   { height: 2px; opacity: 0; transform: scaleX(0.15); }
-      12%  { opacity: 1; transform: scaleX(1); height: 3px; }
-      35%  { height: 3px; }
-      55%  { height: 40%; opacity: 1; }
-      80%  { height: 100%; opacity: 0.85; }
+      15%  { opacity: 1; transform: scaleX(1); height: 3px; }
+      40%  { height: 3px; }
+      60%  { height: 55%; opacity: 1; }
+      85%  { height: 100%; opacity: 0.7; }
       100% { height: 100%; opacity: 0; }
     }
 
@@ -83,13 +89,13 @@
       inset: 0;
       background: #00ff9f;
       opacity: 0;
-      animation: crtFlash 1.4s ease-out forwards;
+      animation: crtFlash 0.85s ease-out forwards;
     }
 
     @keyframes crtFlash {
-      0%, 45% { opacity: 0; }
-      55% { opacity: 0.15; }
-      70% { opacity: 0.05; }
+      0%, 40% { opacity: 0; }
+      52% { opacity: 0.18; }
+      70% { opacity: 0.04; }
       100% { opacity: 0; }
     }
 
@@ -98,18 +104,140 @@
       inset: 0;
       opacity: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-      animation: crtStatic 1.4s ease-out forwards;
+      animation: crtStatic 0.85s ease-out forwards;
       mix-blend-mode: screen;
     }
 
     @keyframes crtStatic {
-      0%, 40% { opacity: 0; }
-      55% { opacity: 0.2; }
+      0%, 35% { opacity: 0; }
+      50% { opacity: 0.22; }
       100% { opacity: 0; }
+    }
+
+    /* Retro Capcom-style operator card */
+    #crt-boot .crt-card {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.92);
+      animation: crtCardIn 0.55s ease-out 0.35s forwards;
+      max-width: min(340px, 88vw);
+      width: 100%;
+      pointer-events: none;
+    }
+    @keyframes crtCardIn {
+      0%   { opacity: 0; transform: scale(0.92) translateY(8px); filter: brightness(2); }
+      40%  { opacity: 1; filter: brightness(1.3); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: none; }
+    }
+    #crt-boot .crt-card-inner {
+      border: 2px solid #00ff9f;
+      background: #00140f;
+      box-shadow:
+        0 0 0 1px #003322,
+        0 0 24px #00ff9f55,
+        inset 0 0 40px #00ff9f12;
+      padding: 18px 16px 14px;
+      text-align: center;
+      font-family: "Courier New", monospace;
+      color: #00ff9f;
+      position: relative;
+      overflow: hidden;
+    }
+    #crt-boot .crt-card-inner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .crt-warn-bar {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: #ffff66;
+      text-shadow: 0 0 10px #ffcc00;
+      margin-bottom: 10px;
+      animation: warnPulse 1.1s ease-in-out infinite;
+    }
+    @keyframes warnPulse {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 1; text-shadow: 0 0 16px #ffcc00; }
+    }
+    .crt-warn-title {
+      font-size: clamp(1.15rem, 5.5vw, 1.55rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 14px #00ff9f, 0 0 28px #00ff9faa;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .crt-warn-body {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #7dffc8;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .crt-warn-body .hl {
+      color: #ffff66;
+      text-shadow: 0 0 8px #ffcc00;
+    }
+    .crt-warn-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #00ff9f88, transparent);
+      margin: 10px 0;
+    }
+    .crt-warn-footer {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: #00ff9f;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .crt-warn-footer .blink {
+      display: inline-block;
+      animation: bootBlink 0.7s step-end infinite;
+      color: #ffff99;
+    }
+    @keyframes bootBlink {
+      50% { opacity: 0; }
+    }
+    .crt-load-bar {
+      height: 6px;
+      background: #003322;
+      border: 1px solid #00ff9f55;
+      margin: 8px 0 6px;
+      overflow: hidden;
+    }
+    .crt-load-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ff9f, #66ffcc);
+      box-shadow: 0 0 10px #00ff9f;
+      transition: width 0.15s linear;
+    }
+    .crt-load-txt {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: #5a9a78;
     }
 
     #crt-boot.done {
       display: none;
+    }
+
+    #crt-boot.fade-out {
+      animation: crtFadeOut 0.4s ease-in forwards;
+    }
+    @keyframes crtFadeOut {
+      to { opacity: 0; }
     }
 
     body::before {
@@ -257,13 +385,14 @@
       position: relative;
       z-index: 10;
       text-align: center;
-      max-width: 480px;
-      width: 90%;
-      padding: 24px 20px;
+      max-width: min(440px, 100vw - 20px);
+      width: 100%;
+      padding: 18px 14px 28px;
+      box-sizing: border-box;
     }
 
     .logo {
-      font-size: clamp(1.9rem, 8vw, 2.9rem);
+      font-size: clamp(1.55rem, 7.2vw, 2.5rem);
       font-weight: 700;
       letter-spacing: 0.05em;
       line-height: 1.15;
@@ -596,13 +725,15 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0,0,0,0.96);
       z-index: 200;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: max(8px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
       touch-action: none;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     #game-overlay.active {
@@ -620,11 +751,16 @@
       border: 2px solid #00ff9f;
       box-shadow: 0 0 25px #00ff9f55;
       background: #000;
+      width: min(480px, 96vw);
       max-width: 100%;
-      width: 480px;
       height: auto;
+      aspect-ratio: 480 / 360;
+      max-height: min(360px, 52dvh);
       image-rendering: pixelated;
+      image-rendering: crisp-edges;
       touch-action: none;
+      display: block;
+      margin: 0 auto;
     }
 
     .game-ui {
@@ -639,22 +775,23 @@
 
     .touch-controls {
       display: flex;
-      gap: 10px;
-      margin-top: 14px;
+      gap: 8px;
+      margin-top: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      max-width: 420px;
+      max-width: min(420px, 96vw);
+      padding: 0 4px;
     }
 
     .touch-btn {
-      min-width: 62px;
-      min-height: 52px;
-      padding: 0 12px;
+      min-width: 56px;
+      min-height: 46px;
+      padding: 0 10px;
       border: 1px solid #00ff9f88;
       background: rgba(0, 255, 159, 0.12);
       color: #00ff9f;
       font-family: inherit;
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
@@ -981,24 +1118,26 @@
       bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 40;
+      z-index: 56;
       font-size: 10px;
       letter-spacing: 0.2em;
       color: #00ff9f;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(0,255,159,0.3);
-      padding: 6px 12px;
+      background: rgba(0,0,0,0.75);
+      border: 1px solid rgba(0,255,159,0.45);
+      padding: 7px 14px;
       pointer-events: none;
+      text-shadow: 0 0 8px #00ff9f;
     }
     .attract-badge.on { display: block; }
     #attract-canvas {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 35;
+      z-index: 55;
       width: 100%;
       height: 100%;
       background: #000;
+      cursor: pointer;
     }
     #attract-canvas.on { display: block; }
 
@@ -1080,6 +1219,24 @@
     <div class="crt-line"></div>
     <div class="crt-flash"></div>
     <div class="crt-static"></div>
+    <div class="crt-card" id="crtCard">
+      <div class="crt-card-inner">
+        <div class="crt-warn-bar">★ OPERATOR NOTICE ★</div>
+        <div class="crt-warn-title">COIN-OP 4 CHARITY</div>
+        <div class="crt-warn-body">
+          THIS TERMINAL IS SET FOR<br>
+          <span class="hl">FREE PLAY</span> · YOUTH SPACES<br>
+          NO QUARTERS REQUIRED
+        </div>
+        <div class="crt-warn-rule"></div>
+        <div class="crt-warn-footer">
+          PLAYER 1 · GET READY<br>
+          <span class="blink">PRESS ANY KEY / TOUCH</span>
+        </div>
+        <div class="crt-load-bar"><div class="crt-load-fill" id="crtLoadFill"></div></div>
+        <div class="crt-load-txt" id="crtLoadTxt">WARMING CRT…</div>
+      </div>
+    </div>
   </div>
 
   <div class="arcade-intro">
@@ -1149,7 +1306,7 @@
 <div class="game-buttons">
         <button class="game-btn" data-game="ufo">
           SAUCER BEAM
-          <span>90s ranch raid • Golden cows • Don&apos;t trip the barn lights</span>
+          <span>Beam up cows &amp; the mailman • Golden cows pay big • Don&apos;t trip the barn lights</span>
         </button>
         <button class="game-btn" data-game="fish">
           HAPPY FISHING
@@ -1163,21 +1320,9 @@
           VORTEX BANDITS
           <span>Winding roads → vortex tunnel • Barrel rolls • Blast the bandits</span>
         </button>
-        <button class="game-btn" data-game="rocks">
-          SPACE ROCK SWARM
-          <span>Blast the rocks • Rotate + Thrust</span>
-        </button>
-        <button class="game-btn" data-game="swarm">
-          NEON SWARM
-          <span>Defend the grid • Touch or keyboard</span>
-        </button>
         <button class="game-btn" data-game="yeti">
           YETI SLOPES
           <span>Ski the mountain • Full control</span>
-        </button>
-        <button class="game-btn" data-game="worm">
-          GLOW WORM
-          <span>Grow the line • Swipe or arrows</span>
         </button>
         <button class="game-btn" data-game="paddle">
           PULSE PADDLE
@@ -1205,15 +1350,12 @@
       <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
       <div class="row"><span>VORTEX BANDITS</span><span id="hs-racer">—</span></div>
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
-      <div class="row"><span>SPACE ROCKS</span><span id="hs-rocks">—</span></div>
       <div class="row"><span>LIGHT CYCLES</span><span id="hs-cycles">—</span></div>
-      <div class="row"><span>NEON SWARM</span><span id="hs-swarm">—</span></div>
-      <div class="row"><span>GLOW WORM</span><span id="hs-worm">—</span></div>
       <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
     </div>
 
     <p class="oss-line" id="ossLine">
-      Terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a>
+      terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a>
     </p>
 
     <div class="footer">
@@ -1271,15 +1413,45 @@
   </div>
 
   <script>
-    // ========== CRT POWER-ON ==========
+    // ========== CRT POWER-ON (fast showstopper) ==========
     (function crtBoot() {
       const boot = document.getElementById('crt-boot');
+      const fill = document.getElementById('crtLoadFill');
+      const txt = document.getElementById('crtLoadTxt');
+      const msgs = [
+        'WARMING CRT…',
+        'SYNCING PHOSPHOR…',
+        'LOADING CHARITY ROM…',
+        'FREE PLAY ENABLED',
+        'SYSTEM ONLINE'
+      ];
+      let step = 0;
+      let finished = false;
+      function finishBoot() {
+        if (finished || !boot) return;
+        finished = true;
+        boot.classList.add('fade-out');
+        setTimeout(() => boot.classList.add('done'), 350);
+      }
+      // Allow skip on first interaction
+      const skip = () => finishBoot();
+      window.addEventListener('pointerdown', skip, { once: true, passive: true });
+      window.addEventListener('keydown', skip, { once: true });
+      // Reveal body under the boot card
       setTimeout(() => {
         document.body.classList.add('crt-on');
-      }, 550);
-      setTimeout(() => {
-        if (boot) boot.classList.add('done');
-      }, 1450);
+      }, 220);
+      // Animate load bar + status text
+      const tick = setInterval(() => {
+        step++;
+        if (fill) fill.style.width = Math.min(100, step * 18) + '%';
+        if (txt && msgs[Math.min(step, msgs.length - 1)]) {
+          txt.textContent = msgs[Math.min(step, msgs.length - 1)];
+        }
+        if (step >= 6) clearInterval(tick);
+      }, 160);
+      // Hold the operator card long enough to read, then fade (~1.55s total — still snappy)
+      setTimeout(finishBoot, 1550);
     })();
 
     // ========== PWA / ADD TO HOME SCREEN ==========
@@ -1336,7 +1508,7 @@
 
     // ========== HI-SCORE PANEL ==========
     function refreshHiScores() {
-      const games = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'rocks', 'cycles', 'swarm', 'worm', 'paddle'];
+      const games = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
       games.forEach(g => {
         const el = document.getElementById('hs-' + g);
         if (!el) return;
@@ -1372,8 +1544,8 @@
     function refreshTopOps() {
       const games = [
         ['ufo', 'SAUCER BEAM'], ['fish', 'HAPPY FISHING'], ['runner', 'CIRCUIT RUNNER'],
-        ['racer', 'VORTEX BANDITS'], ['yeti', 'YETI SLOPES'], ['rocks', 'SPACE ROCKS'],
-        ['cycles', 'LIGHT CYCLES'], ['swarm', 'NEON SWARM'], ['worm', 'GLOW WORM'], ['paddle', 'PULSE PADDLE']
+        ['racer', 'VORTEX BANDITS'], ['yeti', 'YETI SLOPES'],
+        ['cycles', 'LIGHT CYCLES'], ['paddle', 'PULSE PADDLE']
       ];
       let best = { score: 0, name: null };
       games.forEach(([k, n]) => {
@@ -1457,7 +1629,7 @@
       const resetBtn = document.getElementById('opsResetScores');
       if (resetBtn) resetBtn.addEventListener('click', () => {
         if (!confirm('Reset ALL local hi-scores on this terminal?')) return;
-        ['ufo','fish','runner','racer','yeti','rocks','cycles','swarm','worm','paddle'].forEach(g => {
+        ['ufo','fish','runner','racer','yeti','cycles','paddle'].forEach(g => {
           try { localStorage.removeItem('c4c_hs_' + g); } catch (e) {}
         });
         refreshHiScores();
@@ -1499,7 +1671,11 @@
       window.C4C_OPS.attract = false;
       const c = document.getElementById('attract-canvas');
       const b = document.getElementById('attractBadge');
-      if (c) c.classList.remove('on');
+      if (c) {
+        c.classList.remove('on');
+        c.onclick = null;
+        c.ontouchstart = null;
+      }
       if (b) b.classList.remove('on');
       if (attractRaf) cancelAnimationFrame(attractRaf);
       attractRaf = null;
@@ -1508,12 +1684,23 @@
     function startAttract() {
       if (document.body.classList.contains('game-open')) return;
       if (document.getElementById('ops-panel')?.classList.contains('open')) return;
+      if (document.getElementById('share-panel')?.classList.contains('open')) return;
       window.C4C_OPS.attract = true;
       const c = document.getElementById('attract-canvas');
       const b = document.getElementById('attractBadge');
       if (!c) return;
       c.classList.add('on');
       if (b) b.classList.add('on');
+      // Direct dismiss so attract never gets stuck
+      c.style.pointerEvents = 'auto';
+      c.style.cursor = 'pointer';
+      const dismiss = (e) => {
+        if (e) { try { e.preventDefault(); e.stopPropagation(); } catch (_) {} }
+        stopAttract();
+        lastActivity = Date.now();
+      };
+      c.onclick = dismiss;
+      c.ontouchstart = dismiss;
       c.width = Math.min(window.innerWidth, 960);
       c.height = Math.min(window.innerHeight, 720);
       const actx = c.getContext('2d');
@@ -1775,7 +1962,7 @@
     setTimeout(() => {
       typeWriter();
       startOccasionalGlitch();
-    }, 1100);
+    }, 700);
 
     setTimeout(() => {
       if (missionEl.innerText.trim().length < 20) {
@@ -2483,7 +2670,7 @@ function ensureMusicMaster() {
         setupTouchControls(['left', 'right', 'fire']);
         initCycles();
       } else if (name === 'ufo') {
-        hintEl.textContent = '← → ↑ ↓ move  •  SPACE tractor beam';
+        hintEl.textContent = '← → ↑ ↓ move  •  SPACE / BEAM tractor beam';
         setupTouchControls(['left', 'right', 'up', 'down', 'fire']);
         initUfo();
       } else if (name === 'fish') {
@@ -2500,7 +2687,7 @@ function ensureMusicMaster() {
         right: { label: '▶', key: 'right' },
         up:    { label: '▲', key: 'up' },
         down:  { label: '▼', key: 'down' },
-        fire:  { label: currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : 'FIRE'), key: 'fire', wide: true },
+        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : 'FIRE')), key: 'fire', wide: true },
         jump:  { label: 'JUMP', key: 'up', wide: true },
         dash:  { label: 'DASH', key: 'fire', wide: true }
       };
