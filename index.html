@@ -966,7 +966,7 @@
         </button>
         <button class="game-btn" data-game="racer">
           NEON RACER
-          <span>Cruise the neon tropics • Steering</span>
+          <span>Tube racer • Ride the walls • Stun Runner style</span>
         </button>
         <button class="game-btn" data-game="rocks">
           SPACE ROCK SWARM
@@ -1002,6 +1002,9 @@
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
       <div class="row"><span>SPACE ROCKS</span><span id="hs-rocks">—</span></div>
       <div class="row"><span>NEON CLAW</span><span id="hs-claw">—</span></div>
+      <div class="row"><span>NEON SWARM</span><span id="hs-swarm">—</span></div>
+      <div class="row"><span>GLOW WORM</span><span id="hs-worm">—</span></div>
+      <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
     </div>
 
     <div class="footer">
@@ -1104,7 +1107,7 @@
 
     // ========== HI-SCORE PANEL ==========
     function refreshHiScores() {
-      const games = ['runner', 'racer', 'yeti', 'rocks', 'claw'];
+      const games = ['runner', 'racer', 'yeti', 'rocks', 'claw', 'swarm', 'worm', 'paddle'];
       games.forEach(g => {
         const el = document.getElementById('hs-' + g);
         if (!el) return;
@@ -1115,6 +1118,8 @@
       });
     }
     refreshHiScores();
+    // Keep panel updated periodically
+    setInterval(refreshHiScores, 2000);
 
     // ========== SHARE PANEL (QR + Web Share + Clipboard) ==========
     (function setupShare() {
@@ -1664,8 +1669,8 @@
         setupTouchControls(['jump', 'dash']);
         initRunner();
       } else if (name === 'racer') {
-        hintEl.textContent = '← → steer  •  Mobile: buttons';
-        setupTouchControls(['left', 'right']);
+        hintEl.textContent = '← → rotate around tube  •  SPACE fire';
+        setupTouchControls(['left', 'right', 'fire']);
         initRacer();
       } else if (name === 'swarm') {
         hintEl.textContent = '← → + Space  |  Mobile: buttons';
@@ -1835,38 +1840,44 @@
     }
     function endShake() { ctx.restore(); }
 
-    // ========== 1. NEON RACER (STAR GAME) ==========
+    // ========== NEON RACER (Stun Runner style tube) ==========
     let racer = {};
-
     function initRacer() {
       racer = {
         score: 0,
-        speed: 4.2,
-        maxSpeed: 14,
-        playerX: 0,          // -1 to 1
-        roadOffset: 0,
+        speed: 6.5,
+        maxSpeed: 18,
+        // angle around the tube (0 = bottom, PI = top) — full 360° wall riding
+        angle: Math.PI / 2,   // start on the floor (bottom of tube)
+        angVel: 0,
         obstacles: [],
-        palms: [],
-        buildings: [],
+        lasers: [],
+        rings: [],
         distance: 0,
+        lives: 3,
+        invuln: 0,
         crashTimer: 0,
-        frame: 0
+        frame: 0,
+        lastShot: 0,
+        tubeRadius: 110,
+        segmentZ: 0
       };
-      // seed some side objects
+      for (let i = 0; i < 8; i++) spawnRacerObstacle();
       for (let i = 0; i < 12; i++) {
-        racer.palms.push({ z: Math.random() * 800, side: Math.random() > 0.5 ? 1 : -1 });
-        racer.buildings.push({ z: Math.random() * 900, side: Math.random() > 0.5 ? 1 : -1, h: 40 + Math.random() * 80 });
+        racer.rings.push({ z: 80 + i * 70 });
       }
-      for (let i = 0; i < 5; i++) spawnObstacle();
-      updateUI(0, null);
+      updateUI(0, 3);
       loopRacer();
     }
 
-    function spawnObstacle() {
+    function spawnRacerObstacle() {
+      // Enemy sits on the tube wall at a random angle
       racer.obstacles.push({
-        z: 600 + Math.random() * 400,
-        x: (Math.random() - 0.5) * 1.6,
-        w: 0.35 + Math.random() * 0.25
+        z: 500 + Math.random() * 400,
+        angle: Math.random() * Math.PI * 2,
+        size: 0.7 + Math.random() * 0.5,
+        hit: false,
+        type: Math.random() > 0.7 ? 'mine' : 'drone'
       });
     }
 
@@ -1877,70 +1888,114 @@
 
       const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
       const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const fire  = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up;
 
-      if (left)  r.playerX -= 0.045;
-      if (right) r.playerX += 0.045;
-      r.playerX = Math.max(-0.92, Math.min(0.92, r.playerX));
+      // Rotate around the inside of the tube (Stun Runner control)
+      if (left)  r.angVel -= 0.012;
+      if (right) r.angVel += 0.012;
+      r.angVel *= 0.88; // friction
+      r.angle += r.angVel;
+      // keep angle in 0..2PI
+      if (r.angle < 0) r.angle += Math.PI * 2;
+      if (r.angle >= Math.PI * 2) r.angle -= Math.PI * 2;
 
-      // speed up over time
-      r.speed = Math.min(r.maxSpeed, r.speed + 0.0035);
-      r.roadOffset += r.speed;
+      // Shoot along the tube
+      if (fire && Date.now() - r.lastShot > 180 && r.invuln <= 0) {
+        r.lasers.push({
+          z: 30,
+          angle: r.angle,
+          life: 50
+        });
+        r.lastShot = Date.now();
+        sfx('shoot');
+      }
+
+      // Speed & score
+      r.speed = Math.min(r.maxSpeed, r.speed + 0.0025);
       r.distance += r.speed;
-      r.score = Math.floor(r.distance / 8);
-      if (r.frame % 8 === 0) updateUI(r.score, null);
+      r.score = Math.floor(r.distance / 5);
+      r.segmentZ += r.speed * 1.6;
+      if (r.frame % 5 === 0) updateUI(r.score, r.lives);
 
-      // move obstacles toward camera
-      for (let i = r.obstacles.length - 1; i >= 0; i--) {
-        const o = r.obstacles[i];
-        o.z -= r.speed * 1.8;
-
-        // near-miss scoring
-        if (!o.nearDone && o.z < 90 && o.z > 35) {
-          if (Math.abs(o.x - r.playerX) > (o.w + 0.32) && Math.abs(o.x - r.playerX) < (o.w + 0.55)) {
-            o.nearDone = true;
-            r.score += 25;
-            updateUI(r.score, null);
-            sfx('score');
-            flash(0.2);
-          }
+      // Move lasers forward
+      for (let i = r.lasers.length - 1; i >= 0; i--) {
+        const L = r.lasers[i];
+        L.z += r.speed * 3.5 + 10;
+        L.life--;
+        if (L.life <= 0 || L.z > 750) {
+          r.lasers.splice(i, 1);
+          continue;
         }
-
-        if (o.z < 30) {
-          // collision check
-          if (Math.abs(o.x - r.playerX) < (o.w + 0.28)) {
-            r.crashTimer = 28;
-            r.speed = Math.max(3.2, r.speed * 0.5);
-            sfx('hit');
-            shake(11);
-            flash(0.35);
-          } else {
-            // clean pass bonus
-            r.score += 8;
-            if (r.frame % 4 === 0) updateUI(r.score, null);
+        // Hit obstacles
+        for (let j = r.obstacles.length - 1; j >= 0; j--) {
+          const o = r.obstacles[j];
+          if (o.hit) continue;
+          const dang = Math.abs(Math.atan2(Math.sin(o.angle - L.angle), Math.cos(o.angle - L.angle)));
+          if (dang < 0.35 && Math.abs(o.z - L.z) < 45) {
+            o.hit = true;
+            o.explodeTimer = 18;
+            r.score += o.type === 'mine' ? 60 : 40;
+            updateUI(r.score, r.lives);
+            sfx('explode');
+            flash(0.3);
+            shake(5);
+            r.lasers.splice(i, 1);
+            break;
           }
-          r.obstacles.splice(i, 1);
-          spawnObstacle();
         }
       }
 
-      // move side scenery
-      r.palms.forEach(p => {
-        p.z -= r.speed * 1.1;
-        if (p.z < 20) {
-          p.z = 700 + Math.random() * 300;
-          p.side = Math.random() > 0.5 ? 1 : -1;
+      // Move obstacles toward camera
+      for (let i = r.obstacles.length - 1; i >= 0; i--) {
+        const o = r.obstacles[i];
+        o.z -= r.speed * 1.65;
+
+        if (o.hit) {
+          o.explodeTimer--;
+          if (o.explodeTimer <= 0) {
+            r.obstacles.splice(i, 1);
+            spawnRacerObstacle();
+          }
+          continue;
         }
-      });
-      r.buildings.forEach(b => {
-        b.z -= r.speed * 0.9;
-        if (b.z < 20) {
-          b.z = 800 + Math.random() * 400;
-          b.side = Math.random() > 0.5 ? 1 : -1;
-          b.h = 50 + Math.random() * 90;
+
+        // Collision with player (same wall angle + close Z)
+        if (o.z < 55 && o.z > 15 && r.invuln <= 0) {
+          const dang = Math.abs(Math.atan2(Math.sin(o.angle - r.angle), Math.cos(o.angle - r.angle)));
+          if (dang < 0.42) {
+            r.lives--;
+            r.crashTimer = 28;
+            r.invuln = 60;
+            r.speed = Math.max(5, r.speed * 0.6);
+            sfx('hit');
+            shake(14);
+            flash(0.45);
+            updateUI(r.score, r.lives);
+            o.hit = true;
+            o.explodeTimer = 12;
+            if (r.lives <= 0) {
+              drawRacer();
+              showGameOver('TUBE RUPTURE', 'racer', r.score);
+              return;
+            }
+          }
         }
+
+        if (o.z < 12) {
+          r.obstacles.splice(i, 1);
+          spawnRacerObstacle();
+          r.score += 8; // passed clean
+        }
+      }
+
+      // Scroll rings
+      r.rings.forEach(ring => {
+        ring.z -= r.speed * 1.5;
+        if (ring.z < 10) ring.z += 12 * 70;
       });
 
       if (r.crashTimer > 0) r.crashTimer--;
+      if (r.invuln > 0) r.invuln--;
 
       drawRacer();
       animId = requestAnimationFrame(loopRacer);
@@ -1948,164 +2003,230 @@
 
     function drawRacer() {
       const r = racer;
-      // sky gradient (cyberpunk tropical sunset)
-      const grad = ctx.createLinearGradient(0, 0, 0, 200);
-      grad.addColorStop(0, '#1a0033');
-      grad.addColorStop(0.5, '#4a0066');
-      grad.addColorStop(1, '#00ff9f22');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 480, 200);
+      const cx = 240, cy = 200;
+      const R = r.tubeRadius;
 
-      // distant city glow
-      ctx.fillStyle = '#ff00aa22';
-      ctx.fillRect(0, 120, 480, 40);
+      // Deep space / tunnel void
+      ctx.fillStyle = '#020010';
+      ctx.fillRect(0, 0, 480, 360);
 
-      // road
-      ctx.fillStyle = '#111';
-      ctx.beginPath();
-      ctx.moveTo(0, 360);
-      ctx.lineTo(480, 360);
-      ctx.lineTo(280, 160);
-      ctx.lineTo(200, 160);
-      ctx.closePath();
-      ctx.fill();
-
-      // road center stripes
-      ctx.strokeStyle = '#00ff9f';
-      ctx.lineWidth = 3;
-      ctx.setLineDash([18, 22]);
-      ctx.lineDashOffset = -r.roadOffset * 0.7;
-      ctx.beginPath();
-      ctx.moveTo(240, 360);
-      ctx.lineTo(240, 165);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // road edges
-      ctx.strokeStyle = '#00ff9f88';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(30, 360);
-      ctx.lineTo(200, 165);
-      ctx.moveTo(450, 360);
-      ctx.lineTo(280, 165);
-      ctx.stroke();
-
-      // helper to project
-      function project(x, z) {
-        const scale = 220 / (z + 40);
-        const px = 240 + x * 180 * scale;
-        const py = 160 + (1 - scale) * 200;
-        return { x: px, y: py, s: scale };
+      // Star field
+      ctx.fillStyle = '#00ff9f33';
+      for (let i = 0; i < 40; i++) {
+        const sx = (i * 97 + r.frame * 0.3) % 480;
+        const sy = (i * 53) % 360;
+        ctx.fillRect(sx, sy, 2, 2);
       }
 
-      // buildings (cyberpunk)
-      r.buildings.forEach(b => {
-        const p = project(b.side * 1.6, b.z);
-        if (p.s < 0.08) return;
-        const w = 28 * p.s;
-        const h = b.h * p.s;
-        ctx.fillStyle = `rgba(0, 255, 159, ${0.15 + p.s * 0.4})`;
-        ctx.fillRect(p.x - w/2, p.y - h, w, h);
-        // windows
-        ctx.fillStyle = '#00ff9faa';
-        for (let wy = 0; wy < 4; wy++) {
-          ctx.fillRect(p.x - w/3, p.y - h + 8 + wy * (h/5), w/6, 3);
+      // === Draw tube rings from far to near (Stun Runner style) ===
+      // Sort rings by z descending so far ones draw first
+      const sortedRings = r.rings.slice().sort((a, b) => b.z - a.z);
+      sortedRings.forEach(ring => {
+        const scale = 280 / (ring.z + 40);
+        if (scale < 0.08) return;
+        const rr = R * scale * 1.8;
+        const alpha = Math.min(0.7, 0.15 + scale * 0.5);
+
+        // Outer ring
+        ctx.strokeStyle = `rgba(0, 255, 180, ${alpha})`;
+        ctx.lineWidth = 2 + scale * 3;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rr, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Inner detail ring
+        ctx.strokeStyle = `rgba(0, 200, 255, ${alpha * 0.5})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rr * 0.92, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Cross ribs (makes it feel like a structure you can ride)
+        if (scale > 0.25) {
+          ctx.strokeStyle = `rgba(0, 255, 159, ${alpha * 0.35})`;
+          ctx.lineWidth = 1;
+          for (let k = 0; k < 8; k++) {
+            const a = (k / 8) * Math.PI * 2 + r.segmentZ * 0.002;
+            ctx.beginPath();
+            ctx.moveTo(cx + Math.cos(a) * rr * 0.7, cy + Math.sin(a) * rr * 0.7);
+            ctx.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
+            ctx.stroke();
+          }
         }
       });
 
-      // palm trees (tropical)
-      r.palms.forEach(p => {
-        const pr = project(p.side * 1.35, p.z);
-        if (pr.s < 0.1) return;
-        const trunkH = 50 * pr.s;
-        ctx.fillStyle = '#00aa66';
-        ctx.fillRect(pr.x - 2, pr.y - trunkH, 4, trunkH);
-        // leaves
-        ctx.fillStyle = '#00ff9f';
-        ctx.beginPath();
-        ctx.moveTo(pr.x, pr.y - trunkH - 8);
-        ctx.lineTo(pr.x - 18 * pr.s, pr.y - trunkH + 12 * pr.s);
-        ctx.lineTo(pr.x + 18 * pr.s, pr.y - trunkH + 12 * pr.s);
-        ctx.closePath();
-        ctx.fill();
-      });
+      // Horizon / vanishing circle
+      ctx.strokeStyle = 'rgba(0, 255, 200, 0.25)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+      ctx.stroke();
 
-      // obstacles (other cars / barriers)
+      // Project a point on the tube wall into screen space
+      // angle 0 = right, PI/2 = bottom (floor), PI = left, 3PI/2 = top (ceiling)
+      function tubeProject(angle, z) {
+        const scale = 280 / (z + 40);
+        const rr = R * scale * 1.8;
+        // Player is always drawn at bottom of screen conceptually;
+        // we rotate the world so player's angle appears at bottom.
+        const rel = angle - r.angle + Math.PI / 2;
+        const px = cx + Math.cos(rel) * rr;
+        const py = cy + Math.sin(rel) * rr;
+        return { x: px, y: py, s: scale, rr };
+      }
+
+      // Obstacles / enemies on the tube wall
       r.obstacles.forEach(o => {
-        const p = project(o.x, o.z);
-        if (p.s < 0.05) return;
-        const w = 50 * p.s * o.w * 2.2;
-        const h = 28 * p.s;
-        ctx.fillStyle = '#ff2a6a';
-        ctx.shadowColor = '#ff2a6a';
-        ctx.shadowBlur = 10;
-        ctx.fillRect(p.x - w/2, p.y - h, w, h);
-        ctx.shadowBlur = 0;
-        // lights
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(p.x - w/3, p.y - h + 4, 6, 4);
-        ctx.fillRect(p.x + w/3 - 6, p.y - h + 4, 6, 4);
+        const p = tubeProject(o.angle, o.z);
+        if (p.s < 0.08) return;
+
+        if (o.hit) {
+          // Explosion
+          const t = o.explodeTimer / 18;
+          ctx.fillStyle = `rgba(255, 80, 120, ${t})`;
+          ctx.shadowColor = '#ff2a6a';
+          ctx.shadowBlur = 20;
+          for (let k = 0; k < 6; k++) {
+            const a = (k / 6) * Math.PI * 2 + r.frame * 0.2;
+            const dist = (1 - t) * 30 * p.s;
+            ctx.beginPath();
+            ctx.arc(p.x + Math.cos(a) * dist, p.y + Math.sin(a) * dist, 4 * p.s * t + 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.shadowBlur = 0;
+          return;
+        }
+
+        const sz = 16 * p.s * o.size;
+        if (o.type === 'mine') {
+          // Spiky mine
+          ctx.fillStyle = '#ff3366';
+          ctx.shadowColor = '#ff3366';
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          for (let k = 0; k < 8; k++) {
+            const a = (k / 8) * Math.PI * 2 + r.frame * 0.05;
+            const rad = (k % 2 === 0) ? sz : sz * 0.5;
+            const px = p.x + Math.cos(a) * rad;
+            const py = p.y + Math.sin(a) * rad;
+            if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        } else {
+          // Drone
+          ctx.fillStyle = '#ff2a6a';
+          ctx.shadowColor = '#ff2a6a';
+          ctx.shadowBlur = 10;
+          ctx.fillRect(p.x - sz, p.y - sz * 0.6, sz * 2, sz * 1.2);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(p.x - sz * 0.4, p.y - sz * 0.25, sz * 0.8, sz * 0.3);
+          ctx.shadowBlur = 0;
+        }
       });
 
-      // player car
-      const carY = 300;
-      const carX = 240 + r.playerX * 110;
-      ctx.save();
-      if (r.crashTimer > 0) ctx.globalAlpha = 0.5 + Math.sin(r.frame * 0.8) * 0.3;
+      // Lasers
+      r.lasers.forEach(L => {
+        const p1 = tubeProject(L.angle, L.z);
+        const p2 = tubeProject(L.angle, L.z + 40);
+        if (p1.s < 0.05) return;
+        ctx.strokeStyle = '#00ffff';
+        ctx.lineWidth = 3 * p1.s + 1.5;
+        ctx.shadowColor = '#00ffff';
+        ctx.shadowBlur = 14;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      });
 
-      // car body
+      // === Player ship (always drawn near bottom center, riding the wall) ===
+      // Because we rotate the world relative to player angle, ship sits at bottom of tube view
+      const shipY = cy + R * 0.95;
+      const shipX = cx;
+
+      ctx.save();
+      if (r.crashTimer > 0 || (r.invuln > 0 && Math.floor(r.frame / 3) % 2 === 0)) {
+        ctx.globalAlpha = 0.4 + Math.sin(r.frame * 0.6) * 0.3;
+      }
+
+      // Ship body
       ctx.fillStyle = '#00ff9f';
       ctx.shadowColor = '#00ff9f';
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 18;
       ctx.beginPath();
-      ctx.moveTo(carX - 28, carY + 18);
-      ctx.lineTo(carX - 22, carY - 8);
-      ctx.lineTo(carX + 22, carY - 8);
-      ctx.lineTo(carX + 28, carY + 18);
+      ctx.moveTo(shipX, shipY - 28);
+      ctx.lineTo(shipX - 22, shipY + 14);
+      ctx.lineTo(shipX - 8, shipY + 6);
+      ctx.lineTo(shipX + 8, shipY + 6);
+      ctx.lineTo(shipX + 22, shipY + 14);
       ctx.closePath();
       ctx.fill();
 
-      // cockpit
+      // Cockpit
       ctx.fillStyle = '#003322';
-      ctx.fillRect(carX - 12, carY - 4, 24, 10);
+      ctx.beginPath();
+      ctx.moveTo(shipX, shipY - 18);
+      ctx.lineTo(shipX - 8, shipY - 2);
+      ctx.lineTo(shipX + 8, shipY - 2);
+      ctx.closePath();
+      ctx.fill();
 
-      // headlights
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(carX - 18, carY + 10, 8, 5);
-      ctx.fillRect(carX + 10, carY + 10, 8, 5);
+      // Engine glow
+      ctx.fillStyle = '#00ffff';
+      ctx.shadowColor = '#00ffff';
+      ctx.shadowBlur = 12;
+      ctx.fillRect(shipX - 6, shipY + 10, 12, 8);
 
-      // side mirrors / detail
-      ctx.fillStyle = '#00cc7a';
-      ctx.fillRect(carX - 32, carY + 2, 6, 4);
-      ctx.fillRect(carX + 26, carY + 2, 6, 4);
+      // Laser charge indicator
+      if (Date.now() - r.lastShot < 100) {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(shipX - 2, shipY - 36, 4, 12);
+      }
+
       ctx.shadowBlur = 0;
       ctx.restore();
 
-      // speed lines
-      if (r.speed > 5) {
-        ctx.strokeStyle = `rgba(0, 255, 159, ${0.12 + r.speed * 0.02})`;
+      // Speed lines (radial, toward center)
+      if (r.speed > 7) {
+        ctx.strokeStyle = `rgba(0, 255, 200, ${0.08 + r.speed * 0.01})`;
         ctx.lineWidth = 1.5;
-        for (let i = 0; i < 6; i++) {
-          const ly = 180 + i * 28;
-          const len = 20 + r.speed * 3;
+        for (let i = 0; i < 10; i++) {
+          const a = (i / 10) * Math.PI * 2 + r.frame * 0.01;
+          const inner = 40 + (r.frame + i * 20) % 80;
+          const outer = inner + 30 + r.speed;
           ctx.beginPath();
-          ctx.moveTo(40 + (i * 37 + r.frame) % 50, ly);
-          ctx.lineTo(40 + (i * 37 + r.frame) % 50 - len, ly);
+          ctx.moveTo(cx + Math.cos(a) * inner, cy + Math.sin(a) * inner);
+          ctx.lineTo(cx + Math.cos(a) * outer, cy + Math.sin(a) * outer);
           ctx.stroke();
         }
       }
 
-      // speed + hi
+      // HUD
       ctx.fillStyle = '#00ff9f';
       ctx.font = '12px Courier New';
       ctx.textAlign = 'left';
-      ctx.fillText(`SPEED ${Math.floor(r.speed * 18)}`, 12, 24);
+      ctx.fillText(`SPD ${Math.floor(r.speed * 14)}`, 12, 22);
+      ctx.fillText(`LIVES ${r.lives}`, 12, 40);
       const hs = getHigh('racer');
       if (hs > 0) {
         ctx.fillStyle = '#7dffc8';
-        ctx.fillText(`HI ${hs}`, 12, 42);
+        ctx.fillText(`HI ${hs}`, 12, 58);
       }
+
+      // Angle indicator (shows you're on walls / ceiling / floor)
+      const deg = Math.floor((r.angle * 180 / Math.PI) % 360);
+      let wallLabel = 'FLOOR';
+      if (deg > 45 && deg < 135) wallLabel = 'RIGHT WALL';
+      else if (deg >= 135 && deg < 225) wallLabel = 'CEILING';
+      else if (deg >= 225 && deg < 315) wallLabel = 'LEFT WALL';
+      ctx.fillStyle = '#7dffc8';
+      ctx.font = '11px Courier New';
+      ctx.textAlign = 'right';
+      ctx.fillText(wallLabel, 468, 22);
+      ctx.fillText('← → ROTATE  SPACE FIRE', 468, 40);
     }
 
     // ========== 2. NEON SWARM ==========
