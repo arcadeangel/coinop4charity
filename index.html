@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Coin-Op 4 Charity</title>
   <meta name="description" content="Placing arcade and coin-op machines with Nevada youth organizations and community partners — creating free play for kids and new ways to fundraise.">
+  <meta name="theme-color" content="#00ff9f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CoinOp4C">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-family='monospace' font-size='42' font-weight='bold' fill='%2300ff9f'%3E4C%3C/text%3E%3C/svg%3E">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -802,6 +809,83 @@
     body.activity-high #matrix {
       opacity: 0.55;
     }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      body.crt-on { animation: none; opacity: 1; }
+      #crt-boot, .arcade-intro, #scan-interference { display: none !important; }
+      .logo { animation: none; }
+      .status { animation: none; }
+      body::before, body::after { opacity: 0.25; }
+    }
+    body.reduce-fx #matrix,
+    body.reduce-fx #scan-interference,
+    body.reduce-fx .arcade-intro { display: none !important; }
+    body.reduce-fx .logo { animation: none; }
+
+    /* Install / Add to Home Screen */
+    .install-btn {
+      background: transparent;
+      border: 1px solid #00ff9f88;
+      color: #00ff9f;
+      font-family: "Courier New", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 7px 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-top: 4px;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+    .install-btn:hover, .install-btn:focus {
+      background: #00ff9f22;
+      border-color: #00ff9f;
+      box-shadow: 0 0 12px #00ff9f44;
+      outline: none;
+    }
+    .install-btn.hidden { display: none; }
+
+    /* High scores panel on main terminal */
+    .hi-scores {
+      border: 1px solid #00ff9f44;
+      background: rgba(0, 255, 159, 0.05);
+      padding: 10px 12px;
+      margin: 1.1rem 0 0.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-align: left;
+    }
+    .hi-scores h4 {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      margin-bottom: 6px;
+      color: #00ff9f;
+      text-align: center;
+    }
+    .hi-scores .row {
+      display: flex;
+      justify-content: space-between;
+      color: #7dffc8;
+      margin: 3px 0;
+    }
+    .hi-scores .row span:last-child {
+      color: #00ff9f;
+      font-weight: bold;
+    }
+
+    /* FX toggle */
+    .fx-toggle {
+      background: transparent;
+      border: 1px solid #00ff9f55;
+      color: #00ff9f99;
+      font-family: inherit;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .fx-toggle:hover { color: #00ff9f; border-color: #00ff9f; }
   </style>
 </head>
 <body>
@@ -904,11 +988,26 @@
           PULSE PADDLE
           <span>Break the blocks • Drag or arrows</span>
         </button>
+        <button class="game-btn" data-game="claw">
+          NEON CLAW
+          <span>Grab the tickets • Classic claw</span>
+        </button>
       </div>
+    </div>
+
+    <div class="hi-scores" id="hiScoresPanel">
+      <h4>TERMINAL HI-SCORES</h4>
+      <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
+      <div class="row"><span>NEON RACER</span><span id="hs-racer">—</span></div>
+      <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
+      <div class="row"><span>SPACE ROCKS</span><span id="hs-rocks">—</span></div>
+      <div class="row"><span>NEON CLAW</span><span id="hs-claw">—</span></div>
     </div>
 
     <div class="footer">
       <button type="button" class="share-btn" id="shareBtn" title="Share this site">SHARE THIS TERMINAL</button>
+      <button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
+      <button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
       <div>coinop4charity.org • We love you all. <span class="heart">♥</span></div>
     </div>
   </div>
@@ -950,6 +1049,72 @@
         if (boot) boot.classList.add('done');
       }, 1450);
     })();
+
+    // ========== PWA / ADD TO HOME SCREEN ==========
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.classList.remove('hidden');
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          // Fallback instructions for iOS / already installed
+          alert('To add this terminal to your home screen:\n\n• iPhone/iPad: Tap Share → Add to Home Screen\n• Android: Menu → Install app / Add to Home screen');
+          return;
+        }
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installBtn.classList.add('hidden');
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      if (installBtn) installBtn.classList.add('hidden');
+    });
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+
+    // ========== FX TOGGLE + REDUCED MOTION ==========
+    (function setupFxToggle() {
+      const btn = document.getElementById('fxToggle');
+      if (!btn) return;
+      const saved = localStorage.getItem('c4c_fx');
+      if (saved === 'off' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.body.classList.add('reduce-fx');
+        btn.textContent = 'FX: OFF';
+      }
+      btn.addEventListener('click', () => {
+        const off = document.body.classList.toggle('reduce-fx');
+        btn.textContent = off ? 'FX: OFF' : 'FX: ON';
+        localStorage.setItem('c4c_fx', off ? 'off' : 'on');
+      });
+    })();
+
+    // ========== HI-SCORE PANEL ==========
+    function refreshHiScores() {
+      const games = ['runner', 'racer', 'yeti', 'rocks', 'claw'];
+      games.forEach(g => {
+        const el = document.getElementById('hs-' + g);
+        if (!el) return;
+        try {
+          const v = parseInt(localStorage.getItem('c4c_hs_' + g) || '0', 10);
+          el.textContent = v > 0 ? v : '—';
+        } catch (e) { el.textContent = '—'; }
+      });
+    }
+    refreshHiScores();
 
     // ========== SHARE PANEL (QR + Web Share + Clipboard) ==========
     (function setupShare() {
@@ -1378,11 +1543,76 @@
         case 'die':    playTone(200, 0.4, 'sawtooth', 0.1, -150); break;
         case 'thrust': playTone(80, 0.05, 'sawtooth', 0.03); break;
         case 'select': playTone(520, 0.05, 'square', 0.04); break;
+        case 'drop':   playTone(180, 0.15, 'triangle', 0.06, -80); break;
+        case 'grab':   playTone(660, 0.1, 'sine', 0.07); playTone(990, 0.15, 'sine', 0.05); break;
+        case 'miss':   playTone(140, 0.2, 'sawtooth', 0.06, -60); break;
+        case 'crt':    playCrtBoot(); break;
       }
     }
 
-    // Unlock audio on first user gesture
-    document.addEventListener('pointerdown', () => ensureAudio(), { once: true });
+    // Royalty-free synthesized CRT power-on sound (no external files)
+    function playCrtBoot() {
+      if (!soundEnabled) return;
+      ensureAudio();
+      if (!audioCtx) return;
+      const t = audioCtx.currentTime;
+
+      // Rising hum / power surge
+      const osc1 = audioCtx.createOscillator();
+      const g1 = audioCtx.createGain();
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(40, t);
+      osc1.frequency.exponentialRampToValueAtTime(180, t + 0.55);
+      g1.gain.setValueAtTime(0.001, t);
+      g1.gain.linearRampToValueAtTime(0.09, t + 0.12);
+      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+      osc1.connect(g1);
+      g1.connect(audioCtx.destination);
+      osc1.start(t);
+      osc1.stop(t + 0.72);
+
+      // Higher harmonic sweep
+      const osc2 = audioCtx.createOscillator();
+      const g2 = audioCtx.createGain();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(120, t + 0.08);
+      osc2.frequency.exponentialRampToValueAtTime(420, t + 0.5);
+      g2.gain.setValueAtTime(0.001, t + 0.08);
+      g2.gain.linearRampToValueAtTime(0.045, t + 0.2);
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+      osc2.connect(g2);
+      g2.connect(audioCtx.destination);
+      osc2.start(t + 0.08);
+      osc2.stop(t + 0.68);
+
+      // Soft static / crackle burst near the end
+      const bufferSize = audioCtx.sampleRate * 0.18;
+      const noiseBuf = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = noiseBuf.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      const noise = audioCtx.createBufferSource();
+      const ng = audioCtx.createGain();
+      noise.buffer = noiseBuf;
+      ng.gain.setValueAtTime(0.035, t + 0.45);
+      ng.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+      noise.connect(ng);
+      ng.connect(audioCtx.destination);
+      noise.start(t + 0.45);
+    }
+
+    // Unlock audio + play CRT boot sound on first user gesture
+    let crtSoundPlayed = false;
+    function unlockAndCrt() {
+      ensureAudio();
+      if (!crtSoundPlayed) {
+        crtSoundPlayed = true;
+        sfx('crt');
+      }
+    }
+    document.addEventListener('pointerdown', unlockAndCrt, { once: true });
+    document.addEventListener('keydown', unlockAndCrt, { once: true });
+    // Also attempt shortly after load (works on some browsers)
+    setTimeout(() => { try { sfx('crt'); crtSoundPlayed = true; } catch(e){} }, 800);
 
     // ========== SHARED ==========
     const overlay = document.getElementById('game-overlay');
@@ -1457,6 +1687,10 @@
         hintEl.textContent = '← → rotate  •  ▲ thrust  •  Fire';
         setupTouchControls(['left', 'right', 'up', 'fire']);
         initRocks();
+      } else if (name === 'claw') {
+        hintEl.textContent = '← → move  •  DROP to grab tickets';
+        setupTouchControls(['left', 'right', 'fire']);
+        initClaw();
       }
     }
 
@@ -1467,7 +1701,7 @@
         right: { label: '▶', key: 'right' },
         up:    { label: '▲', key: 'up' },
         down:  { label: '▼', key: 'down' },
-        fire:  { label: 'FIRE', key: 'fire', wide: true },
+        fire:  { label: currentGame === 'claw' ? 'DROP' : 'FIRE', key: 'fire', wide: true },
         jump:  { label: 'JUMP', key: 'up', wide: true },
         dash:  { label: 'DASH', key: 'fire', wide: true }
       };
@@ -1499,6 +1733,7 @@
       const prev = getHigh(name);
       if (score > prev) {
         try { localStorage.setItem('c4c_hs_' + name, String(score)); } catch(e) {}
+        if (typeof refreshHiScores === 'function') refreshHiScores();
         return true;
       }
       return false;
@@ -1518,32 +1753,37 @@
       lastGameKey = gameKey || currentGame;
       const hs = gameKey ? getHigh(gameKey) : 0;
       const isNew = gameKey && score >= hs && score > 0;
-      ctx.fillStyle = 'rgba(0,0,0,0.82)';
+      if (typeof refreshHiScores === 'function') refreshHiScores();
+      ctx.fillStyle = 'rgba(0,0,0,0.85)';
       ctx.fillRect(0, 0, 480, 360);
       ctx.fillStyle = '#00ff9f';
       ctx.font = 'bold 26px Courier New';
       ctx.textAlign = 'center';
       ctx.shadowColor = '#00ff9f';
-      ctx.shadowBlur = 12;
-      ctx.fillText(text, 240, 130);
+      ctx.shadowBlur = 14;
+      ctx.fillText(text, 240, 118);
       ctx.shadowBlur = 0;
       ctx.font = '16px Courier New';
       if (gameKey) {
-        ctx.fillText(`SCORE  ${score}`, 240, 170);
+        ctx.fillText(`SCORE  ${score}`, 240, 160);
         ctx.fillStyle = '#7dffc8';
-        ctx.fillText(`HIGH   ${hs}`, 240, 195);
+        ctx.fillText(`HIGH   ${hs}`, 240, 185);
         if (isNew) {
           ctx.fillStyle = '#ffff66';
           ctx.font = 'bold 15px Courier New';
-          ctx.fillText('★ NEW HIGH SCORE ★', 240, 225);
+          ctx.fillText('★ NEW HIGH SCORE ★', 240, 215);
+          sfx('power');
         }
       }
       // Play Again button visual
       ctx.fillStyle = '#00ff9f';
-      ctx.fillRect(150, 255, 180, 40);
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 10;
+      ctx.fillRect(150, 250, 180, 42);
+      ctx.shadowBlur = 0;
       ctx.fillStyle = '#000';
       ctx.font = 'bold 16px Courier New';
-      ctx.fillText('PLAY AGAIN', 240, 281);
+      ctx.fillText('PLAY AGAIN', 240, 277);
       ctx.fillStyle = '#7dffc8';
       ctx.font = '12px Courier New';
       ctx.fillText('or tap CLOSE', 240, 320);
@@ -1653,13 +1893,30 @@
       for (let i = r.obstacles.length - 1; i >= 0; i--) {
         const o = r.obstacles[i];
         o.z -= r.speed * 1.8;
+
+        // near-miss scoring
+        if (!o.nearDone && o.z < 90 && o.z > 35) {
+          if (Math.abs(o.x - r.playerX) > (o.w + 0.32) && Math.abs(o.x - r.playerX) < (o.w + 0.55)) {
+            o.nearDone = true;
+            r.score += 25;
+            updateUI(r.score, null);
+            sfx('score');
+            flash(0.2);
+          }
+        }
+
         if (o.z < 30) {
           // collision check
           if (Math.abs(o.x - r.playerX) < (o.w + 0.28)) {
-            r.crashTimer = 25;
-            r.speed = Math.max(3.5, r.speed * 0.55);
+            r.crashTimer = 28;
+            r.speed = Math.max(3.2, r.speed * 0.5);
             sfx('hit');
-            shake(9);
+            shake(11);
+            flash(0.35);
+          } else {
+            // clean pass bonus
+            r.score += 8;
+            if (r.frame % 4 === 0) updateUI(r.score, null);
           }
           r.obstacles.splice(i, 1);
           spawnObstacle();
@@ -2116,30 +2373,37 @@
         }
       }
 
-      // Yeti warning + spawn
-      if (yeti.score > 350 && !yeti.yetiActive && yeti.warning === 0) {
-        yeti.warning = 90; // ~1.5 sec warning
+      // Yeti warning + spawn (earlier + more dramatic)
+      if (yeti.score > 280 && !yeti.yetiActive && yeti.warning === 0) {
+        yeti.warning = 110;
+        sfx('power');
       }
       if (yeti.warning > 0) {
         yeti.warning--;
         if (yeti.warning === 0) {
           yeti.yetiActive = true;
-          yeti.yeti.y = -70;
-          yeti.yeti.x = yeti.skier.x;
+          yeti.yeti.y = -80;
+          yeti.yeti.x = yeti.skier.x + (Math.random() - 0.5) * 60;
+          sfx('hit');
+          shake(6);
         }
       }
 
       if (yeti.yetiActive) {
         const dx = yeti.skier.x - yeti.yeti.x;
         const dy = yeti.skier.y - yeti.yeti.y;
-        yeti.yeti.x += Math.sign(dx) * Math.min(Math.abs(dx), 2.8 + yeti.speed * 0.15);
-        yeti.yeti.y += Math.min(3.2, yeti.speed * 0.7 + 1.2);
+        // Yeti gets faster and more aggressive over time
+        const chase = 2.6 + yeti.speed * 0.22 + Math.min(2.2, yeti.score / 900);
+        yeti.yeti.x += Math.sign(dx) * Math.min(Math.abs(dx), chase);
+        yeti.yeti.y += Math.min(3.6, yeti.speed * 0.85 + 1.4);
 
         if (Math.abs(yeti.yeti.x - yeti.skier.x) < 28 && Math.abs(yeti.yeti.y - yeti.skier.y) < 32) {
           yeti.gameOver = true;
           drawYeti();
-          shake(12);
-          showGameOver('GOT SNOGGED', 'yeti', yeti.score);
+          shake(14);
+          flash(0.4);
+          const deaths = ['GOT SNOGGED', 'YETI HUGGED', 'SNOW ANGEL', 'FROZEN SNACK'];
+          showGameOver(deaths[Math.floor(Math.random() * deaths.length)], 'yeti', yeti.score);
           return;
         }
       }
@@ -2550,9 +2814,11 @@
 
       const r = runner;
       r.frame++;
-      r.speed = Math.min(r.maxSpeed, r.speed + 0.0018);
+      // Gentler early ramp, then accelerates — feels more progressive
+      const ramp = r.distance < 800 ? 0.0012 : (r.distance < 2000 ? 0.0021 : 0.0028);
+      r.speed = Math.min(r.maxSpeed, r.speed + ramp);
       r.distance += r.speed;
-      r.score = Math.floor(r.distance / 6);
+      r.score = Math.floor(r.distance / 6) + (r.combo > 1 ? r.combo * 2 : 0);
       r.bgOffset += r.speed * 0.3;
       if (r.frame % 6 === 0) updateUI(r.score, null);
 
@@ -2917,6 +3183,284 @@
         flashAlpha *= 0.85;
         if (flashAlpha < 0.02) flashAlpha = 0;
       }
+    }
+
+    // ========== 10. NEON CLAW ==========
+    let claw = {};
+
+    function initClaw() {
+      claw = {
+        score: 0,
+        lives: 5,           // number of drops remaining
+        clawX: 240,
+        clawY: 50,
+        clawOpen: true,
+        state: 'ready',     // ready | dropping | rising | grab
+        dropSpeed: 0,
+        prizes: [],
+        particles: [],
+        frame: 0,
+        grabTarget: null,
+        message: '',
+        messageTimer: 0
+      };
+      spawnClawPrizes();
+      updateUI(0, 5);
+      loopClaw();
+    }
+
+    function spawnClawPrizes() {
+      claw.prizes = [];
+      const types = [
+        { label: '$', color: '#ffff66', points: 50, r: 14 },
+        { label: 'T', color: '#00ff9f', points: 30, r: 12 },
+        { label: '★', color: '#ff66cc', points: 80, r: 13 },
+        { label: '●', color: '#66ccff', points: 20, r: 11 },
+        { label: '◆', color: '#ffaa44', points: 40, r: 12 }
+      ];
+      for (let i = 0; i < 9; i++) {
+        const t = types[Math.floor(Math.random() * types.length)];
+        claw.prizes.push({
+          x: 55 + (i % 5) * 85 + (Math.random() - 0.5) * 20,
+          y: 240 + Math.floor(i / 5) * 55 + (Math.random() - 0.5) * 15,
+          r: t.r,
+          label: t.label,
+          color: t.color,
+          points: t.points,
+          grabbed: false,
+          vx: 0,
+          vy: 0
+        });
+      }
+    }
+
+    function loopClaw() {
+      if (currentGame !== 'claw') return;
+      const c = claw;
+      c.frame++;
+
+      const left  = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const drop  = keys[' '] || keys['ArrowDown'] || touchState.fire;
+
+      if (c.state === 'ready') {
+        if (left)  c.clawX -= 4.2;
+        if (right) c.clawX += 4.2;
+        c.clawX = Math.max(40, Math.min(440, c.clawX));
+
+        if (drop) {
+          c.state = 'dropping';
+          c.dropSpeed = 3.5;
+          c.clawOpen = true;
+          sfx('drop');
+        }
+      } else if (c.state === 'dropping') {
+        c.clawY += c.dropSpeed;
+        c.dropSpeed = Math.min(9, c.dropSpeed + 0.18);
+
+        // Check grab near bottom
+        if (c.clawY > 290) {
+          c.state = 'grab';
+          c.clawOpen = false;
+          // Find closest prize under claw
+          let best = null;
+          let bestDist = 999;
+          c.prizes.forEach(p => {
+            if (p.grabbed) return;
+            const dx = p.x - c.clawX;
+            const dy = p.y - (c.clawY + 28);
+            const dist = Math.hypot(dx, dy);
+            if (dist < bestDist && dist < 28) {
+              bestDist = dist;
+              best = p;
+            }
+          });
+          if (best && Math.random() > 0.28) {  // 72% success chance when close
+            best.grabbed = true;
+            c.grabTarget = best;
+            c.score += best.points;
+            updateUI(c.score, c.lives);
+            sfx('grab');
+            c.message = `+${best.points} TICKETS`;
+            c.messageTimer = 50;
+            // particles
+            for (let i = 0; i < 10; i++) {
+              c.particles.push({
+                x: best.x, y: best.y,
+                vx: (Math.random() - 0.5) * 5,
+                vy: (Math.random() - 0.5) * 5 - 2,
+                life: 30 + Math.random() * 20,
+                color: best.color
+              });
+            }
+          } else {
+            sfx('miss');
+            c.message = 'MISSED';
+            c.messageTimer = 35;
+            c.grabTarget = null;
+          }
+        }
+      } else if (c.state === 'grab' || c.state === 'rising') {
+        c.state = 'rising';
+        c.clawY -= 5.5;
+        if (c.grabTarget) {
+          c.grabTarget.x = c.clawX;
+          c.grabTarget.y = c.clawY + 30;
+        }
+        if (c.clawY <= 50) {
+          c.clawY = 50;
+          c.clawOpen = true;
+          if (c.grabTarget) {
+            // Remove prize
+            c.prizes = c.prizes.filter(p => p !== c.grabTarget);
+            c.grabTarget = null;
+          }
+          c.lives--;
+          updateUI(c.score, c.lives);
+          if (c.lives <= 0) {
+            drawClaw();
+            shake(8);
+            showGameOver(c.score >= 150 ? 'TICKET JACKPOT' : 'CLAW EMPTY', 'claw', c.score);
+            return;
+          }
+          // Respawn prizes if few left
+          if (c.prizes.filter(p => !p.grabbed).length < 4) {
+            spawnClawPrizes();
+          }
+          c.state = 'ready';
+        }
+      }
+
+      // particles
+      for (let i = c.particles.length - 1; i >= 0; i--) {
+        const p = c.particles[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+        if (p.life <= 0) c.particles.splice(i, 1);
+      }
+      if (c.messageTimer > 0) c.messageTimer--;
+
+      drawClaw();
+      animId = requestAnimationFrame(loopClaw);
+    }
+
+    function drawClaw() {
+      const c = claw;
+      // background
+      const g = ctx.createLinearGradient(0, 0, 0, 360);
+      g.addColorStop(0, '#050515');
+      g.addColorStop(0.6, '#0a1a18');
+      g.addColorStop(1, '#001a12');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 480, 360);
+
+      // glass cabinet frame
+      ctx.strokeStyle = '#00ff9f66';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(20, 20, 440, 320);
+      ctx.strokeStyle = '#00ff9f33';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(28, 28, 424, 304);
+
+      // floor / prize area
+      ctx.fillStyle = '#003322';
+      ctx.fillRect(40, 310, 400, 30);
+      ctx.strokeStyle = '#00ff9f44';
+      ctx.beginPath();
+      ctx.moveTo(40, 310);
+      ctx.lineTo(440, 310);
+      ctx.stroke();
+
+      // prizes
+      c.prizes.forEach(p => {
+        if (p.grabbed && p !== c.grabTarget) return;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 12px Courier New';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(p.label, p.x, p.y + 1);
+      });
+
+      // claw cable
+      ctx.strokeStyle = '#00ff9faa';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(c.clawX, 30);
+      ctx.lineTo(c.clawX, c.clawY);
+      ctx.stroke();
+
+      // claw mechanism
+      ctx.fillStyle = '#00ff9f';
+      ctx.shadowColor = '#00ff9f';
+      ctx.shadowBlur = 10;
+      // top block
+      ctx.fillRect(c.clawX - 14, c.clawY - 8, 28, 14);
+      // arms
+      if (c.clawOpen) {
+        // open
+        ctx.beginPath();
+        ctx.moveTo(c.clawX - 10, c.clawY + 6);
+        ctx.lineTo(c.clawX - 22, c.clawY + 28);
+        ctx.lineTo(c.clawX - 8, c.clawY + 24);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(c.clawX + 10, c.clawY + 6);
+        ctx.lineTo(c.clawX + 22, c.clawY + 28);
+        ctx.lineTo(c.clawX + 8, c.clawY + 24);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        // closed
+        ctx.beginPath();
+        ctx.moveTo(c.clawX - 8, c.clawY + 6);
+        ctx.lineTo(c.clawX - 6, c.clawY + 26);
+        ctx.lineTo(c.clawX + 6, c.clawY + 26);
+        ctx.lineTo(c.clawX + 8, c.clawY + 6);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      // particles
+      c.particles.forEach(p => {
+        ctx.globalAlpha = Math.max(0, p.life / 40);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, 3, 3);
+      });
+      ctx.globalAlpha = 1;
+
+      // message
+      if (c.messageTimer > 0) {
+        ctx.fillStyle = c.message.startsWith('+') ? '#ffff66' : '#ff6b8a';
+        ctx.font = 'bold 18px Courier New';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowBlur = 10;
+        ctx.fillText(c.message, 240, 100);
+        ctx.shadowBlur = 0;
+      }
+
+      // UI
+      ctx.fillStyle = '#00ff9f';
+      ctx.font = '12px Courier New';
+      ctx.textAlign = 'left';
+      ctx.fillText(`DROPS ${c.lives}`, 36, 48);
+      const hs = getHigh('claw');
+      if (hs > 0) {
+        ctx.fillStyle = '#7dffc8';
+        ctx.fillText(`HI ${hs}`, 36, 66);
+      }
+      ctx.fillStyle = '#7dffc8';
+      ctx.textAlign = 'right';
+      ctx.font = '11px Courier New';
+      ctx.fillText('TICKETS FOR CHARITY', 444, 48);
     }
   </script>
 </body>
