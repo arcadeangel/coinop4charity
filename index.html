@@ -965,8 +965,8 @@
           <span>Race the neon grid • Jump &amp; dash</span>
         </button>
         <button class="game-btn" data-game="racer">
-          NEON RACER
-          <span>Tube racer • Ride the walls • Stun Runner style</span>
+          VORTEX BANDITS
+          <span>Winding roads → vortex tunnel • Barrel rolls • Blast the bandits</span>
         </button>
         <button class="game-btn" data-game="rocks">
           SPACE ROCK SWARM
@@ -998,7 +998,7 @@
     <div class="hi-scores" id="hiScoresPanel">
       <h4>TERMINAL HI-SCORES</h4>
       <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
-      <div class="row"><span>NEON RACER</span><span id="hs-racer">—</span></div>
+      <div class="row"><span>VORTEX BANDITS</span><span id="hs-racer">—</span></div>
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
       <div class="row"><span>SPACE ROCKS</span><span id="hs-rocks">—</span></div>
       <div class="row"><span>NEON CLAW</span><span id="hs-claw">—</span></div>
@@ -1517,7 +1517,7 @@
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    function playTone(freq, dur, type = 'square', vol = 0.08, slide = 0) {
+    function playTone(freq, dur, type = 'square', vol = 0.11, slide = 0) {
       if (!soundEnabled) return;
       ensureAudio();
       if (!audioCtx) return;
@@ -1537,20 +1537,20 @@
     function sfx(name) {
       if (!soundEnabled) return;
       switch (name) {
-        case 'jump':   playTone(320, 0.12, 'square', 0.07, 180); break;
-        case 'land':   playTone(120, 0.08, 'triangle', 0.06); break;
-        case 'coin':   playTone(880, 0.08, 'sine', 0.06); playTone(1320, 0.1, 'sine', 0.04); break;
-        case 'hit':    playTone(90, 0.2, 'sawtooth', 0.1, -40); break;
-        case 'shoot':  playTone(480, 0.06, 'square', 0.05, -200); break;
-        case 'explode': playTone(180, 0.25, 'sawtooth', 0.09, -120); playTone(60, 0.3, 'triangle', 0.07); break;
-        case 'power':  playTone(440, 0.15, 'sine', 0.06); playTone(660, 0.2, 'sine', 0.05); break;
-        case 'score':  playTone(660, 0.07, 'sine', 0.05); break;
-        case 'die':    playTone(200, 0.4, 'sawtooth', 0.1, -150); break;
-        case 'thrust': playTone(80, 0.05, 'sawtooth', 0.03); break;
-        case 'select': playTone(520, 0.05, 'square', 0.04); break;
-        case 'drop':   playTone(180, 0.15, 'triangle', 0.06, -80); break;
-        case 'grab':   playTone(660, 0.1, 'sine', 0.07); playTone(990, 0.15, 'sine', 0.05); break;
-        case 'miss':   playTone(140, 0.2, 'sawtooth', 0.06, -60); break;
+        case 'jump':   playTone(320, 0.12, 'square', 0.10, 180); break;
+        case 'land':   playTone(120, 0.08, 'triangle', 0.09); break;
+        case 'coin':   playTone(880, 0.08, 'sine', 0.09); playTone(1320, 0.1, 'sine', 0.06); break;
+        case 'hit':    playTone(90, 0.2, 'sawtooth', 0.13, -40); break;
+        case 'shoot':  playTone(480, 0.06, 'square', 0.08, -200); break;
+        case 'explode': playTone(180, 0.25, 'sawtooth', 0.12, -120); playTone(60, 0.3, 'triangle', 0.09); break;
+        case 'power':  playTone(440, 0.15, 'sine', 0.09); playTone(660, 0.2, 'sine', 0.07); break;
+        case 'score':  playTone(660, 0.07, 'sine', 0.08); break;
+        case 'die':    playTone(200, 0.4, 'sawtooth', 0.13, -150); break;
+        case 'thrust': playTone(80, 0.05, 'sawtooth', 0.05); break;
+        case 'select': playTone(520, 0.05, 'square', 0.07); break;
+        case 'drop':   playTone(180, 0.15, 'triangle', 0.09, -80); break;
+        case 'grab':   playTone(660, 0.1, 'sine', 0.10); playTone(990, 0.15, 'sine', 0.07); break;
+        case 'miss':   playTone(140, 0.2, 'sawtooth', 0.09, -60); break;
         case 'crt':    playCrtBoot(); break;
       }
     }
@@ -1619,6 +1619,222 @@
     // Also attempt shortly after load (works on some browsers)
     setTimeout(() => { try { sfx('crt'); crtSoundPlayed = true; } catch(e){} }, 800);
 
+    // ========== 8-BIT MUSIC ENGINE (original, copyright-free chiptune) ==========
+    // Pure Web Audio synthesis — no samples, fully original patterns
+    let musicPlaying = false;
+    let musicTimer = null;
+    let musicStep = 0;
+    let musicTrack = null;
+    let musicMaster = null;   // GainNode for overall music volume
+
+    // Note frequencies (equal temperament)
+    const N = {
+      C2:65.41, D2:73.42, E2:82.41, F2:87.31, G2:98.00, A2:110.00, B2:123.47,
+      C3:130.81, D3:146.83, E3:164.81, F3:174.61, G3:196.00, A3:220.00, B3:246.94,
+      C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88,
+      C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880.00
+    };
+
+    // Original 80s-style chiptune patterns — more melodic & fun (Mario energy)
+    // Circuit Runner — bouncy, catchy, major-key platformer feel
+    const TRACK_RUNNER = {
+      bpm: 152,
+      steps: 32, // longer phrase so it feels more song-like
+      bass: [
+        N.C3, null, N.C3, N.C3, N.G2, null, N.C3, null,
+        N.A2, null, N.A2, N.A2, N.G2, null, N.G2, N.A2,
+        N.C3, null, N.C3, N.C3, N.G2, null, N.C3, null,
+        N.F2, null, N.F2, N.G2, N.A2, null, N.G2, N.C3
+      ],
+      lead: [
+        // Phrase A – bright & bouncy
+        N.C4, N.E4, N.G4, N.C5, N.G4, N.E4, N.C4, N.E4,
+        N.A4, N.G4, N.E4, N.C4, N.D4, N.E4, N.G4, N.E4,
+        // Phrase B – little lift
+        N.C5, N.B4, N.A4, N.G4, N.E4, N.G4, N.A4, N.C5,
+        N.G4, N.E4, N.C4, N.D4, N.E4, N.G4, N.C5, N.G4
+      ],
+      pulse: [
+        null, N.C5, null, N.E5, null, N.G4, null, N.C5,
+        null, N.A4, null, N.E4, null, N.G4, null, N.C5,
+        null, N.E5, null, N.C5, null, N.G4, null, N.A4,
+        null, N.C5, null, N.E4, null, N.G4, null, N.C5
+      ]
+    };
+
+    // Vortex Bandits — energetic minor racing theme with catchy hooks
+    const TRACK_RACER = {
+      bpm: 140,
+      steps: 32,
+      bass: [
+        N.A2, null, N.A2, N.A2, N.E2, null, N.A2, null,
+        N.G2, null, N.G2, N.G2, N.E2, null, N.G2, N.A2,
+        N.A2, null, N.A2, N.A2, N.E2, null, N.A2, null,
+        N.F2, null, N.F2, N.G2, N.A2, null, N.E2, N.A2
+      ],
+      lead: [
+        // Dark but driving hook
+        N.A3, N.C4, N.E4, N.A4, N.E4, N.C4, N.A3, N.C4,
+        N.G4, N.E4, N.C4, N.A3, N.B3, N.C4, N.E4, N.C4,
+        // Rising tension phrase
+        N.A4, N.G4, N.E4, N.C4, N.E4, N.G4, N.A4, N.C5,
+        N.A4, N.E4, N.C4, N.B3, N.A3, N.C4, N.E4, N.A4
+      ],
+      pulse: [
+        null, N.A4, null, N.E4, null, N.C5, null, N.A4,
+        null, N.G4, null, N.E4, null, N.A4, null, N.C5,
+        null, N.E5, null, N.A4, null, N.G4, null, N.E4,
+        null, N.A4, null, N.C5, null, N.E4, null, N.A4
+      ]
+    };
+
+    // Neon Claw — carnival / calliope 8-bit fairground bounce
+    // Neon Claw — proper carnival / calliope: slower, waltz-y, bouncy, high & playful
+    const TRACK_CLAW = {
+      bpm: 112,
+      steps: 24, // shorter cycle feels more like a carousel loop
+      bass: [
+        N.C3, null, null, N.G2, null, null,
+        N.A2, null, null, N.E2, null, null,
+        N.F2, null, null, N.C3, null, null,
+        N.G2, null, null, N.C3, null, N.G2
+      ],
+      lead: [
+        // Classic fairground oom-pah-ish melody
+        N.C5, N.E5, N.G5, N.E5, N.C5, null,
+        N.A4, N.C5, N.E5, N.C5, N.A4, null,
+        N.F4, N.A4, N.C5, N.A4, N.F4, N.A4,
+        N.G4, N.B4, N.D5, N.B4, N.G4, N.C5
+      ],
+      pulse: [
+        null, null, N.C6, null, null, N.G5,
+        null, null, N.A5, null, null, N.E5,
+        null, null, N.F5, null, null, N.C5,
+        null, null, N.G5, null, null, N.C6
+      ]
+    };
+
+    // Yeti slopes — aggressive 8-bit surf rock: fast, minor, rapid runs, power-chord bass
+    const TRACK_YETI = {
+      bpm: 168,
+      steps: 32,
+      bass: [
+        // Heavy root-fifth power feel
+        N.E2, N.E2, N.B2, null, N.E2, N.E2, N.B2, null,
+        N.A2, N.A2, N.E2, null, N.A2, N.A2, N.E2, null,
+        N.E2, N.E2, N.B2, null, N.E2, N.E2, N.B2, null,
+        N.G2, N.G2, N.D2, null, N.A2, N.A2, N.B2, null
+      ],
+      lead: [
+        // Fast surf runs – lots of movement, darker
+        N.E5, N.B4, N.G4, N.E4, N.G4, N.B4, N.E5, N.G5,
+        N.E5, N.D5, N.B4, N.A4, N.G4, N.E4, N.G4, N.B4,
+        N.A4, N.E4, N.C4, N.A3, N.C4, N.E4, N.A4, N.C5,
+        N.B4, N.G4, N.E4, N.D4, N.E4, N.G4, N.B4, N.E5
+      ],
+      pulse: [
+        N.E5, null, N.B4, null, N.E5, null, N.G5, null,
+        N.A4, null, N.E4, null, N.A4, null, N.C5, null,
+        N.E5, null, N.B4, null, N.G4, null, N.E5, null,
+        N.B4, null, N.G4, null, N.A4, null, N.B4, null
+      ]
+    };
+
+    function ensureMusicMaster() {
+      if (!audioCtx) return null;
+      if (!musicMaster) {
+        musicMaster = audioCtx.createGain();
+        musicMaster.gain.value = 0.095; // louder, more present
+        musicMaster.connect(audioCtx.destination);
+      }
+      return musicMaster;
+    }
+
+    function playChipNote(freq, dur, type, vol, dest) {
+      if (!freq || !audioCtx || !dest) return;
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      // Punchier attack for more fun, lively feel
+      g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(vol, audioCtx.currentTime + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+      osc.connect(g);
+      g.connect(dest);
+      osc.start();
+      osc.stop(audioCtx.currentTime + dur + 0.02);
+    }
+
+    function musicTick() {
+      if (!musicPlaying || !musicTrack || !audioCtx) return;
+      const t = musicTrack;
+      const step = musicStep % t.steps;
+      const noteDur = (60 / t.bpm) * 0.23;
+
+      const dest = ensureMusicMaster();
+      if (!dest) return;
+
+      // Bass — solid and bouncy
+      if (t.bass[step]) {
+        playChipNote(t.bass[step], noteDur * 1.15, 'square', 0.14, dest);
+      }
+      // Lead — clear, melodic, fun
+      if (t.lead[step]) {
+        playChipNote(t.lead[step], noteDur * 0.98, 'triangle', 0.12, dest);
+        playChipNote(t.lead[step], noteDur * 0.75, 'square', 0.05, dest);
+      }
+      // High sparkle
+      if (t.pulse && t.pulse[step]) {
+        playChipNote(t.pulse[step], noteDur * 0.6, 'square', 0.04, dest);
+      }
+
+      musicStep++;
+    }
+
+    function startMusic(name) {
+      stopMusic();
+      if (!soundEnabled) return;
+      ensureAudio();
+      if (!audioCtx) return;
+
+      if (name === 'runner') musicTrack = TRACK_RUNNER;
+      else if (name === 'racer') musicTrack = TRACK_RACER;
+      else if (name === 'claw') musicTrack = TRACK_CLAW;
+      else if (name === 'yeti') musicTrack = TRACK_YETI;
+      else musicTrack = null;
+      if (!musicTrack) return;
+
+      musicStep = 0;
+      musicPlaying = true;
+      ensureMusicMaster();
+      // Make sure volume is restored
+      if (musicMaster) musicMaster.gain.value = 0.095;
+
+      const intervalMs = (60 / musicTrack.bpm) * 1000 / 4;
+      musicTimer = setInterval(musicTick, intervalMs);
+      musicTick();
+    }
+
+    function stopMusic() {
+      musicPlaying = false;
+      musicTrack = null;
+      if (musicTimer) {
+        clearInterval(musicTimer);
+        musicTimer = null;
+      }
+      if (musicMaster && audioCtx) {
+        try {
+          musicMaster.gain.cancelScheduledValues(audioCtx.currentTime);
+          musicMaster.gain.setValueAtTime(musicMaster.gain.value, audioCtx.currentTime);
+          musicMaster.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.15);
+          setTimeout(() => {
+            if (musicMaster) musicMaster.gain.value = 0.095;
+          }, 180);
+        } catch (e) {}
+      }
+    }
+
     // ========== SHARED ==========
     const overlay = document.getElementById('game-overlay');
     const canvas = document.getElementById('game-canvas');
@@ -1648,6 +1864,7 @@
       overlay.classList.remove('active');
       touchContainer.innerHTML = '';
       document.body.classList.remove('game-open');
+      stopMusic();
     }
 
     document.getElementById('closeGame').addEventListener('click', stopGame);
@@ -1664,12 +1881,17 @@
       currentGame = name;
       sfx('select');
 
+      // Start original 8-bit music for featured games
+      if (name === 'runner' || name === 'racer' || name === 'claw' || name === 'yeti') {
+        startMusic(name);
+      }
+
       if (name === 'runner') {
         hintEl.textContent = 'JUMP / Space  •  DASH for boost';
         setupTouchControls(['jump', 'dash']);
         initRunner();
       } else if (name === 'racer') {
-        hintEl.textContent = '← → rotate around tube  •  SPACE fire';
+        hintEl.textContent = '← → steer / roll  •  SPACE fire  •  Tunnel unlocks barrel rolls';
         setupTouchControls(['left', 'right', 'fire']);
         initRacer();
       } else if (name === 'swarm') {
@@ -1840,44 +2062,86 @@
     }
     function endShake() { ctx.restore(); }
 
-    // ========== NEON RACER (Stun Runner style tube) ==========
+    // ========== VORTEX BANDITS (winding highways → vortex tunnel) ==========
     let racer = {};
     function initRacer() {
       racer = {
         score: 0,
-        speed: 6.5,
-        maxSpeed: 18,
-        // angle around the tube (0 = bottom, PI = top) — full 360° wall riding
-        angle: Math.PI / 2,   // start on the floor (bottom of tube)
+        killScore: 0,
+        speed: 5.8,
+        maxSpeed: 17.5,
+        angle: Math.PI / 2,          // start on the floor
         angVel: 0,
         obstacles: [],
         lasers: [],
         rings: [],
+        scenery: [],                 // cyberpunk + pirate side props
         distance: 0,
         lives: 3,
         invuln: 0,
         crashTimer: 0,
         frame: 0,
         lastShot: 0,
-        tubeRadius: 110,
-        segmentZ: 0
+        tubeRadius: 112,
+        segmentZ: 0,
+        mode: 'highway',             // 'highway' | 'tunnel'
+        curve: 0,                    // current road curve (-1 .. 1)
+        curveTarget: 0,
+        tunnelProgress: 0,           // 0..1 transition into full tube
+        transitionTimer: 0,
+        message: '',
+        messageTimer: 0,
+        spinBoost: 0,                // residual spin energy for barrel rolls
+        nextScenery: 40
       };
-      for (let i = 0; i < 8; i++) spawnRacerObstacle();
+      for (let i = 0; i < 7; i++) spawnRacerObstacle();
+      for (let i = 0; i < 14; i++) {
+        racer.rings.push({ z: 60 + i * 65 });
+      }
+      // Seed initial cyberpunk / pirate scenery
       for (let i = 0; i < 12; i++) {
-        racer.rings.push({ z: 80 + i * 70 });
+        spawnRacerScenery(180 + i * 95 + Math.random() * 40);
       }
       updateUI(0, 3);
       loopRacer();
     }
 
+    function spawnRacerScenery(forcedZ) {
+      const r = racer;
+      const types = ['building', 'building', 'hologram', 'palm', 'palm', 'pirate', 'ghost', 'hologram'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const side = Math.random() > 0.5 ? 1 : -1;
+      r.scenery.push({
+        z: forcedZ !== undefined ? forcedZ : 620 + Math.random() * 280,
+        side: side,
+        type: type,
+        h: type === 'building' ? 90 + Math.random() * 160 : (type === 'palm' ? 70 + Math.random() * 50 : 50 + Math.random() * 40),
+        w: type === 'building' ? 28 + Math.random() * 36 : (type === 'palm' ? 18 : 22 + Math.random() * 20),
+        seed: Math.random() * 1000,
+        glow: 0.4 + Math.random() * 0.6,
+        bob: Math.random() * Math.PI * 2
+      });
+    }
+
     function spawnRacerObstacle() {
-      // Enemy sits on the tube wall at a random angle
-      racer.obstacles.push({
-        z: 500 + Math.random() * 400,
-        angle: Math.random() * Math.PI * 2,
-        size: 0.7 + Math.random() * 0.5,
+      const r = racer;
+      // Prefer bandits on the lower half of the tube / road early on
+      let ang;
+      if (r.mode === 'highway' || r.tunnelProgress < 0.7) {
+        // mostly near the road surface
+        ang = Math.PI / 2 + (Math.random() - 0.5) * 1.4;
+      } else {
+        ang = Math.random() * Math.PI * 2;
+      }
+      const isBandit = Math.random() > 0.32;
+      r.obstacles.push({
+        z: 480 + Math.random() * 420,
+        angle: ang,
+        size: 0.65 + Math.random() * 0.55,
         hit: false,
-        type: Math.random() > 0.7 ? 'mine' : 'drone'
+        type: isBandit ? 'bandit' : 'drone',
+        health: isBandit ? 1 : 1,
+        wobble: Math.random() * Math.PI * 2
       });
     }
 
@@ -1890,54 +2154,103 @@
       const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
       const fire  = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up;
 
-      // Rotate around the inside of the tube (Stun Runner control)
-      if (left)  r.angVel -= 0.012;
-      if (right) r.angVel += 0.012;
-      r.angVel *= 0.88; // friction
-      r.angle += r.angVel;
-      // keep angle in 0..2PI
-      if (r.angle < 0) r.angle += Math.PI * 2;
-      if (r.angle >= Math.PI * 2) r.angle -= Math.PI * 2;
+      // ===== MODE TRANSITION =====
+      if (r.mode === 'highway' && r.distance > 1550) {
+        r.mode = 'tunnel';
+        r.transitionTimer = 90;
+        r.message = 'ENTERING VORTEX';
+        r.messageTimer = 70;
+        sfx('power');
+        flash(0.5);
+        shake(8);
+      }
 
-      // Shoot along the tube
-      if (fire && Date.now() - r.lastShot > 180 && r.invuln <= 0) {
+      // Tunnel walls gradually close
+      if (r.mode === 'tunnel') {
+        r.tunnelProgress = Math.min(1, r.tunnelProgress + 0.008);
+      }
+
+      // ===== STEERING / ROTATION =====
+      // Highway: limited lean + road curve influence
+      // Tunnel: free 360° with stronger spin (barrel rolls)
+      const maxAngVel = r.mode === 'tunnel' ? 0.085 : 0.028;
+      if (left)  r.angVel -= (r.mode === 'tunnel' ? 0.018 : 0.011);
+      if (right) r.angVel += (r.mode === 'tunnel' ? 0.018 : 0.011);
+
+      // Friction + residual spin energy (helps hold a barrel roll)
+      if (r.mode === 'tunnel' && Math.abs(r.angVel) > 0.04) {
+        r.spinBoost = Math.min(1, r.spinBoost + 0.04);
+      } else {
+        r.spinBoost *= 0.94;
+      }
+      r.angVel *= (r.mode === 'tunnel' ? 0.91 - r.spinBoost * 0.04 : 0.86);
+      r.angVel = Math.max(-maxAngVel, Math.min(maxAngVel, r.angVel));
+      r.angle += r.angVel;
+
+      // Highway clamps you near the road surface
+      if (r.mode === 'highway') {
+        const floor = Math.PI / 2;
+        const maxLean = 0.75;
+        if (r.angle < floor - maxLean) r.angle = floor - maxLean;
+        if (r.angle > floor + maxLean) r.angle = floor + maxLean;
+      } else {
+        // free wrap
+        if (r.angle < 0) r.angle += Math.PI * 2;
+        if (r.angle >= Math.PI * 2) r.angle -= Math.PI * 2;
+      }
+
+      // Windy road curve (stronger on highway)
+      if (r.frame % 40 === 0) {
+        r.curveTarget = (Math.random() - 0.5) * (r.mode === 'highway' ? 1.15 : 0.55);
+      }
+      r.curve += (r.curveTarget - r.curve) * 0.025;
+      // player lean also gently pulls the curve
+      r.curve += (r.angle - Math.PI / 2) * 0.004;
+
+      // ===== SHOOTING =====
+      if (fire && Date.now() - r.lastShot > 165 && r.invuln <= 0) {
         r.lasers.push({
-          z: 30,
+          z: 28,
           angle: r.angle,
-          life: 50
+          life: 55,
+          trail: []
         });
         r.lastShot = Date.now();
         sfx('shoot');
       }
 
       // Speed & score
-      r.speed = Math.min(r.maxSpeed, r.speed + 0.0025);
+      r.speed = Math.min(r.maxSpeed, r.speed + 0.0022);
       r.distance += r.speed;
-      r.score = Math.floor(r.distance / 5);
-      r.segmentZ += r.speed * 1.6;
+      // base score from distance + accumulated kill points
+      r.score = Math.floor(r.distance / 4.8) + (r.killScore || 0);
+      r.segmentZ += r.speed * 1.55;
       if (r.frame % 5 === 0) updateUI(r.score, r.lives);
 
-      // Move lasers forward
+      // Move lasers + hit detection
       for (let i = r.lasers.length - 1; i >= 0; i--) {
         const L = r.lasers[i];
-        L.z += r.speed * 3.5 + 10;
+        L.trail.push({ z: L.z, angle: L.angle });
+        if (L.trail.length > 6) L.trail.shift();
+        L.z += r.speed * 3.8 + 11;
         L.life--;
-        if (L.life <= 0 || L.z > 750) {
+        if (L.life <= 0 || L.z > 780) {
           r.lasers.splice(i, 1);
           continue;
         }
-        // Hit obstacles
         for (let j = r.obstacles.length - 1; j >= 0; j--) {
           const o = r.obstacles[j];
           if (o.hit) continue;
           const dang = Math.abs(Math.atan2(Math.sin(o.angle - L.angle), Math.cos(o.angle - L.angle)));
-          if (dang < 0.35 && Math.abs(o.z - L.z) < 45) {
+          if (dang < 0.32 && Math.abs(o.z - L.z) < 48) {
             o.hit = true;
-            o.explodeTimer = 18;
-            r.score += o.type === 'mine' ? 60 : 40;
+            o.explodeTimer = 20;
+            const pts = o.type === 'bandit' ? 55 : 35;
+            r.killScore = (r.killScore || 0) + pts;
+            r.score = Math.floor(r.distance / 4.8) + r.killScore;
             updateUI(r.score, r.lives);
             sfx('explode');
-            flash(0.3);
+            flash(0.28);
             shake(5);
             r.lasers.splice(i, 1);
             break;
@@ -1948,7 +2261,8 @@
       // Move obstacles toward camera
       for (let i = r.obstacles.length - 1; i >= 0; i--) {
         const o = r.obstacles[i];
-        o.z -= r.speed * 1.65;
+        o.z -= r.speed * 1.62;
+        o.wobble += 0.07;
 
         if (o.hit) {
           o.explodeTimer--;
@@ -1959,43 +2273,62 @@
           continue;
         }
 
-        // Collision with player (same wall angle + close Z)
-        if (o.z < 55 && o.z > 15 && r.invuln <= 0) {
+        // Collision
+        if (o.z < 58 && o.z > 14 && r.invuln <= 0) {
           const dang = Math.abs(Math.atan2(Math.sin(o.angle - r.angle), Math.cos(o.angle - r.angle)));
-          if (dang < 0.42) {
+          if (dang < 0.40) {
             r.lives--;
-            r.crashTimer = 28;
-            r.invuln = 60;
-            r.speed = Math.max(5, r.speed * 0.6);
+            r.crashTimer = 30;
+            r.invuln = 65;
+            r.speed = Math.max(4.8, r.speed * 0.58);
             sfx('hit');
-            shake(14);
-            flash(0.45);
+            shake(13);
+            flash(0.48);
             updateUI(r.score, r.lives);
             o.hit = true;
-            o.explodeTimer = 12;
+            o.explodeTimer = 14;
             if (r.lives <= 0) {
               drawRacer();
-              showGameOver('TUBE RUPTURE', 'racer', r.score);
+              const msgs = ['BANDIT AMBUSH', 'VORTEX COLLAPSE', 'SYSTEM BREACH', 'ROADKILL'];
+              showGameOver(msgs[Math.floor(Math.random() * msgs.length)], 'racer', r.score);
               return;
             }
           }
         }
 
-        if (o.z < 12) {
+        if (o.z < 10) {
           r.obstacles.splice(i, 1);
           spawnRacerObstacle();
-          r.score += 8; // passed clean
+          r.killScore = (r.killScore || 0) + 6;
+          r.score = Math.floor(r.distance / 4.8) + r.killScore;
         }
       }
 
       // Scroll rings
       r.rings.forEach(ring => {
-        ring.z -= r.speed * 1.5;
-        if (ring.z < 10) ring.z += 12 * 70;
+        ring.z -= r.speed * 1.48;
+        if (ring.z < 8) ring.z += 14 * 65;
       });
+
+      // ===== SIDE SCENERY (cyberpunk + pirate) =====
+      r.nextScenery--;
+      if (r.nextScenery <= 0 && r.scenery.length < 16) {
+        spawnRacerScenery();
+        r.nextScenery = 28 + Math.random() * 45;
+      }
+      for (let i = r.scenery.length - 1; i >= 0; i--) {
+        const s = r.scenery[i];
+        s.z -= r.speed * 1.35;
+        s.bob += 0.04;
+        if (s.z < 12) {
+          r.scenery.splice(i, 1);
+        }
+      }
 
       if (r.crashTimer > 0) r.crashTimer--;
       if (r.invuln > 0) r.invuln--;
+      if (r.messageTimer > 0) r.messageTimer--;
+      if (r.transitionTimer > 0) r.transitionTimer--;
 
       drawRacer();
       animId = requestAnimationFrame(loopRacer);
@@ -2003,200 +2336,505 @@
 
     function drawRacer() {
       const r = racer;
-      const cx = 240, cy = 200;
+      // Vanishing center shifts with road curve (windy feel)
+      const cx = 240 + r.curve * 55;
+      const cy = 195;
       const R = r.tubeRadius;
 
-      // Deep space / tunnel void
-      ctx.fillStyle = '#020010';
+      // Deep void
+      ctx.fillStyle = '#02000e';
       ctx.fillRect(0, 0, 480, 360);
 
-      // Star field
-      ctx.fillStyle = '#00ff9f33';
-      for (let i = 0; i < 40; i++) {
-        const sx = (i * 97 + r.frame * 0.3) % 480;
-        const sy = (i * 53) % 360;
-        ctx.fillRect(sx, sy, 2, 2);
+      // Distant star field / cyber grid dots
+      ctx.fillStyle = '#00ff9f28';
+      for (let i = 0; i < 45; i++) {
+        const sx = (i * 97 + r.frame * 0.35 + r.curve * 30) % 520 - 20;
+        const sy = (i * 53 + r.distance * 0.15) % 360;
+        ctx.fillRect(sx, sy, 1.5, 1.5);
       }
 
-      // === Draw tube rings from far to near (Stun Runner style) ===
-      // Sort rings by z descending so far ones draw first
-      const sortedRings = r.rings.slice().sort((a, b) => b.z - a.z);
-      sortedRings.forEach(ring => {
-        const scale = 280 / (ring.z + 40);
-        if (scale < 0.08) return;
-        const rr = R * scale * 1.8;
-        const alpha = Math.min(0.7, 0.15 + scale * 0.5);
+      // ===== CYBERPUNK + PIRATE SIDE SCENERY =====
+      // Draw far-to-near so nearer props occlude farther ones
+      const sortedScenery = r.scenery.slice().sort((a, b) => b.z - a.z);
+      sortedScenery.forEach(s => {
+        const scale = 290 / (s.z + 50);
+        if (scale < 0.06) return;
 
-        // Outer ring
-        ctx.strokeStyle = `rgba(0, 255, 180, ${alpha})`;
-        ctx.lineWidth = 2 + scale * 3;
-        ctx.beginPath();
-        ctx.arc(cx, cy, rr, 0, Math.PI * 2);
-        ctx.stroke();
+        // Place well outside the tube so it feels like city / coast scrolling by
+        const baseX = cx + s.side * (R * scale * 1.75 + 55 * scale + 30);
+        const groundY = cy + R * scale * 1.35 + 20 * scale;
+        const bobY = (s.type === 'ghost' || s.type === 'hologram') ? Math.sin(s.bob) * 6 * scale : 0;
+        const alpha = Math.min(0.95, 0.25 + scale * 0.9) * (0.55 + r.tunnelProgress * 0.15);
 
-        // Inner detail ring
-        ctx.strokeStyle = `rgba(0, 200, 255, ${alpha * 0.5})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(cx, cy, rr * 0.92, 0, Math.PI * 2);
-        ctx.stroke();
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(baseX, groundY + bobY);
 
-        // Cross ribs (makes it feel like a structure you can ride)
-        if (scale > 0.25) {
-          ctx.strokeStyle = `rgba(0, 255, 159, ${alpha * 0.35})`;
+        if (s.type === 'building') {
+          // Tall cyberpunk tower with neon edges + window grid
+          const bw = s.w * scale;
+          const bh = s.h * scale;
+          // Main body
+          ctx.fillStyle = '#061018';
+          ctx.fillRect(-bw / 2, -bh, bw, bh);
+          // Neon edge
+          ctx.strokeStyle = `rgba(0, 255, 200, ${0.5 + s.glow * 0.4})`;
+          ctx.lineWidth = 1.5 * scale + 0.8;
+          ctx.strokeRect(-bw / 2, -bh, bw, bh);
+          // Windows
+          ctx.fillStyle = `rgba(0, 255, 180, ${0.25 + s.glow * 0.35})`;
+          const cols = Math.max(2, Math.floor(bw / (7 * scale)));
+          const rows = Math.max(3, Math.floor(bh / (9 * scale)));
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+              if ((row + col + Math.floor(s.seed)) % 3 === 0) continue; // some dark
+              const wx = -bw / 2 + 3 * scale + col * (bw / cols);
+              const wy = -bh + 4 * scale + row * (bh / rows);
+              ctx.fillRect(wx, wy, Math.max(1.5, 3.5 * scale), Math.max(1.5, 4 * scale));
+            }
+          }
+          // Antenna / dish on top
+          ctx.strokeStyle = '#00ffcc';
+          ctx.lineWidth = 1.2 * scale;
+          ctx.beginPath();
+          ctx.moveTo(0, -bh);
+          ctx.lineTo(0, -bh - 12 * scale);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(0, -bh - 14 * scale, 4 * scale, 0, Math.PI * 2);
+          ctx.stroke();
+          // Side neon strip
+          ctx.fillStyle = `rgba(255, 40, 120, ${0.35 + s.glow * 0.3})`;
+          ctx.fillRect(-bw / 2 - 2 * scale, -bh * 0.7, 2.5 * scale, bh * 0.4);
+
+        } else if (s.type === 'hologram') {
+          // Floating ad / skull / kanji-style panel
+          const hw = s.w * scale * 1.3;
+          const hh = s.h * scale * 0.7;
+          ctx.strokeStyle = `rgba(0, 255, 255, ${0.55 + Math.sin(s.bob * 2) * 0.2})`;
+          ctx.lineWidth = 1.5 * scale + 0.5;
+          ctx.strokeRect(-hw / 2, -hh - 20 * scale, hw, hh);
+          // Inner glow fill
+          ctx.fillStyle = `rgba(0, 200, 255, ${0.08 + Math.sin(s.bob) * 0.04})`;
+          ctx.fillRect(-hw / 2, -hh - 20 * scale, hw, hh);
+          // Simple pirate skull or diamond symbol
+          ctx.fillStyle = `rgba(0, 255, 220, ${0.6 + Math.sin(s.bob * 3) * 0.2})`;
+          ctx.font = `bold ${Math.max(8, 14 * scale)}px Courier New`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const symbols = ['☠', '◆', '◇', '◈', '⬡'];
+          ctx.fillText(symbols[Math.floor(s.seed) % symbols.length], 0, -hh / 2 - 20 * scale);
+          // Scan lines
+          ctx.strokeStyle = `rgba(0, 255, 255, 0.15)`;
           ctx.lineWidth = 1;
-          for (let k = 0; k < 8; k++) {
-            const a = (k / 8) * Math.PI * 2 + r.segmentZ * 0.002;
+          for (let ly = 0; ly < 4; ly++) {
+            const yy = -hh - 20 * scale + (ly + 0.5) * (hh / 4);
             ctx.beginPath();
-            ctx.moveTo(cx + Math.cos(a) * rr * 0.7, cy + Math.sin(a) * rr * 0.7);
+            ctx.moveTo(-hw / 2 + 2, yy);
+            ctx.lineTo(hw / 2 - 2, yy);
+            ctx.stroke();
+          }
+
+        } else if (s.type === 'palm') {
+          // Neon cyber-palm (Vegas / LA cyberpunk coast vibe)
+          const ph = s.h * scale;
+          // Trunk
+          ctx.strokeStyle = '#00aa66';
+          ctx.lineWidth = 3.5 * scale;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(4 * scale * s.side, -ph * 0.4, 0, -ph * 0.75);
+          ctx.stroke();
+          // Fronds
+          ctx.strokeStyle = `rgba(0, 255, 140, ${0.7 + s.glow * 0.25})`;
+          ctx.lineWidth = 2 * scale;
+          ctx.shadowColor = '#00ff88';
+          ctx.shadowBlur = 8 * scale;
+          for (let f = 0; f < 5; f++) {
+            const ang = -Math.PI / 2 + (f - 2) * 0.45 + Math.sin(s.bob + f) * 0.08;
+            ctx.beginPath();
+            ctx.moveTo(0, -ph * 0.72);
+            ctx.quadraticCurveTo(
+              Math.cos(ang) * 18 * scale,
+              -ph * 0.72 + Math.sin(ang) * 10 * scale,
+              Math.cos(ang) * 28 * scale,
+              -ph * 0.55 + Math.sin(ang) * 22 * scale
+            );
+            ctx.stroke();
+          }
+          ctx.shadowBlur = 0;
+          // Small coconut / node
+          ctx.fillStyle = '#00ff9f';
+          ctx.beginPath();
+          ctx.arc(0, -ph * 0.7, 2.5 * scale, 0, Math.PI * 2);
+          ctx.fill();
+
+        } else if (s.type === 'pirate') {
+          // Neon pirate ship silhouette (side view, scrolling past)
+          const pw = s.w * scale * 1.6;
+          const ph = s.h * scale * 0.9;
+          ctx.strokeStyle = `rgba(0, 255, 180, ${0.65 + s.glow * 0.3})`;
+          ctx.fillStyle = `rgba(0, 40, 30, 0.6)`;
+          ctx.lineWidth = 1.8 * scale;
+          ctx.shadowColor = '#00ff9f';
+          ctx.shadowBlur = 10 * scale;
+          // Hull
+          ctx.beginPath();
+          ctx.moveTo(-pw / 2, 0);
+          ctx.lineTo(-pw / 2 + 6 * scale, -ph * 0.25);
+          ctx.lineTo(pw / 2 - 4 * scale, -ph * 0.22);
+          ctx.lineTo(pw / 2, 0);
+          ctx.lineTo(-pw / 2, 0);
+          ctx.fill();
+          ctx.stroke();
+          // Mast
+          ctx.beginPath();
+          ctx.moveTo(-4 * scale, -ph * 0.22);
+          ctx.lineTo(-4 * scale, -ph * 0.95);
+          ctx.stroke();
+          // Sail (triangle)
+          ctx.fillStyle = `rgba(0, 255, 159, ${0.15 + Math.sin(s.bob) * 0.05})`;
+          ctx.beginPath();
+          ctx.moveTo(-4 * scale, -ph * 0.9);
+          ctx.lineTo(-4 * scale, -ph * 0.35);
+          ctx.lineTo(pw * 0.35, -ph * 0.55);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          // Skull flag
+          ctx.fillStyle = '#00ff9f';
+          ctx.font = `bold ${Math.max(7, 11 * scale)}px Courier New`;
+          ctx.textAlign = 'center';
+          ctx.fillText('☠', -4 * scale, -ph * 0.98);
+          ctx.shadowBlur = 0;
+
+        } else if (s.type === 'ghost') {
+          // Ethereal pirate ghost (translucent floating figure)
+          const gh = s.h * scale * 1.1;
+          ctx.shadowColor = '#66ffcc';
+          ctx.shadowBlur = 14 * scale;
+          // Body wisps
+          ctx.strokeStyle = `rgba(100, 255, 220, ${0.45 + Math.sin(s.bob * 1.5) * 0.2})`;
+          ctx.lineWidth = 2 * scale;
+          ctx.beginPath();
+          ctx.moveTo(0, -gh * 0.15);
+          ctx.quadraticCurveTo(-12 * scale, -gh * 0.4, -8 * scale, -gh * 0.7);
+          ctx.quadraticCurveTo(0, -gh * 0.85, 8 * scale, -gh * 0.7);
+          ctx.quadraticCurveTo(12 * scale, -gh * 0.4, 0, -gh * 0.15);
+          ctx.stroke();
+          // Head
+          ctx.beginPath();
+          ctx.arc(0, -gh * 0.78, 7 * scale, 0, Math.PI * 2);
+          ctx.stroke();
+          // Eyes (glowing)
+          ctx.fillStyle = `rgba(0, 255, 200, ${0.7 + Math.sin(s.bob * 4) * 0.25})`;
+          ctx.beginPath();
+          ctx.arc(-2.5 * scale, -gh * 0.8, 1.8 * scale, 0, Math.PI * 2);
+          ctx.arc(2.5 * scale, -gh * 0.8, 1.8 * scale, 0, Math.PI * 2);
+          ctx.fill();
+          // Tricorn / hat suggestion
+          ctx.strokeStyle = `rgba(0, 255, 180, 0.5)`;
+          ctx.beginPath();
+          ctx.moveTo(-9 * scale, -gh * 0.88);
+          ctx.lineTo(0, -gh * 1.05);
+          ctx.lineTo(9 * scale, -gh * 0.88);
+          ctx.stroke();
+          // Trailing ectoplasm
+          ctx.strokeStyle = `rgba(80, 255, 200, 0.25)`;
+          ctx.beginPath();
+          ctx.moveTo(-4 * scale, -gh * 0.1);
+          ctx.quadraticCurveTo(-10 * scale, 8 * scale, -6 * scale, 16 * scale);
+          ctx.moveTo(4 * scale, -gh * 0.1);
+          ctx.quadraticCurveTo(10 * scale, 10 * scale, 5 * scale, 18 * scale);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
+        ctx.restore();
+      });
+
+      // === Perspective rings (highway = lower arc only, tunnel = full) ===
+      const sortedRings = r.rings.slice().sort((a, b) => b.z - a.z);
+      const openAmount = 1 - r.tunnelProgress; // 1 = fully open road, 0 = closed tube
+
+      sortedRings.forEach(ring => {
+        const scale = 290 / (ring.z + 38);
+        if (scale < 0.07) return;
+        const rr = R * scale * 1.75;
+        const alpha = Math.min(0.75, 0.12 + scale * 0.55);
+
+        // Full circle only when tunnel is closed enough
+        const startA = openAmount > 0.15 ? Math.PI * 0.15 + openAmount * 0.9 : 0;
+        const endA   = openAmount > 0.15 ? Math.PI * 1.85 - openAmount * 0.9 : Math.PI * 2;
+
+        // Outer neon ring
+        ctx.strokeStyle = `rgba(0, 255, 180, ${alpha * (0.5 + r.tunnelProgress * 0.5)})`;
+        ctx.lineWidth = 1.5 + scale * 2.8;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rr, startA, endA);
+        ctx.stroke();
+
+        // Inner detail
+        if (scale > 0.18) {
+          ctx.strokeStyle = `rgba(0, 200, 255, ${alpha * 0.4})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(cx, cy, rr * 0.91, startA, endA);
+          ctx.stroke();
+        }
+
+        // Structural ribs (wireframe cyberpunk)
+        if (scale > 0.28) {
+          ctx.strokeStyle = `rgba(0, 255, 159, ${alpha * 0.3})`;
+          ctx.lineWidth = 1;
+          const ribs = r.mode === 'tunnel' ? 10 : 6;
+          for (let k = 0; k < ribs; k++) {
+            const a = (k / ribs) * Math.PI * 2 + r.segmentZ * 0.0018;
+            // only draw ribs that are on the visible arc
+            if (openAmount > 0.2) {
+              const norm = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+              if (norm < startA || norm > endA) continue;
+            }
+            ctx.beginPath();
+            ctx.moveTo(cx + Math.cos(a) * rr * 0.65, cy + Math.sin(a) * rr * 0.65);
             ctx.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
             ctx.stroke();
           }
         }
       });
 
-      // Horizon / vanishing circle
-      ctx.strokeStyle = 'rgba(0, 255, 200, 0.25)';
-      ctx.lineWidth = 2;
+      // Horizon vanishing circle
+      ctx.strokeStyle = 'rgba(0, 255, 210, 0.22)';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 14 + openAmount * 8, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Project a point on the tube wall into screen space
-      // angle 0 = right, PI/2 = bottom (floor), PI = left, 3PI/2 = top (ceiling)
+      // Road surface glow on highway (bottom plane)
+      if (openAmount > 0.25) {
+        ctx.fillStyle = `rgba(0, 255, 159, ${0.04 * openAmount})`;
+        ctx.beginPath();
+        ctx.moveTo(cx - 180, 360);
+        ctx.lineTo(cx - 30, cy + 20);
+        ctx.lineTo(cx + 30, cy + 20);
+        ctx.lineTo(cx + 180, 360);
+        ctx.closePath();
+        ctx.fill();
+        // center dashed line
+        ctx.strokeStyle = `rgba(0, 255, 200, ${0.25 * openAmount})`;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([12, 18]);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + 25);
+        ctx.lineTo(cx + r.curve * 20, 355);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Project a point on the tube / road into screen space
       function tubeProject(angle, z) {
-        const scale = 280 / (z + 40);
-        const rr = R * scale * 1.8;
-        // Player is always drawn at bottom of screen conceptually;
-        // we rotate the world so player's angle appears at bottom.
+        const scale = 290 / (z + 38);
+        const rr = R * scale * 1.75;
         const rel = angle - r.angle + Math.PI / 2;
         const px = cx + Math.cos(rel) * rr;
         const py = cy + Math.sin(rel) * rr;
         return { x: px, y: py, s: scale, rr };
       }
 
-      // Obstacles / enemies on the tube wall
+      // ===== OBSTACLES / BANDITS =====
       r.obstacles.forEach(o => {
         const p = tubeProject(o.angle, o.z);
-        if (p.s < 0.08) return;
+        if (p.s < 0.07) return;
 
         if (o.hit) {
-          // Explosion
-          const t = o.explodeTimer / 18;
-          ctx.fillStyle = `rgba(255, 80, 120, ${t})`;
+          const t = o.explodeTimer / 20;
+          ctx.fillStyle = `rgba(255, 70, 130, ${t})`;
           ctx.shadowColor = '#ff2a6a';
-          ctx.shadowBlur = 20;
-          for (let k = 0; k < 6; k++) {
-            const a = (k / 6) * Math.PI * 2 + r.frame * 0.2;
-            const dist = (1 - t) * 30 * p.s;
+          ctx.shadowBlur = 18;
+          for (let k = 0; k < 7; k++) {
+            const a = (k / 7) * Math.PI * 2 + r.frame * 0.25;
+            const dist = (1 - t) * 34 * p.s;
             ctx.beginPath();
-            ctx.arc(p.x + Math.cos(a) * dist, p.y + Math.sin(a) * dist, 4 * p.s * t + 2, 0, Math.PI * 2);
+            ctx.arc(p.x + Math.cos(a) * dist, p.y + Math.sin(a) * dist, 3.5 * p.s * t + 1.5, 0, Math.PI * 2);
             ctx.fill();
           }
           ctx.shadowBlur = 0;
           return;
         }
 
-        const sz = 16 * p.s * o.size;
-        if (o.type === 'mine') {
-          // Spiky mine
-          ctx.fillStyle = '#ff3366';
-          ctx.shadowColor = '#ff3366';
-          ctx.shadowBlur = 12;
+        const sz = 15 * p.s * o.size;
+
+        if (o.type === 'bandit') {
+          // Wireframe cyberpunk bandit (stick + geometric)
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.scale(p.s * o.size, p.s * o.size);
+          const wob = Math.sin(o.wobble) * 3;
+
+          ctx.strokeStyle = '#ff4d8d';
+          ctx.fillStyle = '#ff4d8d';
+          ctx.lineWidth = 1.8;
+          ctx.shadowColor = '#ff4d8d';
+          ctx.shadowBlur = 10;
+
+          // head
           ctx.beginPath();
-          for (let k = 0; k < 8; k++) {
-            const a = (k / 8) * Math.PI * 2 + r.frame * 0.05;
-            const rad = (k % 2 === 0) ? sz : sz * 0.5;
-            const px = p.x + Math.cos(a) * rad;
-            const py = p.y + Math.sin(a) * rad;
-            if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-          }
+          ctx.arc(0, -18 + wob * 0.3, 7, 0, Math.PI * 2);
+          ctx.stroke();
+          // body
+          ctx.beginPath();
+          ctx.moveTo(0, -11);
+          ctx.lineTo(0, 6);
+          ctx.stroke();
+          // arms (one raised weapon)
+          ctx.beginPath();
+          ctx.moveTo(0, -6);
+          ctx.lineTo(-12, 2 + wob);
+          ctx.moveTo(0, -6);
+          ctx.lineTo(11, -4 + wob * 0.5);
+          ctx.stroke();
+          // legs
+          ctx.beginPath();
+          ctx.moveTo(0, 6);
+          ctx.lineTo(-8, 18);
+          ctx.moveTo(0, 6);
+          ctx.lineTo(8, 18);
+          ctx.stroke();
+          // visor / eye
+          ctx.fillStyle = '#00ffff';
+          ctx.fillRect(-4, -20, 8, 3);
+          // weapon glow
+          ctx.fillStyle = '#ffaa00';
+          ctx.beginPath();
+          ctx.arc(12, -5, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.shadowBlur = 0;
+          ctx.restore();
+        } else {
+          // Drone – angular wireframe
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(o.wobble * 0.4);
+          ctx.strokeStyle = '#ff3366';
+          ctx.lineWidth = 1.6 * p.s + 0.8;
+          ctx.shadowColor = '#ff3366';
+          ctx.shadowBlur = 11;
+          const s = sz;
+          ctx.beginPath();
+          ctx.moveTo(0, -s);
+          ctx.lineTo(s * 0.9, 0);
+          ctx.lineTo(0, s * 0.7);
+          ctx.lineTo(-s * 0.9, 0);
           ctx.closePath();
+          ctx.stroke();
+          // core
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          ctx.arc(0, 0, 2.5 * p.s, 0, Math.PI * 2);
           ctx.fill();
           ctx.shadowBlur = 0;
-        } else {
-          // Drone
-          ctx.fillStyle = '#ff2a6a';
-          ctx.shadowColor = '#ff2a6a';
-          ctx.shadowBlur = 10;
-          ctx.fillRect(p.x - sz, p.y - sz * 0.6, sz * 2, sz * 1.2);
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(p.x - sz * 0.4, p.y - sz * 0.25, sz * 0.8, sz * 0.3);
-          ctx.shadowBlur = 0;
+          ctx.restore();
         }
       });
 
-      // Lasers
+      // ===== LASERS (improved trails) =====
       r.lasers.forEach(L => {
+        // main beam
         const p1 = tubeProject(L.angle, L.z);
-        const p2 = tubeProject(L.angle, L.z + 40);
-        if (p1.s < 0.05) return;
+        const p2 = tubeProject(L.angle, L.z + 55);
+        if (p1.s < 0.04) return;
+
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 3 * p1.s + 1.5;
+        ctx.lineWidth = 3.2 * p1.s + 1.8;
         ctx.shadowColor = '#00ffff';
-        ctx.shadowBlur = 14;
+        ctx.shadowBlur = 16;
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
         ctx.stroke();
+
+        // trail segments (fading)
+        if (L.trail && L.trail.length > 1) {
+          for (let t = 0; t < L.trail.length - 1; t++) {
+            const a = L.trail[t];
+            const b = L.trail[t + 1];
+            const pa = tubeProject(a.angle, a.z);
+            const pb = tubeProject(b.angle, b.z);
+            const alpha = (t / L.trail.length) * 0.55;
+            ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
+            ctx.lineWidth = 1.5 * pa.s + 1;
+            ctx.beginPath();
+            ctx.moveTo(pa.x, pa.y);
+            ctx.lineTo(pb.x, pb.y);
+            ctx.stroke();
+          }
+        }
         ctx.shadowBlur = 0;
       });
 
-      // === Player ship (always drawn near bottom center, riding the wall) ===
-      // Because we rotate the world relative to player angle, ship sits at bottom of tube view
-      const shipY = cy + R * 0.95;
+      // ===== PLAYER SHIP =====
+      const shipY = cy + R * 0.92;
       const shipX = cx;
 
       ctx.save();
       if (r.crashTimer > 0 || (r.invuln > 0 && Math.floor(r.frame / 3) % 2 === 0)) {
-        ctx.globalAlpha = 0.4 + Math.sin(r.frame * 0.6) * 0.3;
+        ctx.globalAlpha = 0.35 + Math.sin(r.frame * 0.55) * 0.25;
       }
 
-      // Ship body
+      // slight tilt based on angVel for feel
+      ctx.translate(shipX, shipY);
+      ctx.rotate(r.angVel * 4.5);
+
+      // ship body – angular cyber
       ctx.fillStyle = '#00ff9f';
       ctx.shadowColor = '#00ff9f';
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 16;
       ctx.beginPath();
-      ctx.moveTo(shipX, shipY - 28);
-      ctx.lineTo(shipX - 22, shipY + 14);
-      ctx.lineTo(shipX - 8, shipY + 6);
-      ctx.lineTo(shipX + 8, shipY + 6);
-      ctx.lineTo(shipX + 22, shipY + 14);
+      ctx.moveTo(0, -30);
+      ctx.lineTo(-20, 16);
+      ctx.lineTo(-7, 8);
+      ctx.lineTo(7, 8);
+      ctx.lineTo(20, 16);
       ctx.closePath();
       ctx.fill();
 
-      // Cockpit
-      ctx.fillStyle = '#003322';
+      // cockpit
+      ctx.fillStyle = '#002218';
       ctx.beginPath();
-      ctx.moveTo(shipX, shipY - 18);
-      ctx.lineTo(shipX - 8, shipY - 2);
-      ctx.lineTo(shipX + 8, shipY - 2);
+      ctx.moveTo(0, -20);
+      ctx.lineTo(-7, -2);
+      ctx.lineTo(7, -2);
       ctx.closePath();
       ctx.fill();
 
-      // Engine glow
+      // engine
       ctx.fillStyle = '#00ffff';
       ctx.shadowColor = '#00ffff';
-      ctx.shadowBlur = 12;
-      ctx.fillRect(shipX - 6, shipY + 10, 12, 8);
+      ctx.shadowBlur = 14;
+      ctx.fillRect(-5, 12, 10, 9);
 
-      // Laser charge indicator
-      if (Date.now() - r.lastShot < 100) {
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(shipX - 2, shipY - 36, 4, 12);
+      // barrel-roll indicator (spinning chevrons when spinning hard)
+      if (r.mode === 'tunnel' && Math.abs(r.angVel) > 0.04) {
+        ctx.strokeStyle = '#ffff66';
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.arc(0, 0, 38, 0, Math.PI * 1.4);
+        ctx.stroke();
       }
 
       ctx.shadowBlur = 0;
       ctx.restore();
 
-      // Speed lines (radial, toward center)
-      if (r.speed > 7) {
-        ctx.strokeStyle = `rgba(0, 255, 200, ${0.08 + r.speed * 0.01})`;
-        ctx.lineWidth = 1.5;
-        for (let i = 0; i < 10; i++) {
-          const a = (i / 10) * Math.PI * 2 + r.frame * 0.01;
-          const inner = 40 + (r.frame + i * 20) % 80;
-          const outer = inner + 30 + r.speed;
+      // Speed lines (radial)
+      if (r.speed > 6.5) {
+        ctx.strokeStyle = `rgba(0, 255, 200, ${0.07 + r.speed * 0.009})`;
+        ctx.lineWidth = 1.4;
+        for (let i = 0; i < 9; i++) {
+          const a = (i / 9) * Math.PI * 2 + r.frame * 0.012;
+          const inner = 35 + (r.frame + i * 18) % 70;
+          const outer = inner + 28 + r.speed;
           ctx.beginPath();
           ctx.moveTo(cx + Math.cos(a) * inner, cy + Math.sin(a) * inner);
           ctx.lineTo(cx + Math.cos(a) * outer, cy + Math.sin(a) * outer);
@@ -2204,11 +2842,11 @@
         }
       }
 
-      // HUD
+      // ===== HUD =====
       ctx.fillStyle = '#00ff9f';
       ctx.font = '12px Courier New';
       ctx.textAlign = 'left';
-      ctx.fillText(`SPD ${Math.floor(r.speed * 14)}`, 12, 22);
+      ctx.fillText(`SPD ${Math.floor(r.speed * 13)}`, 12, 22);
       ctx.fillText(`LIVES ${r.lives}`, 12, 40);
       const hs = getHigh('racer');
       if (hs > 0) {
@@ -2216,17 +2854,42 @@
         ctx.fillText(`HI ${hs}`, 12, 58);
       }
 
-      // Angle indicator (shows you're on walls / ceiling / floor)
-      const deg = Math.floor((r.angle * 180 / Math.PI) % 360);
-      let wallLabel = 'FLOOR';
-      if (deg > 45 && deg < 135) wallLabel = 'RIGHT WALL';
-      else if (deg >= 135 && deg < 225) wallLabel = 'CEILING';
-      else if (deg >= 225 && deg < 315) wallLabel = 'LEFT WALL';
+      // Mode + position
       ctx.fillStyle = '#7dffc8';
       ctx.font = '11px Courier New';
       ctx.textAlign = 'right';
-      ctx.fillText(wallLabel, 468, 22);
-      ctx.fillText('← → ROTATE  SPACE FIRE', 468, 40);
+      if (r.mode === 'highway') {
+        ctx.fillText('HIGHWAY', 468, 22);
+        ctx.fillText('← → STEER  SPACE FIRE', 468, 40);
+      } else {
+        const deg = Math.floor((r.angle * 180 / Math.PI) % 360);
+        let wallLabel = 'FLOOR';
+        if (deg > 40 && deg < 140) wallLabel = 'RIGHT WALL';
+        else if (deg >= 140 && deg < 220) wallLabel = 'CEILING';
+        else if (deg >= 220 && deg < 320) wallLabel = 'LEFT WALL';
+        ctx.fillText('VORTEX  ' + wallLabel, 468, 22);
+        ctx.fillText('← → BARREL ROLL  SPACE FIRE', 468, 40);
+      }
+
+      // Transition / message banner
+      if (r.messageTimer > 0) {
+        ctx.fillStyle = `rgba(0, 255, 159, ${0.15 + Math.sin(r.frame * 0.3) * 0.08})`;
+        ctx.fillRect(0, 70, 480, 36);
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = 'bold 16px Courier New';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#00ff9f';
+        ctx.shadowBlur = 12;
+        ctx.fillText(r.message, 240, 94);
+        ctx.shadowBlur = 0;
+      }
+
+      // Tunnel closing flash overlay
+      if (r.transitionTimer > 0) {
+        const t = r.transitionTimer / 90;
+        ctx.fillStyle = `rgba(0, 255, 200, ${t * 0.18})`;
+        ctx.fillRect(0, 0, 480, 360);
+      }
     }
 
     // ========== 2. NEON SWARM ==========
@@ -2598,56 +3261,111 @@
         ctx.restore();
       });
 
-      // skier (goofy panicked)
+      // skier — more realistic athletic stance
       const sk = yeti.skier;
       ctx.save();
       ctx.translate(sk.x, sk.y);
-      const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left) ? -0.2 :
-                    (keys['ArrowRight'] || keys['d'] || touchState.right) ? 0.2 : 0;
+      const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left) ? -0.28 :
+                    (keys['ArrowRight'] || keys['d'] || touchState.right) ? 0.28 : 0;
       ctx.rotate(leanX);
-      // skis (wonky)
-      ctx.fillStyle = '#7dffc8';
       ctx.shadowColor = '#00ff9f';
-      ctx.shadowBlur = 8;
-      ctx.fillRect(-24, 15, 20, 5);
-      ctx.fillRect(2, 14, 22, 5);
-      // body - slightly hunched
-      ctx.fillStyle = '#00ff9f';
-      ctx.fillRect(-9, -8, 18, 22);
-      // flailing arms
-      const armWiggle = Math.sin(yeti.frame * 0.4) * 6;
-      ctx.fillRect(-16, -2 + armWiggle * 0.3, 8, 14);
-      ctx.fillRect(8, -2 - armWiggle * 0.3, 8, 14);
-      // big goofy head
+      ctx.shadowBlur = 10;
+
+      // Skis (longer, parallel, realistic)
+      ctx.fillStyle = '#00e6a0';
+      ctx.fillRect(-28, 18, 26, 4);   // left ski
+      ctx.fillRect(2, 18, 26, 4);    // right ski
+      // ski tips (slightly upturned)
       ctx.beginPath();
-      ctx.arc(0, -18, 11, 0, Math.PI * 2);
-      ctx.fill();
-      // huge panicked eyes
-      ctx.fillStyle = '#fff';
+      ctx.moveTo(-28, 18); ctx.lineTo(-32, 16); ctx.lineTo(-28, 22); ctx.fill();
       ctx.beginPath();
-      ctx.arc(-4, -20, 4.5, 0, Math.PI * 2);
-      ctx.arc(5, -19, 5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#000';
-      ctx.beginPath();
-      ctx.arc(-3, -19, 2, 0, Math.PI * 2);
-      ctx.arc(6, -18, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-      // open scream mouth
+      ctx.moveTo(28, 18); ctx.lineTo(32, 16); ctx.lineTo(28, 22); ctx.fill();
+
+      // Boots / bindings
       ctx.fillStyle = '#003322';
-      ctx.beginPath();
-      ctx.ellipse(0, -12, 4, 3.5, 0, 0, Math.PI * 2);
-      ctx.fill();
-      // little beanie
+      ctx.fillRect(-12, 12, 8, 8);
+      ctx.fillRect(4, 12, 8, 8);
+
+      // Legs (bent athletic ski stance)
       ctx.fillStyle = '#00cc7a';
-      ctx.fillRect(-8, -28, 16, 6);
+      ctx.fillRect(-11, 0, 7, 14);   // left leg
+      ctx.fillRect(4, 0, 7, 14);    // right leg
+
+      // Torso / jacket (slightly crouched)
+      ctx.fillStyle = '#00ff9f';
       ctx.beginPath();
-      ctx.arc(0, -28, 8, Math.PI, 0);
+      ctx.moveTo(-11, -2);
+      ctx.lineTo(-13, -18);
+      ctx.lineTo(13, -18);
+      ctx.lineTo(11, -2);
+      ctx.closePath();
       ctx.fill();
-      // pom pom
+      // jacket detail line
+      ctx.strokeStyle = '#003322';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(0, -34, 3.5, 0, Math.PI * 2);
+      ctx.moveTo(0, -18); ctx.lineTo(0, -2);
+      ctx.stroke();
+
+      // Arms holding poles
+      const poleSwing = Math.sin(yeti.frame * 0.25) * 3;
+      ctx.fillStyle = '#00ff9f';
+      // left arm
+      ctx.save();
+      ctx.translate(-12, -12);
+      ctx.rotate(-0.5 + leanX + poleSwing * 0.05);
+      ctx.fillRect(-3, 0, 5, 16);
+      ctx.restore();
+      // right arm
+      ctx.save();
+      ctx.translate(12, -12);
+      ctx.rotate(0.5 + leanX - poleSwing * 0.05);
+      ctx.fillRect(-2, 0, 5, 16);
+      ctx.restore();
+
+      // Ski poles
+      ctx.strokeStyle = '#7dffc8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(-18, -8 + poleSwing); ctx.lineTo(-26, 22);
+      ctx.moveTo(18, -8 - poleSwing); ctx.lineTo(26, 22);
+      ctx.stroke();
+      // pole baskets
+      ctx.beginPath();
+      ctx.arc(-26, 22, 3, 0, Math.PI * 2);
+      ctx.arc(26, 22, 3, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Head
+      ctx.fillStyle = '#00ff9f';
+      ctx.beginPath();
+      ctx.arc(0, -24, 8, 0, Math.PI * 2);
       ctx.fill();
+
+      // Helmet
+      ctx.fillStyle = '#00cc7a';
+      ctx.beginPath();
+      ctx.arc(0, -26, 9, Math.PI, 0);
+      ctx.fill();
+      ctx.fillRect(-9, -26, 18, 5);
+
+      // Goggles
+      ctx.fillStyle = '#001a12';
+      ctx.fillRect(-7, -26, 14, 5);
+      ctx.fillStyle = '#00ffff';
+      ctx.globalAlpha = 0.7;
+      ctx.fillRect(-6, -25, 5, 3);
+      ctx.fillRect(1, -25, 5, 3);
+      ctx.globalAlpha = 1;
+
+      // Small determined mouth
+      ctx.strokeStyle = '#003322';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-3, -18);
+      ctx.lineTo(3, -18);
+      ctx.stroke();
+
       ctx.shadowBlur = 0;
       ctx.restore();
 
