@@ -1,0 +1,204 @@
+[
+  {
+    "id": "pacman 1980-01",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "awaiting paintjob",
+    "condition": "fully restored",
+    "notes": "Cleaned, tested, working, new glass and lights where needed. Ready for placement.",
+    "fmv_estimate": 1600,
+    "location": "shop"
+  },
+  {
+    "id": "spaceinvaders-01",
+    "name": "Space Invaders",
+    "type": "video",
+    "status": "ready",
+    "condition": "restored & tested",
+    "notes": "Solid cabinet, good monitor, reliable board working without sound replaced speaker and cabinet lighting as well as power switch.",
+    "fmv_estimate": 1700,
+    "location": "shop"
+  },
+  {
+    "id": "frogger-1up-01",
+    "name": "Frogger",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Cabinet solid. Working through monitor and controls.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+
+  {
+    "id": "primalrage-01",
+    "name": "Primal Rage",
+    "type": "video",
+    "status": "restoring",
+    "condition": "in progress",
+    "notes": "Large cabinet. Needs control panel work and general cleanup.",
+    "fmv_estimate": 1400,
+    "location": "shop"
+  },
+  {
+    "id": "victory lap pinball-01",
+    "name": "Pinball (various)",
+    "type": "pinball",
+    "status": "restoring",
+    "condition": "needs work. multiple units in various states",
+    "notes": "Glass, playfield, and mechanism work ongoing. Several candidates for youth placement.",
+    "fmv_estimate": null,
+    "location": "shop"
+  },
+  {
+    "id": "jukebox-01",
+    "name": "Jukebox (Wurlitzer 1100 / others)",
+    "type": "jukebox",
+    "status": "shop",
+    "condition": "needs evaluationl",
+    "notes": "Multiple units. Some need mechanism and amp work.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "claw-01",
+    "name": "Claw / Prize machine",
+    "type": "redemption",
+    "status": "ready",
+    "condition": "functional",
+    "notes": "Good candidate for high-traffic youth or community spaces.",
+    "fmv_estimate": 900,
+    "location": "warehouse"
+  },
+{
+    "id": "mspacman-01",
+    "name": "Ms. Pacman 1981",
+    "type": "video",
+    "status": "awaiting repair",
+    "condition": "not working",
+    "notes": "Cabinet solid. monitor board and controls in tact but wont power on.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+{
+    "id": "mspacman-1up-01",
+    "name": "Ms. Pacman",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Cabinet solid. Working through monitor and controls.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+{
+    "id": "mortal-kombat-1up-01",
+    "name": "mortal kombat",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "like new.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+{
+    "id": "mortal-kombat-1up-02",
+    "name": "Mortal Kombat",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "replica coin mech and light banner.",
+    "fmv_estimate": 450,
+    "location": "shop"
+  },
+{
+    "id": "the-simpsons-1up-01 ",
+    "name": "The Simpsons",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Bart Attack button was not working, fixed",
+    "fmv_estimate": 450,
+    "location": "shop"
+  },
+{
+    "id": "Asteroids-Centipede-1up-01",
+    "name": "Asteroids Centipede",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Like new.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+{
+    "id": "final-fight-1up-01",
+    "name": "Final Fight",
+    "type": "video",
+    "status": "awaiting parts",
+    "condition": "tested & working aside from audio",
+    "notes": "audio not working ordered replacement speaker and removed broken speaker after bad multimeter readings.",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
+    "id": "skeeball-fireball-01",
+    "name": "Fireball Skeeball Alley (Baytek)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "Needs full evaluation and repair.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "la-machine-guns-01",
+    "name": "L.A. Machine Guns (Sega)",
+    "type": "video",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "Cabinet with LCD, no computer.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "faster-than-speed-01",
+    "name": "Faster Than Speed Sit-Down Driver",
+    "type": "video",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "Sit-down driving cabinet.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "deer-hunting-usa-01",
+    "name": "Deer Hunting USA",
+    "type": "video",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "Upright hunting game.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "superbikes-01",
+    "name": "Super Bikes Fast & Furious",
+    "type": "video",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "needs new dongle and missing pcb",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "atari-baseball-01",
+    "name": "Atari Baseball Cocktail",
+    "type": "video",
+    "status": "shop",
+    "condition": "not working",
+    "notes": "Cocktail table. needs a lot of work mechanical and cosmetic wont power on.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  }
+
+  
