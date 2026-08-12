@@ -40,8 +40,8 @@
     "location": "shop"
   },
   {
-    "id": "2005-golden-tee-01",
-    "name": "2005 Golden Tee",
+    "id": "golden-tee-2005-01",
+    "name": "Golden Tee (2005)",
     "type": "video",
     "status": "ready",
     "condition": "working",
