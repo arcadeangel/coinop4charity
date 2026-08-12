@@ -1138,7 +1138,7 @@
     .inventory-toggle {
       width: 100%;
       background: transparent;
-      border: 1px solid #00ff9f44;
+      border: 1px solid #00ff9f66;
       color: #00ff9f;
       font-family: inherit;
       font-size: 0.78rem;
@@ -1147,12 +1147,20 @@
       cursor: pointer;
       text-align: left;
       text-transform: uppercase;
-      transition: border-color 0.15s, background 0.15s;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 10px #00ff9f33, 0 0 20px #00ff9f18;
+      animation: invGlow 2.8s ease-in-out infinite;
+    }
+    @keyframes invGlow {
+      0%, 100% { box-shadow: 0 0 10px #00ff9f33, 0 0 20px #00ff9f18; border-color: #00ff9f66; }
+      50%      { box-shadow: 0 0 18px #00ff9f66, 0 0 32px #00ff9f33; border-color: #00ff9f; }
     }
     .inventory-toggle:hover,
     .inventory-toggle[aria-expanded="true"] {
       border-color: #00ff9f;
-      background: rgba(0, 255, 159, 0.06);
+      background: rgba(0, 255, 159, 0.08);
+      box-shadow: 0 0 22px #00ff9f77, 0 0 40px #00ff9f44;
+      animation: none;
     }
     .inv-count {
       opacity: 0.7;
@@ -1402,7 +1410,18 @@
           countEl.textContent = "(" + show.length + ")";
 
           list.innerHTML = show.map(m => {
-            const status = (m.condition || m.status || "").replace(/\(.*?\)/g, "").trim();
+            // Normalize status into a few clean categories
+            const raw = ((m.condition || "") + " " + (m.status || "")).toLowerCase();
+            let status = "Needs Work";
+            if (/ready|fully restored|tested & working|functional|repaired and working/.test(raw)) {
+              status = "Ready";
+            } else if (/working|restored/.test(raw) && !/not working|needs/.test(raw)) {
+              status = "Working";
+            } else if (/restoring|in progress|awaiting paint|awaiting parts/.test(raw)) {
+              status = "In Progress";
+            } else if (/not working|not evaluated|needs evaluation|needs repairs|needs work/.test(raw)) {
+              status = "Needs Work";
+            }
             return "<div class=\"inv-item\"><span class=\"inv-name\">" + m.name + "</span><span class=\"inv-status\">" + status + "</span></div>";
           }).join("");
         })
