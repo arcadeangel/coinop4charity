@@ -23,10 +23,11 @@ Games that require reading opponents, executing timing, and improving through de
 
 Strategy and skill-based games (as opposed to pure chance) align with better developmental patterns. Circuit Runner from our own game terminal is a good example of a runner game with some strategy elements (for example: avoiding the green "boosts" to maintain low speed and control over the Circuit Runner)
 but the optics/theatrics and feel good vibe on that is nowhere near as memorable or adrenaline pumping as going from a combo special move to seeing Sub Zero turn your opponent into an ice sculpture. Everyone deserves that level of fun, and it really shouldn't be just if you have the money to spend on the machine or can afford to privately purchase it.
-I think if less kids had to choose between lunch money and a round of Mortal Kombat the world would be a much easier place. I bet you a great majority of those machines are on private residences accessible only to a handful of the same people.
+I think if less kids had to choose between lunch money and a round of Mortal Kombat the world would be a much easier place. As the years pass it seems more like a great majority of those machines are on private residences, accessible only to a handful of the same people.
 
-Local, in person/face-to-face multiplayer fighting games force real life face-to-face interaction, turn-taking, trash-talk that stays in the game, and shared wins/losses. This is very different from the increasingly growing isolated mobile/console play. 
-Supervised recreational spaces can help with preserving this tradition while keeping youth engaged and off the street show.  Studies associate areas that have these sort of youth centers engaging the community with lower juvenile offending. Structured group activities that build competence and social connection are key ingredients in successful programs for  youth.
+That's a shame when you think about local, in person/face-to-face multiplayer fighting games and your own experiences. They force real life face-to-face interaction, turn-taking, trash-talk that stays in the game, and shared wins/losses. This is very different from the increasingly statistically growing isolated mobile/console play. 
+Supervised recreational spaces can help assist us with preserving this tradition while keeping youth engaged and off the street.  Studies associate areas that have these sort of youth centers engaging the community with lower juvenile offending and I believe arcade resources will only help complement their efforts. 
+Structured group activities that build competence and social connection are key ingredients in successful programs for  youth.
 
 Casual/“shut off” or "running" games excel at short-term mood repair and distraction (which is useful in medical settings or acute stress). For chronic adversity, repeated pure escapism is less adaptive. 
 Reviews of commercial games for youth mental health find benefits across genres, but the deeper developmental gains (regulation, resilience, social skills) come more reliably from games that demand attention control, challenge, and recovery from failure. 
@@ -35,6 +36,10 @@ Homeless and highly stressed youth need more than temporary shutdown; they need 
 
 Research links structured, skill-based play and supervised recreation to better emotional regulation, resilience, and reduced problem behavior pathways. Additionally local arcade multiplayer adds social connection and adult supervision that pure solitary mobile/console play lacks.
 
-Pac-Man-style games are fine as occasional breaks; they should not be the primary offering if the goal is growth rather than temporary escape. Not every youth will prefer or benefit from fighting games — and these games are a tool, not therapy in and of itself.
+Pac-Man-style games are fine as occasional breaks; they should not be the primary offering if the goal is growth rather than temporary escape. That being said obviously not every youth will prefer or benefit from fighting games — and these games are a tool, not therapy in and of itself.
 
-These are tools to help the real individuals nurture more real authentic relationships and offer better support. Without the supervision and care from those individuals, you can't expect glowing results.
+These are tools to help the real individuals nurture more real authentic relationships and offer better support. Without the supervision and care from those individuals on the front lines helping others, you can't expect glowing results. The people who administer these locations are the ones who bring people together and make the magic happen.
+
+We just offer them more tools.
+
+The reason we do it is because, like them, we love you all.
