@@ -14,7 +14,7 @@ the studies show some interesting potential benefits and upsides that they may h
 There is the argument that skill-based, high-engagement games like Marvel vs Capcom or the classic Street Fighter (and similar fighting/action titles) 
 offer something different: agency, resilience practice, emotional regulation under pressure, and an everlasting social connection.
 
-The idea that fighting/action games create controlled stress + recovery cycles, that are beneficial to developing minds. Studies show that players also experience arousal (heart rate, focus) 
+There is an unpopular but (for me personally relatable) idea that fighting/action games create controlled stress + recovery cycles, that are beneficial to developing minds. Studies show that players also experience arousal (heart rate, focus) 
 but often show physiological recovery markers (higher heart-rate variability, lower cortisol) afterward, plus higher positive emotion.
 
 Trauma-informed game-based social-emotional learning programs that emphasize regulation, coping, and perseverance show gains in emotional control and resilience among youth exposed to adversity. 
