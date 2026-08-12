@@ -38,8 +38,12 @@ Research links structured, skill-based play and supervised recreation to better 
 
 Pac-Man-style games are fine as occasional breaks; they should not be the primary offering if the goal is growth rather than temporary escape. That being said obviously not every youth will prefer or benefit from fighting games — and these games are a tool, not therapy in and of itself.
 
-These are tools to help the real individuals nurture more real authentic relationships and offer better support. Without the supervision and care from those individuals on the front lines helping others, you can't expect glowing results. The people who administer these locations are the ones who bring people together and make the magic happen.
+These are tools to help the real individuals nurture more real authentic relationships and offer better support to those who are seeking assistance. Without the supervision and care from those individuals who show up everyday on the front lines to help others, you can't expect the same natural bloom. 
 
-We just offer them more tools.
+The people who administer these locations and youth centers, are ultimately the ones who bring people together, and make the magic happen. Not only that, but they do it every day with love. These locations are truly like flowers the more you water and nurture them the longer the fruit will stay in bloom.
 
-The reason we do it is because, like them, we love you all.
+I see you and all your time involved and efforts, the people who attend these centers and those who administer them and try to make them special. 
+
+I want to help whether its planting a new seed or supplying the water; just to be there and offer the difference makers more tools.
+
+We love you all.
