@@ -19,6 +19,16 @@
     "fmv_estimate": 1700,
     "location": "shop"
   },
+   {
+    "id": "2005-golden-tee-01",
+    "name": "2005 Golden Tee",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Solid cabinet, good monitor touched up by Sharp Image, reliable board.",
+    "fmv_estimate": 1600,
+    "location": "shop"
+  },
   {
     "id": "frogger-1up-01",
     "name": "Frogger (1UP)",
