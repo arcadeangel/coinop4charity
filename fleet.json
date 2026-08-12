@@ -1,11 +1,11 @@
 [
   {
-    "id": "pacman 1980-01",
-    "name": "Pac-Man",
+    "id": "pacman-1980-01",
+    "name": "Pac-Man (1980)",
     "type": "video",
     "status": "awaiting paintjob",
     "condition": "fully restored",
-    "notes": "Cleaned, tested, working, new glass and lights where needed. Ready for placement.",
+    "notes": "Cleaned, tested, working. New glass and lights. Ready for placement.",
     "fmv_estimate": 1600,
     "location": "shop"
   },
@@ -15,13 +15,13 @@
     "type": "video",
     "status": "ready",
     "condition": "restored & tested",
-    "notes": "Solid cabinet, good monitor, reliable board working without sound replaced speaker and cabinet lighting as well as power switch.",
+    "notes": "Solid cabinet, good monitor, reliable board. Speaker, lighting, and power switch replaced.",
     "fmv_estimate": 1700,
     "location": "shop"
   },
   {
     "id": "frogger-1up-01",
-    "name": "Frogger",
+    "name": "Frogger (1UP)",
     "type": "video",
     "status": "ready",
     "condition": "tested & working",
@@ -29,10 +29,79 @@
     "fmv_estimate": 400,
     "location": "shop"
   },
-[
+  {
+    "id": "mspacman-1up-01",
+    "name": "Ms. Pac-Man (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Cabinet solid. Working through monitor and controls.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "mortal-kombat-1up-01",
+    "name": "Mortal Kombat (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Like new.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "mortal-kombat-1up-02",
+    "name": "Mortal Kombat (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Replica coin mech and light banner.",
+    "fmv_estimate": 450,
+    "location": "shop"
+  },
+  {
+    "id": "the-simpsons-1up-01",
+    "name": "The Simpsons (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Bart Attack button fixed.",
+    "fmv_estimate": 450,
+    "location": "shop"
+  },
+  {
+    "id": "asteroids-centipede-1up-01",
+    "name": "Asteroids / Centipede (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "tested & working",
+    "notes": "Like new.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "final-fight-1up-01",
+    "name": "Final Fight (1UP)",
+    "type": "video",
+    "status": "awaiting parts",
+    "condition": "working (audio pending)",
+    "notes": "Speaker ordered. Everything else tested.",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
+    "id": "claw-01",
+    "name": "Claw / Prize Machine",
+    "type": "redemption",
+    "status": "ready",
+    "condition": "functional",
+    "notes": "Good candidate for high-traffic youth spaces.",
+    "fmv_estimate": 900,
+    "location": "warehouse"
+  },
   {
     "id": "lighthouse-01",
-    "name": "Lighthouse Instant Prize Redemption (LAI Games)",
+    "name": "Lighthouse Instant Prize (LAI)",
     "type": "redemption",
     "status": "shop",
     "condition": "working",
@@ -41,18 +110,28 @@
     "location": "warehouse"
   },
   {
-    "id": "gacha-tomy-01",
-    "name": "Gacha by Tomy Four-Head Capsule Toy Vending Machine",
-    "type": "vending",
+    "id": "stacker-club-01",
+    "name": "Stacker Club Blue (LAI)",
+    "type": "redemption",
     "status": "shop",
     "condition": "working",
-    "notes": "Mechanical 4-head capsule machine. ",
-    "fmv_estimate": 450
+    "notes": "Blue/black Club version.",
+    "fmv_estimate": 1550,
     "location": "warehouse"
   },
   {
-    "id": "gacha-tomy-02",
-    "name": "Gacha by Tomy Four-Head Capsule Toy Vending Machine",
+    "id": "stacker-club-02",
+    "name": "Stacker Club Blue (LAI)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working (minor button/locks)",
+    "notes": "Needs rewiring on button and new locks.",
+    "fmv_estimate": 1450,
+    "location": "shop"
+  },
+  {
+    "id": "gacha-tomy-01",
+    "name": "Gacha by Tomy Four-Head",
     "type": "vending",
     "status": "shop",
     "condition": "working",
@@ -61,169 +140,38 @@
     "location": "warehouse"
   },
   {
-    "id": "stacker-club-01",
-    "name": "Stacker Club Blue Instant Prize Redemption (LAI Games)",
-    "type": "redemption",
+    "id": "gacha-tomy-02",
+    "name": "Gacha by Tomy Four-Head",
+    "type": "vending",
     "status": "shop",
     "condition": "working",
-    "notes": "Blue/black Club version of Stacker. ",
-    "fmv_estimate": 1550,
+    "notes": "Mechanical 4-head capsule machine.",
+    "fmv_estimate": 450,
     "location": "warehouse"
-  },
-  {
-    "id": "stacker-club-01",
-    "name": "Stacker Club Blue Instant Prize Redemption (LAI Games)",
-    "type": "redemption",
-    "status": "shop",
-    "condition": "working, button needs rewiring, locks need changing",
-    "notes": "Blue/black Club version of Stacker. ",
-    "fmv_estimate": 1450,
-    "location": "shop"
   },
   {
     "id": "cube-parallel-01",
-    "name": "Cube Parallel Game Prize Redemption",
+    "name": "Cube Parallel Prize Redemption",
     "type": "redemption",
     "status": "shop",
     "condition": "working",
-    "notes": "Compact claw-style prize redemption.",
+    "notes": "Compact claw-style prize game.",
     "fmv_estimate": 1100,
     "location": "warehouse"
-  }
-  {
-    "id": "primalrage-01",
-    "name": "Primal Rage",
-    "type": "video",
-    "status": "restoring",
-    "condition": "in progress",
-    "notes": "Large cabinet. Needs control panel work and general cleanup.",
-    "fmv_estimate": 1400,
-    "location": "shop"
   },
-  {
-    "id": "victory lap pinball-01",
-    "name": "Pinball (various)",
-    "type": "pinball",
-    "status": "restoring",
-    "condition": "needs work. multiple units in various states",
-    "notes": "Glass, playfield, and mechanism work ongoing. Several candidates for youth placement.",
-    "fmv_estimate": null,
-    "location": "shop"
-  },
-  {
-    "id": "jukebox-01",
-    "name": "Jukebox (Wurlitzer 1100 / others)",
-    "type": "jukebox",
-    "status": "shop",
-    "condition": "needs evaluationl",
-    "notes": "Multiple units. Some need mechanism and amp work.",
-    "fmv_estimate": null,
-    "location": "warehouse"
-  },
-  {
-    "id": "claw-01",
-    "name": "Claw / Prize machine",
-    "type": "redemption",
-    "status": "ready",
-    "condition": "functional",
-    "notes": "Good candidate for high-traffic youth or community spaces.",
-    "fmv_estimate": 900,
-    "location": "warehouse"
-  },
-{
-    "id": "mspacman-01",
-    "name": "Ms. Pacman 1981",
-    "type": "video",
-    "status": "awaiting repair",
-    "condition": "not working",
-    "notes": "Cabinet solid. monitor board and controls in tact but wont power on.",
-    "fmv_estimate": null,
-    "location": "warehouse"
-  },
-{
-    "id": "mspacman-1up-01",
-    "name": "Ms. Pacman",
-    "type": "video",
-    "status": "ready",
-    "condition": "tested & working",
-    "notes": "Cabinet solid. Working through monitor and controls.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-{
-    "id": "mortal-kombat-1up-01",
-    "name": "mortal kombat",
-    "type": "video",
-    "status": "ready",
-    "condition": "tested & working",
-    "notes": "like new.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-{
-    "id": "mortal-kombat-1up-02",
-    "name": "Mortal Kombat",
-    "type": "video",
-    "status": "ready",
-    "condition": "tested & working",
-    "notes": "replica coin mech and light banner.",
-    "fmv_estimate": 450,
-    "location": "shop"
-  },
-{
-    "id": "the-simpsons-1up-01 ",
-    "name": "The Simpsons",
-    "type": "video",
-    "status": "ready",
-    "condition": "tested & working",
-    "notes": "Bart Attack button was not working, fixed",
-    "fmv_estimate": 450,
-    "location": "shop"
-  },
-{
-    "id": "Asteroids-Centipede-1up-01",
-    "name": "Asteroids Centipede",
-    "type": "video",
-    "status": "ready",
-    "condition": "tested & working",
-    "notes": "Like new.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-{
-    "id": "final-fight-1up-01",
-    "name": "Final Fight",
-    "type": "video",
-    "status": "awaiting parts",
-    "condition": "tested & working aside from audio",
-    "notes": "audio not working ordered replacement speaker and removed broken speaker after bad multimeter readings.",
-    "fmv_estimate": 350,
-    "location": "shop"
-  },
-  [
   {
     "id": "barber-cut-lite-01",
-    "name": "Barber Cut Lite Instant Prize Redemption (Namco)",
+    "name": "Barber Cut Lite (Namco)",
     "type": "redemption",
     "status": "shop",
     "condition": "working",
-    "notes": "Scissor string-cut prize game. ",
+    "notes": "Scissor string-cut prize game.",
     "fmv_estimate": 1400,
     "location": "warehouse"
-  },
-  {
-    "id": "cyclone-ice-01",
-    "name": "Cyclone 3-Player Ticket Redemption (ICE)",
-    "type": "redemption",
-    "status": "shop",
-    "condition": "needs repairs",
-    "notes": "3-player light stop ticket game with dome. Needs several cosmetics and mechanics.",
-    "fmv_estimate": 900,
-    "location": "shop"
   },
   {
     "id": "explosive-balloon-01",
-    "name": "Explosive Balloon Pop Redemption (Benchmark)",
+    "name": "Explosive Balloon Pop (Benchmark)",
     "type": "redemption",
     "status": "shop",
     "condition": "working",
@@ -232,45 +180,55 @@
     "location": "warehouse"
   },
   {
-    "id": "slam-a-winner-01",
-    "name": "Slam-A-Winner Ticket Redemption (Benchmark)",
-    "type": "redemption",
-    "status": "shop",
-    "condition": "not evaluated",
-    "notes": "Ball drop / spinning wheel ticket game. Needs full evaluation.",
-    "fmv_estimate": 800,
-    "location": "warehouse"
-  },
-  {
-    "id": "spin-n-win-01",
-    "name": "Spin-N-Win Wheel Ticket Redemption (Skee-Ball)",
-    "type": "redemption",
-    "status": "shop",
-    "condition": "not evaluated",
-    "notes": "Spinning prize wheel ticket game. Needs full evaluation.",
-    "fmv_estimate": 700,
-    "location": "warehouse"
-  },
-  {
     "id": "pink-mouse-vending-01",
-    "name": "Pink Mouse Capsule Toy Vending Novelty Machine",
+    "name": "Pink Mouse Capsule Vending",
     "type": "vending",
     "status": "shop",
     "condition": "repaired and working",
-    "notes": "Character capsule/toy vending novelty.",
+    "notes": "Character capsule/toy novelty.",
     "fmv_estimate": 600,
     "location": "warehouse"
   },
   {
     "id": "dunk-tank-namco-01",
-    "name": "Dunk Tank Prize Redemption (Namco)",
+    "name": "Dunk Tank Prize (Namco)",
     "type": "redemption",
     "status": "shop",
     "condition": "working",
-    "notes": "Prize redemption arcade machine.",
+    "notes": "Prize redemption machine.",
     "fmv_estimate": 900,
     "location": "warehouse"
-  }
+  },
+  {
+    "id": "cyclone-ice-01",
+    "name": "Cyclone 3-Player (ICE)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "needs repairs",
+    "notes": "3-player light-stop ticket game. Needs cosmetics and mechanics.",
+    "fmv_estimate": 900,
+    "location": "shop"
+  },
+  {
+    "id": "primalrage-01",
+    "name": "Primal Rage",
+    "type": "video",
+    "status": "restoring",
+    "condition": "in progress",
+    "notes": "Large cabinet. Needs control panel work and cleanup.",
+    "fmv_estimate": 1400,
+    "location": "shop"
+  },
+  {
+    "id": "mspacman-01",
+    "name": "Ms. Pac-Man (1981)",
+    "type": "video",
+    "status": "awaiting repair",
+    "condition": "not working",
+    "notes": "Cabinet solid. Won't power on.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
   {
     "id": "skeeball-fireball-01",
     "name": "Fireball Skeeball Alley (Baytek)",
@@ -293,7 +251,7 @@
   },
   {
     "id": "faster-than-speed-01",
-    "name": "Faster Than Speed Sit-Down Driver",
+    "name": "Faster Than Speed Sit-Down",
     "type": "video",
     "status": "shop",
     "condition": "not working",
@@ -317,7 +275,7 @@
     "type": "video",
     "status": "shop",
     "condition": "not working",
-    "notes": "needs new dongle and missing pcb",
+    "notes": "Needs new dongle and missing PCB.",
     "fmv_estimate": null,
     "location": "warehouse"
   },
@@ -327,10 +285,48 @@
     "type": "video",
     "status": "shop",
     "condition": "not working",
-    "notes": "Cocktail table. needs a lot of work mechanical and cosmetic wont power on.",
+    "notes": "Cocktail table. Needs significant work.",
+    "fmv_estimate": null,
+    "location": "warehouse"
+  },
+  {
+    "id": "slam-a-winner-01",
+    "name": "Slam-A-Winner (Benchmark)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "not evaluated",
+    "notes": "Ball drop / spinning wheel ticket game.",
+    "fmv_estimate": 800,
+    "location": "warehouse"
+  },
+  {
+    "id": "spin-n-win-01",
+    "name": "Spin-N-Win Wheel (Skee-Ball)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "not evaluated",
+    "notes": "Spinning prize wheel ticket game.",
+    "fmv_estimate": 700,
+    "location": "warehouse"
+  },
+  {
+    "id": "pinball-various-01",
+    "name": "Pinball (various)",
+    "type": "pinball",
+    "status": "restoring",
+    "condition": "needs work",
+    "notes": "Multiple units in various states. Several candidates for youth placement.",
+    "fmv_estimate": null,
+    "location": "shop"
+  },
+  {
+    "id": "jukebox-01",
+    "name": "Jukebox (Wurlitzer / others)",
+    "type": "jukebox",
+    "status": "shop",
+    "condition": "needs evaluation",
+    "notes": "Multiple units. Some need mechanism and amp work.",
     "fmv_estimate": null,
     "location": "warehouse"
   }
-  
-
-  
+]
