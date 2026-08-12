@@ -1147,19 +1147,29 @@
       cursor: pointer;
       text-align: left;
       text-transform: uppercase;
-      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, text-shadow 0.2s;
       box-shadow: 0 0 10px #00ff9f33, 0 0 20px #00ff9f18;
+      text-shadow: 0 0 8px #00ff9f, 0 0 16px #00ff9faa, 0 0 28px #00ff9f66;
       animation: invGlow 2.8s ease-in-out infinite;
     }
     @keyframes invGlow {
-      0%, 100% { box-shadow: 0 0 10px #00ff9f33, 0 0 20px #00ff9f18; border-color: #00ff9f66; }
-      50%      { box-shadow: 0 0 18px #00ff9f66, 0 0 32px #00ff9f33; border-color: #00ff9f; }
+      0%, 100% {
+        box-shadow: 0 0 10px #00ff9f33, 0 0 20px #00ff9f18;
+        border-color: #00ff9f66;
+        text-shadow: 0 0 8px #00ff9f, 0 0 16px #00ff9faa, 0 0 28px #00ff9f66;
+      }
+      50% {
+        box-shadow: 0 0 18px #00ff9f66, 0 0 32px #00ff9f33;
+        border-color: #00ff9f;
+        text-shadow: 0 0 12px #00ff9f, 0 0 24px #00ff9fcc, 0 0 40px #00ff9f88, 0 0 56px #00ff9f44;
+      }
     }
     .inventory-toggle:hover,
     .inventory-toggle[aria-expanded="true"] {
       border-color: #00ff9f;
       background: rgba(0, 255, 159, 0.08);
       box-shadow: 0 0 22px #00ff9f77, 0 0 40px #00ff9f44;
+      text-shadow: 0 0 14px #00ff9f, 0 0 28px #00ff9fcc, 0 0 44px #00ff9f99;
       animation: none;
     }
     .inv-count {
@@ -1263,6 +1273,14 @@
       <button type="submit">GET INVOLVED</button>
     </form>
 
+    <!-- ========== AVAILABLE FOR PLACEMENT ========== -->
+    <div class="inventory-section" id="inventorySection">
+      <button type="button" class="inventory-toggle" id="inventoryToggle" aria-expanded="false">
+        AVAILABLE FOR PLACEMENT <span class="inv-count" id="invCount"></span>
+      </button>
+      <div class="inventory-list" id="inventoryList" hidden></div>
+    </div>
+
     <div class="free-games">
       <h3>TERMINAL GAMES</h3>
 <div class="game-buttons">
@@ -1314,14 +1332,6 @@
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
       <div class="row"><span>LIGHT CYCLES</span><span id="hs-cycles">—</span></div>
       <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
-    </div>
-
-    <!-- ========== AVAILABLE FOR PLACEMENT ========== -->
-    <div class="inventory-section" id="inventorySection">
-      <button type="button" class="inventory-toggle" id="inventoryToggle" aria-expanded="false">
-        AVAILABLE FOR PLACEMENT <span class="inv-count" id="invCount"></span>
-      </button>
-      <div class="inventory-list" id="inventoryList" hidden></div>
     </div>
 
     <p class="oss-line" id="ossLine">
@@ -3578,7 +3588,7 @@ function ensureMusicMaster() {
         setupTouchControls(['jump', 'dash', 'down']);
         initRunner();
       } else if (name === 'racer') {
-        hintEl.textContent = '← → steer / roll  •  SPACE / TAP shoot  •  Tunnel unlocks barrel rolls';
+        hintEl.textContent = '← → steer / roll  •  SPACE / TAP  •  Tunnel unlocks barrel rolls';
         setupTouchControls(['left', 'right', 'fire']);
         initRacer();
       } else if (name === 'swarm') {
@@ -3623,7 +3633,7 @@ function ensureMusicMaster() {
         right: { label: '▶', key: 'right' },
         up:    { label: '▲', key: 'up' },
         down:  { label: '▼', key: 'down' },
-        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : (currentGame === 'racer' ? 'SHOT' : 'TAP'))), key: 'fire', wide: true },
+        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : (currentGame === 'racer' ? 'TAP' : 'TAP'))), key: 'fire', wide: true },
         jump:  { label: 'JUMP', key: 'up', wide: true },
         dash:  { label: 'DASH', key: 'fire', wide: true }
       };
@@ -4599,7 +4609,7 @@ function ensureMusicMaster() {
       ctx.textAlign = 'right';
       if (r.mode === 'highway') {
         ctx.fillText('HIGHWAY', 468, 22);
-        ctx.fillText('← → STEER  SPACE SHOT', 468, 40);
+        ctx.fillText('← → STEER  SPACE / TAP', 468, 40);
       } else {
         const deg = Math.floor((r.angle * 180 / Math.PI) % 360);
         let wallLabel = 'FLOOR';
@@ -4607,7 +4617,7 @@ function ensureMusicMaster() {
         else if (deg >= 140 && deg < 220) wallLabel = 'CEILING';
         else if (deg >= 220 && deg < 320) wallLabel = 'LEFT WALL';
         ctx.fillText('VORTEX  ' + wallLabel, 468, 22);
-        ctx.fillText('← → BARREL ROLL  SPACE SHOT', 468, 40);
+        ctx.fillText('← → BARREL ROLL  SPACE / TAP', 468, 40);
       }
 
       // Transition / message banner
