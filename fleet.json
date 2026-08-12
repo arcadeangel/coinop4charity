@@ -10,13 +10,33 @@
     "location": "shop"
   },
   {
-    "id": "spaceinvaders-01",
-    "name": "Space Invaders",
+    "id": "donkeykong-1981-01",
+    "name": "Donkey Kong (1981)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cleaned, tested, working. New marquee, decals and joystick. Ready for placement.",
+    "fmv_estimate": 2200,
+    "location": "shop"
+  },
+  {
+    "id": "spaceinvaders-1978-01",
+    "name": "Space Invaders (1978)",
     "type": "video",
     "status": "ready",
     "condition": "working",
     "notes": "Solid cabinet, good monitor, reliable board. Speaker, lighting, and power switch replaced.",
     "fmv_estimate": 1700,
+    "location": "shop"
+  },
+  {
+    "id": "segaturbo-1981-01",
+    "name": "Sega Turbo (1981)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cleaned, tested, working. New decal. CRT cleaned and restored by Sharp Image. Ready for placement.",
+    "fmv_estimate":2100,
     "location": "shop"
   },
   {
