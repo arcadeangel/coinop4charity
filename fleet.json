@@ -29,7 +29,67 @@
     "fmv_estimate": 400,
     "location": "shop"
   },
-
+[
+  {
+    "id": "lighthouse-01",
+    "name": "Lighthouse Instant Prize Redemption (LAI Games)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Skill-based prize redemption.",
+    "fmv_estimate": 1500,
+    "location": "warehouse"
+  },
+  {
+    "id": "gacha-tomy-01",
+    "name": "Gacha by Tomy Four-Head Capsule Toy Vending Machine",
+    "type": "vending",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Mechanical 4-head capsule machine. ",
+    "fmv_estimate": 450
+    "location": "warehouse"
+  },
+  {
+    "id": "gacha-tomy-02",
+    "name": "Gacha by Tomy Four-Head Capsule Toy Vending Machine",
+    "type": "vending",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Mechanical 4-head capsule machine.",
+    "fmv_estimate": 450,
+    "location": "warehouse"
+  },
+  {
+    "id": "stacker-club-01",
+    "name": "Stacker Club Blue Instant Prize Redemption (LAI Games)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Blue/black Club version of Stacker. ",
+    "fmv_estimate": 1550,
+    "location": "warehouse"
+  },
+  {
+    "id": "stacker-club-01",
+    "name": "Stacker Club Blue Instant Prize Redemption (LAI Games)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working, button needs rewiring, locks need changing",
+    "notes": "Blue/black Club version of Stacker. ",
+    "fmv_estimate": 1450,
+    "location": "shop"
+  },
+  {
+    "id": "cube-parallel-01",
+    "name": "Cube Parallel Game Prize Redemption",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Compact claw-style prize redemption.",
+    "fmv_estimate": 1100,
+    "location": "warehouse"
+  }
   {
     "id": "primalrage-01",
     "name": "Primal Rage",
@@ -140,6 +200,77 @@
     "fmv_estimate": 350,
     "location": "shop"
   },
+  [
+  {
+    "id": "barber-cut-lite-01",
+    "name": "Barber Cut Lite Instant Prize Redemption (Namco)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Scissor string-cut prize game. ",
+    "fmv_estimate": 1400,
+    "location": "warehouse"
+  },
+  {
+    "id": "cyclone-ice-01",
+    "name": "Cyclone 3-Player Ticket Redemption (ICE)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "needs repairs",
+    "notes": "3-player light stop ticket game with dome. Needs several cosmetics and mechanics.",
+    "fmv_estimate": 900,
+    "location": "shop"
+  },
+  {
+    "id": "explosive-balloon-01",
+    "name": "Explosive Balloon Pop Redemption (Benchmark)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "2-player balloon pop ticket/prize game.",
+    "fmv_estimate": 1800,
+    "location": "warehouse"
+  },
+  {
+    "id": "slam-a-winner-01",
+    "name": "Slam-A-Winner Ticket Redemption (Benchmark)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "not evaluated",
+    "notes": "Ball drop / spinning wheel ticket game. Needs full evaluation.",
+    "fmv_estimate": 800,
+    "location": "warehouse"
+  },
+  {
+    "id": "spin-n-win-01",
+    "name": "Spin-N-Win Wheel Ticket Redemption (Skee-Ball)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "not evaluated",
+    "notes": "Spinning prize wheel ticket game. Needs full evaluation.",
+    "fmv_estimate": 700,
+    "location": "warehouse"
+  },
+  {
+    "id": "pink-mouse-vending-01",
+    "name": "Pink Mouse Capsule Toy Vending Novelty Machine",
+    "type": "vending",
+    "status": "shop",
+    "condition": "repaired and working",
+    "notes": "Character capsule/toy vending novelty.",
+    "fmv_estimate": 600,
+    "location": "warehouse"
+  },
+  {
+    "id": "dunk-tank-namco-01",
+    "name": "Dunk Tank Prize Redemption (Namco)",
+    "type": "redemption",
+    "status": "shop",
+    "condition": "working",
+    "notes": "Prize redemption arcade machine.",
+    "fmv_estimate": 900,
+    "location": "warehouse"
+  }
   {
     "id": "skeeball-fireball-01",
     "name": "Fireball Skeeball Alley (Baytek)",
@@ -200,5 +331,6 @@
     "fmv_estimate": null,
     "location": "warehouse"
   }
+  
 
   
