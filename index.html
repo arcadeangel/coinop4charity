@@ -1012,22 +1012,36 @@
       right: 0 !important;
       bottom: 0 !important;
       z-index: 100000 !important;
+      width: 100% !important;
       width: 100vw !important;
       width: 100dvw !important;
+      height: 100% !important;
       height: 100vh !important;
       height: 100dvh !important;
-      max-width: none;
-      max-height: none;
+      max-width: none !important;
+      max-height: none !important;
       margin: 0 !important;
       padding: 0 !important;
       border: none !important;
       background: #000 !important;
       cursor: pointer;
       touch-action: manipulation;
+      /* center any residual content and prevent iOS rubber-band offset */
+      object-fit: cover;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
     #attract-canvas.on { display: block !important; }
     body.attract-on {
       overflow: hidden !important;
+      position: fixed !important;
+      width: 100% !important;
+      height: 100% !important;
+      height: 100dvh !important;
+      top: 0 !important;
+      left: 0 !important;
+      overscroll-behavior: none;
+      touch-action: none;
     }
     body.attract-on .container,
     body.attract-on #matrix,
@@ -1039,6 +1053,10 @@
     body.attract-on #shareBtn {
       visibility: hidden !important;
       pointer-events: none !important;
+    }
+    /* Keep attract badge safely above home indicator on iOS */
+    .attract-badge {
+      bottom: max(20px, calc(env(safe-area-inset-bottom) + 16px)) !important;
     }
 
 
@@ -1228,7 +1246,7 @@
       <div class="row"><span>SAUCER BEAM</span><span id="hs-ufo">—</span></div>
       <div class="row"><span>HAPPY FISHING</span><span id="hs-fish">—</span></div>
       <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
-      <div class="row"><span>VORTEX BANDITS</span><span id="hs-racer">—</span></div>
+      <div class="row"><span>VORTEX STARSHIP</span><span id="hs-racer">—</span></div>
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
       <div class="row"><span>LIGHT CYCLES</span><span id="hs-cycles">—</span></div>
       <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
@@ -1293,7 +1311,7 @@
   </div>
 
   <script>
-    // ========== SHORT CRT POWER-ON ==========
+    // ========== CINEMATIC CRT POWER-ON ==========
     (function crtBoot() {
       const boot = document.getElementById('crt-boot');
       const canvas = document.getElementById('intro-canvas');
@@ -1301,53 +1319,145 @@
         document.body.classList.add('crt-on');
         return;
       }
-      // Brief power-on flash only — terminal appears right after
       document.body.classList.add('crt-on');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        const w = Math.max(320, window.innerWidth || 390);
-        const h = Math.max(480, window.innerHeight || 844);
-        canvas.width = w; canvas.height = h;
-        let t0 = performance.now();
-        function flash(now) {
-          const t = now - t0;
-          ctx.fillStyle = '#000';
-          ctx.fillRect(0, 0, w, h);
-          if (t < 900) {
-            const p = Math.min(1, t / 700);
-            const hh = Math.max(2, p * p * h);
-            ctx.fillStyle = '#00ff9f';
-            ctx.shadowColor = '#00ff9f';
-            ctx.shadowBlur = 28;
-            ctx.fillRect(0, h / 2 - hh / 2, w, 3 + p * 2);
-            if (p > 0.3) {
-              ctx.globalAlpha = (1 - p) * 0.3;
-              ctx.fillRect(0, 0, w, h);
-              ctx.globalAlpha = 1;
-            }
-            ctx.shadowBlur = 0;
-            ctx.font = '12px Courier New';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = 'rgba(0,255,159,' + (1 - p) + ')';
-            ctx.fillText('POWER ON', w / 2, h / 2 + 32);
-            requestAnimationFrame(flash);
-          } else {
-            boot.classList.add('fade-out');
-            setTimeout(() => boot.classList.add('done'), 400);
+      if (!canvas) {
+        setTimeout(() => { boot.classList.add('fade-out'); setTimeout(() => boot.classList.add('done'), 400); }, 900);
+        return;
+      }
+      const ctx = canvas.getContext('2d');
+      const w = Math.max(320, window.innerWidth || 390);
+      const h = Math.max(480, window.innerHeight || 844);
+      canvas.width = w; canvas.height = h;
+      const lines = [
+        'COIN-OP 4 CHARITY  ·  TERMINAL v2.4',
+        'PHOSPHOR WARM-UP .............. OK',
+        'MEMORY CHECK  64K ............. OK',
+        'ARC-NET LINK .................. OK',
+        'YOUTH SPACE MODULES ........... READY',
+        'INSERT COIN · FREE PLAY ENABLED'
+      ];
+      let t0 = performance.now();
+      let typed = 0;
+      function frame(now) {
+        const t = now - t0;
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, w, h);
+
+        // Stage 1 (0-500ms): pure black + faint noise
+        if (t < 500) {
+          for (let i = 0; i < 40; i++) {
+            ctx.fillStyle = 'rgba(0,255,159,' + (Math.random() * 0.08) + ')';
+            ctx.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 3, 1);
           }
         }
-        requestAnimationFrame(flash);
-      } else {
-        setTimeout(() => {
+
+        // Stage 2 (200-900ms): horizontal collapse / expand CRT line
+        if (t > 180 && t < 1100) {
+          const p = Math.min(1, (t - 180) / 650);
+          const ease = p * p * (3 - 2 * p);
+          const hh = Math.max(1.5, ease * ease * h * 0.92);
+          // phosphor bloom
+          ctx.shadowColor = '#00ff9f';
+          ctx.shadowBlur = 18 + ease * 40;
+          ctx.fillStyle = '#00ff9f';
+          ctx.fillRect(0, h / 2 - hh / 2, w, 2 + ease * 3);
+          // soft fill
+          if (ease > 0.25) {
+            ctx.globalAlpha = (1 - ease) * 0.35;
+            ctx.fillRect(0, h / 2 - hh / 2, w, hh);
+            ctx.globalAlpha = 1;
+          }
+          ctx.shadowBlur = 0;
+          // scan noise across the line
+          for (let i = 0; i < 12; i++) {
+            ctx.fillStyle = 'rgba(180,255,220,' + (0.15 + Math.random() * 0.4) + ')';
+            const lx = Math.random() * w;
+            ctx.fillRect(lx, h / 2 - hh / 2 - 1, 2 + Math.random() * 18, 2 + ease * 4);
+          }
+        }
+
+        // Stage 3 (800-2200ms): full raster + boot text
+        if (t > 750) {
+          const alpha = Math.min(1, (t - 750) / 400);
+          // subtle scanlines
+          ctx.globalAlpha = alpha * 0.18;
+          for (let y = 0; y < h; y += 3) {
+            ctx.fillStyle = '#00ff9f';
+            ctx.fillRect(0, y, w, 1);
+          }
+          ctx.globalAlpha = 1;
+
+          // vignette
+          const vig = ctx.createRadialGradient(w/2, h/2, h*0.15, w/2, h/2, h*0.75);
+          vig.addColorStop(0, 'rgba(0,0,0,0)');
+          vig.addColorStop(1, 'rgba(0,0,0,0.55)');
+          ctx.fillStyle = vig;
+          ctx.fillRect(0, 0, w, h);
+
+          // boot text (typewriter style)
+          const textStart = 900;
+          const lineH = Math.max(16, Math.floor(h * 0.028));
+          const fontSize = Math.max(11, Math.floor(w * 0.028));
+          ctx.font = fontSize + 'px "Courier New", monospace';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          const startY = h * 0.28;
+          lines.forEach((line, i) => {
+            const lineT = textStart + i * 220;
+            if (t < lineT) return;
+            const progress = Math.min(1, (t - lineT) / 180);
+            const chars = Math.floor(progress * line.length);
+            const shown = line.slice(0, chars);
+            const y = startY + i * (lineH + 6);
+            // glow
+            ctx.shadowColor = '#00ff9f';
+            ctx.shadowBlur = 8;
+            ctx.fillStyle = i === lines.length - 1 ? '#ffff66' : '#00ff9f';
+            ctx.fillText(shown, w * 0.08, y);
+            ctx.shadowBlur = 0;
+            // blinking cursor on active line
+            if (chars < line.length && Math.floor(t / 120) % 2 === 0) {
+              ctx.fillStyle = '#00ff9f';
+              ctx.fillRect(w * 0.08 + ctx.measureText(shown).width + 3, y - fontSize * 0.45, 8, fontSize * 0.9);
+            }
+          });
+
+          // final status
+          if (t > 2300) {
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(0,255,159,' + Math.min(1, (t - 2300) / 300) + ')';
+            ctx.font = 'bold ' + Math.max(13, Math.floor(w * 0.035)) + 'px "Courier New"';
+            ctx.shadowColor = '#00ff9f';
+            ctx.shadowBlur = 14;
+            ctx.fillText('SYSTEM ONLINE', w / 2, h * 0.78);
+            ctx.shadowBlur = 0;
+            ctx.font = Math.max(10, Math.floor(w * 0.022)) + 'px "Courier New"';
+            ctx.fillStyle = 'rgba(125,255,200,0.8)';
+            ctx.fillText('TOUCH OR KEY TO ENTER TERMINAL', w / 2, h * 0.84);
+          }
+        }
+
+        // random glitch bursts late
+        if (t > 1400 && Math.random() < 0.08) {
+          ctx.fillStyle = 'rgba(0,255,159,0.12)';
+          ctx.fillRect(0, Math.random() * h, w, 2 + Math.random() * 6);
+        }
+
+        if (t < 3200) {
+          requestAnimationFrame(frame);
+        } else {
+          boot.classList.add('fade-out');
+          setTimeout(() => boot.classList.add('done'), 450);
+        }
+      }
+      requestAnimationFrame(frame);
+      // Safety timeout
+      setTimeout(() => {
+        if (!boot.classList.contains('done')) {
           boot.classList.add('fade-out');
           setTimeout(() => boot.classList.add('done'), 400);
-        }, 800);
-      }
-      // Safety
-      setTimeout(() => {
-        boot.classList.add('fade-out');
-        setTimeout(() => boot.classList.add('done'), 400);
-      }, 1600);
+        }
+      }, 4500);
     })();
 
     // ========== PWA / ADD TO HOME SCREEN ==========
@@ -1440,7 +1550,7 @@
     function refreshTopOps() {
       const games = [
         ['ufo', 'SAUCER BEAM'], ['fish', 'HAPPY FISHING'], ['runner', 'CIRCUIT RUNNER'],
-        ['racer', 'VORTEX BANDITS'], ['yeti', 'YETI SLOPES'],
+        ['racer', 'VORTEX STARSHIP'], ['yeti', 'YETI SLOPES'],
         ['cycles', 'LIGHT CYCLES'], ['paddle', 'PULSE PADDLE']
       ];
       let best = { score: 0, name: null };
@@ -1563,9 +1673,25 @@
       window.addEventListener(ev, bumpActivity, { passive: true });
     });
 
+    function forceScrollTop() {
+      try {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        if (window.visualViewport) {
+          // help iOS visual viewport settle at top
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        }
+      } catch (e) {}
+    }
+
     function stopAttract() {
       window.C4C_OPS.attract = false;
       document.body.classList.remove('attract-on');
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       const c = document.getElementById('attract-canvas');
       const b = document.getElementById('attractBadge');
       if (c) {
@@ -1576,14 +1702,24 @@
       if (b) b.classList.remove('on');
       if (attractRaf) cancelAnimationFrame(attractRaf);
       attractRaf = null;
+      // Always return user to the top of the terminal on mobile
+      forceScrollTop();
+      setTimeout(forceScrollTop, 50);
     }
 
     function startAttract() {
       if (document.body.classList.contains('game-open')) return;
       if (document.getElementById('ops-panel')?.classList.contains('open')) return;
       if (document.getElementById('share-panel')?.classList.contains('open')) return;
+      // Snap to top before locking so attract is truly centered / full-screen on mobile
+      forceScrollTop();
       window.C4C_OPS.attract = true;
       document.body.classList.add('attract-on');
+      // iOS scroll-lock: freeze body at top while attract is up
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = '0';
+      document.body.style.width = '100%';
       const c = document.getElementById('attract-canvas');
       const b = document.getElementById('attractBadge');
       if (!c) return;
@@ -1608,6 +1744,8 @@
       c.style.margin = '0';
       c.style.padding = '0';
       c.style.border = 'none';
+      // Ensure canvas itself is also top-aligned in the visual viewport
+      c.style.transform = 'none';
 
       const dismiss = (e) => {
         if (e) { try { e.preventDefault(); e.stopPropagation(); } catch (_) {} }
@@ -3257,10 +3395,17 @@ function ensureMusicMaster() {
     let touchState = { left: false, right: false, up: false, down: false, fire: false };
 
     window.addEventListener('keydown', e => {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      // Never steal keys from the contact form or other fields — fixes missing letters (t, etc.)
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button') return;
       keys[e.key] = true;
-      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','a','A','d','D','w','W','s','S'].includes(e.key)) e.preventDefault();
+      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','a','A','d','D','w','W','s','S','f','F'].includes(e.key)) e.preventDefault();
     });
-    window.addEventListener('keyup', e => { keys[e.key] = false; });
+    window.addEventListener('keyup', e => {
+      const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button') return;
+      keys[e.key] = false;
+    });
 
     function stopGame() {
       currentGame = null;
@@ -3271,7 +3416,13 @@ function ensureMusicMaster() {
       overlay.classList.remove('active', 'accent-ufo', 'accent-runner', 'accent-fish', 'accent-racer', 'accent-cycles');
       touchContainer.innerHTML = '';
       document.body.classList.remove('game-open');
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       stopMusic();
+      if (typeof forceScrollTop === 'function') forceScrollTop();
+      else try { window.scrollTo(0, 0); } catch(e) {}
       if (typeof bumpActivity === 'function') bumpActivity();
       if (typeof refreshTopOps === 'function') refreshTopOps();
     }
@@ -3303,11 +3454,11 @@ function ensureMusicMaster() {
       } catch (e) { console.warn('music', e); }
 
       if (name === 'runner') {
-        hintEl.textContent = 'JUMP  •  DASH  •  ↓ SLIDE under beams';
+        hintEl.textContent = 'JUMP (double)  •  DASH  •  ↓ SLIDE  •  Grab M/S/B/F powerups';
         setupTouchControls(['jump', 'dash', 'down']);
         initRunner();
       } else if (name === 'racer') {
-        hintEl.textContent = '← → steer / roll  •  SPACE fire  •  Tunnel unlocks barrel rolls';
+        hintEl.textContent = '← → steer / roll  •  SPACE / TAP shoot  •  Tunnel unlocks barrel rolls';
         setupTouchControls(['left', 'right', 'fire']);
         initRacer();
       } else if (name === 'swarm') {
@@ -3327,7 +3478,7 @@ function ensureMusicMaster() {
         setupTouchControls(['left', 'right', 'up', 'down']);
         initYeti();
       } else if (name === 'rocks') {
-        hintEl.textContent = '← → rotate  •  ▲ thrust  •  Fire';
+        hintEl.textContent = '← → rotate  •  ▲ thrust  •  TAP shoot';
         setupTouchControls(['left', 'right', 'up', 'fire']);
         initRocks();
       } else if (name === 'cycles') {
@@ -3352,7 +3503,7 @@ function ensureMusicMaster() {
         right: { label: '▶', key: 'right' },
         up:    { label: '▲', key: 'up' },
         down:  { label: '▼', key: 'down' },
-        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : 'FIRE')), key: 'fire', wide: true },
+        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'TAP' : (currentGame === 'cycles' ? 'BOOST' : (currentGame === 'racer' ? 'SHOT' : 'TAP'))), key: 'fire', wide: true },
         jump:  { label: 'JUMP', key: 'up', wide: true },
         dash:  { label: 'DASH', key: 'fire', wide: true }
       };
@@ -4328,7 +4479,7 @@ function ensureMusicMaster() {
       ctx.textAlign = 'right';
       if (r.mode === 'highway') {
         ctx.fillText('HIGHWAY', 468, 22);
-        ctx.fillText('← → STEER  SPACE FIRE', 468, 40);
+        ctx.fillText('← → STEER  SPACE SHOT', 468, 40);
       } else {
         const deg = Math.floor((r.angle * 180 / Math.PI) % 360);
         let wallLabel = 'FLOOR';
@@ -4336,7 +4487,7 @@ function ensureMusicMaster() {
         else if (deg >= 140 && deg < 220) wallLabel = 'CEILING';
         else if (deg >= 220 && deg < 320) wallLabel = 'LEFT WALL';
         ctx.fillText('VORTEX  ' + wallLabel, 468, 22);
-        ctx.fillText('← → BARREL ROLL  SPACE FIRE', 468, 40);
+        ctx.fillText('← → BARREL ROLL  SPACE SHOT', 468, 40);
       }
 
       // Transition / message banner
@@ -5069,7 +5220,7 @@ function ensureMusicMaster() {
         invuln: 0,
         nextObstacle: 70,
         nextCoin: 40,
-        nextPower: 280,
+        nextPower: 160,
         bgOffset: 0,
         buildings: [],
         neonSigns: [],
@@ -5191,7 +5342,7 @@ function ensureMusicMaster() {
     }
 
     function spawnRunnerPower() {
-      const types = ['magnet', 'shield', 'boost'];
+      const types = ['magnet', 'shield', 'boost', 'fever', 'boost'];
       runner.powerups.push({
         x: 520,
         y: 160 + Math.random() * 100,
@@ -5373,7 +5524,7 @@ function ensureMusicMaster() {
       r.nextPower--;
       if (r.nextPower <= 0) {
         spawnRunnerPower();
-        r.nextPower = 250 + Math.random() * 200;
+        r.nextPower = 140 + Math.random() * 160;
       }
 
       if (r.comboTimer > 0) r.comboTimer--;
@@ -5493,14 +5644,21 @@ function ensureMusicMaster() {
         if (dx * dx + dy * dy < 400) {
           r.powerups.splice(i, 1);
           if (p.type === 'magnet') {
-            r.magnet = 240;
+            r.magnet = 280;
             r.msg = 'COIN MAGNET';
           } else if (p.type === 'shield') {
-            r.shield = 300;
+            r.shield = 340;
             r.msg = 'SHIELD ON';
+          } else if (p.type === 'fever') {
+            r.fever = Math.max(r.fever, 220);
+            r.combo = Math.min(12, r.combo + 3);
+            r.comboTimer = 140;
+            r.msg = 'FEVER MODE!';
+            r.flashWhite = 12;
           } else {
-            r.dashTimer = 25;
-            r.speed = Math.min(r.maxSpeed + 2, r.speed + 2);
+            r.dashTimer = 32;
+            r.dashCooldown = 0; // refresh dash
+            r.speed = Math.min(r.maxSpeed + 3, r.speed + 2.8);
             r.msg = 'SPEED BOOST';
           }
           r.scorePops.push({ x: p.x, y: p.y, text: p.type.toUpperCase(), life: 40 });
@@ -5850,7 +6008,7 @@ function ensureMusicMaster() {
       // Powerups
       r.powerups.forEach(p => {
         const bob = Math.sin(p.pulse * 0.15) * 5;
-        const col = p.type === 'magnet' ? '#ff66ff' : (p.type === 'shield' ? '#66ccff' : '#00ff9f');
+        const col = p.type === 'magnet' ? '#ff66ff' : (p.type === 'shield' ? '#66ccff' : (p.type === 'fever' ? '#ff66aa' : '#00ff9f'));
         ctx.save();
         ctx.translate(p.x, p.y + bob);
         ctx.shadowColor = col;
@@ -5862,7 +6020,7 @@ function ensureMusicMaster() {
         ctx.font = 'bold 12px Courier New';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(p.type === 'magnet' ? 'M' : (p.type === 'shield' ? 'S' : 'B'), 0, 1);
+        ctx.fillText(p.type === 'magnet' ? 'M' : (p.type === 'shield' ? 'S' : (p.type === 'fever' ? 'F' : 'B')), 0, 1);
         // orbiting dots
         ctx.fillStyle = col;
         const a = p.pulse * 0.2;
