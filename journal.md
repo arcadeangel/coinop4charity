@@ -21,7 +21,8 @@ Trauma-informed game-based social-emotional learning programs that emphasize reg
 
 Games that require reading opponents, executing timing, and improving through deliberate practice restore a sense of competence and personal responsibility for outcomes. 
 
-Strategy and skill-based games (as opposed to pure chance) align with better developmental patterns.
+Strategy and skill-based games (as opposed to pure chance) align with better developmental patterns. Our very own Circuit Runner is a good example of a runner game with some strategy elements (for ex: avoiding the green "boosts" to maintain control and low speed)
+but the optics/theatrics and feel good vibe on that is nowhere near going from a combo special move to seeing Sub Zero turn your opponent into an ice sculpture. Everyone deserves that level of fun, shouldn't be just if you have the change to spare.
 
 Local multiplayer fighting games force face-to-face interaction, turn-taking, trash-talk that stays in the game, and shared wins/losses. This is very different from isolated mobile/console play. 
 Supervised recreational spaces that keep youth engaged and off the street show associations with lower juvenile offending. Structured group activities that build competence and social connection are key ingredients in successful programs for  youth.
