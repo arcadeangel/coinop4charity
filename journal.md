@@ -1,3 +1,13 @@
+08.12.26 14:56
+Not just a bad speaker (Final Fight).
+
+Received joystick replacement part today along with two spare speaker parts I landed for 9.95 each on eBay with free shipping.
+These were arcade1up speakers that came from the exact same game and manufacturer. I tested the last speaker with a multimeter and the reading was all over
+the place so I was convinced that was the issue but it appears as if the volume control itself is actually damaged. The speaker itself needed to be replaced anyway 
+and did not make any pop or sound when placed against a battery. Some real arcade tech OGs even prefer fixing
+older machines to these 1Ups because they feel like the classics are easier to fix. Still no sound, looking for low cost volume control replacement next. 
+
+
 08.12.26 00:53 
 Are Fighting Games Entirely Bad?
 
