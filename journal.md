@@ -42,8 +42,8 @@ These are tools to help the real individuals nurture more real authentic relatio
 
 The people who administer these locations and youth centers, are ultimately the ones who bring people together, and make the magic happen. Not only that, but they do it every day with love. These locations are truly like flowers the more you water and nurture them the longer the fruit will stay in bloom.
 
-We see you and all your time involved and efforts, the people who attend these centers and those who administer them and try to make them special. 
+We see you and all your time involved and efforts, both the people who attend these centers and those who administer them and try to make them special. 
 
-We want to help whether its planting a new seed or supplying the water; just to be there and offer the difference makers more tools.
+We want to help your movement whether its planting a new seed or supplying the water; just to be there and offer the difference makers more tools.
 
 We love you all.
