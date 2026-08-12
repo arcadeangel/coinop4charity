@@ -1129,6 +1129,62 @@
       box-shadow: 0 0 0 2px #00ff9f, 0 0 30px rgba(0,255,159,0.25);
     }
 
+
+    /* ========== INVENTORY (sleek & out of the way) ========== */
+    .inventory-section {
+      margin: 1.4rem 0 0.6rem;
+      text-align: left;
+    }
+    .inventory-toggle {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #00ff9f44;
+      color: #00ff9f;
+      font-family: inherit;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      padding: 0.65rem 0.9rem;
+      cursor: pointer;
+      text-align: left;
+      text-transform: uppercase;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .inventory-toggle:hover,
+    .inventory-toggle[aria-expanded="true"] {
+      border-color: #00ff9f;
+      background: rgba(0, 255, 159, 0.06);
+    }
+    .inv-count {
+      opacity: 0.7;
+      font-size: 0.9em;
+      margin-left: 6px;
+    }
+    .inventory-list {
+      border: 1px solid #00ff9f33;
+      border-top: none;
+      background: rgba(0, 20, 16, 0.55);
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 6px 0;
+    }
+    .inv-item {
+      padding: 7px 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: #7dffc8;
+      border-bottom: 1px solid #00ff9f15;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .inv-item:last-child { border-bottom: none; }
+    .inv-name { color: #00ff9f; }
+    .inv-status {
+      opacity: 0.75;
+      white-space: nowrap;
+      font-size: 0.68rem;
+    }
+
   </style>
 </head>
 <body>
@@ -1252,6 +1308,14 @@
       <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
     </div>
 
+    <!-- ========== AVAILABLE FOR PLACEMENT ========== -->
+    <div class="inventory-section" id="inventorySection">
+      <button type="button" class="inventory-toggle" id="inventoryToggle" aria-expanded="false">
+        AVAILABLE FOR PLACEMENT <span class="inv-count" id="invCount"></span>
+      </button>
+      <div class="inventory-list" id="inventoryList" hidden></div>
+    </div>
+
     <p class="oss-line" id="ossLine">
       terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a>
     </p>
@@ -1311,6 +1375,43 @@
   </div>
 
   <script>
+
+    // ========== INVENTORY (loads from fleet.json) ==========
+    (function loadInventory() {
+      const toggle = document.getElementById("inventoryToggle");
+      const list = document.getElementById("inventoryList");
+      const countEl = document.getElementById("invCount");
+      if (!toggle || !list) return;
+
+      toggle.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", !open);
+        list.hidden = open;
+      });
+
+      fetch("fleet.json")
+        .then(r => r.json())
+        .then(data => {
+          if (!Array.isArray(data)) return;
+          const priority = data.filter(m => 
+            /ready|working|functional|restored/i.test((m.status || "") + " " + (m.condition || ""))
+          );
+          const rest = data.filter(m => !priority.includes(m));
+          const show = [...priority, ...rest];
+
+          countEl.textContent = "(" + show.length + ")";
+
+          list.innerHTML = show.map(m => {
+            const status = (m.condition || m.status || "").replace(/\(.*?\)/g, "").trim();
+            return "<div class=\"inv-item\"><span class=\"inv-name\">" + m.name + "</span><span class=\"inv-status\">" + status + "</span></div>";
+          }).join("");
+        })
+        .catch(() => {
+          countEl.textContent = "";
+          list.innerHTML = "<div class=\"inv-item\"><span class=\"inv-name\">Inventory loading…</span></div>";
+        });
+    })();
+
     // ========== CINEMATIC CRT POWER-ON ==========
     (function crtBoot() {
       const boot = document.getElementById('crt-boot');
