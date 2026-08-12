@@ -111,10 +111,10 @@
   },
   {
     "id": "final-fight-1up-01",
-    "name": "Final Fight (1UP)",
+    "name": "Capcom's Final Fight (1UP)",
     "type": "video",
-    "status": "in progress",
-    "condition": "in progress",
+    "status": "ready",
+    "condition": "working",
     "notes": "Speaker ordered. Everything else tested.",
     "fmv_estimate": 350,
     "location": "shop"
@@ -153,8 +153,8 @@
     "id": "stacker-club-02",
     "name": "Stacker Club Blue (LAI)",
     "type": "redemption",
-    "status": "in progress",
-    "condition": "in progress",
+    "status": "ready",
+    "condition": "working",
     "notes": "Needs rewiring on button and new locks.",
     "fmv_estimate": 1450,
     "location": "shop"
@@ -263,9 +263,9 @@
     "id": "primalrage-01",
     "name": "Primal Rage",
     "type": "video",
-    "status": "in progress",
-    "condition": "in progress",
-    "notes": "Large cabinet. Needs control panel work and cleanup.",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Large cabinet. Needed control panel work and cleanup.",
     "fmv_estimate": 1400,
     "location": "shop"
   },
@@ -275,7 +275,7 @@
     "type": "video",
     "status": "in progress",
     "condition": "in progress",
-    "notes": "Cabinet solid. Won't power on.",
+    "notes": "Cabinet solid. parts and crt there. Won't power on.",
     "fmv_estimate": null,
     "location": "warehouse"
   },
@@ -343,8 +343,8 @@
     "id": "slam-a-winner-01",
     "name": "Slam-A-Winner (Benchmark)",
     "type": "redemption",
-    "status": "in progress",
-    "condition": "in progress",
+    "status": "ready",
+    "condition": "working",
     "notes": "Ball drop / spinning wheel ticket game.",
     "fmv_estimate": 800,
     "location": "warehouse"
@@ -353,8 +353,8 @@
     "id": "spin-n-win-01",
     "name": "Spin-N-Win Wheel (Skee-Ball)",
     "type": "redemption",
-    "status": "in progress",
-    "condition": "in progress",
+    "status": "ready",
+    "condition": "working",
     "notes": "Spinning prize wheel ticket game.",
     "fmv_estimate": 700,
     "location": "warehouse"
