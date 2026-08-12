@@ -10,6 +10,16 @@
     "location": "shop"
   },
   {
+    "id": "pacman-1up-01",
+    "name": "Pac-Man (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cleaned, tested, working. ",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
