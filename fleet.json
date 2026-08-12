@@ -3,8 +3,8 @@
     "id": "pacman-1980-01",
     "name": "Pac-Man (1980)",
     "type": "video",
-    "status": "awaiting paintjob",
-    "condition": "fully restored",
+    "status": "ready",
+    "condition": "working",
     "notes": "Cleaned, tested, working. New glass and lights. Ready for placement.",
     "fmv_estimate": 1600,
     "location": "shop"
@@ -14,7 +14,7 @@
     "name": "Space Invaders",
     "type": "video",
     "status": "ready",
-    "condition": "restored & tested",
+    "condition": "working",
     "notes": "Solid cabinet, good monitor, reliable board. Speaker, lighting, and power switch replaced.",
     "fmv_estimate": 1700,
     "location": "shop"
@@ -24,7 +24,7 @@
     "name": "Frogger (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Cabinet solid. Working through monitor and controls.",
     "fmv_estimate": 400,
     "location": "shop"
@@ -34,7 +34,7 @@
     "name": "Ms. Pac-Man (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Cabinet solid. Working through monitor and controls.",
     "fmv_estimate": 400,
     "location": "shop"
@@ -44,7 +44,7 @@
     "name": "Mortal Kombat (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Like new.",
     "fmv_estimate": 400,
     "location": "shop"
@@ -54,7 +54,7 @@
     "name": "Mortal Kombat (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Replica coin mech and light banner.",
     "fmv_estimate": 450,
     "location": "shop"
@@ -64,7 +64,7 @@
     "name": "The Simpsons (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Bart Attack button fixed.",
     "fmv_estimate": 450,
     "location": "shop"
@@ -74,7 +74,7 @@
     "name": "Asteroids / Centipede (1UP)",
     "type": "video",
     "status": "ready",
-    "condition": "tested & working",
+    "condition": "working",
     "notes": "Like new.",
     "fmv_estimate": 400,
     "location": "shop"
@@ -83,8 +83,8 @@
     "id": "final-fight-1up-01",
     "name": "Final Fight (1UP)",
     "type": "video",
-    "status": "awaiting parts",
-    "condition": "working (audio pending)",
+    "status": "shop",
+    "condition": "working",
     "notes": "Speaker ordered. Everything else tested.",
     "fmv_estimate": 350,
     "location": "shop"
@@ -94,7 +94,7 @@
     "name": "Claw / Prize Machine",
     "type": "redemption",
     "status": "ready",
-    "condition": "functional",
+    "condition": "working",
     "notes": "Good candidate for high-traffic youth spaces.",
     "fmv_estimate": 900,
     "location": "warehouse"
@@ -124,7 +124,7 @@
     "name": "Stacker Club Blue (LAI)",
     "type": "redemption",
     "status": "shop",
-    "condition": "working (minor button/locks)",
+    "condition": "working",
     "notes": "Needs rewiring on button and new locks.",
     "fmv_estimate": 1450,
     "location": "shop"
@@ -183,8 +183,8 @@
     "id": "pink-mouse-vending-01",
     "name": "Pink Mouse Capsule Vending",
     "type": "vending",
-    "status": "shop",
-    "condition": "repaired and working",
+    "status": "ready",
+    "condition": "working",
     "notes": "Character capsule/toy novelty.",
     "fmv_estimate": 600,
     "location": "warehouse"
@@ -204,7 +204,7 @@
     "name": "Cyclone 3-Player (ICE)",
     "type": "redemption",
     "status": "shop",
-    "condition": "needs repairs",
+    "condition": "needs work",
     "notes": "3-player light-stop ticket game. Needs cosmetics and mechanics.",
     "fmv_estimate": 900,
     "location": "shop"
@@ -223,8 +223,8 @@
     "id": "mspacman-01",
     "name": "Ms. Pac-Man (1981)",
     "type": "video",
-    "status": "awaiting repair",
-    "condition": "not working",
+    "status": "shop",
+    "condition": "needs work",
     "notes": "Cabinet solid. Won't power on.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -234,7 +234,7 @@
     "name": "Fireball Skeeball Alley (Baytek)",
     "type": "redemption",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Needs full evaluation and repair.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -244,7 +244,7 @@
     "name": "L.A. Machine Guns (Sega)",
     "type": "video",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Cabinet with LCD, no computer.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -254,7 +254,7 @@
     "name": "Faster Than Speed Sit-Down",
     "type": "video",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Sit-down driving cabinet.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -264,7 +264,7 @@
     "name": "Deer Hunting USA",
     "type": "video",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Upright hunting game.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -274,7 +274,7 @@
     "name": "Super Bikes Fast & Furious",
     "type": "video",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Needs new dongle and missing PCB.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -284,7 +284,7 @@
     "name": "Atari Baseball Cocktail",
     "type": "video",
     "status": "shop",
-    "condition": "not working",
+    "condition": "needs work",
     "notes": "Cocktail table. Needs significant work.",
     "fmv_estimate": null,
     "location": "warehouse"
@@ -294,7 +294,7 @@
     "name": "Slam-A-Winner (Benchmark)",
     "type": "redemption",
     "status": "shop",
-    "condition": "not evaluated",
+    "condition": "needs work",
     "notes": "Ball drop / spinning wheel ticket game.",
     "fmv_estimate": 800,
     "location": "warehouse"
@@ -304,7 +304,7 @@
     "name": "Spin-N-Win Wheel (Skee-Ball)",
     "type": "redemption",
     "status": "shop",
-    "condition": "not evaluated",
+    "condition": "needs work",
     "notes": "Spinning prize wheel ticket game.",
     "fmv_estimate": 700,
     "location": "warehouse"
@@ -314,7 +314,7 @@
     "name": "Pinball (various)",
     "type": "pinball",
     "status": "restoring",
-    "condition": "needs work",
+    "condition": "in progress",
     "notes": "Multiple units in various states. Several candidates for youth placement.",
     "fmv_estimate": null,
     "location": "shop"
@@ -324,7 +324,7 @@
     "name": "Jukebox (Wurlitzer / others)",
     "type": "jukebox",
     "status": "shop",
-    "condition": "needs evaluation",
+    "condition": "needs work",
     "notes": "Multiple units. Some need mechanism and amp work.",
     "fmv_estimate": null,
     "location": "warehouse"
