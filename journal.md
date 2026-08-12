@@ -30,7 +30,7 @@ Supervised recreational spaces that keep youth engaged and off the street show a
 Casual/“shut off” or "running" games excel at short-term mood repair and distraction (which is useful in medical settings or acute stress). For chronic adversity, repeated pure escapism is less adaptive. 
 Reviews of commercial games for youth mental health find benefits across genres, but the deeper developmental gains (regulation, resilience, social skills) come more reliably from games that demand attention control, challenge, and recovery from failure. 
 
-Homeless and highly stressed youth need more than temporary shutdown; they need practice recovering from setbacks and experiencing competence.Classic fighting games create safe, repeatable cycles of pressure → focus → recovery → improvement.
+Homeless and highly stressed youth need more than temporary shutdown; they need practice recovering from setbacks and experiencing competence. Classic fighting games create safe, repeatable cycles of pressure → focus → recovery → improvement.
 
 Research links structured, skill-based play and supervised recreation to better emotional regulation, resilience, and reduced problem behavior pathways. Additionally local arcade multiplayer adds social connection and adult supervision that pure solitary mobile/console play lacks.
 
