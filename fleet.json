@@ -23,12 +23,21 @@
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
-    "status": "ready",
+    "status": "limited",
     "condition": "working",
-    "notes": "Cleaned, tested, working. New marquee, decals and joystick. Ready for placement.",
+    "notes": "Joystick replaced. Limited temporary availability only. Historic Nintendo title (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
     "fmv_estimate": 2200,
     "location": "shop"
   },
+  {
+  "id": "sega-jetrocket-1970-01",
+  "name": "Sega Jet Rocket (1970)",
+  "type": "electro-mechanical",
+  "status": "limited",
+  "condition": "working",
+  "notes": "Limited temporary availability only. Historic 1970 Sega EM flight simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+  "fmv_estimate": null,
+  "location": "shop"
   {
     "id": "spaceinvaders-1978-01",
     "name": "Space Invaders (1978)",
