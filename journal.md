@@ -1,8 +1,9 @@
 08.13.26 12:17
-Global high scores registering, Sega Turbo ready
+Global high scores finally registering
+
 Validated global high-score system and KV backend. GET/POST working correctly — only higher scores update, name + timestamp persist, durable across edge. 
 Confirmed live board updates immediately and consistently.
-Met with Sharp Image for Sega Turbo CRT cleanup and TLC (tube clean, focus/geometry, presentation-ready service). 
+Meeting with Sharp Image for Sega Turbo CRT cleanup and TLC (tube clean, focus/geometry, presentation-ready service). Sega Turbo is now ready with the exception of a vinyl decal replacement.
 Available fleet front-end updates.
 
 08.13.26 11:37
