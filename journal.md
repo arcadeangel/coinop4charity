@@ -1,3 +1,10 @@
+08.13.26 12:17
+Global high scores registering, Sega Turbo ready
+Validated global high-score system and KV backend. GET/POST working correctly — only higher scores update, name + timestamp persist, durable across edge. 
+Confirmed live board updates immediately and consistently.
+Met with Sharp Image for Sega Turbo CRT cleanup and TLC (tube clean, focus/geometry, presentation-ready service). 
+Available fleet front-end updates.
+
 08.13.26 11:37
 Scores backend back online
 
