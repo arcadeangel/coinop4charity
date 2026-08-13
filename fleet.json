@@ -70,6 +70,16 @@
     "location": "shop"
   },
   {
+    "id": "ultimate-arcade-2-01",
+    "name": "CGC Ultimate Arcade 2 Multicade",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "clean cabinet, good monitor, needed centering and adjustment. reliable board. needed power cord.",
+    "fmv_estimate": 900,
+    "location": "warehouse"
+  },
+  {
     "id": "frogger-1up-01",
     "name": "Frogger (1UP)",
     "type": "video",
