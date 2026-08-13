@@ -1441,6 +1441,25 @@
         });
     })();
 
+// ========== SHARED HIGH SCORES ==========
+const SCORES_API = "https://coinop-scores.samazar213.workers.dev";
+let globalScores = null;
+
+async function loadGlobalScores() {
+  try {
+    const res = await fetch(SCORES_API);
+    if (!res.ok) throw new Error("fail");
+    globalScores = await res.json();
+    refreshHiScores();
+    refreshTopOps();
+  } catch (e) {
+    console.warn("Could not load global scores", e);
+  }
+}
+
+loadGlobalScores();
+setInterval(loadGlobalScores, 60000);
+
     // ========== CINEMATIC CRT POWER-ON ==========
     (function crtBoot() {
       const boot = document.getElementById('crt-boot');
@@ -1642,21 +1661,50 @@
       });
     })();
 
-    // ========== HI-SCORE PANEL ==========
-    function refreshHiScores() {
-      const games = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
-      games.forEach(g => {
-        const el = document.getElementById('hs-' + g);
-        if (!el) return;
-        try {
-          const v = parseInt(localStorage.getItem('c4c_hs_' + g) || '0', 10);
-          el.textContent = v > 0 ? v : '—';
-        } catch (e) { el.textContent = '—'; }
-      });
+// ========== HI-SCORE PANEL (global from scores.json + local fallback) ==========
+const SCORES_URL = 'https://raw.githubusercontent.com/arcadeangel/coinop4charity/main/scores.json';
+let globalScores = null; // cache
+
+async function loadGlobalScores() {
+  try {
+    const res = await fetch(SCORES_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    globalScores = await res.json();
+    return globalScores;
+  } catch (e) {
+    console.warn('Could not load global scores', e);
+    return null;
+  }
+}
+
+function refreshHiScores() {
+  const games = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
+  games.forEach(g => {
+    const el = document.getElementById('hs-' + g);
+    if (!el) return;
+
+    // Prefer global score if available
+    let v = 0;
+    if (globalScores && globalScores[g] && globalScores[g].score > 0) {
+      v = globalScores[g].score;
+    } else {
+      // fallback to local
+      try {
+        v = parseInt(localStorage.getItem('c4c_hs_' + g) || '0', 10);
+      } catch (e) {}
     }
-    refreshHiScores();
-    // Keep panel updated periodically
-    setInterval(refreshHiScores, 2000);
+    el.textContent = v > 0 ? v : '—';
+  });
+}
+
+// Initial load + periodic refresh
+loadGlobalScores().then(() => {
+  refreshHiScores();
+  if (typeof refreshTopOps === 'function') refreshTopOps();
+});
+setInterval(() => {
+  loadGlobalScores().then(refreshHiScores);
+}, 15000); // every 15s is plenty
 
 
     // ========== TOP SCORE + SETTINGS + ATTRACT ==========
@@ -1677,30 +1725,39 @@
       }
     }
 
-    function refreshTopOps() {
-      const games = [
-        ['ufo', 'SAUCER BEAM'], ['fish', 'HAPPY FISHING'], ['runner', 'CIRCUIT RUNNER'],
-        ['racer', 'VORTEX STARSHIP'], ['yeti', 'YETI SLOPES'],
-        ['cycles', 'LIGHT CYCLES'], ['paddle', 'PULSE PADDLE']
-      ];
-      let best = { score: 0, name: null };
-      games.forEach(([k, n]) => {
-        try {
-          const v = parseInt(localStorage.getItem('c4c_hs_' + k) || '0', 10);
-          if (v > best.score) best = { score: v, name: n };
-        } catch (e) {}
-      });
-      const line = document.getElementById('topOpsLine');
-      const sub = document.getElementById('topOpsSub');
-      if (!line) return;
-      if (best.score <= 0) {
-        line.textContent = 'NO SCORES YET — BE THE FIRST';
-        if (sub) sub.textContent = 'Local terminal records';
-      } else {
-        line.textContent = best.name + '  ·  ' + best.score;
-        if (sub) sub.textContent = 'Best score on this terminal';
-      }
+function refreshTopOps() {
+  const games = [
+    ['ufo', 'SAUCER BEAM'], ['fish', 'HAPPY FISHING'], ['runner', 'CIRCUIT RUNNER'],
+    ['racer', 'VORTEX STARSHIP'], ['yeti', 'YETI SLOPES'],
+    ['cycles', 'LIGHT CYCLES'], ['paddle', 'PULSE PADDLE']
+  ];
+  let best = { score: 0, name: null };
+
+  games.forEach(([k, n]) => {
+    let v = 0;
+    // Prefer global score
+    if (globalScores && globalScores[k] && globalScores[k].score > 0) {
+      v = globalScores[k].score;
+    } else {
+      try {
+        v = parseInt(localStorage.getItem('c4c_hs_' + k) || '0', 10);
+      } catch (e) {}
     }
+    if (v > best.score) best = { score: v, name: n };
+  });
+
+  const line = document.getElementById('topOpsLine');
+  const sub = document.getElementById('topOpsSub');
+  if (!line) return;
+
+  if (best.score <= 0) {
+    line.textContent = 'NO SCORES YET — BE THE FIRST';
+    if (sub) sub.textContent = 'Global + local terminal records';
+  } else {
+    line.textContent = best.name + '  ·  ' + best.score;
+    if (sub) sub.textContent = 'Best score (global)';
+  }
+}
 
     const _refreshHiScoresOrig = typeof refreshHiScores === 'function' ? refreshHiScores : null;
     // patch after definition - we'll call from interval
@@ -3659,17 +3716,31 @@ function ensureMusicMaster() {
     function shake(n = 6) { shakeAmount = Math.max(shakeAmount, n); }
 
     function getHigh(name) {
-      try { return parseInt(localStorage.getItem('c4c_hs_' + name) || '0', 10); } catch(e) { return 0; }
-    }
-    function setHigh(name, score) {
-      const prev = getHigh(name);
-      if (score > prev) {
-        try { localStorage.setItem('c4c_hs_' + name, String(score)); } catch(e) {}
-        if (typeof refreshHiScores === 'function') refreshHiScores();
-        return true;
-      }
-      return false;
-    }
+  // Prefer global score, fall back to local
+  if (globalScores && globalScores[name] && globalScores[name].score > 0) {
+    return globalScores[name].score;
+  }
+  try {
+    return parseInt(localStorage.getItem('c4c_hs_' + name) || '0', 10);
+  } catch (e) {
+    return 0;
+  }
+}
+
+function setHigh(name, score) {
+  const prev = getHigh(name);
+  if (score > prev) {
+    // Always save personal best locally
+    try {
+      localStorage.setItem('c4c_hs_' + name, String(score));
+    } catch (e) {}
+    if (typeof refreshHiScores === 'function') refreshHiScores();
+    if (typeof refreshTopOps === 'function') refreshTopOps();
+    // Later we can add the GitHub write here
+    return true;
+  }
+  return false;
+}
 
     function updateUI(score, lives) {
       scoreEl.textContent = `SCORE: ${score}`;
