@@ -1,5 +1,6 @@
 08.12.26 22:33
 Top scores on server, no longer terminal local
+
 Using GitHub's API terminal games high scores are now hosted on the server and no longer local meaning your grind and bragging rights are there to stay. Took a couple tries and days.
 Picked up a cool Multicade earlier. Chicago Games, lots of good games on it, super clean. Screen needed to be centered and needed a new power cord fixed and ready now in the warehouse storage space.
 
