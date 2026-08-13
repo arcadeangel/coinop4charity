@@ -80,6 +80,16 @@
     "location": "warehouse"
   },
   {
+  "id": "atari-stun-runner-1989-01",
+  "name": "Atari Stun Runner (1989)",
+  "type": "video",
+  "status": "limited",
+  "condition": "ready",
+  "notes": "Limited temporary availability only. Historic 1989 sit down racing simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+  "fmv_estimate": null,
+  "location": "shop"
+  },
+  {
     "id": "frogger-1up-01",
     "name": "Frogger (1UP)",
     "type": "video",
