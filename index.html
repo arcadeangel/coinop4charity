@@ -898,7 +898,73 @@
       text-transform: uppercase;
     }
     .fx-toggle:hover { color: #00ff9f; border-color: #00ff9f; }
+50% { opacity: 1; text-shadow: 0 0 18px #00ff9fcc; }
+    }
 
+    .fleet-panel {
+      margin: 0.6rem 0 1.4rem;
+      text-align: center;
+    }
+    .fleet-btn {
+      width: 100%;
+      background: rgba(0, 255, 159, 0.08);
+      border: 1px solid #00ff9faa;
+      color: #00ff9f;
+      font-family: inherit;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.75rem 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 0 16px #00ff9f44, inset 0 0 18px #00ff9f12;
+      animation: fleetGlow 2.6s ease-in-out infinite;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+    .fleet-btn:hover, .fleet-btn[aria-expanded="true"] {
+      background: rgba(0, 255, 159, 0.16);
+      box-shadow: 0 0 28px #00ff9f88, inset 0 0 22px #00ff9f22;
+    }
+    .fleet-btn span { color: #ffff99; font-weight: bold; }
+    @keyframes fleetGlow {
+      0%, 100% { box-shadow: 0 0 12px #00ff9f33, inset 0 0 12px #00ff9f08; }
+      50% { box-shadow: 0 0 26px #00ff9faa, inset 0 0 20px #00ff9f18; }
+    }
+    .fleet-list {
+      margin-top: 0.45rem;
+      border: 1px solid #00ff9f44;
+      background: rgba(0, 12, 10, 0.92);
+      max-height: 220px;
+      overflow-y: auto;
+      text-align: left;
+      -webkit-overflow-scrolling: touch;
+    }
+    .fleet-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #00ff9f18;
+      color: #7dffc8;
+    }
+    .fleet-row:last-child { border-bottom: none; }
+    .fleet-row .fname { color: #00ff9f; flex: 1; min-width: 0; }
+    .fleet-row .fstat {
+      flex-shrink: 0;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: #ffff99;
+    }
+    .fleet-row .fstat.in-progress { color: #ffaa66; }
+    .fleet-row .fstat.limited { color: #66ccff; }
+    .fleet-empty {
+      padding: 0.7rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #7dffc8;
+      opacity: 0.7;
+    }
 
     .charity-frame {
       text-align: center;
@@ -1193,7 +1259,7 @@
         <option value="other">Other / general inquiry</option>
       </select>
 
-      <label for="inquiry">Message</label>
+<label for="inquiry">Message</label>
       <textarea id="inquiry" name="inquiry" required></textarea>
 
       <div class="hp" aria-hidden="true">
@@ -1203,6 +1269,13 @@
       <input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
       <button type="submit">GET INVOLVED</button>
     </form>
+
+    <div class="fleet-panel" id="fleetPanel">
+      <button type="button" class="fleet-btn" id="fleetBtn" aria-expanded="false">
+        FLEET AVAILABLE FOR PLACEMENT <span id="fleetCount">(—)</span>
+      </button>
+      <div class="fleet-list" id="fleetList" hidden></div>
+    </div>
 
     <div class="free-games">
       <h3>TERMINAL GAMES</h3>
@@ -1243,11 +1316,11 @@
     <div class="top-ops" id="topOps">
       <h4>★ TOP SCORE ★</h4>
       <div class="ops-line" id="topOpsLine">NO SCORES YET — BE THE FIRST</div>
-      <div class="ops-sub" id="topOpsSub">Local terminal records</div>
+      <div class="ops-sub" id="topOpsSub">Global arcade records</div>
     </div>
 
     <div class="hi-scores" id="hiScoresPanel">
-      <h4>TERMINAL HI-SCORES</h4>
+      <h4>GLOBAL HI-SCORES</h4>
       <div class="row"><span>SAUCER BEAM</span><span id="hs-ufo">—</span></div>
       <div class="row"><span>HAPPY FISHING</span><span id="hs-fish">—</span></div>
       <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
@@ -1294,7 +1367,7 @@
       <label for="opsDiff">Difficulty bias</label>
       <input type="range" id="opsDiff" min="0" max="2" step="1" value="1">
       <div style="font-size:10px;color:#7dffc8;margin-top:4px" id="opsDiffLabel">NORMAL</div>
-      <button type="button" id="opsResetScores">Reset local hi-scores</button>
+      <button type="button" id="opsResetScores">Reset local personal bests</button>
       <button type="button" id="opsAttract">Start attract mode now</button>
       <button type="button" class="ops-close" id="opsClose">Close</button>
       <div style="font-size:9px;color:#5a9;margin-top:10px;text-align:center">Long-press the logo to open settings</div>
@@ -1561,22 +1634,198 @@
       });
     })();
 
-    // ========== HI-SCORE PANEL ==========
+    // ========== GLOBAL + LOCAL HI-SCORES ==========
+    const SCORES_API = 'https://coinop-scores.samazar213.workers.dev';
+    const GAME_KEYS = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
+    const GAME_NAMES = {
+      ufo: 'SAUCER BEAM', fish: 'HAPPY FISHING', runner: 'CIRCUIT RUNNER',
+      racer: 'VORTEX STARSHIP', yeti: 'YETI SLOPES', cycles: 'LIGHT CYCLES', paddle: 'PULSE PADDLE'
+    };
+    window.C4C_GLOBAL = null;
+
+    function localHigh(name) {
+      try { return parseInt(localStorage.getItem('c4c_hs_' + name) || '0', 10); } catch (e) { return 0; }
+    }
+    function setLocalHigh(name, score) {
+      if (score > localHigh(name)) {
+        try { localStorage.setItem('c4c_hs_' + name, String(score)); } catch (e) {}
+        return true;
+      }
+      return false;
+    }
+    function getHigh(name) {
+      const local = localHigh(name);
+      if (window.C4C_GLOBAL && window.C4C_GLOBAL[name]) {
+        return Math.max(local, parseInt(window.C4C_GLOBAL[name].score, 10) || 0);
+      }
+      return local;
+    }
+    function setHigh(name, score, playerName) {
+      setLocalHigh(name, score);
+      const globalScore = (window.C4C_GLOBAL && window.C4C_GLOBAL[name])
+        ? (parseInt(window.C4C_GLOBAL[name].score, 10) || 0) : 0;
+      if (score > globalScore) {
+        const payload = {
+          game: name,
+          score: score,
+          name: (playerName || 'ANON').toString().slice(0, 12).toUpperCase() || 'ANON'
+        };
+        fetch(SCORES_API + '/scores', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(r => r.json()).then(data => {
+          if (data && data.scores) window.C4C_GLOBAL = data.scores;
+          else if (data && data.updated && window.C4C_GLOBAL) {
+            window.C4C_GLOBAL[name] = { score: score, name: payload.name, ts: Date.now() };
+          }
+          refreshHiScores();
+          refreshTopOps();
+        }).catch(function () {});
+        return true;
+      }
+      refreshHiScores();
+      refreshTopOps();
+      return false;
+    }
+    async function loadGlobalScores() {
+      try {
+        const r = await fetch(SCORES_API + '/scores', { cache: 'no-store' });
+        if (!r.ok) throw new Error('bad');
+        const data = await r.json();
+        if (data && typeof data === 'object') {
+          window.C4C_GLOBAL = data;
+          refreshHiScores();
+          refreshTopOps();
+        }
+      } catch (e) {}
+    }
     function refreshHiScores() {
-      const games = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
-      games.forEach(g => {
+      GAME_KEYS.forEach(function (g) {
         const el = document.getElementById('hs-' + g);
         if (!el) return;
-        try {
-          const v = parseInt(localStorage.getItem('c4c_hs_' + g) || '0', 10);
-          el.textContent = v > 0 ? v : '—';
-        } catch (e) { el.textContent = '—'; }
+        var label = '—';
+        if (window.C4C_GLOBAL && window.C4C_GLOBAL[g]) {
+          var v = parseInt(window.C4C_GLOBAL[g].score, 10) || 0;
+          var n = window.C4C_GLOBAL[g].name;
+          if (v > 0) label = (n && n !== '—' && n.indexOf('â') < 0) ? (v + ' · ' + n) : String(v);
+        } else {
+          var lv = localHigh(g);
+          if (lv > 0) label = String(lv);
+        }
+        el.textContent = label;
       });
     }
+    function refreshTopOps() {
+      var best = { score: 0, name: null, player: null };
+      GAME_KEYS.forEach(function (k) {
+        var v = 0, player = null;
+        if (window.C4C_GLOBAL && window.C4C_GLOBAL[k]) {
+          v = parseInt(window.C4C_GLOBAL[k].score, 10) || 0;
+          player = window.C4C_GLOBAL[k].name;
+        } else {
+          v = localHigh(k);
+        }
+        if (v > best.score) best = { score: v, name: GAME_NAMES[k] || k, player: player };
+      });
+      var line = document.getElementById('topOpsLine');
+      var sub = document.getElementById('topOpsSub');
+      if (!line) return;
+      if (best.score <= 0) {
+        line.textContent = 'NO SCORES YET — BE THE FIRST';
+        if (sub) sub.textContent = 'Global arcade records';
+      } else {
+        var who = (best.player && best.player !== '—' && String(best.player).indexOf('â') < 0) ? (' · ' + best.player) : '';
+        line.textContent = best.name + '  ·  ' + best.score + who;
+        if (sub) sub.textContent = 'Global high score';
+      }
+    }
     refreshHiScores();
-    // Keep panel updated periodically
-    setInterval(refreshHiScores, 2000);
+    refreshTopOps();
+    loadGlobalScores();
+    setInterval(loadGlobalScores, 45000);
 
+    // ========== FLEET — Available for placement (button + list) ==========
+    async function loadFleet() {
+      var btn = document.getElementById('fleetBtn');
+      var countEl = document.getElementById('fleetCount');
+      var listEl = document.getElementById('fleetList');
+      if (!listEl) return;
+
+      function mStatus(m) {
+        var s = String(m.status || '').toLowerCase().trim();
+        if (s === 'ready') return 'ready';
+        if (s === 'limited') return 'limited';
+        if (s.indexOf('progress') >= 0) return 'in progress';
+        var c = String(m.condition || '').toLowerCase().trim();
+        if (c === 'working' || c === 'ready') return 'ready';
+        if (c.indexOf('progress') >= 0) return 'in progress';
+        return s || c || 'unknown';
+      }
+      function statusLabel(s) {
+        if (s === 'ready') return 'READY';
+        if (s === 'limited') return 'LIMITED';
+        if (s === 'in progress') return 'IN PROGRESS';
+        return String(s).toUpperCase();
+      }
+
+      try {
+        var r = await fetch('https://raw.githubusercontent.com/arcadeangel/coinop4charity/main/fleet.json', { cache: 'no-store' });
+        if (!r.ok) throw new Error('fleet');
+        var fleet = await r.json();
+        if (!Array.isArray(fleet)) throw new Error('shape');
+
+        var list = fleet.filter(function (m) {
+          if (!m || !m.name) return false;
+          var st = mStatus(m);
+          return st === 'ready' || st === 'in progress' || st === 'limited';
+        });
+        list.sort(function (a, b) {
+          var order = { ready: 0, limited: 1, 'in progress': 2 };
+          var sa = order[mStatus(a)]; if (sa === undefined) sa = 9;
+          var sb = order[mStatus(b)]; if (sb === undefined) sb = 9;
+          if (sa !== sb) return sa - sb;
+          return String(a.name).localeCompare(String(b.name));
+        });
+
+        if (countEl) countEl.textContent = '(' + list.length + ')';
+        listEl.innerHTML = '';
+        if (!list.length) {
+          listEl.innerHTML = '<div class="fleet-empty">No machines listed</div>';
+        } else {
+          list.forEach(function (m) {
+            var st = mStatus(m);
+            var row = document.createElement('div');
+            row.className = 'fleet-row';
+            var name = document.createElement('span');
+            name.className = 'fname';
+            name.textContent = m.name;
+            var stat = document.createElement('span');
+            stat.className = 'fstat' + (st === 'in progress' ? ' in-progress' : (st === 'limited' ? ' limited' : ''));
+            stat.textContent = statusLabel(st);
+            row.appendChild(name);
+            row.appendChild(stat);
+            listEl.appendChild(row);
+          });
+        }
+      } catch (e) {
+        if (countEl) countEl.textContent = '(—)';
+        listEl.innerHTML = '<div class="fleet-empty">Fleet data offline</div>';
+      }
+    }
+
+    (function setupFleetToggle() {
+      var btn = document.getElementById('fleetBtn');
+      var list = document.getElementById('fleetList');
+      if (!btn || !list) return;
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        list.hidden = open;
+      });
+    })();
+
+    loadFleet();
 
     // ========== TOP SCORE + SETTINGS + ATTRACT ==========
     window.C4C_OPS = {
@@ -1593,31 +1842,6 @@
       try { localStorage.setItem('c4c_ops', JSON.stringify(window.C4C_OPS)); } catch (e) {}
       if (typeof musicMaster !== 'undefined' && musicMaster) {
         try { musicMaster.gain.value = 0.095 * (window.C4C_OPS.musicVol || 0.7); } catch (e) {}
-      }
-    }
-
-    function refreshTopOps() {
-      const games = [
-        ['ufo', 'SAUCER BEAM'], ['fish', 'HAPPY FISHING'], ['runner', 'CIRCUIT RUNNER'],
-        ['racer', 'VORTEX STARSHIP'], ['yeti', 'YETI SLOPES'],
-        ['cycles', 'LIGHT CYCLES'], ['paddle', 'PULSE PADDLE']
-      ];
-      let best = { score: 0, name: null };
-      games.forEach(([k, n]) => {
-        try {
-          const v = parseInt(localStorage.getItem('c4c_hs_' + k) || '0', 10);
-          if (v > best.score) best = { score: v, name: n };
-        } catch (e) {}
-      });
-      const line = document.getElementById('topOpsLine');
-      const sub = document.getElementById('topOpsSub');
-      if (!line) return;
-      if (best.score <= 0) {
-        line.textContent = 'NO SCORES YET — BE THE FIRST';
-        if (sub) sub.textContent = 'Local terminal records';
-      } else {
-        line.textContent = best.name + '  ·  ' + best.score;
-        if (sub) sub.textContent = 'Best score on this terminal';
       }
     }
 
@@ -4002,17 +4226,10 @@ function ensureMusicMaster() {
     let shakeAmount = 0;
     function shake(n = 6) { shakeAmount = Math.max(shakeAmount, n); }
 
-    function getHigh(name) {
-      try { return parseInt(localStorage.getItem('c4c_hs_' + name) || '0', 10); } catch(e) { return 0; }
-    }
-    function setHigh(name, score) {
-      const prev = getHigh(name);
-      if (score > prev) {
-        try { localStorage.setItem('c4c_hs_' + name, String(score)); } catch(e) {}
-        if (typeof refreshHiScores === 'function') refreshHiScores();
-        return true;
-      }
-      return false;
+    // getHigh / setHigh defined earlier (global Worker + local fallback)
+    if (typeof window.getHigh !== 'function') {
+      window.getHigh = getHigh;
+      window.setHigh = setHigh;
     }
 
     function updateUI(score, lives) {
@@ -8775,4 +8992,4 @@ function ensureMusicMaster() {
 
   </script>
 </body>
-</html> 
+</html>
