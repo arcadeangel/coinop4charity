@@ -1,3 +1,13 @@
+08.13.26 11:37
+Scores backend back online
+
+Worker code was returning 1101 (dead).
+Replaced with minimal CORS-enabled handler. GET/POST /scores now 200.
+Already pointed at the same URL — no index change required for basic operation.
+
+In-memory store works for live testing but does not persist across isolates.
+Next steps: binding free KV namespace so high scores survive cold starts and redeploys.
+
 08.12.26 22:33
 Top scores on server, no longer terminal local
 
