@@ -24,7 +24,7 @@
     "name": "Donkey Kong (1981)",
     "type": "video",
     "status": "limited",
-    "condition": "working",
+    "condition": "ready",
     "notes": "Joystick replaced. Limited temporary availability only. Historic Nintendo title (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
     "fmv_estimate": 2200,
     "location": "shop"
@@ -34,7 +34,7 @@
   "name": "Sega Jet Rocket (1970)",
   "type": "electro-mechanical",
   "status": "limited",
-  "condition": "working",
+  "condition": "ready",
   "notes": "Limited temporary availability only. Historic 1970 Sega EM flight simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
   "fmv_estimate": null,
   "location": "shop"
