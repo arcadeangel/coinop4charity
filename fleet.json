@@ -20,6 +20,16 @@
     "location": "shop"
   },
   {
+    "id": "pacman-countercade-1up-01",
+    "name": "Pac-Man Countercade (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cleaned, tested, working. ",
+    "fmv_estimate": 200,
+    "location": "shop"
+  },
+  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
@@ -107,6 +117,16 @@
     "condition": "working",
     "notes": "Cabinet solid. Working through monitor and controls.",
     "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "mspacman-countercade-1up-01",
+    "name": "Ms. Pac-Man Countercade (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cleaned, tested, working. ",
+    "fmv_estimate": 200,
     "location": "shop"
   },
   {
