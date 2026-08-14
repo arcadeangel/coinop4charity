@@ -9,7 +9,7 @@ Live terminal → [coinop4charity.org](https://coinop4charity.org)
 ### What this is
 We restore vintage arcade machines, and other coin-op equipment, then place them with youth organizations and community partners across Nevada. Kids get free play. The organizations get a fun way to raise money and draw people in.
 
-We are a non profit organization in the state of Nevada. This is the early stage of a Nevada 501(c)(3). The public-facing site and these tools are open source.
+We are a non-profit organization in the state of Nevada. This is the early stage of a Nevada 501(c)(3). The public-facing site and these tools are open source.
 
 ### Current focus
 - Restoring a growing fleet (~100 machines acquired)
