@@ -1238,6 +1238,9 @@
     </div>
 
     <p class="mission" id="mission"></p>
+    <p class="how-it-works" style="font-size:0.72rem;letter-spacing:0.12em;color:#7dffc8;opacity:0.75;margin:-0.6rem 0 1.2rem;text-align:center;">
+      machines restored · placed free · kids play
+    </p>
 
     <form action="https://formspree.io/f/mrpzenbr" method="POST">
       <label for="name">Name</label>
@@ -1253,7 +1256,7 @@
       <select id="interest" name="interest">
         <option value="">Select one</option>
         <option value="host">Hosting a machine</option>
-        <option value="donate">Donating a machine</option>
+        <option value="donate">Giving away a machine</option>
         <option value="partner">Partnership / sponsorship</option>
         <option value="volunteer">Volunteering</option>
         <option value="other">Other / general inquiry</option>
@@ -1330,10 +1333,10 @@
       <div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
     </div>
 
-<p class="oss-line" id="ossLine">
-  terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a><br>
-  <a href="https://github.com/arcadeangel/coinop4charity/tree/main/docs/restoration" target="_blank" rel="noopener">restoration guides</a>
-</p>
+    <p class="oss-line" id="ossLine">
+      terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a><br>
+      <a href="https://github.com/arcadeangel/coinop4charity/tree/main/docs/restoration" target="_blank" rel="noopener">restoration guides</a>
+    </p>
 
     <div class="footer">
       <button type="button" class="share-btn" id="shareBtn" title="Share this site">SHARE THIS TERMINAL</button>
@@ -1408,7 +1411,7 @@
       let h = Math.max(480, window.innerHeight || 844);
       canvas.width = w; canvas.height = h;
       const lines = [
-        'COIN-OP 4 CHARITY  ·  TERMINAL v2.5',
+        'COIN-OP 4 CHARITY  ·  TERMINAL v2.6',
         'PHOSPHOR WARM-UP .............. OK',
         'MEMORY CHECK  64K ............. OK',
         'ARC-NET LINK .................. OK',
@@ -3224,7 +3227,7 @@
     // ========== Typewriter ==========
     const missionEl = document.getElementById('mission');
     const skipMission = !missionEl;
-    const fullText1 = "Nevada nonprofit organization focused on placing arcade and coin-op machines in youth organizations and their community partners — creating free play for kids and new ways to fundraise.";
+    const fullText1 = "Placing arcade and coin-op machines with Nevada youth organizations and community partners — creating free play for kids and new ways to fundraise.";
     const fullText2 = "Modern tools make restoration more possible than it’s been in decades. Tools & scripts on GitHub as we build.";
     const ghUrl = "https://github.com/arcadeangel/coinop4charity";
     const typeSpeed = 48; // slower than before (was 28)
@@ -4243,7 +4246,33 @@ function ensureMusicMaster() {
     function flash(n = 0.45) { flashAlpha = Math.max(flashAlpha, n); }
 
     function showGameOver(text, gameKey, score) {
-      if (gameKey && score !== undefined) setHigh(gameKey, score);
+      if (gameKey && score !== undefined) {
+        const currentHigh = getHigh(gameKey);
+        if (score > currentHigh) {
+          // Youth-safe name filter: max 6 chars + blocklist
+          const BLOCKED = [
+            'FUCK','SHIT','ASS','ASSHOLE','BITCH','CUNT','DICK','COCK','PUSSY',
+            'NIGGER','NIGGA','FAGGOT','FAG','RETARD','WHORE','SLUT','BASTARD',
+            'DAMN','HELL','PISS','CRAP','POOP','FART','TITS','BOOBS','SEX',
+            'PORN','RAPE','KILL','DIE','SUCK','CUM','JIZZ','ANAL','GAY'
+          ];
+          function cleanName(raw) {
+            if (!raw) return 'ANON';
+            let n = raw.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 6);
+            if (!n) return 'ANON';
+            const compact = n.replace(/\s+/g, '');
+            for (const bad of BLOCKED) {
+              if (compact === bad || compact.indexOf(bad) !== -1) return 'ANON';
+            }
+            return n;
+          }
+          let name = prompt('NEW HIGH SCORE! Enter your initials (max 6):', '');
+          name = cleanName(name);
+          setHigh(gameKey, score, name);
+        } else {
+          setHigh(gameKey, score);
+        }
+      }
       lastGameKey = gameKey || currentGame;
       const hs = gameKey ? getHigh(gameKey) : 0;
       const isNew = gameKey && score >= hs && score > 0;
