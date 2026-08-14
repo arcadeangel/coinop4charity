@@ -1,3 +1,11 @@
+08.13.25 22:33
+Application approved: active nonprofit
+
+En route from picking up a large sized Pacman countercade and Ms. Pacman 1Up (added to fleet this afternoon), just noticed active nonprofit status on SilverFlume.
+Excited to make this announcement and look forward to helping youth leaders and organizers on the front lines build many arcades in the years to come! 
+Thanks to everyone who is getting the word out on our organization! 
+Special thanks to all of the people who have been helping out and also volunteering their time.
+
 08.13.26 12:17
 Global high scores finally registering
 
