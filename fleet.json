@@ -20,12 +20,12 @@
     "location": "shop"
   },
   {
-    "id": "pacman-countercade-1up-01",
-    "name": "Pac-Man Countercade (1UP)",
+    "id": "pacman-1up-02",
+    "name": "Pac-Man (1UP)",
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Cleaned, tested, working. ",
+    "notes": "Countercade Pacman, 8 games including Galaga. Cleaned, tested, working. ",
     "fmv_estimate": 200,
     "location": "shop"
   },
@@ -120,12 +120,12 @@
     "location": "shop"
   },
   {
-    "id": "mspacman-countercade-1up-01",
-    "name": "Ms. Pac-Man Countercade (1UP)",
+    "id": "mspacman-1up-02",
+    "name": "Ms. Pac-Man (1UP)",
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Cleaned, tested, working. ",
+    "notes": "Countercade with variety of Pacman titles Cleaned, tested, working. ",
     "fmv_estimate": 200,
     "location": "shop"
   },
