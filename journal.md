@@ -1,4 +1,36 @@
-08.13.25 22:33
+08.14.26 00:33
+Built out the public restoration library and shipped a site update (v2.6).
+
+{Restoration documentation}
+Created and finalized a full set of public-facing restoration / service guides for the docs/restoration/ folder:
+•  Sega Arcade Light Gun (no PCB)
+•  Golden Tee 2005 (green hue + complete restoration)
+•  Sega Jet Rocket (1970)
+•  Pac-Man (1980)
+•  Space Invaders (1978)
+•  Sega Turbo (1981)
+•  Donkey Kong (1981)
+•  S.T.U.N. Runner (1989)
+•  CGC Ultimate Arcade 2 Multicade
+•  Deer Hunting USA (Sammy)
+•  Primal Rage (1994)
+•  Stacker Prize Redemption
+•  Cyclone Ticket Redemption (includes step-by-step free-play conversion)
+All guides follow the same clean format for youth-center / nonprofit use: safety, cabinet, controls, power, monitor notes, testing checklist, and host-site notes.
+Updated docs/restoration/README.md with a full table of every guide currently in the folder.
+
+{Website updates} (Index.html → v2.6)
+•  Version string bumped from v2.5 → v2.6
+•  Added restoration guides link under the open-source line (points to GitHub docs/restoration/)
+•  Form interest option changed from “Donating a machine” → “Giving away a machine”
+•  Added short mission support line: machines restored · placed free · kids play
+•  High-score system now prompts for initials (max 6 characters) only when a global high score is beaten
+•  Added youth-safe name filter (blocklist for profanity, slurs, and words like “poop”) — blocked or blank names fall back to ANON
+•  Fleet list left unchanged (name + status only: ready / in progress)
+All changes tested and verified before handoff.
+Restoration library is now public-ready and linked from the homepage. High-score names are cleaner and safer for a youth-facing site. Site version is current at v2.6.
+
+08.13.26 22:33
 Application approved: active nonprofit
 
 En route from picking up a large sized Pacman countercade and Ms. Pacman 1Up (added to fleet this afternoon), just noticed active nonprofit status on SilverFlume.
