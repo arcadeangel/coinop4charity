@@ -50,6 +50,16 @@
     "location": "shop"
   },
   {
+  "id": "donkeykong-coleco-1982-01",
+  "name": "Donkey Kong Coleco Tabletop (1982)",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
+  "fmv_estimate": 175,
+  "location": "shop"
+},
+  {
   "id": "sega-jetrocket-1970-01",
   "name": "Sega Jet Rocket (1970)",
   "type": "electro-mechanical",
@@ -99,6 +109,16 @@
     "fmv_estimate": 900,
     "location": "warehouse"
   },
+  {
+  "id": "hanaho-capcom-arcadepc-01",
+  "name": "Hanaho Capcom ArcadePC Multicade",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Needed new lock, keyboard, and power supply. Hanaho ArcadePC cabinet with Capcom licensed pack (Street Fighter series + other Capcom titles via MAME). HotRod controls, authentic cabinet. Cleaned, tested, working. Strong multicade option for youth spaces — lots of classic Capcom content in one unit.",
+  "fmv_estimate": 900,
+  "location": "shop"
+},
   {
   "id": "atari-stun-runner-1989-01",
   "name": "Atari Stun Runner (1989)",
