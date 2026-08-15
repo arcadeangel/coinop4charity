@@ -113,10 +113,10 @@
   "id": "hanaho-capcom-arcadepc-01",
   "name": "Hanaho Capcom ArcadePC Multicade",
   "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Shoutout to Norm for the free delivery and help. Needed new lock, keyboard, and power supply. Hanaho ArcadePC cabinet with Capcom licensed pack (Street Fighter series + other Capcom titles via MAME). HotRod controls, track ball, authentic cabinet. Cleaned, tested, working. Strong multicade option for youth spaces — lots of classic Capcom content in one unit.",
-  "fmv_estimate": 900,
+  "status": "in progress",
+  "condition": "in progress",
+  "notes": "Powers but no activity on screen. Needs some work. Needed new lock, keyboard, and power supply. Hanaho ArcadePC cabinet with Capcom licensed pack (Street Fighter series + other Capcom titles via MAME). HotRod controls, track ball, authentic cabinet. Cleaned, tested, working. Strong multicade option for youth spaces — lots of classic Capcom content in one unit.",
+  "fmv_estimate": 850,
   "location": "shop"
 },
   {
