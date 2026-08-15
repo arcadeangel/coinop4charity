@@ -343,8 +343,8 @@
     "id": "cyclone-ice-01",
     "name": "Cyclone 3-Player (ICE)",
     "type": "redemption",
-    "status": "in progress",
-    "condition": "in progress",
+    "status": "ready",
+    "condition": "working",
     "notes": "3-player light-stop ticket game. Needs cosmetics and mechanics.",
     "fmv_estimate": 900,
     "location": "shop"
