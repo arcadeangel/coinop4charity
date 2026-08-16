@@ -1,3 +1,27 @@
+08.15.26 17:38
+Hey what's up? Hello Terminal v2.7 + weekly fleet acquisitions
+
+{Website / terminal updates}
+Shipped Index.html as TERMINAL v2.7.
+•  Happy Fishing is no longer endless — 90-second timed sessions so high-score name entry works correctly (no more score spam without a proper end).
+•  Vortex Starship rebuilt for optics (denser tunnel, stronger ship silhouette, thruster, bloom).
+•  Circuit Runner: denser rain, brighter neon windows/edges, stronger player glow.
+•  Boot/load screen now draws COIN-OP FOR CHARITY in legible ASCII art (mobile + desktop variants).
+•  Light Cycles trail and Saucer Beam glow tightened; version stamp in boot text and footer.
+Global hi-score system and fleet panel left intact. Site is demo-ready for state / local org visibility.
+
+{Fleet / acquisitions}
+Picked up a Hanaho ArcadePC multicade (needs work) and a large working Galaga countercade.
+Weekly acquisition total now sits at 8 machines.
+
+08.15.26 17:28
+Childhood experiences and why the spaces matter
+Doubling down on a simple point: kids need to feel like kids.
+If more kids got real chances to just be kids, and enjoyed their time growing up, fewer would rush to copy the worst “adult” patterns around them.
+We all remember riding bikes with friends. Every kid deserves that kind of ordinary freedom. The same idea applies to supervised recreational spaces: arcades, game rooms, places that feel special the way you may remember leaving the skating rink, or bowling alley. When unhoused and highly stressed youth only get barren rooms, society is shortchanging them. As long as those centers don’t feel closer to somewhere a kid actually wants to be, our mission still has a lot of work to do.
+Classic skill-based games and supervised group play give short cycles of challenge, focus, recovery, and improvement. That is different from pure shutdown or endless scroll. It will not replace the adults who show up every day — those people are the ones who make the spaces work — but the tools should support them, not leave the rooms looking like an afterthought.
+We live in a different world than the one many of us grew up in. That does not mean the useful parts of childhood have to be written off. The adults can still build the rooms, the machines, and the time where kids get to practice being kids.
+
 08.14.26 00:33
 Built out the public restoration library and shipped a site update (v2.6).
 
