@@ -40,6 +40,26 @@
     "location": "shop"
   },
   {
+  "id": "superpacman-1up-01",
+  "name": "Super Pac-Man (1UP)",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Arcade1Up Super Pac-Man Countercade. Cleaned, tested, working. Includes Super Pac-Man, Pac-Man, Dig Dug, Rally-X.",
+  "fmv_estimate": 200,
+  "location": "shop"
+  },
+  {
+  "id": "galaga-01",
+  "name": "Galaga",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. It looks a bit bigger than a Arcade1Up. Cleaned, tested, working.",
+  "fmv_estimate": 400,
+  "location": "shop"
+},
+  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
