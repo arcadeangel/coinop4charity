@@ -1,3 +1,24 @@
+# Coin-Op 4 Charity — Dev Journal
+
+## 
+
+08.16.26 12:36 v2.7 New game ---> v2.8 Overhaul bugs 
+
+{New Game, Updates}
+v2.7 Neon Kaiju felt stiff and unfinished: long intro, weak movement, sparse world, clunky riding/combat, short timer.
+**Changes**
+- Intro cut hard (skip after ~10 frames, max ~90). Site CRT boot also shortened.
+- Real jump (↑ grounded), climb improvements, hard-landing **stomp** damage + shake.
+- Wider punches, easier dragon/heli mounting, more aggressive flyers.
+- Denser keeps, more ground units that panic and flee, extra dragons/helis at start.
+- Timer raised to 150s so a full run is realistic.
+- Control hints + version string updated to **TERMINAL v2.9**.
+**Result**  
+Kaiju is now jump-stomp-ride-smash instead of a slow walk-and-tap. Ready for playtesting.
+{Google Verification}
+Set up Google nonprofit page and uploaded sitemap.xml to Google to ensure visibility.
+Ran other integral SEO optimization backend services to ensure visibility. 
+
 08.15.26 17:38
 Hey what's up? Hello Terminal v2.7 + weekly fleet acquisitions
 
