@@ -9152,7 +9152,17 @@ function ensureMusicMaster() {
           'I MADE YOU — I\'LL END YOU!',
           'MY SUBJECTS... MY MISTAKE!',
           'TIME FOLDS FOR ME!',
-          'GET BACK IN THE LAB!'
+          'GET BACK IN THE LAB!',
+          'THAT SUIT WAS EXPENSIVE!',
+          'WHO GAVE YOU THE REMOTE?!',
+          'I HAD TENURE FOR THIS?!',
+          'STOP BREAKING MY CASTLES!',
+          'THIS IS WHY WE CAN\'T HAVE NICE LABS!',
+          'YOU WERE SUPPOSED TO BE HOUSE-TRAINED!',
+          'I SHOULD\'VE STUDIED BOTANY!',
+          'NOTE TO SELF: NO MORE KAIJU!',
+          'THE GRANT BOARD WILL HEAR OF THIS!',
+          'PUT THE HELICOPTER DOWN!'
         ],
         lineIdx: 0
       };
@@ -9391,7 +9401,7 @@ function ensureMusicMaster() {
             if (Math.abs(f.x - m.x) < 55 && Math.abs(f.y - (m.y - 36)) < 58) {
               if (up || (!m.onGround && Math.abs(f.y - (m.y - 36)) < 40)) {
                 m.mount = f; m.mountKind = kind; f.ridden = true;
-                g.msg = kind === 'dragon' ? 'RIDING DRAGON!' : 'HIJACKED HELI!';
+                g.msg = kind === 'dragon' ? 'RIDING DRAGON!' : 'BOARDED HELICOPTER!';
                 g.msgT = 40; sfx('power');
                 g.cameraShake = 8;
                 return true;
@@ -9724,13 +9734,14 @@ function ensureMusicMaster() {
             vx: b.facing * 12, life: 40, fromBoss: true
           });
         }
-        // player punches boss
-        if (m.punchT > 10 && Math.abs(m.x - b.x) < 55 && Math.abs(m.y - b.y) < 70) {
+        // player punches boss — wider hit window so he actually takes damage
+        if (m.punchT > 0 && Math.abs(m.x - b.x) < 70 && Math.abs(m.y - b.y) < 85) {
           if (b.hurtT <= 0) {
-            b.hp--; b.hurtT = 18;
+            b.hp--; b.hurtT = 14;
             g.score += 80; g.combo++; g.comboT = 90;
             burst(g, b.x, b.y - 50, '#00d4ff', 12);
             sfx('hit'); updateUI(g.score, null);
+            g.cameraShake = 10;
             if (b.hp <= 0) {
               g.score += 1000;
               g.msg = 'DR. KAIJU DEFEATED!';
@@ -9738,15 +9749,26 @@ function ensureMusicMaster() {
               sfx('record');
               burst(g, b.x, b.y - 40, '#ff4466', 30);
               updateUI(g.score, null);
+              // force end on kill so we never freeze waiting on boss.t
+              g.over = true;
+              let bonus = 1000 + g.dragonsDown * 100;
+              if (g.mechMode) bonus += 200;
+              if (g.fireBreath) bonus += 150;
+              if (g.wings) bonus += 150;
+              g.score += bonus; updateUI(g.score, null);
+              g._endMsg = 'DR. KAIJU DOWN';
+              g.phase = 'credits'; g.creditsT = 0;
+              drawKaiju();
+              animId = requestAnimationFrame(loopKaiju);
+              return;
             }
           }
         }
       }
 
       const alive = g.castles.filter(b => b.health > 0).length;
-      const bossDead = !g.boss || g.boss.hp <= 0;
-      // Win if kingdom clear OR (mech unlocked and boss defeated)
-      if (g.timeLeft <= 0 || alive === 0 || (g.mechMode && g.boss && g.boss.hp <= 0 && g.boss.t > 30)) {
+      // Win if time up, kingdom clear, or boss defeated (no t>30 gate — that caused freezes)
+      if (g.timeLeft <= 0 || alive === 0 || (g.boss && g.boss.hp <= 0)) {
         g.over = true;
         let bonus = (alive === 0 ? 700 : 0) + g.dragonsDown * 100;
         if (g.mechMode) bonus += 200;
@@ -9755,7 +9777,10 @@ function ensureMusicMaster() {
         if (g.boss && g.boss.hp <= 0) bonus += 1000;
         g.score += bonus; updateUI(g.score, null);
         g._endMsg = (g.boss && g.boss.hp <= 0) ? 'DR. KAIJU DOWN' : (alive === 0 ? 'KINGDOM FLATTENED' : 'TIME UP');
-        g.phase = 'credits'; g.creditsT = 0; return;
+        g.phase = 'credits'; g.creditsT = 0;
+        drawKaiju();
+        animId = requestAnimationFrame(loopKaiju);
+        return;
       }
 
       drawKaiju();
@@ -10214,7 +10239,7 @@ function ensureMusicMaster() {
         ctx.fillStyle = '#00ff9f';
         ctx.font = '8px Courier New';
         ctx.textAlign = 'center';
-        ctx.fillText('HIJACKED', 0, -20);
+        ctx.fillText('BOARDED', 0, -20);
       }
       ctx.restore();
     }
