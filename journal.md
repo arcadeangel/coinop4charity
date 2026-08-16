@@ -15,9 +15,11 @@ v2.7 Neon Kaiju felt stiff and unfinished: long intro, weak movement, sparse wor
 - Control hints + version string updated to **TERMINAL v2.9**.
 **Result**  
 Kaiju is now jump-stomp-ride-smash instead of a slow walk-and-tap. Ready for playtesting.
+
 {Google Verification}
 Set up Google nonprofit page and uploaded sitemap.xml to Google to ensure visibility.
 Ran other integral SEO optimization backend services to ensure visibility. 
+
 {High Score Improvements}
 Added Kaiju to worker log with high scores, created dedication feature for high scorers. 
 You can now run a note with your high score, ran the first dedication who introduced me to video games with my 
