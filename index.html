@@ -1295,6 +1295,10 @@
           CIRCUIT RUNNER
           <span>Race the neon grid • Jump &amp; dash</span>
         </button>
+        <button class="game-btn" data-game="kaiju">
+          NEON KAIJU
+          <span>Climb • Ride dragons • Mech vs Dr Kaiju</span>
+        </button>
         <button class="game-btn" data-game="racer">
           VORTEX STARSHIP
           <span>Barrel-roll the neon vortex • Survive the tube</span>
@@ -1307,7 +1311,7 @@
           PULSE PADDLE
           <span>Break the blocks • Drag or arrows</span>
         </button>
-<button class="game-btn" data-game="cycles">
+        <button class="game-btn" data-game="cycles">
           LIGHT CYCLES
           <span>Solo neon grid • Survive your own trail</span>
         </button>
@@ -1327,6 +1331,7 @@
       <div class="row"><span>SAUCER BEAM</span><span id="hs-ufo">—</span></div>
       <div class="row"><span>HAPPY FISHING</span><span id="hs-fish">—</span></div>
       <div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
+      <div class="row"><span>NEON KAIJU</span><span id="hs-kaiju">—</span></div>
       <div class="row"><span>VORTEX STARSHIP</span><span id="hs-racer">—</span></div>
       <div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
       <div class="row"><span>LIGHT CYCLES</span><span id="hs-cycles">—</span></div>
@@ -1343,7 +1348,7 @@
       <button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
       <button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
       <button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-      <div>coinop4charity.org · TERMINAL v2.7 • We love you all. <span class="heart">♥</span></div>
+      <div>coinop4charity.org · TERMINAL v2.9 • We love you all. <span class="heart">♥</span></div>
     </div>
   </div>
 
@@ -1411,7 +1416,7 @@
       let h = Math.max(480, window.innerHeight || 844);
       canvas.width = w; canvas.height = h;
       const lines = [
-        'COIN-OP 4 CHARITY  ·  TERMINAL v2.7',
+        'COIN-OP 4 CHARITY  ·  TERMINAL v2.9',
         'PHOSPHOR WARM-UP .............. OK',
         'MEMORY CHECK  64K ............. OK',
         'ARC-NET LINK .................. OK',
@@ -1608,7 +1613,7 @@
           ctx.globalAlpha = 1;
         }
 
-        if (t < 3600) {
+        if (t < 2400) {
           requestAnimationFrame(frame);
         } else {
           finishBoot();
@@ -1616,7 +1621,7 @@
       }
       requestAnimationFrame(frame);
       // Safety timeout
-      setTimeout(() => { if (!finished) finishBoot(); }, 4800);
+      setTimeout(() => { if (!finished) finishBoot(); }, 3200);
     })();
 
     // ========== PWA / ADD TO HOME SCREEN ==========
@@ -1673,10 +1678,11 @@
 
     // ========== GLOBAL + LOCAL HI-SCORES ==========
     const SCORES_API = 'https://coinop-scores.samazar213.workers.dev';
-    const GAME_KEYS = ['ufo', 'fish', 'runner', 'racer', 'yeti', 'cycles', 'paddle'];
+    const GAME_KEYS = ['ufo', 'fish', 'runner', 'kaiju', 'racer', 'yeti', 'cycles', 'paddle'];
     const GAME_NAMES = {
       ufo: 'SAUCER BEAM', fish: 'HAPPY FISHING', runner: 'CIRCUIT RUNNER',
-      racer: 'VORTEX STARSHIP', yeti: 'YETI SLOPES', cycles: 'LIGHT CYCLES', paddle: 'PULSE PADDLE'
+      racer: 'VORTEX STARSHIP', yeti: 'YETI SLOPES', cycles: 'LIGHT CYCLES', paddle: 'PULSE PADDLE',
+      kaiju: 'NEON KAIJU'
     };
     window.C4C_GLOBAL = null;
 
@@ -1945,7 +1951,7 @@
       const resetBtn = document.getElementById('opsResetScores');
       if (resetBtn) resetBtn.addEventListener('click', () => {
         if (!confirm('Reset ALL local hi-scores on this terminal?')) return;
-        ['ufo','fish','runner','racer','yeti','cycles','paddle'].forEach(g => {
+        ['ufo','fish','runner','racer','yeti','cycles','paddle','kaiju'].forEach(g => {
           try { localStorage.removeItem('c4c_hs_' + g); } catch (e) {}
         });
         refreshHiScores();
@@ -3202,13 +3208,27 @@
         if (btn) try { btn.focus(); } catch (e) {}
       }
 
+      function buildShareText() {
+        const last = window.C4C_LAST;
+        if (last && last.game && last.score > 0) {
+          const gname = (GAME_NAMES && GAME_NAMES[last.game]) || last.game;
+          let t = gname + ' · ' + last.score;
+          if (last.name && last.name !== 'ANON') t += ' · ' + last.name;
+          if (last.dedication) t += ' — "' + last.dedication + '"';
+          t += '\nBeat this score at coinop4charity.org';
+          return t;
+        }
+        return 'Arcade machines for Nevada youth centers — free play & fundraising.\ncoinop4charity.org';
+      }
+
       async function copyLink() {
+        const text = buildShareText() + '\n' + link;
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(link);
+            await navigator.clipboard.writeText(text);
           } else {
             const ta = document.createElement('textarea');
-            ta.value = link;
+            ta.value = text;
             ta.style.position = 'fixed';
             ta.style.left = '-9999px';
             document.body.appendChild(ta);
@@ -3236,7 +3256,7 @@
         try {
           await navigator.share({
             title: 'Coin-Op 4 Charity',
-            text: 'Arcade machines for Nevada youth centers — free play & fundraising.',
+            text: buildShareText(),
             url: link
           });
           closePanel();
@@ -3901,6 +3921,36 @@
       ]
     };
 
+    // Neon Kaiju — dark stomping kaiju theme, minor, heavy pulse
+    const TRACK_KAIJU = {
+      bpm: 118,
+      steps: 32,
+      bass: [
+        N.E2, null, N.E2, N.E2, N.B2, null, N.E2, null,
+        N.G2, null, N.G2, N.G2, N.D2, null, N.G2, null,
+        N.A2, null, N.A2, N.A2, N.E2, null, N.A2, null,
+        N.B2, null, N.B2, N.E2, N.G2, null, N.E2, N.B2
+      ],
+      lead: [
+        N.E3, null, N.G3, N.B3, N.E4, null, N.B3, N.G3,
+        N.A3, null, N.C4, N.E4, N.A4, null, N.E4, N.C4,
+        N.B3, null, N.E4, N.G4, N.B4, null, N.G4, N.E4,
+        N.E4, N.D4, N.B3, N.A3, N.G3, null, N.B3, N.E4
+      ],
+      pulse: [
+        null, N.E4, null, null, N.B3, null, N.E4, null,
+        null, N.G4, null, null, N.D4, null, N.G3, null,
+        null, N.A4, null, null, N.E4, null, N.A3, null,
+        N.B4, null, null, N.E4, null, N.G4, null, N.E4
+      ],
+      drums: [
+        'k','h',null,'h', 's','h','k','h',
+        'k','h',null,'h', 's',null,'k','s',
+        'k','h',null,'h', 's','h','k','h',
+        'k',null,'s','h', 's','h','k','s'
+      ]
+    };
+
 function ensureMusicMaster() {
       if (!audioCtx) return null;
       if (!musicMaster) {
@@ -4025,6 +4075,7 @@ function ensureMusicMaster() {
       else if (name === 'cycles') musicTrack = TRACK_CYCLES;
       else if (name === 'ufo') musicTrack = TRACK_UFO;
       else if (name === 'fish') musicTrack = TRACK_FISH;
+      else if (name === 'kaiju') musicTrack = TRACK_KAIJU;
       else if (name === 'attract') musicTrack = TRACK_ATTRACT;
       else musicTrack = null;
       if (!musicTrack) return;
@@ -4144,7 +4195,7 @@ function ensureMusicMaster() {
 
       // Start original 8-bit music for featured games
       try {
-        if (name === 'runner' || name === 'racer' || name === 'yeti' || name === 'cycles' || name === 'ufo' || name === 'fish') {
+        if (name === 'runner' || name === 'racer' || name === 'yeti' || name === 'cycles' || name === 'ufo' || name === 'fish' || name === 'kaiju') {
           startMusic(name);
         }
       } catch (e) { console.warn('music', e); }
@@ -4190,6 +4241,10 @@ function ensureMusicMaster() {
         hintEl.textContent = '← → aim  •  HOLD to cast / reel  •  TAP on bite to set hook';
         setupTouchControls(['left', 'right', 'fire']);
         initFish();
+      } else if (name === 'kaiju') {
+        hintEl.textContent = '← → move  •  ↑ climb/ride  •  TAP punch  •  smash keeps for suit pieces';
+        setupTouchControls(['left', 'right', 'up', 'down', 'fire']);
+        initKaiju();
       }
     }
 
@@ -4200,7 +4255,7 @@ function ensureMusicMaster() {
         right: { label: '▶', key: 'right' },
         up:    { label: '▲', key: 'up' },
         down:  { label: '▼', key: 'down' },
-        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'CAST' : (currentGame === 'cycles' ? 'BOOST' : (currentGame === 'racer' ? 'TAP' : 'FIRE'))), key: 'fire', wide: true },
+        fire:  { label: currentGame === 'ufo' ? 'BEAM' : (currentGame === 'fish' ? 'CAST' : (currentGame === 'cycles' ? 'BOOST' : (currentGame === 'racer' ? 'TAP' : (currentGame === 'kaiju' ? 'TAP' : 'FIRE')))), key: 'fire', wide: true },
         jump:  { label: 'JUMP', key: 'up', wide: true },
         dash:  { label: 'DASH', key: 'fire', wide: true },
         slide: { label: 'SLIDE', key: 'down', wide: true }
@@ -4279,6 +4334,16 @@ function ensureMusicMaster() {
     function flash(n = 0.45) { flashAlpha = Math.max(flashAlpha, n); }
 
     function showGameOver(text, gameKey, score) {
+      // --- Session streak (local only) ---
+      let streak = 0;
+      try {
+        streak = parseInt(localStorage.getItem('c4c_streak') || '0', 10) || 0;
+        streak += 1;
+        localStorage.setItem('c4c_streak', String(streak));
+      } catch (e) {}
+
+      let playerName = 'ANON';
+      let dedication = '';
       if (gameKey && score !== undefined) {
         const currentHigh = getHigh(gameKey);
         if (score > currentHigh) {
@@ -4300,8 +4365,15 @@ function ensureMusicMaster() {
             return n;
           }
           let name = prompt('NEW HIGH SCORE! Enter your initials (max 6):', '');
-          name = cleanName(name);
-          setHigh(gameKey, score, name);
+          playerName = cleanName(name);
+          // Optional short message / dedication
+          try {
+            const note = prompt('Optional short note or dedication (max 12 chars, or blank):', '');
+            if (note && note.trim()) {
+              dedication = note.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 12);
+            }
+          } catch (e) {}
+          setHigh(gameKey, score, playerName);
         } else {
           setHigh(gameKey, score);
         }
@@ -4311,6 +4383,14 @@ function ensureMusicMaster() {
       const isNew = gameKey && score >= hs && score > 0;
       if (typeof refreshHiScores === 'function') refreshHiScores();
       if (typeof refreshTopOps === 'function') refreshTopOps();
+
+      // Fleet spotlight + impact line (soft)
+      let fleetNote = '';
+      try {
+        const fleetEl = document.getElementById('fleetCount');
+        if (fleetEl) fleetNote = 'Fleet ready for youth centers';
+      } catch (e) {}
+
       ctx.fillStyle = 'rgba(0,0,0,0.85)';
       ctx.fillRect(0, 0, 480, 360);
       ctx.fillStyle = '#00ff9f';
@@ -4318,15 +4398,24 @@ function ensureMusicMaster() {
       ctx.textAlign = 'center';
       ctx.shadowColor = '#00ff9f';
       ctx.shadowBlur = 14;
-      ctx.fillText(text, 240, 118);
+      ctx.fillText(text, 240, 100);
       ctx.shadowBlur = 0;
       ctx.font = '16px Courier New';
       if (gameKey) {
-        ctx.fillText(`SCORE  ${score}`, 240, 160);
+        ctx.fillText(`SCORE  ${score}`, 240, 138);
         ctx.fillStyle = '#7dffc8';
-        ctx.fillText(`HIGH   ${hs}`, 240, 185);
+        ctx.fillText(`HIGH   ${hs}`, 240, 160);
+        if (streak > 1) {
+          ctx.fillStyle = '#ffff66';
+          ctx.font = '12px Courier New';
+          ctx.fillText('STREAK x' + streak, 240, 178);
+        }
+        if (dedication) {
+          ctx.fillStyle = '#7dffc8';
+          ctx.font = '11px Courier New';
+          ctx.fillText('"' + dedication + '"', 240, 196);
+        }
         if (isNew) {
-          // CRT record stamp
           ctx.save();
           ctx.translate(240, 218);
           ctx.rotate(-0.08);
@@ -4343,18 +4432,32 @@ function ensureMusicMaster() {
           flash(0.55);
         }
       }
+      // Soft impact line
+      ctx.fillStyle = 'rgba(0,255,159,0.55)';
+      ctx.font = '10px Courier New';
+      ctx.fillText('PLAY FREE · SUPPORT YOUTH SPACES', 240, 248);
+
       // Play Again button visual
       ctx.fillStyle = '#00ff9f';
       ctx.shadowColor = '#00ff9f';
       ctx.shadowBlur = 10;
-      ctx.fillRect(150, 250, 180, 42);
+      ctx.fillRect(150, 268, 180, 42);
       ctx.shadowBlur = 0;
       ctx.fillStyle = '#000';
       ctx.font = 'bold 16px Courier New';
-      ctx.fillText('PLAY AGAIN', 240, 277);
+      ctx.fillText('PLAY AGAIN', 240, 295);
       ctx.fillStyle = '#7dffc8';
       ctx.font = '12px Courier New';
-      ctx.fillText('or tap CLOSE', 240, 320);
+      ctx.fillText('or tap CLOSE', 240, 330);
+
+      // Store last score for share / challenge
+      window.C4C_LAST = {
+        game: gameKey,
+        score: score,
+        name: playerName,
+        dedication: dedication,
+        streak: streak
+      };
     }
 
     // Click/tap on canvas for Play Again
@@ -4366,7 +4469,7 @@ function ensureMusicMaster() {
       const x = (e.clientX - rect.left) * scaleX;
       const y = (e.clientY - rect.top) * scaleY;
       // Play Again button area
-      if (x >= 150 && x <= 330 && y >= 255 && y <= 295 && lastGameKey) {
+      if (x >= 150 && x <= 330 && y >= 268 && y <= 310 && lastGameKey) {
         const g = lastGameKey;
         stopGame();
         startGame(g);
@@ -4380,7 +4483,7 @@ function ensureMusicMaster() {
       const t = e.changedTouches[0];
       const x = (t.clientX - rect.left) * scaleX;
       const y = (t.clientY - rect.top) * scaleY;
-      if (x >= 150 && x <= 330 && y >= 255 && y <= 295 && lastGameKey) {
+      if (x >= 150 && x <= 330 && y >= 268 && y <= 310 && lastGameKey) {
         e.preventDefault();
         const g = lastGameKey;
         stopGame();
@@ -8847,6 +8950,1761 @@ function ensureMusicMaster() {
       ctx.fillStyle = 'rgba(0,255,180,0.45)';
       ctx.fillText('HAPPY FISHING', 240, 20);
     }
+
+
+    // ========== NEON KAIJU v3 — camera world, moorish keep, grounded cast ==========
+    let kaijuG = null;
+    const K_GROUND = 328;
+    const K_WORLD_W = 1400;
+
+    const KAIJU_CHARS = [
+      { id: 'monkfang',  name: 'MONKFANG',  label: 'GIANT MONKEY', color: '#ffaa44', accent: '#ff6622' },
+      { id: 'raptorx',   name: 'RAPTOR X',  label: 'LIZARD KING',  color: '#00ff9f', accent: '#33cc88' },
+      { id: 'goosefang', name: 'GOOSEFANG', label: 'GIANT RABBIT', color: '#ff66cc', accent: '#ff3399' }
+    ];
+    const MECH_CHAR = { id: 'mechsuit', name: 'MECH SUIT', label: 'ARMORED', color: '#00d4ff', accent: '#0088cc' };
+
+    function initKaiju() {
+      kaijuG = {
+        phase: 'intro',
+        introT: 0,
+        selectIdx: 1, // Raptor X center default
+        selectFlash: 0,
+        score: 0, frame: 0,
+        timeLeft: 150 * 60, timeMax: 150 * 60,
+        camX: 0,
+        monster: {
+          x: 120, y: K_GROUND, facing: 1,
+          vy: 0, onGround: true, onRoof: false, climbing: false,
+          smashT: 0, punchT: 0, laserT: 0, jetT: 0, breathT: 0,
+          char: null, hurtT: 0, mount: null, mountKind: null
+        },
+        castles: [], debris: [], people: [], horses: [], cows: [],
+        dragons: [], helis: [], pickups: [], particles: [], lasers: [], fireballs: [],
+        arrows: [], obstacles: [],
+        suitCount: 0, scaleCount: 0, featherCount: 0,
+        mechMode: false, fireBreath: false, wings: false, mechEnergy: 0,
+        cameraShake: 0, combo: 0, comboT: 0, boss: null,
+        msg: '', msgT: 0, over: false, stomped: 0, dragonsDown: 0,
+        _leftHeld: false, _rightHeld: false, _fireHeld: false, _downHeld: false, _upHeld: false,
+        creditsT: 0, _endMsg: ''
+      };
+      updateUI(0, null);
+      drawKaiju();
+      animId = requestAnimationFrame(loopKaiju);
+    }
+
+    function startKaijuPlay() {
+      const g = kaijuG;
+      if (!g) return;
+      const ch = KAIJU_CHARS[g.selectIdx];
+      g.phase = 'play';
+      g.monster.char = Object.assign({}, ch);
+      g.monster.x = 140;
+      g.monster.y = K_GROUND;
+      g.monster.facing = 1;
+      g.monster.vy = 0;
+      g.monster.onGround = true;
+      g.monster.onRoof = false;
+      g.monster.climbing = false;
+      g.monster.smashT = 0; g.monster.punchT = 0;
+      g.score = 0; g.frame = 0; g.camX = 0;
+      g.timeLeft = g.timeMax;
+      g.combo = 0; g.comboT = 0; g.stomped = 0; g.dragonsDown = 0;
+      g.suitCount = 0; g.scaleCount = 0; g.featherCount = 0;
+      g.mechMode = false; g.fireBreath = false; g.wings = false;
+      g.mechEnergy = 0; g.over = false; g.boss = null;
+      g.castles = []; g.debris = []; g.people = []; g.horses = [];
+      g.cows = []; g.dragons = []; g.helis = []; g.pickups = []; g.particles = [];
+      g.lasers = []; g.fireballs = []; g.arrows = []; g.obstacles = [];
+      g.monster.mount = null; g.monster.mountKind = null;
+
+      // Varied structures across the world
+      const styles = ['moorish', 'keep', 'tower', 'ruined', 'mosque'];
+      let bx = 80;
+      while (bx < K_WORLD_W - 80) {
+        const style = styles[Math.floor(Math.random() * styles.length)];
+        const w = style === 'tower' ? (28 + Math.floor(Math.random() * 18)) : (48 + Math.floor(Math.random() * 44));
+        const h = style === 'ruined' ? (50 + Math.floor(Math.random() * 50)) : (90 + Math.floor(Math.random() * 120));
+        const floors = Math.max(4, Math.floor(h / 15));
+        g.castles.push({
+          x: bx, w: w, h: h, maxH: h, floors: floors,
+          health: floors, cracked: 0,
+          color: ['#b8956a', '#a08060', '#9a7a55', '#c4a574', '#8a7a6a'][Math.floor(Math.random()*5)],
+          accent: ch.color,
+          style: style
+        });
+        bx += w + 28 + Math.floor(Math.random() * 48);
+      }
+
+      for (let i = 0; i < 12; i++) {
+        g.people.push({
+          x: 50 + Math.random() * (K_WORLD_W - 100), y: K_GROUND - 2,
+          vx: (Math.random() < 0.5 ? -1 : 1) * (0.4 + Math.random() * 0.5),
+          f: 0, kind: Math.random() > 0.65 ? 'knight' : 'peasant', panic: false
+        });
+      }
+      for (let i = 0; i < 4; i++) {
+        g.horses.push({
+          x: 100 + Math.random() * (K_WORLD_W - 200), y: K_GROUND - 2,
+          vx: (Math.random() < 0.5 ? -1 : 1) * (1.0 + Math.random() * 0.5),
+          f: 0, rider: true, archer: true, shootT: 50 + Math.random() * 70
+        });
+      }
+      for (let i = 0; i < 5; i++) {
+        g.cows.push({
+          x: 80 + Math.random() * (K_WORLD_W - 160), y: K_GROUND - 2,
+          vx: (Math.random() < 0.5 ? -1 : 1) * (0.2 + Math.random() * 0.25),
+          f: 0
+        });
+      }
+      for (let i = 0; i < 7; i++) {
+        g.obstacles.push({
+          x: 150 + i * 160 + Math.random() * 40,
+          y: K_GROUND - 2,
+          w: 20 + Math.random() * 16,
+          h: 16 + Math.random() * 12,
+          kind: ['cart', 'rock', 'stake'][Math.floor(Math.random() * 3)],
+          hp: 2
+        });
+      }
+      // Dragons ON SCREEN near the player so they're visible immediately
+      for (let i = 0; i < 3; i++) {
+        g.dragons.push({
+          x: 180 + i * 140 + Math.random() * 40,
+          y: 55 + Math.random() * 70,
+          vx: (i % 2 === 0 ? 1 : -1) * (1.4 + Math.random() * 0.6),
+          vy: (Math.random() - 0.5) * 0.8,
+          hp: 4, f: 0, diveT: 0, fireT: 0, hurtT: 0, ridden: false
+        });
+      }
+      // Helicopters
+      for (let i = 0; i < 2; i++) {
+        g.helis.push({
+          x: 300 + i * 220,
+          y: 70 + i * 25,
+          vx: (i % 2 === 0 ? -1 : 1) * (1.6 + Math.random() * 0.5),
+          hp: 3, f: 0, rotorT: 0, ridden: false
+        });
+      }
+
+      g.msg = ch.name + ' UNLEASHED — FIND SUIT PIECES!';
+      g.msgT = 70;
+      sfx('power');
+      updateUI(0, null);
+    }
+
+    function spawnDragon(g, far) {
+      const near = g.monster ? g.monster.x : 200;
+      g.dragons.push({
+        x: far ? near + (Math.random() < 0.5 ? -280 : 280) : near + 100 + Math.random() * 200,
+        y: 45 + Math.random() * 80,
+        vx: (Math.random() < 0.5 ? 1 : -1) * (1.3 + Math.random()),
+        vy: (Math.random() - 0.5) * 0.7,
+        hp: 4, f: 0, diveT: 0, fireT: 0, hurtT: 0, ridden: false
+      });
+    }
+
+    function spawnHeli(g) {
+      const near = g.monster ? g.monster.x : 200;
+      g.helis.push({
+        x: near + (Math.random() < 0.5 ? -250 : 250),
+        y: 50 + Math.random() * 60,
+        vx: (Math.random() < 0.5 ? 1 : -1) * (1.5 + Math.random() * 0.6),
+        hp: 3, f: 0, fireT: 0, ridden: false
+      });
+    }
+
+    function activateUnlock(id) {
+      const g = kaijuG; if (!g) return;
+      if (id === 'mechsuit' && !g.mechMode) {
+        g.mechMode = true; g.mechEnergy = 700;
+        g.monster.char = Object.assign({}, MECH_CHAR);
+        g.msg = 'MECH SUIT ONLINE!'; g.msgT = 70;
+        sfx('record'); g.cameraShake = 14;
+        burst(g, g.monster.x, g.monster.y - 36, '#00d4ff', 28);
+        // Spawn final boss shortly after full mech unlock
+        if (!g.boss) spawnDrKaijuBoss(g);
+      } else if (id === 'firebreath' && !g.fireBreath) {
+        g.fireBreath = true; g.msg = 'FIRE BREATH UNLOCKED!'; g.msgT = 70;
+        sfx('power'); burst(g, g.monster.x, g.monster.y - 40, '#ff6622', 20);
+      } else if (id === 'wings' && !g.wings) {
+        g.wings = true; g.msg = 'STORM WINGS UNLOCKED!'; g.msgT = 70;
+        sfx('power'); burst(g, g.monster.x, g.monster.y - 28, '#aaccff', 20);
+      }
+    }
+
+    function spawnDrKaijuBoss(g) {
+      g.boss = {
+        x: g.monster.x + 220,
+        y: K_GROUND,
+        facing: -1,
+        hp: 18,
+        maxHp: 18,
+        phase: 'enter',
+        t: 0,
+        kickT: 0,
+        laserT: 0,
+        hurtT: 0,
+        sayT: 0,
+        say: '',
+        lines: [
+          'I MADE YOU — I\'LL END YOU!',
+          'MY SUBJECTS... MY MISTAKE!',
+          'TIME FOLDS FOR ME!',
+          'GET BACK IN THE LAB!'
+        ],
+        lineIdx: 0
+      };
+      g.msg = 'DR. KAIJU ENGAGES!';
+      g.msgT = 80;
+      sfx('record');
+    }
+
+    function burst(g, x, y, c, n) {
+      for (let i = 0; i < n; i++) {
+        g.particles.push({
+          x, y, vx: (Math.random() - 0.5) * 10, vy: -2 - Math.random() * 6,
+          life: 28 + Math.random() * 20, c, sz: 2 + Math.random() * 3
+        });
+      }
+    }
+
+    function damageCastle(g, b, dmg, fromAbove) {
+      if (b.health <= 0) return;
+      b.health = Math.max(0, b.health - dmg);
+      b.cracked += dmg;
+      b.h = Math.max(18, b.maxH * (b.health / b.floors));
+      const pts = (35 + Math.floor(b.maxH / 5)) * dmg * (1 + Math.floor(g.combo / 3));
+      g.score += pts; g.combo++; g.comboT = 90; g.stomped++;
+      if (g.mechMode) g.mechEnergy = Math.min(700, g.mechEnergy + 12);
+      const cx = b.x + b.w / 2;
+      for (let i = 0; i < 7 * dmg; i++) {
+        g.debris.push({
+          x: cx + (Math.random() - 0.5) * b.w,
+          y: (fromAbove ? K_GROUND - b.h : K_GROUND - 20) + Math.random() * 16,
+          vx: (Math.random() - 0.5) * 5, vy: -2 - Math.random() * 4,
+          life: 28 + Math.random() * 18, c: b.color, sz: 2 + Math.random() * 4
+        });
+      }
+      if (b.health <= 0) {
+        g.score += 160;
+        g.msg = Math.random() > 0.5 ? 'KEEP FALLS!' : 'TO THE SAND!';
+        g.msgT = 40; sfx('power');
+        burst(g, cx, K_GROUND - 20, b.accent || '#c9a227', 18);
+        // Guaranteed suit pieces until you have 3 (mech always reachable)
+        if (!g.mechMode && g.suitCount < 3) {
+          dropPickup(g, cx, K_GROUND - 30, 'piece');
+        } else if (!g.fireBreath && g.scaleCount < 2 && Math.random() < 0.4) {
+          dropPickup(g, cx, K_GROUND - 30, 'scale');
+        } else if (!g.wings && g.featherCount < 2 && Math.random() < 0.35) {
+          dropPickup(g, cx, K_GROUND - 30, 'feather');
+        }
+      }
+      updateUI(g.score, null);
+    }
+
+    function dropPickup(g, x, y, kind) {
+      g.pickups.push({ x, y, vy: -3.5, life: 500, bob: 0, kind });
+      const labels = { piece: 'SUIT PIECE!', scale: 'DRAGON SCALE!', feather: 'STORM FEATHER!' };
+      g.msg = labels[kind] || 'PICKUP!'; g.msgT = 40; sfx('coin');
+    }
+
+    function loopKaiju() {
+      if (currentGame !== 'kaiju') return;
+      const g = kaijuG; if (!g) return;
+      g.frame++;
+      if (g.msgT > 0) g.msgT--;
+      if (g.selectFlash > 0) g.selectFlash--;
+
+      const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
+      const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+      const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
+      const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down;
+      const fire = !!(keys[' '] || touchState.fire);
+
+      // INTRO — short & skippable (was too long)
+      if (g.phase === 'intro') {
+        g.introT++;
+        if (g.introT > 10 && (fire && !g._fireHeld || g.introT > 90)) {
+          g.phase = 'select'; sfx('select');
+        }
+        g._fireHeld = fire;
+        drawKaiju();
+        animId = requestAnimationFrame(loopKaiju);
+        return;
+      }
+
+      // SELECT
+      if (g.phase === 'select') {
+        if (left && !g._leftHeld) { g.selectIdx = (g.selectIdx + 2) % 3; g.selectFlash = 12; sfx('select'); }
+        if (right && !g._rightHeld) { g.selectIdx = (g.selectIdx + 1) % 3; g.selectFlash = 12; sfx('select'); }
+        if (fire && !g._fireHeld) startKaijuPlay();
+        g._leftHeld = left; g._rightHeld = right; g._fireHeld = fire;
+        drawKaiju();
+        animId = requestAnimationFrame(loopKaiju);
+        return;
+      }
+
+      // CREDITS
+      if (g.phase === 'credits') {
+        g.creditsT++;
+        if (g.creditsT > 160 && (fire || g.creditsT > 340)) {
+          showGameOver(g._endMsg || 'TIME UP', 'kaiju', g.score);
+          return;
+        }
+        drawKaiju();
+        animId = requestAnimationFrame(loopKaiju);
+        return;
+      }
+
+      if (g.over) { drawKaiju(); animId = requestAnimationFrame(loopKaiju); return; }
+
+      g.timeLeft--;
+      if (g.comboT > 0) g.comboT--; else g.combo = 0;
+      if (g.cameraShake > 0) g.cameraShake *= 0.78;
+      if (g.monster.hurtT > 0) g.monster.hurtT--;
+
+      const m = g.monster;
+      const spd = g.mechMode ? 5.8 : 4.6;
+      const jumpPower = g.mechMode ? -11.5 : (g.wings ? -10.5 : -9.2);
+
+      // Camera follows player (smoother + slight look-ahead)
+      const look = m.facing * 40;
+      const targetCam = Math.max(0, Math.min(K_WORLD_W - 480, m.x - 200 + look));
+      g.camX += (targetCam - g.camX) * 0.14;
+
+      // Physics / climb / roofs / jump / stomp
+      let nearCastle = null, onThisRoof = null;
+      g.castles.forEach(b => {
+        if (b.health <= 0) return;
+        const roofY = K_GROUND - b.h;
+        if (Math.abs((b.x + b.w / 2) - m.x) < b.w / 2 + 32) nearCastle = b;
+        if (m.x > b.x - 12 && m.x < b.x + b.w + 12 &&
+            m.y <= roofY + 12 && m.y >= roofY - 28 && m.vy >= 0) onThisRoof = b;
+      });
+
+      // Track if we just landed for stomp
+      const wasAirborne = !m.onGround && !m.onRoof && !m.climbing && !m.mount;
+
+      if (m.climbing && nearCastle) {
+        if (up) m.y -= 4.2;
+        if (down) m.y += 4.2;
+        const roofY = K_GROUND - nearCastle.h;
+        m.x = m.facing > 0 ? nearCastle.x - 8 : nearCastle.x + nearCastle.w + 8;
+        if (m.y <= roofY + 4) {
+          m.climbing = false; m.onRoof = true; m.y = roofY;
+          m.x = Math.max(nearCastle.x + 12, Math.min(nearCastle.x + nearCastle.w - 12, m.x));
+        }
+        if (m.y >= K_GROUND) { m.climbing = false; m.onGround = true; m.y = K_GROUND; m.vy = 0; }
+      } else if (onThisRoof) {
+        m.onRoof = true; m.onGround = false; m.climbing = false;
+        m.y = K_GROUND - onThisRoof.h; m.vy = 0;
+        if (left) { m.x -= spd; m.facing = -1; }
+        if (right) { m.x += spd; m.facing = 1; }
+        if (m.x < onThisRoof.x - 14 || m.x > onThisRoof.x + onThisRoof.w + 14) {
+          m.onRoof = false; m.vy = 1.5;
+        }
+        if (down && !g._downHeld) {
+          m.onRoof = false; m.climbing = true;
+          m.facing = m.x < onThisRoof.x + onThisRoof.w / 2 ? -1 : 1;
+        }
+        // Jump off roof
+        if (up && !g._upHeld) {
+          m.onRoof = false; m.vy = jumpPower * 0.85;
+        }
+      } else if (!m.mount) {
+        m.onRoof = false;
+        if (left) { m.x -= spd; m.facing = -1; }
+        if (right) { m.x += spd; m.facing = 1; }
+
+        // Climb when pressing up against a wall
+        if (up && nearCastle && Math.abs(m.y - K_GROUND) < 50 && !m.climbing) {
+          m.climbing = true; m.onGround = false;
+          m.facing = m.x < nearCastle.x + nearCastle.w / 2 ? 1 : -1;
+        }
+        // Jump (grounded) or jet/wings (air)
+        else if (up && !g._upHeld && m.onGround) {
+          m.vy = jumpPower;
+          m.onGround = false;
+          sfx('thrust');
+        } else if (g.mechMode && up && g.mechEnergy > 0) {
+          m.vy = Math.min(m.vy, -3.8); m.jetT = 10;
+          g.mechEnergy = Math.max(0, g.mechEnergy - 1.2);
+        } else if (g.wings && up) {
+          m.vy = Math.min(m.vy, -3.2); m.jetT = 8;
+        } else {
+          m.vy += 0.42; // slightly snappier gravity
+          if (m.jetT > 0) m.jetT--;
+        }
+        m.y += m.vy;
+
+        // Ground / stomp landing
+        if (m.y >= K_GROUND) {
+          const impact = Math.abs(m.vy);
+          m.y = K_GROUND; m.vy = 0; m.onGround = true;
+          // Big fall = ground stomp damage to nearby buildings
+          if (wasAirborne && impact > 7) {
+            g.cameraShake = Math.min(18, impact * 1.4);
+            sfx('hit');
+            g.castles.forEach(b => {
+              if (b.health <= 0) return;
+              if (Math.abs((b.x + b.w / 2) - m.x) < b.w / 2 + 55) {
+                damageCastle(g, b, impact > 11 ? 2 : 1, true);
+              }
+            });
+            burst(g, m.x, K_GROUND - 8, '#c9a227', 12 + Math.floor(impact));
+            g.msg = impact > 11 ? 'DEVASTATING STOMP!' : 'STOMP!';
+            g.msgT = 28;
+          }
+        } else m.onGround = false;
+      }
+      m.x = Math.max(40, Math.min(K_WORLD_W - 40, m.x));
+      g._upHeld = up;
+
+      // ===== RIDE DRAGONS / HELICOPTERS (easier + more fun) =====
+      if (m.mount) {
+        const mount = m.mount;
+        m.x = mount.x;
+        m.y = mount.y + 16;
+        m.onGround = false; m.onRoof = false; m.climbing = false; m.vy = 0;
+        mount.ridden = true;
+        // responsive steering
+        if (left) { mount.vx = -Math.max(2.2, Math.abs(mount.vx || 2.5)); m.facing = -1; }
+        if (right) { mount.vx = Math.max(2.2, Math.abs(mount.vx || 2.5)); m.facing = 1; }
+        if (up) mount.y = Math.max(28, mount.y - 3.2);
+        if (down) mount.y = Math.min(165, mount.y + 3.2);
+        // dismount with down (tap)
+        if (down && !g._downHeld) {
+          mount.ridden = false;
+          m.mount = null; m.mountKind = null;
+          m.vy = 2;
+          g.msg = 'DISMOUNTED!'; g.msgT = 28;
+        }
+        // fire while riding still punches/lasers
+      } else {
+        // larger mount radius + easier trigger
+        const tryMount = (list, kind) => {
+          for (let i = 0; i < list.length; i++) {
+            const f = list[i];
+            if (f.hp <= 0 || f.ridden) continue;
+            if (Math.abs(f.x - m.x) < 55 && Math.abs(f.y - (m.y - 36)) < 58) {
+              if (up || (!m.onGround && Math.abs(f.y - (m.y - 36)) < 40)) {
+                m.mount = f; m.mountKind = kind; f.ridden = true;
+                g.msg = kind === 'dragon' ? 'RIDING DRAGON!' : 'HIJACKED HELI!';
+                g.msgT = 40; sfx('power');
+                g.cameraShake = 8;
+                return true;
+              }
+            }
+          }
+          return false;
+        };
+        if (up || m.punchT > 0 || (!m.onGround && Math.random() < 0.02)) {
+          tryMount(g.dragons, 'dragon') || tryMount(g.helis || [], 'heli');
+        }
+      }
+
+      // Punch / laser / breath — more satisfying hitboxes + juice
+      if (fire && !g._fireHeld) {
+        if (g.mechMode && m.laserT <= 0 && g.mechEnergy > 15 && !m.onGround && !m.onRoof) {
+          m.laserT = 10; g.mechEnergy -= 15; sfx('thrust');
+          g.lasers.push({ x: m.x + m.facing * 22, y: m.y - 36, vx: m.facing * 16, life: 40 });
+          g.cameraShake = 6;
+        } else if (g.fireBreath && down && m.breathT <= 0) {
+          m.breathT = 36; sfx('hit');
+          for (let i = 0; i < 6; i++) {
+            g.fireballs.push({
+              x: m.x + m.facing * 18, y: m.y - 42 + i * 4,
+              vx: m.facing * (4.5 + i * 0.8), vy: (i - 2.5) * 0.55, life: 32
+            });
+          }
+          g.msg = 'FIRE BREATH!'; g.msgT = 24; g.cameraShake = 7;
+        } else if (m.punchT <= 0) {
+          const fromAbove = m.onRoof || (!m.onGround && m.vy >= 0);
+          const isMounted = !!m.mount;
+          m.punchT = 14; m.smashT = 16; sfx('hit');
+          g.cameraShake = fromAbove ? 14 : (isMounted ? 10 : 8);
+
+          // Wider, more forgiving hit detection
+          g.castles.forEach(b => {
+            if (b.health <= 0) return;
+            const cx = b.x + b.w / 2;
+            const roofY = K_GROUND - b.h;
+            let hit = false;
+            if (fromAbove && m.onRoof && m.x > b.x - 10 && m.x < b.x + b.w + 10) hit = true;
+            else if (!fromAbove && Math.abs(cx - m.x) < b.w * 0.75 + 48 && Math.abs(m.y - K_GROUND) < 60) hit = true;
+            else if (!m.onGround && Math.abs(cx - m.x) < b.w * 0.6 + 36 && m.y < roofY + 60 && m.y > roofY - 40) hit = true;
+            if (hit) damageCastle(g, b, fromAbove ? 2 : 1, fromAbove);
+          });
+
+          g.dragons.forEach(d => {
+            if (d.hp <= 0 || d.ridden) return;
+            if (Math.abs(d.x - m.x) < 58 && Math.abs(d.y - (m.y - 36)) < 55) {
+              d.hp--; d.hurtT = 16; d.vx += m.facing * 4;
+              g.score += 120; g.combo++; g.comboT = 100; sfx('hit');
+              burst(g, d.x, d.y, '#ff4466', 14);
+              if (d.hp <= 0) {
+                g.dragonsDown++; g.score += 350;
+                g.msg = Math.random() > 0.5 ? 'DRAGON DOWN!' : 'SCALES FOR DAYS!';
+                g.msgT = 42; sfx('power');
+                if (m.mount === d) { m.mount = null; m.mountKind = null; }
+                if (!g.fireBreath && Math.random() < 0.7) dropPickup(g, d.x, d.y, 'scale');
+                if (!g.wings && Math.random() < 0.55) dropPickup(g, d.x, d.y, 'feather');
+              }
+              updateUI(g.score, null);
+            }
+          });
+          (g.helis || []).forEach(h => {
+            if (h.hp <= 0 || h.ridden) return;
+            if (Math.abs(h.x - m.x) < 58 && Math.abs(h.y - (m.y - 30)) < 52) {
+              h.hp--; g.score += 110; g.combo++; g.comboT = 100; sfx('hit');
+              burst(g, h.x, h.y, '#00d4ff', 12);
+              if (h.hp <= 0) {
+                g.score += 280; g.msg = 'HELI DOWN!'; g.msgT = 38; sfx('power');
+                if (m.mount === h) { m.mount = null; m.mountKind = null; }
+              }
+              updateUI(g.score, null);
+            }
+          });
+
+          for (let i = g.people.length - 1; i >= 0; i--) {
+            const p = g.people[i];
+            if (Math.abs(p.x - m.x) < 42 && m.y > K_GROUND - 50) {
+              g.score += p.kind === 'knight' ? 130 : 75;
+              g.msg = p.kind === 'knight' ? 'KNIGHT SNACK!' : 'NOM +75';
+              g.msgT = 24; sfx('grab'); g.people.splice(i, 1); updateUI(g.score, null);
+            }
+          }
+          for (let i = g.cows.length - 1; i >= 0; i--) {
+            const c = g.cows[i];
+            if (Math.abs(c.x - m.x) < 46 && m.y > K_GROUND - 50) {
+              g.score += 95; g.msg = 'MOO-CH!'; g.msgT = 24; sfx('grab');
+              g.cows.splice(i, 1); updateUI(g.score, null);
+            }
+          }
+          for (let i = g.horses.length - 1; i >= 0; i--) {
+            const h = g.horses[i];
+            if (Math.abs(h.x - m.x) < 48 && m.y > K_GROUND - 50) {
+              g.score += 150; g.msg = 'HORSE APPETIZER!'; g.msgT = 26; sfx('grab');
+              g.horses.splice(i, 1); updateUI(g.score, null);
+            }
+          }
+          g.obstacles.forEach(o => {
+            if (o.hp <= 0) return;
+            if (Math.abs(o.x - m.x) < o.w + 28 && (m.onGround || m.vy > 0)) {
+              o.hp--;
+              if (o.hp <= 0) {
+                g.score += 50; g.msg = 'CLEARED!'; g.msgT = 20;
+                burst(g, o.x, o.y, '#c9a227', 10); updateUI(g.score, null);
+              }
+            }
+          });
+        }
+      }
+      g._fireHeld = fire; g._downHeld = down;
+      if (m.punchT > 0) m.punchT--;
+      if (m.smashT > 0) m.smashT--;
+      if (m.laserT > 0) m.laserT--;
+      if (m.breathT > 0) m.breathT--;
+
+      // Lasers
+      for (let i = g.lasers.length - 1; i >= 0; i--) {
+        const L = g.lasers[i]; L.x += L.vx; L.life--;
+        g.castles.forEach(b => {
+          if (b.health <= 0) return;
+          if (L.x > b.x && L.x < b.x + b.w && L.y > K_GROUND - b.h && L.y < K_GROUND) {
+            damageCastle(g, b, 2, false); L.life = 0; burst(g, L.x, L.y, '#00d4ff', 8);
+          }
+        });
+        g.dragons.forEach(d => {
+          if (d.hp <= 0) return;
+          if (Math.abs(L.x - d.x) < 30 && Math.abs(L.y - d.y) < 26) {
+            d.hp--; d.hurtT = 14; L.life = 0; g.score += 80; updateUI(g.score, null);
+            if (d.hp <= 0) { g.dragonsDown++; g.score += 300; g.msg = 'DRAGON DOWN!'; g.msgT = 40; }
+          }
+        });
+        if (L.life <= 0 || L.x < g.camX - 40 || L.x > g.camX + 520) g.lasers.splice(i, 1);
+      }
+
+      // Fireballs
+      for (let i = g.fireballs.length - 1; i >= 0; i--) {
+        const f = g.fireballs[i]; f.x += f.vx; f.y += f.vy; f.life--;
+        if (f.fromDragon) {
+          if (Math.abs(f.x - m.x) < 24 && Math.abs(f.y - (m.y - 24)) < 34) {
+            g.score = Math.max(0, g.score - 20); g.msg = 'DRAGON FIRE!'; g.msgT = 24;
+            m.hurtT = 20; f.life = 0; updateUI(g.score, null);
+          }
+        } else {
+          g.castles.forEach(b => {
+            if (b.health <= 0) return;
+            if (f.x > b.x && f.x < b.x + b.w && f.y > K_GROUND - b.h && f.y < K_GROUND + 4) {
+              damageCastle(g, b, 1, false); f.life = 0;
+            }
+          });
+          g.dragons.forEach(d => {
+            if (d.hp <= 0) return;
+            if (Math.abs(f.x - d.x) < 28 && Math.abs(f.y - d.y) < 24) {
+              d.hp--; d.hurtT = 12; f.life = 0; g.score += 60; updateUI(g.score, null);
+            }
+          });
+        }
+        if (f.life <= 0) g.fireballs.splice(i, 1);
+      }
+
+      // Pickups
+      for (let i = g.pickups.length - 1; i >= 0; i--) {
+        const p = g.pickups[i];
+        p.bob += 0.12; p.y += p.vy;
+        if (p.vy < 0) p.vy += 0.18;
+        if (p.y > K_GROUND - 12) { p.y = K_GROUND - 12; p.vy = 0; }
+        p.life--;
+        if (Math.abs(p.x - m.x) < 36 && Math.abs(p.y - (m.y - 18)) < 50) {
+          if (p.kind === 'piece') {
+            g.suitCount++; g.score += 150; g.msg = 'SUIT PIECE ' + g.suitCount + '/3';
+            if (g.suitCount >= 3) activateUnlock('mechsuit');
+          } else if (p.kind === 'scale') {
+            g.scaleCount++; g.score += 180; g.msg = 'SCALE ' + g.scaleCount + '/2';
+            if (g.scaleCount >= 2) activateUnlock('firebreath');
+          } else if (p.kind === 'feather') {
+            g.featherCount++; g.score += 180; g.msg = 'FEATHER ' + g.featherCount + '/2';
+            if (g.featherCount >= 2) activateUnlock('wings');
+          }
+          g.msgT = 50; sfx('power'); g.pickups.splice(i, 1); updateUI(g.score, null); continue;
+        }
+        if (p.life <= 0) g.pickups.splice(i, 1);
+      }
+
+      // Dragons
+      g.dragons.forEach(d => {
+        if (d.hp <= 0) return;
+        d.f++; if (d.hurtT > 0) d.hurtT--;
+        d.x += d.vx; d.y += d.vy;
+        if (d.x < 30 || d.x > K_WORLD_W - 30) d.vx *= -1;
+        if (d.y < 28 || d.y > 155) d.vy *= -1;
+        // More aggressive dive toward player
+        if (d.diveT <= 0 && Math.abs(d.x - m.x) < 260 && Math.random() < 0.012) {
+          d.diveT = 48; d.vy = 3.4; d.vx = Math.sign(m.x - d.x) * 2.8;
+        }
+        if (d.diveT > 0) { d.diveT--; if (d.diveT < 18) d.vy = -2.0; }
+        if (d.fireT > 0) d.fireT--;
+        if (d.fireT <= 0 && Math.abs(d.x - m.x) < 220 && Math.random() < 0.022) {
+          d.fireT = 70;
+          const dir = Math.sign(m.x - d.x) || 1;
+          for (let i = 0; i < 5; i++) {
+            g.fireballs.push({
+              x: d.x, y: d.y + 6, vx: dir * (3.0 + i * 0.75),
+              vy: 1.0 + Math.random() * 0.8, life: 45, fromDragon: true
+            });
+          }
+        }
+      });
+      g.dragons = g.dragons.filter(d => d.hp > 0);
+      if (g.dragons.length < 3 && g.frame % 220 === 0) spawnDragon(g, true);
+
+      // Helicopters AI
+      (g.helis || []).forEach(h => {
+        if (h.hp <= 0) return;
+        h.f++;
+        if (!h.ridden) {
+          h.x += h.vx;
+          h.y += Math.sin(h.f * 0.08) * 0.6;
+          if (h.x < 40 || h.x > K_WORLD_W - 40) h.vx *= -1;
+        } else {
+          h.x += h.vx * 0.9;
+          h.y = Math.max(30, Math.min(160, h.y));
+        }
+        if (h.fireT > 0) h.fireT--;
+        if (!h.ridden && h.fireT <= 0 && Math.abs(h.x - m.x) < 200 && Math.random() < 0.015) {
+          h.fireT = 70;
+          const dir = Math.sign(m.x - h.x) || 1;
+          g.arrows.push({ x: h.x, y: h.y + 10, vx: dir * 5, vy: 1.5, life: 60 });
+        }
+      });
+      g.helis = (g.helis || []).filter(h => h.hp > 0);
+      if (g.helis.length < 2 && g.frame % 320 === 0) spawnHeli(g);
+
+      // Ground units — people panic & flee when kaiju is near
+      g.people.forEach(p => {
+        p.f++;
+        const dist = Math.abs(p.x - m.x);
+        if (dist < 180) {
+          p.panic = true;
+          p.vx = Math.sign(p.x - m.x) * (1.6 + Math.random() * 0.8);
+        } else if (p.panic && dist > 280) {
+          p.panic = false;
+          p.vx = (Math.random() < 0.5 ? -1 : 1) * (0.35 + Math.random() * 0.4);
+        }
+        p.x += p.vx;
+        if (p.x < 20 || p.x > K_WORLD_W - 20) p.vx *= -1;
+      });
+      g.horses.forEach(h => {
+        h.x += h.vx; h.f++;
+        if (h.x < 20 || h.x > K_WORLD_W - 20) h.vx *= -1;
+        // horses also spook and flee
+        if (Math.abs(h.x - m.x) < 140) {
+          h.vx = Math.sign(h.x - m.x) * Math.max(2.2, Math.abs(h.vx));
+        }
+        if (h.archer) {
+          h.shootT--;
+          if (h.shootT <= 0 && Math.abs(h.x - m.x) < 340) {
+            h.shootT = 55 + Math.random() * 45;
+            const dir = Math.sign(m.x - h.x) || 1;
+            g.arrows.push({ x: h.x, y: h.y - 22, vx: dir * 5.0, vy: -1.4 - Math.random(), life: 75 });
+          }
+        }
+      });
+      g.cows.forEach(c => { c.x += c.vx; c.f++; if (c.x < 20 || c.x > K_WORLD_W - 20) c.vx *= -1; });
+
+      for (let i = g.arrows.length - 1; i >= 0; i--) {
+        const a = g.arrows[i]; a.x += a.vx; a.y += a.vy; a.vy += 0.09; a.life--;
+        if (Math.abs(a.x - m.x) < 22 && Math.abs(a.y - (m.y - 28)) < 34) {
+          g.score = Math.max(0, g.score - 15); g.msg = 'OUCH — ARROW!'; g.msgT = 22;
+          m.hurtT = 14; g.arrows.splice(i, 1); updateUI(g.score, null); continue;
+        }
+        if (m.punchT > 0 && Math.abs(a.x - m.x) < 42 && Math.abs(a.y - (m.y - 28)) < 42) {
+          g.score += 25; g.msg = 'SWATTED!'; g.msgT = 18; g.arrows.splice(i, 1); updateUI(g.score, null); continue;
+        }
+        if (a.life <= 0 || a.y > K_GROUND + 10) g.arrows.splice(i, 1);
+      }
+
+      g.obstacles.forEach(o => {
+        if (o.hp <= 0) return;
+        if (m.onGround && Math.abs(o.x - m.x) < o.w * 0.5 + 16) m.x += m.x < o.x ? -2.2 : 2.2;
+      });
+      g.obstacles = g.obstacles.filter(o => o.hp > 0);
+
+      if (g.mechMode) g.mechEnergy = Math.max(0, g.mechEnergy - 0.12);
+
+      for (let i = g.debris.length - 1; i >= 0; i--) {
+        const d = g.debris[i]; d.x += d.vx; d.y += d.vy; d.vy += 0.25; d.life--;
+        if (d.life <= 0) g.debris.splice(i, 1);
+      }
+      for (let i = g.particles.length - 1; i >= 0; i--) {
+        const p = g.particles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life--;
+        if (p.life <= 0) g.particles.splice(i, 1);
+      }
+
+      // ===== DR KAIJU BOSS =====
+      if (g.boss && g.boss.hp > 0) {
+        const b = g.boss;
+        b.t++;
+        if (b.sayT > 0) b.sayT--;
+        if (b.hurtT > 0) b.hurtT--;
+        if (b.kickT > 0) b.kickT--;
+        if (b.laserT > 0) b.laserT--;
+        // face player
+        b.facing = m.x < b.x ? -1 : 1;
+        // approach
+        const dx = m.x - b.x;
+        if (Math.abs(dx) > 70) b.x += Math.sign(dx) * 2.4;
+        // dialogue cadence
+        if (b.t % 160 === 30) {
+          b.say = b.lines[b.lineIdx % b.lines.length];
+          b.lineIdx++;
+          b.sayT = 90;
+        }
+        // kick
+        if (b.kickT <= 0 && Math.abs(dx) < 90 && Math.random() < 0.025) {
+          b.kickT = 28;
+          sfx('hit');
+          if (Math.abs(m.x - b.x) < 85 && Math.abs(m.y - b.y) < 50) {
+            g.score = Math.max(0, g.score - 40);
+            g.msg = 'POD KICK!'; g.msgT = 30; m.hurtT = 20;
+            m.x += b.facing * -18;
+            updateUI(g.score, null);
+          }
+        }
+        // laser
+        if (b.laserT <= 0 && Math.random() < 0.018) {
+          b.laserT = 24;
+          sfx('thrust');
+          g.lasers.push({
+            x: b.x + b.facing * 24, y: b.y - 70,
+            vx: b.facing * 12, life: 40, fromBoss: true
+          });
+        }
+        // player punches boss
+        if (m.punchT > 10 && Math.abs(m.x - b.x) < 55 && Math.abs(m.y - b.y) < 70) {
+          if (b.hurtT <= 0) {
+            b.hp--; b.hurtT = 18;
+            g.score += 80; g.combo++; g.comboT = 90;
+            burst(g, b.x, b.y - 50, '#00d4ff', 12);
+            sfx('hit'); updateUI(g.score, null);
+            if (b.hp <= 0) {
+              g.score += 1000;
+              g.msg = 'DR. KAIJU DEFEATED!';
+              g.msgT = 90;
+              sfx('record');
+              burst(g, b.x, b.y - 40, '#ff4466', 30);
+              updateUI(g.score, null);
+            }
+          }
+        }
+      }
+
+      const alive = g.castles.filter(b => b.health > 0).length;
+      const bossDead = !g.boss || g.boss.hp <= 0;
+      // Win if kingdom clear OR (mech unlocked and boss defeated)
+      if (g.timeLeft <= 0 || alive === 0 || (g.mechMode && g.boss && g.boss.hp <= 0 && g.boss.t > 30)) {
+        g.over = true;
+        let bonus = (alive === 0 ? 700 : 0) + g.dragonsDown * 100;
+        if (g.mechMode) bonus += 200;
+        if (g.fireBreath) bonus += 150;
+        if (g.wings) bonus += 150;
+        if (g.boss && g.boss.hp <= 0) bonus += 1000;
+        g.score += bonus; updateUI(g.score, null);
+        g._endMsg = (g.boss && g.boss.hp <= 0) ? 'DR. KAIJU DOWN' : (alive === 0 ? 'KINGDOM FLATTENED' : 'TIME UP');
+        g.phase = 'credits'; g.creditsT = 0; return;
+      }
+
+      drawKaiju();
+      animId = requestAnimationFrame(loopKaiju);
+    }
+
+    // ===== DRAW CHARACTERS — feet at y=0, origin at soles =====
+    function drawKaijuChar(ctx, charId, color, accent, facing, m, scaleMul) {
+      const punch = (m && m.punchT > 0) ? Math.min(1, m.punchT / 8) : 0;
+      const smash = (m && m.smashT > 8) ? 1 : 0;
+      const hurt = (m && m.hurtT > 0 && (m.hurtT % 4 < 2));
+      const sc = (scaleMul != null ? scaleMul : 0.85);
+      const suitParts = (kaijuG && !kaijuG.mechMode) ? (kaijuG.suitCount || 0) : 0;
+      ctx.save();
+      ctx.scale(sc, sc);
+      if (hurt) ctx.globalAlpha = 0.55;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 14;
+      const body = hurt ? '#ffffff' : color;
+
+      // Punch arm extension — more wind-up / follow-through
+      const punchReach = punch * 16;
+      const punchLift = punch * 6;
+
+      if (charId === 'monkfang') {
+        ctx.fillStyle = body;
+        ctx.fillRect(-12, -18, 10, 18); ctx.fillRect(2, -18, 10, 18);
+        ctx.fillRect(-14, -3, 13, 6); ctx.fillRect(1, -3, 13, 6);
+        ctx.beginPath();
+        ctx.moveTo(-14, -18); ctx.lineTo(-16, -50); ctx.lineTo(16, -50); ctx.lineTo(14, -18);
+        ctx.closePath(); ctx.fill();
+        // head + face
+        ctx.beginPath(); ctx.ellipse(0, -62, 14, 13, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = accent;
+        ctx.beginPath(); ctx.ellipse(2, -58, 8, 6, 0, 0, Math.PI * 2); ctx.fill();
+        // eyes with glow
+        ctx.fillStyle = '#ffe8a0';
+        ctx.beginPath(); ctx.arc(-5, -66, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(6, -66, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#1a0800';
+        ctx.beginPath(); ctx.arc(-5, -66, 1.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(6, -66, 1.5, 0, Math.PI * 2); ctx.fill();
+        // brow ridge
+        ctx.strokeStyle = '#2a1000'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(-9, -70); ctx.lineTo(-2, -68); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(2, -68); ctx.lineTo(10, -70); ctx.stroke();
+        // fangs
+        ctx.fillStyle = '#fff8e0';
+        ctx.fillRect(-4, -52, 2.5, 6); ctx.fillRect(2, -52, 2.5, 6);
+        // arms — punching arm extends
+        ctx.fillStyle = body;
+        ctx.fillRect(-28, -44 + punchLift * 0.3, 13, 28);
+        ctx.fillRect(15 + punchReach, -44 - punchLift, 13, 28);
+        ctx.fillRect(-30, -18, 10, 8);
+        ctx.fillRect(18 + punchReach, -18 - punchLift, 10, 8);
+      } else if (charId === 'raptorx') {
+        // NO TAIL — wings instead
+        ctx.fillStyle = body;
+        ctx.fillRect(-11, -18, 9, 18); ctx.fillRect(2, -18, 9, 18);
+        ctx.fillRect(-13, -3, 12, 6); ctx.fillRect(1, -3, 12, 6);
+        ctx.beginPath();
+        ctx.moveTo(-12, -18); ctx.lineTo(-13, -52); ctx.lineTo(13, -52); ctx.lineTo(12, -18);
+        ctx.closePath(); ctx.fill();
+        // built-in wing membranes (always on Raptor)
+        ctx.globalAlpha = 0.55;
+        ctx.fillStyle = accent;
+        ctx.beginPath();
+        ctx.moveTo(-12, -40); ctx.quadraticCurveTo(-38, -55, -42, -18); ctx.quadraticCurveTo(-28, -28, -12, -28); ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(12, -40); ctx.quadraticCurveTo(38, -55, 42, -18); ctx.quadraticCurveTo(28, -28, 12, -28); ctx.fill();
+        ctx.globalAlpha = 1;
+        // dorsal plates
+        ctx.fillStyle = accent;
+        for (let i = 0; i < 4; i++) {
+          const py = -48 + i * 8;
+          ctx.beginPath(); ctx.moveTo(-1, py); ctx.lineTo(1, py - 9); ctx.lineTo(4, py); ctx.fill();
+        }
+        // head
+        ctx.fillStyle = body;
+        ctx.beginPath(); ctx.ellipse(4, -62, 12, 11, 0.12, 0, Math.PI * 2); ctx.fill();
+        // snout
+        ctx.beginPath(); ctx.ellipse(12, -58, 7, 5, 0.2, 0, Math.PI * 2); ctx.fill();
+        // eyes
+        ctx.fillStyle = '#ffff66';
+        ctx.beginPath(); ctx.arc(6, -66, 3.2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#0a1808';
+        ctx.beginPath(); ctx.arc(7, -66, 1.6, 0, Math.PI * 2); ctx.fill();
+        // teeth row
+        ctx.fillStyle = '#fff';
+        for (let i = 0; i < 3; i++) ctx.fillRect(8 + i * 3, -55, 2, 4);
+        // arms
+        ctx.fillStyle = body;
+        ctx.fillRect(-24, -42, 11, 20);
+        ctx.fillRect(12 + punchReach, -42 - punchLift, 11, 20);
+      } else if (charId === 'goosefang') {
+        ctx.fillStyle = body;
+        ctx.fillRect(-13, -16, 11, 16); ctx.fillRect(2, -16, 11, 16);
+        ctx.fillRect(-17, -3, 16, 6); ctx.fillRect(1, -3, 16, 6);
+        ctx.beginPath(); ctx.ellipse(0, -30, 15, 20, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(0, -52, 12, 0, Math.PI * 2); ctx.fill();
+        // ears
+        ctx.beginPath(); ctx.ellipse(-8, -76, 5, 18, -0.12, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(8, -76, 5, 18, 0.12, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = accent;
+        ctx.beginPath(); ctx.ellipse(-8, -74, 2.2, 11, -0.12, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(8, -74, 2.2, 11, 0.12, 0, Math.PI * 2); ctx.fill();
+        // face
+        ctx.fillStyle = '#ffe0f0';
+        ctx.beginPath(); ctx.arc(-5, -54, 2.8, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(5, -54, 2.8, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#1a0010';
+        ctx.beginPath(); ctx.arc(-5, -54, 1.4, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(5, -54, 1.4, 0, Math.PI * 2); ctx.fill();
+        // nose + buck teeth
+        ctx.fillStyle = '#ff99cc';
+        ctx.beginPath(); ctx.arc(0, -48, 2, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(-3, -44, 2.5, 5); ctx.fillRect(1, -44, 2.5, 5);
+        ctx.fillStyle = body;
+        ctx.fillRect(-24, -36, 11, 20);
+        ctx.fillRect(13 + punchReach, -36 - punchLift, 11, 20);
+      } else {
+        // Full mech suit
+        ctx.fillStyle = body;
+        ctx.fillRect(-12, -16, 10, 16); ctx.fillRect(2, -16, 10, 16);
+        ctx.fillRect(-14, -3, 12, 6); ctx.fillRect(2, -3, 12, 6);
+        ctx.fillRect(-14, -48, 28, 36);
+        ctx.fillRect(-11, -66, 22, 20);
+        ctx.fillStyle = accent;
+        ctx.fillRect(-9, -60, 18, 7);
+        ctx.fillStyle = '#001018';
+        ctx.fillRect(-6, -58, 5, 3); ctx.fillRect(2, -58, 5, 3);
+        // pilot silhouette in visor
+        ctx.fillStyle = 'rgba(255,200,150,0.35)';
+        ctx.fillRect(-4, -58, 8, 5);
+        ctx.fillStyle = body;
+        ctx.fillRect(-1, -78, 2, 12);
+        ctx.beginPath(); ctx.arc(0, -80, 3.5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillRect(-24, -46, 11, 12); ctx.fillRect(13, -46, 11, 12);
+        ctx.fillRect(-26 - punchReach * 0.3, -36, 11, 24);
+        ctx.fillRect(15 + punchReach, -36 - punchLift, 11, 24);
+        ctx.fillStyle = accent; ctx.fillRect(-6, -32, 12, 7);
+      }
+
+      // PARTIAL MECH WEAR (suit pieces 1–2 before full transform)
+      if (suitParts > 0 && charId !== 'mechsuit') {
+        ctx.globalAlpha = 0.85;
+        ctx.strokeStyle = '#00d4ff';
+        ctx.fillStyle = 'rgba(0,212,255,0.35)';
+        ctx.lineWidth = 2;
+        if (suitParts >= 1) {
+          // leg plating
+          ctx.fillRect(-13, -16, 11, 14); ctx.strokeRect(-13, -16, 11, 14);
+          ctx.fillRect(2, -16, 11, 14); ctx.strokeRect(2, -16, 11, 14);
+        }
+        if (suitParts >= 2) {
+          // shoulder / chest plating
+          ctx.fillRect(-16, -48, 10, 12); ctx.strokeRect(-16, -48, 10, 12);
+          ctx.fillRect(6, -48, 10, 12); ctx.strokeRect(6, -48, 10, 12);
+          ctx.fillRect(-8, -42, 16, 10); ctx.strokeRect(-8, -42, 16, 10);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // Storm wings unlock overlay
+      if (m && kaijuG && kaijuG.wings && charId !== 'mechsuit' && charId !== 'raptorx') {
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = '#aaccff';
+        ctx.beginPath();
+        ctx.moveTo(-12, -36); ctx.quadraticCurveTo(-38, -52, -42, -16); ctx.quadraticCurveTo(-28, -24, -12, -26); ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(12, -36); ctx.quadraticCurveTo(38, -52, 42, -16); ctx.quadraticCurveTo(28, -24, 12, -26); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      // Punch impact burst
+      if (punch > 0.4) {
+        ctx.globalAlpha = 0.3 + punch * 0.3;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(22 + punchReach, -24 - punchLift, 8 + punch * 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      if (smash) {
+        ctx.globalAlpha = 0.4; ctx.fillStyle = body;
+        ctx.beginPath(); ctx.ellipse(0, 4, 28, 8, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      ctx.shadowBlur = 0;
+      ctx.restore();
+    }
+
+    function drawDrKaijuBoss(ctx, boss) {
+      if (!boss || boss.hp <= 0) return;
+      ctx.save();
+      ctx.translate(boss.x, boss.y);
+      ctx.scale(boss.facing, 1);
+      // two-legged transparent pod
+      ctx.strokeStyle = '#00d4ff';
+      ctx.fillStyle = 'rgba(0, 40, 60, 0.35)';
+      ctx.lineWidth = 2;
+      // legs
+      ctx.fillRect(-18, -40, 12, 40); ctx.strokeRect(-18, -40, 12, 40);
+      ctx.fillRect(6, -40, 12, 40); ctx.strokeRect(6, -40, 12, 40);
+      // feet
+      ctx.fillRect(-20, -4, 16, 6); ctx.fillRect(4, -4, 16, 6);
+      // torso canopy (see-through)
+      ctx.beginPath();
+      ctx.moveTo(-22, -40); ctx.lineTo(-24, -90); ctx.lineTo(24, -90); ctx.lineTo(22, -40);
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      // glass dome
+      ctx.fillStyle = 'rgba(120, 200, 255, 0.2)';
+      ctx.beginPath(); ctx.ellipse(0, -100, 18, 16, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#88e0ff'; ctx.stroke();
+      // Dr Kaiju inside
+      ctx.fillStyle = '#e8d4b8';
+      ctx.beginPath(); ctx.arc(0, -100, 8, 0, Math.PI * 2); ctx.fill();
+      // glasses
+      ctx.strokeStyle = '#222'; ctx.lineWidth = 1.2;
+      ctx.strokeRect(-7, -103, 5, 4); ctx.strokeRect(2, -103, 5, 4);
+      ctx.beginPath(); ctx.moveTo(-2, -101); ctx.lineTo(2, -101); ctx.stroke();
+      // body
+      ctx.fillStyle = '#334455';
+      ctx.fillRect(-6, -92, 12, 14);
+      // arm lasers
+      if (boss.laserT > 0) {
+        ctx.strokeStyle = '#ff4466';
+        ctx.shadowColor = '#ff4466';
+        ctx.shadowBlur = 12;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(20, -70);
+        ctx.lineTo(20 + 80, -70 + (Math.random() - 0.5) * 10);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+      // kick pose
+      if (boss.kickT > 0) {
+        ctx.fillStyle = 'rgba(0,212,255,0.5)';
+        ctx.fillRect(10, -30, 28, 10);
+      }
+      ctx.restore();
+      // speech
+      if (boss.sayT > 0 && boss.say) {
+        ctx.fillStyle = '#ff8899';
+        ctx.font = 'bold 12px Courier New';
+        ctx.textAlign = 'center';
+        ctx.fillText('"' + boss.say + '"', boss.x, boss.y - 130);
+      }
+      // HP bar
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(boss.x - 40, boss.y - 145, 80, 8);
+      ctx.fillStyle = '#ff4466';
+      ctx.fillRect(boss.x - 40, boss.y - 145, 80 * (boss.hp / boss.maxHp), 8);
+      ctx.strokeStyle = '#ff8899';
+      ctx.strokeRect(boss.x - 40, boss.y - 145, 80, 8);
+      ctx.fillStyle = '#ffaabb';
+      ctx.font = '9px Courier New';
+      ctx.textAlign = 'center';
+      ctx.fillText('DR. KAIJU', boss.x, boss.y - 150);
+    }
+
+    function drawCastle(ctx, b, frame) {
+      if (b.health <= 0 && b.h <= 18) return;
+      const top = K_GROUND - b.h;
+      const style = b.style || 'moorish';
+      // warm stone fill
+      const grad = ctx.createLinearGradient(b.x, top, b.x + b.w, top);
+      grad.addColorStop(0, b.color);
+      grad.addColorStop(0.45, '#d4b896');
+      grad.addColorStop(1, '#8a7050');
+      ctx.fillStyle = grad;
+      ctx.fillRect(b.x, top, b.w, b.h);
+
+      // brick rows
+      ctx.strokeStyle = 'rgba(60,40,20,0.22)';
+      ctx.lineWidth = 1;
+      for (let by = top + 10; by < K_GROUND - 4; by += 12) {
+        ctx.beginPath(); ctx.moveTo(b.x + 1, by); ctx.lineTo(b.x + b.w - 1, by); ctx.stroke();
+      }
+
+      const tw = Math.max(12, b.w * 0.2);
+      if (style === 'tower') {
+        // single tall minaret
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x + b.w * 0.25, top, b.w * 0.5, b.h);
+        ctx.fillStyle = '#2a6a5a';
+        ctx.beginPath();
+        ctx.ellipse(b.x + b.w / 2, top, b.w * 0.35, 16, 0, Math.PI, 0);
+        ctx.fill();
+        ctx.strokeStyle = '#c9a227';
+        ctx.beginPath(); ctx.moveTo(b.x + b.w / 2, top - 14); ctx.lineTo(b.x + b.w / 2, top - 28); ctx.stroke();
+      } else if (style === 'ruined') {
+        // broken top edge
+        ctx.fillStyle = b.color;
+        ctx.beginPath();
+        ctx.moveTo(b.x, K_GROUND);
+        ctx.lineTo(b.x, top + 20);
+        ctx.lineTo(b.x + b.w * 0.3, top + 8);
+        ctx.lineTo(b.x + b.w * 0.5, top + 28);
+        ctx.lineTo(b.x + b.w * 0.75, top + 5);
+        ctx.lineTo(b.x + b.w, top + 18);
+        ctx.lineTo(b.x + b.w, K_GROUND);
+        ctx.closePath(); ctx.fill();
+      } else {
+        // Twin minaret towers (Moorish / mosque / keep)
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x - 3, top + 20, tw, b.h - 20);
+        ctx.fillRect(b.x + b.w - tw + 3, top + 20, tw, b.h - 20);
+        ctx.fillStyle = style === 'mosque' ? '#1a5a4a' : '#2a6a5a';
+        ctx.beginPath();
+        ctx.ellipse(b.x + tw / 2 - 3, top + 18, tw * 0.55, 14, 0, Math.PI, 0);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(b.x + b.w - tw / 2 + 3, top + 18, tw * 0.55, 14, 0, Math.PI, 0);
+        ctx.fill();
+        if (style === 'mosque') {
+          // central dome
+          ctx.beginPath();
+          ctx.ellipse(b.x + b.w / 2, top + 10, b.w * 0.28, 18, 0, Math.PI, 0);
+          ctx.fill();
+        }
+        ctx.strokeStyle = '#c9a227';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(b.x + tw / 2 - 3, top + 6); ctx.lineTo(b.x + tw / 2 - 3, top - 8); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(b.x + b.w - tw / 2 + 3, top + 6); ctx.lineTo(b.x + b.w - tw / 2 + 3, top - 8); ctx.stroke();
+      }
+
+      // horseshoe arches (windows)
+      const cols = Math.max(2, Math.floor(b.w / 18));
+      const rows = Math.max(2, Math.floor(b.h / 28));
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (b.cracked > r + 1) continue;
+          const wx = b.x + 10 + c * ((b.w - 20) / cols);
+          const wy = top + 24 + r * 26;
+          if (wy + 16 > K_GROUND - 8) continue;
+          ctx.fillStyle = 'rgba(15,25,40,0.75)';
+          // horseshoe arch
+          ctx.beginPath();
+          ctx.moveTo(wx, wy + 14);
+          ctx.lineTo(wx, wy + 4);
+          ctx.arc(wx + 5, wy + 4, 5, Math.PI, 0);
+          ctx.lineTo(wx + 10, wy + 14);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = '#c9a22788';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          if ((c + r + frame) % 6 === 0) {
+            ctx.fillStyle = 'rgba(255,200,80,0.4)';
+            ctx.fillRect(wx + 2, wy + 4, 6, 8);
+          }
+        }
+      }
+
+      // grand horseshoe door
+      if (b.h > 50) {
+        const dw = b.w * 0.28;
+        const dx = b.x + b.w * 0.36;
+        ctx.fillStyle = '#1a1208';
+        ctx.beginPath();
+        ctx.moveTo(dx, K_GROUND);
+        ctx.lineTo(dx, K_GROUND - 26);
+        ctx.arc(dx + dw / 2, K_GROUND - 26, dw / 2, Math.PI, 0);
+        ctx.lineTo(dx + dw, K_GROUND);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#c9a227';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // neon edge
+      ctx.strokeStyle = b.accent || '#00ff9f';
+      ctx.lineWidth = 1.2;
+      ctx.shadowColor = b.accent || '#00ff9f';
+      ctx.shadowBlur = 5;
+      ctx.strokeRect(b.x, top, b.w, b.h);
+      ctx.shadowBlur = 0;
+
+      // Gargoyles on corners (flashy)
+      if (style !== 'ruined' && b.h > 70) {
+        const gy = top + 8;
+        [[b.x + 4, gy], [b.x + b.w - 4, gy]].forEach(([gx, gy2], gi) => {
+          ctx.fillStyle = '#5a4a3a';
+          ctx.beginPath();
+          ctx.ellipse(gx, gy2, 5, 4, 0, 0, Math.PI * 2); ctx.fill(); // head
+          ctx.fillRect(gx - 3, gy2, 6, 8); // body
+          // glowing eyes
+          ctx.fillStyle = (frame + gi * 7) % 20 < 10 ? '#ff4466' : '#ffaa44';
+          ctx.fillRect(gx - 3, gy2 - 2, 2, 2); ctx.fillRect(gx + 1, gy2 - 2, 2, 2);
+          // wings
+          ctx.strokeStyle = '#7a6a5a';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(gx, gy2);
+          ctx.quadraticCurveTo(gx + (gi === 0 ? -12 : 12), gy2 - 8, gx + (gi === 0 ? -8 : 8), gy2 + 4);
+          ctx.stroke();
+        });
+      }
+
+      // Neon trim flash
+      if (frame % 40 < 8) {
+        ctx.strokeStyle = b.accent || '#00ff9f';
+        ctx.globalAlpha = 0.6;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(b.x - 1, top - 1, b.w + 2, b.h + 2);
+        ctx.globalAlpha = 1;
+      }
+
+      if (b.cracked > 0) {
+        ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(b.x + b.w * 0.3, top + 10);
+        ctx.lineTo(b.x + b.w * 0.5, top + b.h * 0.45);
+        ctx.lineTo(b.x + b.w * 0.7, top + b.h * 0.8);
+        ctx.stroke();
+      }
+    }
+
+    function drawHeli(ctx, h) {
+      if (h.hp <= 0) return;
+      ctx.save();
+      ctx.translate(h.x, h.y);
+      ctx.scale(h.vx >= 0 ? 1 : -1, 1);
+      // body
+      ctx.fillStyle = '#4a5560';
+      ctx.shadowColor = '#00d4ff';
+      ctx.shadowBlur = 8;
+      ctx.fillRect(-22, -6, 44, 14);
+      ctx.fillRect(14, -4, 18, 6); // tail
+      // cockpit glass
+      ctx.fillStyle = 'rgba(100,200,255,0.45)';
+      ctx.fillRect(-18, -12, 16, 8);
+      // rotor
+      const spin = (h.f * 0.8) % (Math.PI * 2);
+      ctx.strokeStyle = '#c0d0e0';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(-28 * Math.cos(spin), -14);
+      ctx.lineTo(28 * Math.cos(spin), -14);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-28 * Math.cos(spin + 1.57), -14);
+      ctx.lineTo(28 * Math.cos(spin + 1.57), -14);
+      ctx.stroke();
+      // skids
+      ctx.strokeStyle = '#333';
+      ctx.beginPath(); ctx.moveTo(-16, 10); ctx.lineTo(16, 10); ctx.stroke();
+      ctx.shadowBlur = 0;
+      if (h.ridden) {
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = '8px Courier New';
+        ctx.textAlign = 'center';
+        ctx.fillText('HIJACKED', 0, -20);
+      }
+      ctx.restore();
+    }
+
+    function drawDragon(ctx, d) {
+      if (d.hp <= 0) return;
+      ctx.save();
+      ctx.translate(d.x, d.y);
+      ctx.scale(d.vx >= 0 ? 1 : -1, 1);
+      const flash = d.hurtT > 0 && (d.hurtT % 4 < 2);
+      ctx.fillStyle = flash ? '#fff' : '#3d9a5c';
+      ctx.shadowColor = '#22ff88';
+      ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.ellipse(0, 0, 24, 11, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(22, -3, 11, 8, 0, 0, Math.PI * 2); ctx.fill();
+      const flap = Math.sin(d.f * 0.28) * 12;
+      ctx.fillStyle = flash ? '#fff' : '#2d7a4a';
+      ctx.beginPath();
+      ctx.moveTo(-4, 0); ctx.quadraticCurveTo(-18, -28 - flap, 12, -20 - flap); ctx.quadraticCurveTo(0, -8, -4, 0); ctx.fill();
+      ctx.strokeStyle = flash ? '#fff' : '#3d9a5c';
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(-22, 2); ctx.quadraticCurveTo(-38, 10, -44, 4); ctx.stroke();
+      // fire glow when about to breathe
+      if (d.fireT > 70) {
+        ctx.fillStyle = '#ff6622';
+        ctx.globalAlpha = 0.6;
+        ctx.beginPath(); ctx.arc(30, 0, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      ctx.fillStyle = '#ff0';
+      ctx.fillRect(24, -6, 3, 3);
+      ctx.shadowBlur = 0;
+      ctx.restore();
+    }
+
+    function drawKaiju() {
+      const g = kaijuG; if (!g) return;
+
+      // ===== INTRO: burning lab cinematic =====
+      if (g.phase === 'intro') {
+        // Start kaiju theme soft during intro
+        if (g.introT === 2) { try { startMusic('kaiju'); } catch (e) {} }
+
+        const t = g.introT;
+        // Lab walls + glow
+        const glow = 0.15 + Math.sin(t * 0.08) * 0.08;
+        ctx.fillStyle = '#120806';
+        ctx.fillRect(0, 0, 480, 360);
+        ctx.fillStyle = `rgba(80,20,10,${glow})`;
+        ctx.fillRect(0, 0, 480, 360);
+        // ceiling pipes
+        ctx.strokeStyle = '#3a2a22';
+        ctx.lineWidth = 3;
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * 90, 0); ctx.lineTo(i * 90 + 40, 40); ctx.lineTo(i * 90 + 80, 0);
+          ctx.stroke();
+        }
+        // floor
+        ctx.fillStyle = '#1a100c';
+        ctx.fillRect(0, 290, 480, 70);
+        ctx.strokeStyle = '#3a2018';
+        for (let i = 0; i < 12; i++) {
+          ctx.beginPath(); ctx.moveTo(i * 40, 290); ctx.lineTo(i * 40 + 20, 360); ctx.stroke();
+        }
+        // fire
+        for (let i = 0; i < 35; i++) {
+          const fx = (i * 47 + t * 3) % 500 - 10;
+          const fy = 210 + Math.sin(t * 0.12 + i) * 25 + (i % 6) * 12;
+          ctx.globalAlpha = 0.35 + Math.random() * 0.45;
+          ctx.fillStyle = i % 3 === 0 ? '#ff5522' : (i % 3 === 1 ? '#ffcc33' : '#ff2200');
+          ctx.beginPath();
+          ctx.arc(fx, fy, 5 + Math.random() * 10, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        // smoke plumes
+        for (let i = 0; i < 14; i++) {
+          ctx.globalAlpha = 0.1 + (i % 4) * 0.03;
+          ctx.fillStyle = '#666';
+          ctx.beginPath();
+          ctx.arc((i * 61 + t * 0.7) % 480, 30 + (i % 5) * 18, 18 + i * 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        // lab equipment
+        ctx.fillStyle = '#2a1a14';
+        ctx.fillRect(20, 255, 70, 14); ctx.fillRect(180, 260, 100, 14); ctx.fillRect(380, 252, 80, 14);
+        ctx.fillStyle = '#ff4466';
+        ctx.globalAlpha = 0.5 + Math.sin(t * 0.2) * 0.3;
+        ctx.fillRect(40, 240, 8, 8); ctx.fillRect(220, 245, 8, 8); ctx.fillRect(400, 238, 8, 8);
+        ctx.globalAlpha = 1;
+        // warning stripes
+        ctx.fillStyle = '#ffcc00';
+        for (let i = 0; i < 8; i++) ctx.fillRect(i * 60, 288, 30, 3);
+
+        // Title with glitch
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = 'bold 26px Courier New';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#00ff9f';
+        ctx.shadowBlur = 16;
+        const glitchX = (t % 40 < 3) ? (Math.random() - 0.5) * 6 : 0;
+        ctx.fillText('NEON KAIJU', 240 + glitchX, 42);
+        ctx.shadowBlur = 0;
+
+        // Story beats (compressed for short intro)
+        ctx.fillStyle = '#ffcc88';
+        ctx.font = '13px Courier New';
+        if (t > 8) ctx.fillText('LAB 7 — TEMPORAL GENETICS', 240, 70);
+        if (t > 18) ctx.fillText('Dr. Kaiju tried to fix nature…', 240, 92);
+        if (t > 28) ctx.fillText('Instead he turned back time.', 240, 112);
+
+        // Dr Kaiju panicked
+        if (t > 35) {
+          const dx = 240 + Math.sin(t * 0.15) * 8;
+          const dy = 185;
+          ctx.fillStyle = '#e8d4b8';
+          ctx.beginPath(); ctx.arc(dx, dy, 14, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = '#111'; ctx.lineWidth = 1.8;
+          ctx.strokeRect(dx - 11, dy - 6, 9, 6); ctx.strokeRect(dx + 2, dy - 6, 9, 6);
+          ctx.beginPath(); ctx.moveTo(dx - 2, dy - 3); ctx.lineTo(dx + 2, dy - 3); ctx.stroke();
+          // sweat
+          ctx.fillStyle = '#88ccff';
+          ctx.fillRect(dx + 12, dy + 2, 2, 6);
+          ctx.fillStyle = '#334455';
+          ctx.fillRect(dx - 10, dy + 14, 20, 32);
+          const leg = Math.sin(t * 0.4) * 6;
+          ctx.fillRect(dx - 9, dy + 44, 7, 18 + leg);
+          ctx.fillRect(dx + 2, dy + 44, 7, 18 - leg);
+          ctx.fillRect(dx - 20, dy + 16, 11, 5);
+          ctx.fillRect(dx + 9, dy + 12, 14, 5);
+          // bubble
+          ctx.fillStyle = 'rgba(0,0,0,0.55)';
+          ctx.fillRect(dx - 110, dy - 48, 220, 28);
+          ctx.strokeStyle = '#ffff66';
+          ctx.strokeRect(dx - 110, dy - 48, 220, 28);
+          ctx.fillStyle = '#ffff66';
+          ctx.font = 'bold 12px Courier New';
+          ctx.fillText('"Oh dear… where\'s my mech armor?!"', dx, dy - 30);
+        }
+
+        // Subjects break containment
+        if (t > 48) {
+          const chase = Math.min(1, (t - 48) / 25);
+          ctx.fillStyle = '#ff6688';
+          ctx.font = '11px Courier New';
+          ctx.fillText('CONTAINMENT BREACH — SUBJECTS LOOSE', 240, 140);
+          ctx.save();
+          ctx.translate(50 + chase * 50, 310);
+          drawKaijuChar(ctx, 'monkfang', '#ffaa44', '#ff6622', 1, null, 1.3);
+          ctx.restore();
+          ctx.save();
+          ctx.translate(170 + chase * 40, 310);
+          drawKaijuChar(ctx, 'raptorx', '#00ff9f', '#33cc88', 1, null, 1.3);
+          ctx.restore();
+          ctx.save();
+          ctx.translate(290 + chase * 30, 310);
+          drawKaijuChar(ctx, 'goosefang', '#ff66cc', '#ff3399', 1, null, 1.3);
+          ctx.restore();
+        }
+
+        if (t > 55) {
+          ctx.fillStyle = '#ffff66';
+          ctx.font = 'bold 13px Courier New';
+          ctx.fillText('TAP / SPACE — CHOOSE YOUR KAIJU', 240, 345);
+        }
+        ctx.fillStyle = '#886655';
+        ctx.font = '9px Courier New';
+        ctx.fillText('coin-op 4 charity', 240, 358);
+        return;
+      }
+
+      // ===== SELECT (Raptor X is default center) =====
+      if (g.phase === 'select') {
+        ctx.fillStyle = '#020018';
+        ctx.fillRect(0, 0, 480, 360);
+        for (let i = 0; i < 30; i++) {
+          ctx.globalAlpha = 0.2 + (i % 4) * 0.1;
+          ctx.fillStyle = '#c8e0ff';
+          ctx.fillRect((i * 97) % 480, (i * 53) % 200, 1.5, 1.5);
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = 'bold 16px Courier New';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#00ff9f';
+        ctx.shadowBlur = 10;
+        ctx.fillText('SELECT YOUR KAIJU', 240, 30);
+        ctx.shadowBlur = 0;
+
+        const order = [0, 1, 2]; // Monkfang, Raptor X, Goosefang — Raptor is center idx 1
+        const cardW = 128, gap = 14;
+        const totalW = 3 * cardW + 2 * gap;
+        const startX = (480 - totalW) / 2;
+        order.forEach((ci, i) => {
+          const ch = KAIJU_CHARS[ci];
+          const x = startX + i * (cardW + gap), y = 50;
+          const sel = ci === g.selectIdx;
+          ctx.fillStyle = sel ? 'rgba(0,255,159,0.14)' : 'rgba(0,20,30,0.75)';
+          ctx.strokeStyle = sel ? ch.color : '#00ff9f44';
+          ctx.lineWidth = sel ? 2.5 : 1;
+          ctx.shadowColor = sel ? ch.color : 'transparent';
+          ctx.shadowBlur = sel ? 14 : 0;
+          ctx.fillRect(x, y, cardW, 220);
+          ctx.strokeRect(x, y, cardW, 220);
+          ctx.shadowBlur = 0;
+          // ground line under preview
+          ctx.strokeStyle = '#00ff9f33';
+          ctx.beginPath(); ctx.moveTo(x + 16, y + 185); ctx.lineTo(x + cardW - 16, y + 185); ctx.stroke();
+          ctx.save();
+          ctx.translate(x + cardW / 2, y + 185);
+          drawKaijuChar(ctx, ch.id, ch.color, ch.accent, 1, null, 1.2);
+          ctx.restore();
+          ctx.fillStyle = sel ? ch.color : '#7dffc8';
+          ctx.font = sel ? 'bold 13px Courier New' : '12px Courier New';
+          ctx.fillText(ch.name, x + cardW / 2, y + 24);
+          ctx.fillStyle = '#7dffc888';
+          ctx.font = '9px Courier New';
+          ctx.fillText(ch.label, x + cardW / 2, y + 40);
+        });
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = '11px Courier New';
+        ctx.fillText('← → SELECT  •  TAP / SPACE CONFIRM', 240, 300);
+        ctx.fillStyle = '#7dffc8';
+        ctx.font = '9px Courier New';
+        ctx.fillText('Jump • Stomp • Smash keeps • Ride dragons & helis • Fight Dr Kaiju', 240, 322);
+        ctx.fillText(KAIJU_CHARS[g.selectIdx].name, 240, 342);
+        return;
+      }
+
+      // ===== CREDITS =====
+      if (g.phase === 'credits') {
+        ctx.fillStyle = '#020010';
+        ctx.fillRect(0, 0, 480, 360);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#00ff9f';
+        ctx.font = 'bold 18px Courier New';
+        ctx.fillText(g._endMsg || 'RUN COMPLETE', 240, 48);
+        ctx.fillStyle = '#7dffc8';
+        ctx.font = '13px Courier New';
+        ctx.fillText('SCORE  ' + g.score, 240, 88);
+        ctx.fillText('KEEPS  ' + g.stomped + '   DRAGONS  ' + g.dragonsDown, 240, 112);
+        if (g.creditsT > 35) {
+          ctx.fillStyle = '#00ff9f';
+          ctx.font = '10px Courier New';
+          const ascii = [
+            '  ╔═╗╔═╗╦╔╗╔  ╔═╗╔═╗',
+            '  ║  ║ ║║║║║  ║ ║╠═╝',
+            '  ╚═╝╚═╝╩╝╚╝  ╚═╝╩  ',
+            '   ╔═╗╔═╗╦═╗  ╔═╗╦ ╦╔═╗╦═╗╦╔╦╗╦ ╦',
+            '   ╠╣ ║ ║╠╦╝  ║  ╠═╣╠═╣╠╦╝║ ║ ╚╦╝',
+            '   ╚  ╚═╝╩╚═  ╚═╝╩ ╩╩ ╩╩╚═╩ ╩  ╩ '
+          ];
+          ascii.forEach((line, i) => ctx.fillText(line, 240, 150 + i * 14));
+        }
+        if (g.creditsT > 90) {
+          ctx.fillStyle = '#ffff66';
+          ctx.font = '11px Courier New';
+          ctx.fillText('PLAY FREE  ·  SUPPORT YOUTH SPACES', 240, 280);
+          ctx.fillStyle = '#7dffc8';
+          ctx.font = '10px Courier New';
+          ctx.fillText('coinop4charity.org', 240, 300);
+          ctx.fillText('TAP FOR HI-SCORE ENTRY', 240, 328);
+        }
+        return;
+      }
+
+      // ===== PLAY (camera world) =====
+      const shake = g.cameraShake > 0.5 ? (Math.random() - 0.5) * g.cameraShake : 0;
+      ctx.save();
+      ctx.translate(-g.camX + shake, shake * 0.35);
+
+      // Sky
+      const sky = ctx.createLinearGradient(g.camX, 0, g.camX, 360);
+      sky.addColorStop(0, '#06041a');
+      sky.addColorStop(0.45, '#0c1840');
+      sky.addColorStop(1, '#0a2418');
+      ctx.fillStyle = sky;
+      ctx.fillRect(g.camX - 20, -10, 520, 380);
+      for (let i = 0; i < 55; i++) {
+        ctx.globalAlpha = 0.18 + ((i + (g.frame >> 4)) % 5) * 0.1;
+        ctx.fillStyle = '#c8e0ff';
+        ctx.fillRect((i * 137) % K_WORLD_W, (i * 53) % 160, 1.5, 1.5);
+      }
+      ctx.globalAlpha = 1;
+      // moon
+      ctx.fillStyle = 'rgba(200,220,255,0.12)';
+      ctx.beginPath(); ctx.arc(g.camX + 400, 48, 30, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(220,230,255,0.3)';
+      ctx.beginPath(); ctx.arc(g.camX + 400, 48, 16, 0, Math.PI * 2); ctx.fill();
+
+      // Ground
+      ctx.fillStyle = '#0c1c14';
+      ctx.fillRect(0, K_GROUND, K_WORLD_W, 40);
+      ctx.strokeStyle = '#c9a22766';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0, K_GROUND); ctx.lineTo(K_WORLD_W, K_GROUND); ctx.stroke();
+      // sand texture
+      ctx.fillStyle = 'rgba(180,150,90,0.08)';
+      for (let i = 0; i < 40; i++) {
+        ctx.fillRect((i * 97) % K_WORLD_W, K_GROUND + 4 + (i % 5) * 3, 8, 2);
+      }
+
+      g.castles.forEach(b => drawCastle(ctx, b, g.frame));
+
+      // obstacles
+      (g.obstacles || []).forEach(o => {
+        if (o.kind === 'cart') {
+          ctx.fillStyle = '#6a4a28';
+          ctx.fillRect(o.x - o.w / 2, o.y - o.h, o.w, o.h);
+          ctx.fillStyle = '#333';
+          ctx.beginPath(); ctx.arc(o.x - o.w * 0.3, o.y, 5, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(o.x + o.w * 0.3, o.y, 5, 0, Math.PI * 2); ctx.fill();
+        } else if (o.kind === 'stake') {
+          ctx.fillStyle = '#5a4030';
+          ctx.fillRect(o.x - 3, o.y - o.h, 6, o.h);
+          ctx.fillStyle = '#8a3030';
+          ctx.beginPath();
+          ctx.moveTo(o.x, o.y - o.h - 8); ctx.lineTo(o.x + 6, o.y - o.h + 2); ctx.lineTo(o.x - 6, o.y - o.h + 2); ctx.fill();
+        } else {
+          ctx.fillStyle = '#6a6a6a';
+          ctx.beginPath(); ctx.ellipse(o.x, o.y - 4, o.w * 0.5, o.h * 0.4, 0, 0, Math.PI * 2); ctx.fill();
+        }
+      });
+
+      g.cows.forEach(c => {
+        ctx.fillStyle = '#e8e0d0';
+        ctx.fillRect(c.x - 12, c.y - 12, 24, 12);
+        ctx.fillStyle = '#333';
+        ctx.fillRect(c.x - 6, c.y - 8, 5, 4); ctx.fillRect(c.x + 2, c.y - 6, 5, 4);
+        ctx.fillStyle = '#e8e0d0';
+        ctx.fillRect(c.x + 10, c.y - 16, 10, 8);
+        ctx.fillStyle = '#222';
+        ctx.fillRect(c.x - 8, c.y, 3, 6); ctx.fillRect(c.x + 6, c.y, 3, 6);
+      });
+
+      g.horses.forEach(h => {
+        ctx.fillStyle = '#8b6914';
+        ctx.fillRect(h.x - 14, h.y - 14, 28, 14);
+        ctx.fillRect(h.x + 10, h.y - 20, 12, 10);
+        ctx.fillStyle = '#222';
+        ctx.fillRect(h.x - 10, h.y, 4, 8); ctx.fillRect(h.x + 8, h.y, 4, 8);
+        if (h.rider) {
+          ctx.fillStyle = '#4a6a8a';
+          ctx.fillRect(h.x - 4, h.y - 30, 10, 16);
+          ctx.fillStyle = '#e0b090';
+          ctx.beginPath(); ctx.arc(h.x + 1, h.y - 32, 4, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = '#c9a227';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.arc(h.x + 10, h.y - 24, 8, -1, 1); ctx.stroke();
+        }
+      });
+
+      g.people.forEach(p => {
+        if (p.kind === 'knight') {
+          ctx.fillStyle = '#6a7a8a';
+          ctx.fillRect(p.x - 5, p.y - 16, 10, 16);
+          ctx.fillStyle = '#c0c8d0';
+          ctx.fillRect(p.x - 6, p.y - 22, 12, 7);
+        } else {
+          ctx.fillStyle = '#6a4a3a';
+          ctx.fillRect(p.x - 4, p.y - 14, 8, 14);
+          ctx.fillStyle = '#e0b090';
+          ctx.beginPath(); ctx.arc(p.x, p.y - 17, 3.5, 0, Math.PI * 2); ctx.fill();
+        }
+      });
+
+      g.dragons.forEach(d => drawDragon(ctx, d));
+      (g.helis || []).forEach(h => drawHeli(ctx, h));
+
+      (g.pickups || []).forEach(p => {
+        const by = p.y + Math.sin(p.bob) * 4;
+        const col = p.kind === 'piece' ? '#00d4ff' : (p.kind === 'scale' ? '#ff8844' : '#aaccff');
+        ctx.shadowColor = col; ctx.shadowBlur = 12; ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.moveTo(p.x, by - 9); ctx.lineTo(p.x + 8, by); ctx.lineTo(p.x, by + 9); ctx.lineTo(p.x - 8, by);
+        ctx.closePath(); ctx.fill(); ctx.shadowBlur = 0;
+      });
+
+      (g.arrows || []).forEach(a => {
+        ctx.strokeStyle = '#e8dcc0'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(a.x - a.vx * 0.4, a.y - a.vy * 0.4); ctx.lineTo(a.x, a.y); ctx.stroke();
+        ctx.fillStyle = '#c04040';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(a.x - 4, a.y - 2); ctx.lineTo(a.x - 4, a.y + 2); ctx.fill();
+      });
+
+      (g.lasers || []).forEach(L => {
+        ctx.strokeStyle = '#00d4ff'; ctx.shadowColor = '#00d4ff'; ctx.shadowBlur = 10; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(L.x - L.vx * 0.5, L.y); ctx.lineTo(L.x, L.y); ctx.stroke();
+        ctx.strokeStyle = '#e0ffff'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(L.x - L.vx * 0.5, L.y); ctx.lineTo(L.x, L.y); ctx.stroke();
+        ctx.shadowBlur = 0;
+      });
+      (g.fireballs || []).forEach(f => {
+        ctx.fillStyle = '#ff6622'; ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.arc(f.x, f.y, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffcc44';
+        ctx.beginPath(); ctx.arc(f.x, f.y, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      g.debris.forEach(d => {
+        ctx.globalAlpha = Math.max(0, d.life / 40); ctx.fillStyle = d.c;
+        ctx.fillRect(d.x, d.y, d.sz, d.sz);
+      });
+      g.particles.forEach(p => {
+        ctx.globalAlpha = Math.max(0, p.life / 45); ctx.fillStyle = p.c;
+        ctx.fillRect(p.x, p.y, p.sz, p.sz);
+      });
+      ctx.globalAlpha = 1;
+
+      // Player — feet on K_GROUND
+      const m = g.monster;
+      const ch = m.char || KAIJU_CHARS[1];
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.scale(m.facing, 1);
+      drawKaijuChar(ctx, ch.id, ch.color, ch.accent, m.facing, m, 0.9);
+      if ((g.mechMode || g.wings) && m.jetT > 0) {
+        ctx.fillStyle = g.mechMode ? '#00d4ff' : '#aaccff';
+        ctx.globalAlpha = 0.7;
+        ctx.fillRect(-5, 2, 4, 8 + Math.random() * 6);
+        ctx.fillRect(1, 2, 4, 8 + Math.random() * 6);
+        ctx.globalAlpha = 1;
+      }
+      ctx.restore();
+
+      // Final boss
+      if (g.boss) drawDrKaijuBoss(ctx, g.boss);
+
+      ctx.restore(); // end camera
+
+      // HUD (screen space)
+      const hudColor = ch.color || '#00ff9f';
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.fillRect(4, 4, 152, g.mechMode ? 70 : 58);
+      ctx.fillStyle = hudColor;
+      ctx.font = 'bold 13px Courier New';
+      ctx.textAlign = 'left';
+      ctx.fillText('SCORE ' + g.score, 10, 20);
+      ctx.fillStyle = '#7dffc8';
+      ctx.font = '10px Courier New';
+      ctx.fillText('KEEPS ' + g.stomped + '  DRG ' + g.dragonsDown, 10, 36);
+      ctx.fillStyle = hudColor;
+      ctx.font = '9px Courier New';
+      ctx.fillText(ch.name + (m.climbing ? ' [CLIMB]' : (m.onRoof ? ' [ROOF]' : '')), 10, 50);
+      if (g.mechMode) { ctx.fillStyle = '#00d4ff'; ctx.fillText('ENERGY ' + Math.ceil(g.mechEnergy), 10, 64); }
+
+      for (let i = 0; i < 3; i++) {
+        ctx.fillStyle = i < g.suitCount || g.mechMode ? '#00d4ff' : '#003344';
+        ctx.fillRect(400 + i * 12, 8, 10, 10); ctx.strokeStyle = '#00d4ff'; ctx.strokeRect(400 + i * 12, 8, 10, 10);
+      }
+      for (let i = 0; i < 2; i++) {
+        ctx.fillStyle = i < g.scaleCount || g.fireBreath ? '#ff8844' : '#331100';
+        ctx.fillRect(400 + i * 12, 22, 10, 10); ctx.strokeStyle = '#ff8844'; ctx.strokeRect(400 + i * 12, 22, 10, 10);
+      }
+      for (let i = 0; i < 2; i++) {
+        ctx.fillStyle = i < g.featherCount || g.wings ? '#aaccff' : '#112233';
+        ctx.fillRect(436 + i * 12, 22, 10, 10); ctx.strokeStyle = '#aaccff'; ctx.strokeRect(436 + i * 12, 22, 10, 10);
+      }
+
+      if (g.combo > 1) {
+        ctx.fillStyle = '#ffff66'; ctx.font = 'bold 13px Courier New'; ctx.textAlign = 'right';
+        ctx.fillText('COMBO x' + g.combo, 470, 50);
+      }
+
+      const tr = Math.max(0, g.timeLeft / g.timeMax);
+      ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(165, 8, 150, 11);
+      ctx.fillStyle = tr < 0.2 ? '#ff4466' : hudColor; ctx.fillRect(165, 8, 150 * tr, 11);
+      ctx.strokeStyle = hudColor; ctx.strokeRect(165, 8, 150, 11);
+      ctx.fillStyle = '#e8fff0'; ctx.font = '10px Courier New'; ctx.textAlign = 'center';
+      ctx.fillText(Math.ceil(g.timeLeft / 60) + 's', 240, 17);
+
+      if (g.msgT > 0) {
+        ctx.fillStyle = '#ffff66'; ctx.font = 'bold 15px Courier New'; ctx.textAlign = 'center';
+        ctx.fillText(g.msg, 240, 78);
+      }
+
+      ctx.fillStyle = 'rgba(0,255,159,0.55)';
+      ctx.font = '9px Courier New';
+      ctx.textAlign = 'center';
+      let hint = '↑ JUMP / climb / mount  •  TAP punch  •  fall hard = STOMP  •  smash keeps = pieces';
+      if (m.mount) hint = 'RIDING  •  ← → steer  •  ↑↓ altitude  •  TAP punch  •  ↓ dismount';
+      else if (m.onRoof) hint = 'ROOF  •  TAP punch  •  ↑ jump off  •  ↓ climb down';
+      else if (m.climbing) hint = 'CLIMBING  •  ↑ ↓  •  reach top = roof';
+      else if (g.mechMode) hint = 'MECH ONLINE  •  ↑ jet  •  TAP laser/punch  •  BEAT DR KAIJU';
+      ctx.fillText(hint, 240, 352);
+    }
+
 
   </script>
 </body>
