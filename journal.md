@@ -11,8 +11,8 @@ Shipped Index.html as TERMINAL v2.7.
 Global hi-score system and fleet panel left intact. Site is demo-ready for state / local org visibility.
 
 {Fleet / acquisitions}
-Picked up a Hanaho ArcadePC multicade (needs work) and a large working Galaga countercade.
-Weekly acquisition total now sits at 8 machines.
+Picked up a Hanaho ArcadePC multicade (needs work), large 26 inch working Galaga countercade running on Dell PC and Super Pacman countercade.
+Weekly acquisition total now sits at 9 machines.
 
 08.15.26 17:28
 Childhood experiences and why the spaces matter
