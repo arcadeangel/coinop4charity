@@ -1348,7 +1348,7 @@
       <button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
       <button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
       <button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-      <div>coinop4charity.org · TERMINAL v2.9 • We love you all. <span class="heart">♥</span></div>
+      <div>coinop4charity.org · TERMINAL v2.8 • We love you all. <span class="heart">♥</span></div>
     </div>
   </div>
 
@@ -1416,7 +1416,7 @@
       let h = Math.max(480, window.innerHeight || 844);
       canvas.width = w; canvas.height = h;
       const lines = [
-        'COIN-OP 4 CHARITY  ·  TERMINAL v2.9',
+        'COIN-OP 4 CHARITY  ·  TERMINAL v2.8',
         'PHOSPHOR WARM-UP .............. OK',
         'MEMORY CHECK  64K ............. OK',
         'ARC-NET LINK .................. OK',
@@ -9223,10 +9223,10 @@ function ensureMusicMaster() {
       const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down;
       const fire = !!(keys[' '] || touchState.fire);
 
-      // INTRO — short & skippable (was too long)
+      // INTRO — readable but skippable
       if (g.phase === 'intro') {
         g.introT++;
-        if (g.introT > 10 && (fire && !g._fireHeld || g.introT > 90)) {
+        if (g.introT > 40 && (fire && !g._fireHeld || g.introT > 200)) {
           g.phase = 'select'; sfx('select');
         }
         g._fireHeld = fire;
@@ -10321,15 +10321,15 @@ function ensureMusicMaster() {
         ctx.fillText('NEON KAIJU', 240 + glitchX, 42);
         ctx.shadowBlur = 0;
 
-        // Story beats (compressed for short intro)
+        // Story beats — paced so you can actually read them
         ctx.fillStyle = '#ffcc88';
         ctx.font = '13px Courier New';
-        if (t > 8) ctx.fillText('LAB 7 — TEMPORAL GENETICS', 240, 70);
-        if (t > 18) ctx.fillText('Dr. Kaiju tried to fix nature…', 240, 92);
-        if (t > 28) ctx.fillText('Instead he turned back time.', 240, 112);
+        if (t > 15) ctx.fillText('LAB 7 — TEMPORAL GENETICS', 240, 70);
+        if (t > 40) ctx.fillText('Dr. Kaiju tried to fix nature…', 240, 92);
+        if (t > 70) ctx.fillText('Instead he turned back time.', 240, 112);
 
         // Dr Kaiju panicked
-        if (t > 35) {
+        if (t > 95) {
           const dx = 240 + Math.sin(t * 0.15) * 8;
           const dy = 185;
           ctx.fillStyle = '#e8d4b8';
@@ -10358,8 +10358,8 @@ function ensureMusicMaster() {
         }
 
         // Subjects break containment
-        if (t > 48) {
-          const chase = Math.min(1, (t - 48) / 25);
+        if (t > 130) {
+          const chase = Math.min(1, (t - 130) / 40);
           ctx.fillStyle = '#ff6688';
           ctx.font = '11px Courier New';
           ctx.fillText('CONTAINMENT BREACH — SUBJECTS LOOSE', 240, 140);
@@ -10377,7 +10377,7 @@ function ensureMusicMaster() {
           ctx.restore();
         }
 
-        if (t > 55) {
+        if (t > 155) {
           ctx.fillStyle = '#ffff66';
           ctx.font = 'bold 13px Courier New';
           ctx.fillText('TAP / SPACE — CHOOSE YOUR KAIJU', 240, 345);
