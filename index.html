@@ -1748,13 +1748,19 @@
         const el = document.getElementById('hs-' + g);
         if (!el) return;
         var label = '—';
+        var gv = 0, gn = null;
         if (window.C4C_GLOBAL && window.C4C_GLOBAL[g]) {
-          var v = parseInt(window.C4C_GLOBAL[g].score, 10) || 0;
-          var n = window.C4C_GLOBAL[g].name;
-          if (v > 0) label = (n && n !== '—' && n.indexOf('â') < 0) ? (v + ' · ' + n) : String(v);
-        } else {
-          var lv = localHigh(g);
-          if (lv > 0) label = String(lv);
+          gv = parseInt(window.C4C_GLOBAL[g].score, 10) || 0;
+          gn = window.C4C_GLOBAL[g].name;
+        }
+        var lv = localHigh(g);
+        var v = Math.max(gv, lv);
+        if (v > 0) {
+          if (gv >= lv && gn && gn !== '—' && String(gn).indexOf('â') < 0) {
+            label = v + ' · ' + gn;
+          } else {
+            label = String(v);
+          }
         }
         el.textContent = label;
       });
@@ -9259,8 +9265,14 @@ function ensureMusicMaster() {
       // CREDITS
       if (g.phase === 'credits') {
         g.creditsT++;
-        if (g.creditsT > 160 && (fire || g.creditsT > 340)) {
-          showGameOver(g._endMsg || 'TIME UP', 'kaiju', g.score);
+        if (g.creditsT > 120 && (fire || g.creditsT > 280)) {
+          // Defer prompts out of the rAF loop so mobile doesn't freeze
+          const endMsg = g._endMsg || 'TIME UP';
+          const endScore = g.score;
+          if (animId) { try { cancelAnimationFrame(animId); } catch (e) {} animId = null; }
+          setTimeout(function () {
+            showGameOver(endMsg, 'kaiju', endScore);
+          }, 50);
           return;
         }
         drawKaiju();
@@ -9268,7 +9280,7 @@ function ensureMusicMaster() {
         return;
       }
 
-      if (g.over) { drawKaiju(); animId = requestAnimationFrame(loopKaiju); return; }
+      if (g.over && g.phase !== 'credits') { drawKaiju(); animId = requestAnimationFrame(loopKaiju); return; }
 
       g.timeLeft--;
       if (g.comboT > 0) g.comboT--; else g.combo = 0;
@@ -9300,6 +9312,7 @@ function ensureMusicMaster() {
       if (m.climbing && nearCastle) {
         if (up) m.y -= 4.2;
         if (down) m.y += 4.2;
+        m.y = Math.max(55, Math.min(K_GROUND, m.y));
         const roofY = K_GROUND - nearCastle.h;
         m.x = m.facing > 0 ? nearCastle.x - 8 : nearCastle.x + nearCastle.w + 8;
         if (m.y <= roofY + 4) {
@@ -9348,6 +9361,8 @@ function ensureMusicMaster() {
           if (m.jetT > 0) m.jetT--;
         }
         m.y += m.vy;
+        // Keep player in frame (no infinite fly-off)
+        if (m.y < 55) { m.y = 55; m.vy = Math.max(0, m.vy); }
 
         // Ground / stomp landing
         if (m.y >= K_GROUND) {
@@ -9382,8 +9397,9 @@ function ensureMusicMaster() {
         // responsive steering
         if (left) { mount.vx = -Math.max(2.2, Math.abs(mount.vx || 2.5)); m.facing = -1; }
         if (right) { mount.vx = Math.max(2.2, Math.abs(mount.vx || 2.5)); m.facing = 1; }
-        if (up) mount.y = Math.max(28, mount.y - 3.2);
-        if (down) mount.y = Math.min(165, mount.y + 3.2);
+        if (up) mount.y = Math.max(40, mount.y - 3.2);
+        if (down) mount.y = Math.min(160, mount.y + 3.2);
+        mount.y = Math.max(40, Math.min(160, mount.y));
         // dismount with down (tap)
         if (down && !g._downHeld) {
           mount.ridden = false;
