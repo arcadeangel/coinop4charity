@@ -6,9 +6,10 @@
 It's alive! The CoinOp4Charity terminal is now available on a physical arcade cabinet for our youth center partners.
 Purely accidental, Frankensteined the thing tonight in the shop to display and run the coinop4charity terminal games.
 I was working on the Hanaho Multicade (the ArcadePC). The screen is fine but its like a 2001 PC running on Windows 98 that was in dire need of upgrading.
-Would've had some angry kids had it not been. When installing a raspberry pi and contemplating Hanaho's liscensing terms I spontaneously figured it would just be less of a headache mirroring the game terminal for now.
-Later on we can let the new owners decide if they want to run a old Hanaho drive on it. Kept the PC incase they do so we can copy it to the Pi to reboot directly to the games, but I think its nice with our own terminal games too. 
-I envision building more terminal games with some of the youth communities we serve by offering free STEM workshops and making terminal a team/community effort. Wouldn't that be nice?
+Would've had some angry kids had it not been. When installing a raspberry pi and contemplating Hanaho's liscensing terms I spontaneously figured it would just be less of a headache mirroring the CoinOp4Charity game terminal for now.
+Later on we can let the new owners decide if they want to run a old Hanaho drive on it. Kept the PC incase they do so we can copy it to the Pi to reboot directly to the games, but I think its nice with our own terminal games, too. I personally like it and think there is potential.
+My vision for terminal games here has always been a collective effort and a democracy of community code. I hope that we are building more terminal games with some of the youth communities we serve by offering free STEM workshops and making terminal a team/community effort. Wouldn't that be nice?
+We can do it.
 
 08.16.26 12:36 v2.7 New game ---> v2.8 Overhaul bugs. Dedication high score update with my personal dedication
 
