@@ -2,6 +2,7 @@
 
 ## 
 08.16.26 21:12 First CoinOp4Charity Terminal Games Prototype.
+
 It's alive! The CoinOp4Charity terminal is now available on a physical arcade cabinet for our youth center partners.
 Purely accidental, Frankensteined the thinh tonight in the shop to display and run the coinop4charity terminal games.
 I was working on the Hanaho Multicad the ArcadePC. The screen is fine but its like a 2001 PC running on Windows 98 that was in dire need of upgrading.
