@@ -1,30 +1,26 @@
 # Coin-Op 4 Charity
 
->
->                   :                                 :
->                 :                                   :
->                 :  RRVIttIti+==iiii++iii++=;:,       :
->                 : IBMMMMWWWWMMMMMBXXVVYYIi=;:,        :
->                 : tBBMMMWWWMMMMMMBXXXVYIti;;;:,,      :
->                 t YXIXBMMWMMBMBBRXVIi+==;::;::::       ,
->                ;t IVYt+=+iIIVMBYi=:,,,=i+=;:::::,      ;;
->                YX=YVIt+=,,:=VWBt;::::=,,:::;;;:;:     ;;;
->                VMiXRttItIVRBBWRi:.tXXVVYItiIi==;:   ;;;;
->                =XIBWMMMBBBMRMBXi;,tXXRRXXXVYYt+;;: ;;;;;
->                 =iBWWMMBBMBBWBY;;;,YXRRRRXXVIi;;;:;,;;;=
->                  iXMMMMMWWBMWMY+;=+IXRRXXVYIi;:;;:,,;;=
->                  iBRBBMMMMYYXV+:,:;+XRXXVIt+;;:;++::;;;
->                  =MRRRBMMBBYtt;::::;+VXVIi=;;;:;=+;;;;=
->                   XBRBBBBBMMBRRVItttYYYYt=;;;;;;==:;=
->                    VRRRRRBRRRRXRVYYIttiti=::;:::=;=
->                     YRRRRXXVIIYIiitt+++ii=:;:::;==
->                     +XRRXIIIIYVVI;i+=;=tt=;::::;:;
->                      tRRXXVYti++==;;;=iYt;:::::,;;
->                       IXRRXVVVVYYItiitIIi=:::;,::;
->                        tVXRRRBBRXVYYYIti;::::,::::
->                         YVYVYYYYYItti+=:,,,,,:::::;
->                         YRVI+==;;;;;:,,,,,,,:::::::
->
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢶⣄⡀⠀⠀⣀⣤⢶⣺⡽⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⣻⣿⣶⣾⣿⣿⣿⣯⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠲⠾⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⡀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀
+⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀
+⢀⠞⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀
+⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄
+⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧
+⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⢹⣿⣿⣿⣿⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⣀⠀⠻⣿⣿⣿⡄⠻⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⠟⠉⣿⣿⡿⠁⠀⠀⢻⣧⠀⠙⢿⣿⣷⡀⠙⣿⣿⣇⠹⣿⣿⣿⣏⢻⣿⣿⣿⣿⣿
+⣿⣿⣿⠏⠀⢠⡿⠋⠀⠀⠀⠐⢿⣿⠃⠀⠀⠙⢿⣷⡀⠈⠻⣿⡄⠘⢿⣿⣿⡀⢻⣿⣿⣿⡇
+⢸⣿⣿⠀⠀⠊⠀⠀⠀⠀⠀⠀⠀⠙⠆⠀⠀⠀⠀⠙⠳⣄⠀⠈⠙⠆⠀⠈⠛⠧⠈⣿⣿⡿⠀
+⠈⣿⡇⠀⠀⢀⣠⡴⠶⠶⠶⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠶⠶⠶⣦⣄⠀⠀⠀⣿⣿⠃⠀
+⠀⠘⣿⠀⢠⡾⠋⠀⠀⠀⠀⠀⠙⣷⡀⠀⣀⣀⠀⢠⡾⠋⠀⠀⠀⠀⠀⠙⢷⡀⢀⡿⠁⠀⠀
+⠀⠀⢈⣀⣾⠁⠀⠀⠀⠀⠀⠀⠀⢸⣿⠛⠉⠉⠛⣿⡇⠀⠀⠀⠀⠀⠀⠀⢸⣧⣈⡀⠀⠀⠀
+⠀⠀⠀⠉⢻⡆⠀⠀⠀⠀⠀⠀⠀⣸⡇⠀⠀⠀⠀⢻⡇⠀⠀⠀⠀⠀⠀⠀⣸⡏⠉⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠻⣦⣀⠀⠀⢀⣠⣴⠟⠀⠀⠀⠀⠀⠀⠻⣦⣀⠀⠀⢀⣠⣴⠟⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀
+
 >
 
 **Placing restored arcade and coin-op machines in Nevada youth spaces — free play for kids, new ways to fundraise.**
