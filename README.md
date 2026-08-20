@@ -31,7 +31,8 @@ Use the form on [coinop4charity.org](https://coinop4charity.org) or open an issu
 | Path | Purpose |
 |------|---------|
 | `index.html` | The live neon terminal (games + intake form) |
-| `fleet.json` | Machine inventory & restoration status (source of truth) |
+| `fleet.json` | Available machine inventory & restoration status |
+| `placement.json` | Placed machine inventory & active location |
 | `docs/restoration/` | Practical restoration notes and guides |
 | `manifest.json` / `sw.js` | PWA support for the terminal |
 
