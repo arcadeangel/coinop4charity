@@ -190,16 +190,6 @@
     "location": "shop"
   },
   {
-    "id": "streetfighter-1up-01",
-    "name": "Street Fighter Deluxe (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Cabinet solid. Working through monitor and controls.",
-    "fmv_estimate": 450,
-    "location": "shop"
-  },
-  {
     "id": "mortal-kombat-1up-01",
     "name": "Mortal Kombat (1UP)",
     "type": "video",
