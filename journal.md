@@ -1,6 +1,23 @@
 # Coin-Op 4 Charity — Dev Journal
 
 ## 
+08.19.26 21:21 First placements live + terminal updates
+
+Barely three weeks since we launched and we already have several of our first machine placements out in the field this week. That still feels a little unreal. The whole point of this project was never just collecting and restoring cabinets — it was getting them in front of kids who actually need the rooms to feel like something special. We’re already working with some of the best youth organizers and centers in the state of Nevada, and the early response has been better than I expected.
+In the past week I have traveled around Nevada and met with so many people that exhibit an unparalleled commitment to the families, young people and communities they serve.
+I've seen these passionate and dedicated individuals working late nights, early mornings, 7 days a week; all because they share one common idea that is their vested interest in the success, safety and well-being of our future. The amount of passion and dedication I have seen in these organizers cannot be measured and is far beyond the time it takes fixing arcade cabinets. The level of focus and dedication I have seen out of the youth organizers in our community is beyond what words can measure.
+We will be drafting another journal entry later this week to thank everyone, including people who just never gave up on us (despite my nagging at times) and for sticking with us regardless and pushing for the cause,  making the introductions to some really amazing local youth center organizers, and just being amazing individuals who barely get any rest and continue to push for amazings things to happen, even for picking me up when I was down. The optimists, and dream makers, we need way more of you guys in the world. 
+A lot of the doors that opened this week trace back to a handful of individuals that just went with their hearts and never stopped pushing for the cause. Will be issuing a proper thank you later this week to everyone also on our end behind the scenes. Today after dropping off some arcade games at youth centers, "Unforgettable" came on in the car during the ride home, the original Nat King Cole version. I was just mulling over the past few weeks, thinking how fitting, and thinking about all the people I met over the past couple weeks and how they strive to
+make these youth enrichment programs and experiences exactly that... unforgettable, in every way. I think the whole thesis that these things belong amongst the kids instead of my storage unit or some dude's house, makes plenty of  sense. 
+
+{Terminal / site updates}
+• Added ACTIVE PLACEMENTS panel under the fleet list so the public can see machines that are already out in the community (name + location only).
+• New placements.json data file — same simple format as fleet.json, easy to keep current.
+• Attract mode (UFO / alien invasion sequence) now waits until the home-page typewriter finishes before it can start. Feels cleaner on first load.
+• Version and supporting code updated accordingly.
+
+Still early days, but the first machines are already in youth spaces. More to come.
+
 08.16.26 21:12 First CoinOp4Charity Terminal Games Prototype.
 
 It's alive! The CoinOp4Charity terminal is now available on a physical arcade cabinet for our youth center partners.
