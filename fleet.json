@@ -160,16 +160,6 @@
   "location": "shop"
   },
   {
-    "id": "frogger-1up-01",
-    "name": "Frogger (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Cabinet solid. Working through monitor and controls.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
     "id": "mspacman-1up-01",
     "name": "Ms. Pac-Man (1UP)",
     "type": "video",
