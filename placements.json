@@ -16,10 +16,19 @@
     "notes": "Donated. Free play. Working great.",
     "placed": "Donated on 2026-08-19",
     "status": "active"
-  }
+  },
   {
     "id": "frogger-1up-01",
     "name": "Frogger (1UP)",
+    "serial": "TBA",
+    "location": "Boys & Girls Clubs of Southern NV – James Club",
+    "notes": "Donated. Free play. Working great.",
+    "placed": "Donated on 2026-08-19",
+    "status": "active"
+  },
+  {
+    "id": "street-fighter-1up-01",
+    "name": "Street Fighter Deluxe (1UP)",
     "serial": "TBA",
     "location": "Boys & Girls Clubs of Southern NV – James Club",
     "notes": "Donated. Free play. Working great.",
