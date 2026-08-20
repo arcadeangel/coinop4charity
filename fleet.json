@@ -23,7 +23,7 @@
     "id": "pacman-1up-01",
     "name": "Pac-Man (1UP)",
     "type": "video",
-    "status": "ready",
+    "status": "Active Placement",
     "condition": "working",
     "notes": "Cleaned, tested, working. ",
     "fmv_estimate": 400,
@@ -45,7 +45,7 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Needed painy job. Cleaned, tested, working. ",
+    "notes": "Needed paint job. Cleaned, tested, working.",
     "fmv_estimate": 400,
     "location": "shop"
   },
