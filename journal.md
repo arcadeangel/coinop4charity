@@ -4,12 +4,14 @@
 08.19.26 21:21 First placements live + terminal updates
 
 {Terminal / site updates}
+
 • Added ACTIVE PLACEMENTS panel under the fleet list so the public can see machines that are already out in the community (name + location only).
 • New placements.json data file — same simple format as fleet.json, easy to keep current.
 • Attract mode (static loading sequence) now waits until the home-page typewriter finishes before it can start. Feels cleaner on first load.
 • Version and supporting code updated accordingly.
 
-{New placements, new friends}
+{New placements / new friends}
+
 Still early days, but the first machines are already in youth spaces, with more to be placed soon.
 Barely three weeks since we launched and we already have several of our first machine placements out in the field this week. That still feels a little unreal. The whole point of this project was never just collecting and restoring cabinets — it was getting them in the hands of the kids and their advocates who I have witnessed striving and trying to always do more and more to make those spaces  feel like something special. We’re already working with some of the best youth organizers and centers in the state of Nevada, and the early response has been better than I initially expected.
 In the past week I have traveled around Nevada and met with so many people that exhibit an unparalleled commitment to the families, young people and communities they serve.
