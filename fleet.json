@@ -220,16 +220,6 @@
     "location": "shop"
   },
   {
-    "id": "asteroids-centipede-1up-01",
-    "name": "Asteroids / Centipede (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Like new.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
     "id": "final-fight-1up-01",
     "name": "Capcom's Final Fight (1UP)",
     "type": "video",
