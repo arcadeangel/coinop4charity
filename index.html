@@ -1280,6 +1280,13 @@
       <div class="fleet-list" id="fleetList" hidden></div>
     </div>
 
+    <div class="fleet-panel" id="placementsPanel">
+      <button type="button" class="fleet-btn" id="placementsBtn" aria-expanded="false">
+        ACTIVE PLACEMENTS <span id="placementsCount">(—)</span>
+      </button>
+      <div class="fleet-list" id="placementsList" hidden></div>
+    </div>
+
     <div class="free-games">
       <h3>TERMINAL GAMES</h3>
 <div class="game-buttons">
@@ -1876,6 +1883,74 @@
 
     loadFleet();
 
+    // ========== PLACEMENTS — Machines already on location ==========
+    async function loadPlacements() {
+      var countEl = document.getElementById('placementsCount');
+      var listEl = document.getElementById('placementsList');
+      if (!listEl) return;
+
+      try {
+        var r = await fetch('https://raw.githubusercontent.com/arcadeangel/coinop4charity/main/placements.json', { cache: 'no-store' });
+        if (!r.ok) throw new Error('placements');
+        var data = await r.json();
+        if (!Array.isArray(data)) throw new Error('shape');
+
+        var list = data.filter(function (p) {
+          if (!p || !p.name) return false;
+          var st = String(p.status || 'active').toLowerCase();
+          return st === 'active' || st === '';
+        });
+
+        list.sort(function (a, b) {
+          var loc = String(a.location || '').localeCompare(String(b.location || ''));
+          if (loc !== 0) return loc;
+          return String(a.name).localeCompare(String(b.name));
+        });
+
+        if (countEl) countEl.textContent = '(' + list.length + ')';
+        listEl.innerHTML = '';
+
+        if (!list.length) {
+          listEl.innerHTML = '<div class="fleet-empty">No placements listed yet</div>';
+        } else {
+          list.forEach(function (p) {
+            var row = document.createElement('div');
+            row.className = 'fleet-row';
+
+            var name = document.createElement('span');
+            name.className = 'fname';
+            name.textContent = p.name;
+
+            var loc = document.createElement('span');
+            loc.className = 'fstat';
+            loc.textContent = p.location || '—';
+            loc.style.color = '#7dffc8';
+            loc.style.fontSize = '0.65rem';
+
+            row.appendChild(name);
+            row.appendChild(loc);
+            listEl.appendChild(row);
+          });
+        }
+      } catch (e) {
+        if (countEl) countEl.textContent = '(—)';
+        listEl.innerHTML = '<div class="fleet-empty">Placements data offline</div>';
+      }
+    }
+
+    (function setupPlacementsToggle() {
+      var btn = document.getElementById('placementsBtn');
+      var list = document.getElementById('placementsList');
+      if (!btn || !list) return;
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        list.hidden = open;
+      });
+    })();
+
+    loadPlacements();
+
     // ========== TOP SCORE + SETTINGS + ATTRACT ==========
     window.C4C_OPS = {
       musicVol: 0.7,
@@ -1986,6 +2061,8 @@
     let attractRaf = null;
     let attractIdleMs = 26000;
     let lastActivity = Date.now();
+    // Only allow attract after the home-page typewriter has finished
+    window.C4C_MISSION_DONE = false;
 
     function bumpActivity() {
       lastActivity = Date.now();
@@ -3161,6 +3238,8 @@
     setInterval(() => {
       if (document.body.classList.contains('game-open')) return;
       if (document.getElementById('ops-panel')?.classList.contains('open')) return;
+      // Wait until typewriter has finished before allowing attract
+      if (!window.C4C_MISSION_DONE) return;
       if (Date.now() - lastActivity > attractIdleMs && !window.C4C_OPS.attract) {
         startAttract();
       }
@@ -3286,6 +3365,9 @@
     // ========== Typewriter ==========
     const missionEl = document.getElementById('mission');
     const skipMission = !missionEl;
+    if (skipMission) {
+      window.C4C_MISSION_DONE = true;
+    }
     const fullText1 = "Nevada nonprofit organization placing arcade and coin-op machines in youth organizations and their community partners — creating free play for kids and new ways to fundraise. We also offer custom made free play arcade cabinets that run these terminal games (and many others) on-site.";
     const fullText2 = "Modern tools make restoration more possible than it’s been in decades. Tools & scripts on GitHub. STEM-focused activities and learning resources available as we build this into a transparent, educational experience for future generations.";
     const ghUrl = "https://github.com/arcadeangel/coinop4charity";
@@ -3342,6 +3424,9 @@
         } else {
           setTimeout(() => {
             missionEl.innerHTML = withGitHubLink(display);
+            // Typewriter finished — attract mode is now eligible after idle
+            window.C4C_MISSION_DONE = true;
+            lastActivity = Date.now();
             setTimeout(() => {
               triggerGlitch();
               setTimeout(stopOccasionalGlitch, 400);
@@ -3360,6 +3445,8 @@
       if (missionEl.innerText.trim().length < 20) {
         missionEl.innerHTML = withGitHubLink(fullText1 + "<br><br>" + fullText2);
         stopOccasionalGlitch();
+        window.C4C_MISSION_DONE = true;
+        lastActivity = Date.now();
       }
     }, 9000);
 
