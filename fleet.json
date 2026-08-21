@@ -200,16 +200,6 @@
     "location": "shop"
   },
   {
-    "id": "rampage-1up-02",
-    "name": "Rampage (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Cabinet solid. Other titles included like Joust. Working through monitor and controls.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
     "id": "mortal-kombat-1up-01",
     "name": "Mortal Kombat (1UP)",
     "type": "video",
