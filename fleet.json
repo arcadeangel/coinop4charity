@@ -130,16 +130,6 @@
     "location": "shop"
   },
   {
-    "id": "golden-tee-1up-02",
-    "name": "Golden Tee Deluxe (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Works great, larger than most 1Ups. Contains several diffetent playable versions of Golden Tee. Good for all ages. Light & easy to move about 4.5 feet tall",
-    "fmv_estimate": 450,
-    "location": "shop"
-  },
-  {
     "id": "ultimate-arcade-2-01",
     "name": "CGC Ultimate Arcade 2 Multicade",
     "type": "video",
