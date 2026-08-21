@@ -1,7 +1,17 @@
 [
   {
     "id": "coinop4charity-terminal-games-01",
-    "name": "Coin-Op 4 Charity Terminal Games (Custom Made Arcade Cabinets)",
+    "name": "Coin-Op 4 Charity Terminal Games (Custom Made Full Size Arcade Cabinets)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Our very own custom made terminal games cabinets are ready to order in any shape or size and take ~ 1 week to create and deliver. Prototype available for testing. Several units ready for placement.",
+    "fmv_estimate": 575,
+    "location": "shop"
+  },
+  {
+    "id": "coinop4charity-terminal-games-countercade-01",
+    "name": "Coin-Op 4 Charity Terminal Games (Custom Made Portable Countercade)",
     "type": "video",
     "status": "ready",
     "condition": "working",
@@ -100,13 +110,23 @@
     "location": "shop"
   },
   {
-    "id": "segaturbo-1981-01",
+    "id": "sega-turbo-1981-01",
     "name": "Sega Turbo (1981)",
     "type": "video",
     "status": "ready",
     "condition": "working",
     "notes": "Cleaned, tested, working. New decal. CRT cleaned and restored by Sharp Image. Ready for placement.",
     "fmv_estimate":2100,
+    "location": "shop"
+  },
+  {
+    "id": "sega-out-run-1up-01",
+    "name": "Sega Out Run (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Good friend who fixes up arcades and is a veteran hooked this one up at a serious discount, thank you John",
+    "fmv_estimate":400,
     "location": "shop"
   },
   {
@@ -140,6 +160,16 @@
     "location": "warehouse"
   },
   {
+    "id": "street-fighter-up-02",
+    "name": "Street Fighter (1Up)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Street Fighter",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
   "id": "hanaho-capcom-arcadepc-01",
   "name": "Hanaho Capcom ArcadePC Multicade",
   "type": "video",
@@ -170,12 +200,32 @@
     "location": "shop"
   },
   {
+    "id": "mspacman-1up-04",
+    "name": "Ms. Pac-Man (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright with variety of Pacman titles and also Galaga. Cleaned, tested, working. ",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
     "id": "rampage-1up-01",
     "name": "Rampage (1UP)",
     "type": "video",
     "status": "ready",
     "condition": "working",
     "notes": "Cabinet solid. Working through monitor and controls.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "rampage-1up-02",
+    "name": "Rampage (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Cabinet solid. Other titles included like Joust. Working through monitor and controls.",
     "fmv_estimate": 400,
     "location": "shop"
   },
@@ -207,6 +257,16 @@
     "condition": "working",
     "notes": "Bart Attack button fixed.",
     "fmv_estimate": 450,
+    "location": "shop"
+  },
+  {
+    "id": "paw-patrol-1up-01",
+    "name": "Paw Patrol (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Nice little junior arcade, stool, and a lot of games with the paw patrol puppies",
+    "fmv_estimate": 150,
     "location": "shop"
   },
   {
