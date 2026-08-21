@@ -160,16 +160,6 @@
     "location": "warehouse"
   },
   {
-    "id": "street-fighter-up-02",
-    "name": "Street Fighter (1Up)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Street Fighter",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
   "id": "hanaho-capcom-arcadepc-01",
   "name": "Hanaho Capcom ArcadePC Multicade",
   "type": "video",
