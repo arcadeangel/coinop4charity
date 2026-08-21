@@ -1,13 +1,18 @@
 # Coin-Op 4 Charity — Dev Journal
 
 ## 
-08.21.26 13:47 More placements live + more meetings + more fleet. Expanding to Reno.
+08.21.26 13:47 More placements live + more meetings + more fleet. Expanding to Reno. Special thanks.
 
 It's been a busy couple of days we have added 6 new games to the fleet, visited with numerous Boys and Girls Clubs locations
 in Southern Nevada and are now speaking with the Eddy House in Reno, a very well known organization with some wonderful history and work in the community. They provide a safe space for young people in need. 
 One of the best things about this journey has been the new friendships with different youth organizers and social engineers. Like I mentioned before their focus, time commitment and just overall dedication to the communities they serve is unparalleled.
 We are hoping to work with similar organizations, until every youth center is full of arcade games. We will be traveling to Reno with a fleet of arcade games for the Eddy House that they will be selecting from our inventory. 
 Pretty exciting, in the interim I will be searching for volunteers with some technical experience to assist us with maintenance on-site who live locally in Reno; though I am committed to doing it myself if needed. The kind of maintenance needed with the newer games is dismal maybe a joystick or button swap  that costs a few bucks. We got this.
+Thank you James, Jerry for your service to our country and helping out with getting some games out there to our community for next to nothing. Thank you Franklin's Moving Company for helping out for also next to nothing and driving to California to pick up a Fast N Furious Superbike (that thing is a beast) and Spin-N-Win that didn't fit in the 29 foot truck on the load. Franklin is such a wonderful person he has literally brought half of this stuff around with a bad knee, he is a great guy and always there when you need him! He treats people very kindly, being a family man and father himself he is always looking out for the kids.
+Thanks to all the organizers from the Boys and Girls Clubs in Southern Nevada Lisa and AC at the James Club, Gabriella and her entire staff at Southern Highlands, and Danielle from the Children's Cabinet for basically saying "I'm not sure if my office would be the best place for these games as much as I love them
+and they bring back some nostalgia, lets get them infront of the kids who will make some new memories with them" and then making all these connections and going to bat for us introducing us to different youth organizations. She was so awesome throughout this entire process and deserves a big thank you.
+Thanks to Juletta for taking the time to show me around NPHY and showing me all the resources you are offering the youth and Neosha at YAP for your kindness and encouragement, I look forward to meeting with you again and hope to work with both of your organizations.
+And big thank you to my uncle, who hosted my first website. He has been encouraging and supportive of wild, crazy and never done before projects for a very long time. He loves new projects and ideas. Even when I accidentally uploaded music videos to the site when I was like 11 and left him with a few hundred dollar bill by accident. Thanks for covering that one back in the day Unc and sticking with me. You didn't have to do all of that, but I haven't forgotten about it.
 
 08.19.26 21:21 First placements live + terminal updates
 
