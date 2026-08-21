@@ -7,7 +7,7 @@ It's been a busy couple of days we have added 6 new games to the fleet, visited 
 in Southern Nevada and are now speaking with the Eddy House in Reno, a very well known organization with some wonderful history and work in the community. They provide a safe space for young people in need. 
 One of the best things about this journey has been the new friendships with different youth organizers and social engineers. Like I mentioned before their focus, time commitment and just overall dedication to the communities they serve is unparalleled.
 We are hoping to work with similar organizations, until every youth center is full of arcade games. We will be traveling to Reno with a fleet of arcade games for the Eddy House that they will be selecting from our inventory. 
-Pretty exciting, in the interim I will be searching for volunteers with some technical experience to assist us with maintenance on-site locally; though I am committed to doing it myself if needed. The kind of maintenance needed with the newer games is dismal maybe a joystick or button swap y that costs a few bucks. We got this.
+Pretty exciting, in the interim I will be searching for volunteers with some technical experience to assist us with maintenance on-site who live locally in Reno; though I am committed to doing it myself if needed. The kind of maintenance needed with the newer games is dismal maybe a joystick or button swap  that costs a few bucks. We got this.
 
 08.19.26 21:21 First placements live + terminal updates
 
