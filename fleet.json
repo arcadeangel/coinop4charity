@@ -230,16 +230,6 @@
     "location": "shop"
   },
   {
-    "id": "paw-patrol-1up-01",
-    "name": "Paw Patrol (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Nice little junior arcade, stool, and a lot of games with the paw patrol puppies",
-    "fmv_estimate": 150,
-    "location": "shop"
-  },
-  {
     "id": "final-fight-1up-01",
     "name": "Capcom's Final Fight (1UP)",
     "type": "video",
