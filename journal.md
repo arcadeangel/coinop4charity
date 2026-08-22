@@ -10,30 +10,32 @@ Shipped a public-facing site pass focused on clarity and social proof, not featu
 - BSP-Y02 / generic gamepad support on all terminal games (keyboard + touch still work). Arcade-stick badge on connect.
 - Live placements map under ACTIVE PLACEMENTS. Pins resolve from optional lat/lng on placements.json, or from location title keywords (James Club, Southern Highlands, etc.). Auto-groups machines by site and auto-fits the map bounds.
 - ACTIVE PLACEMENTS opens by default with a stats line (machine count · site count · free play for kids).
-•  Trust strip: Nevada nonprofit · new and restored arcade games placed free · no cost to youth centers · kids play free.
-•  Primary CTA: HOST A MACHINE — opens the contact form and preselects hosting.
-•  Contact form tucked under a “Get involved” details block so the page leads with action and proof.
-•  Small UPDATES panel (hardcoded fallback + optional updates.json).
-•  Footer cleaned to: open source · restoration guides · field notes (links journal.md).
-•  Replaced the canvas “dot map” under ACTIVE PLACEMENTS with a real Leaflet map (Carto dark / OSM tiles, no API key). Pins still resolve from lat/lng or location titles; popups list machines per site.
-•  Arcade-stick menu nav: stick moves highlight on terminal games / HOST CTA; A or Start launches; B exits a game back to the menu.
-•  Attract mode wakes on any stick input and lands focus on the game list (badge text notes stick / touch / key).
-•  Kiosk shell: ?kiosk=1 (or arcade=1 / #kiosk) strips form & admin chrome for tablet + BSP-Y02 cabinets; same games and scores.
-•  Gamepad poll loop stays alive on the menu (not only in-game). 
-•  Hardened BSP-Y02 input (v2.9.7): A = fire/confirm, B = secondary only (no longer exits games), Select = back, hold Start ~0.5s = exit.
-•  Stick axes use hysteresis + menu debounce so drift/turbo doesn’t spam focus or double-launch.
-•  Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.7.
-•  Added DIY station docs for youth centers: Tablet + Arcade Stick Station setup guide (STEM intro, power without obscure combos, kiosk boot to ?kiosk=1, daily staff routine, table card).
-•  Added BSP-Y02 Web Arcade Controller guide (pairing, clean A/B/Select/Start roles, deadzones, testing checklist) in the same restoration-guide PDF format.
-•  Restoration README DIY section updated to list both guides beside the vintage machine PDFs.
-•  Field practice locked in: stick = charge + HOME wake after one-time HID pair; tablet = Fully Kiosk (or pinned home icon) opening coinop4charity.org/?kiosk=1 on boot.
+- Trust strip: Nevada nonprofit · new and restored arcade games placed free · no cost to youth centers · kids play free.
+- Primary CTA: HOST A MACHINE — opens the contact form and preselects hosting.
+- Contact form tucked under a “Get involved” details block so the page leads with action and proof.
+- Small UPDATES panel (hardcoded fallback + optional updates.json).
+- Footer cleaned to: open source · restoration guides · field notes (links journal.md).
+- Replaced the canvas “dot map” under ACTIVE PLACEMENTS with a real Leaflet map (Carto dark / OSM tiles, no API key). Pins still resolve from lat/lng or location titles; popups list machines per site.
+- Arcade-stick menu nav: stick moves highlight on terminal games / HOST CTA; A or Start launches; B exits a game back to the menu.
+- Attract mode wakes on any stick input and lands focus on the game list (badge text notes stick / touch / key).
+- Kiosk shell: ?kiosk=1 (or arcade=1 / #kiosk) strips form & admin chrome for tablet + BSP-Y02 cabinets; same games and scores.
+- Gamepad poll loop stays alive on the menu (not only in-game). 
+- Third time is a charm. Hardened BSP-Y02 input (v2.9.7): A = fire/confirm, B = secondary only (no longer exits games), Select = back, hold Start ~0.5s = exit.
+- Stick axes use hysteresis + menu debounce so drift/turbo doesn’t spam focus or double-launch.
+- Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.7.
+- Shipped new site, added DIY station docs for youth centers: Tablet + Arcade Stick Station setup guide (STEM intro, power without obscure combos, kiosk boot to ?kiosk=1, daily staff routine, table card).
+- Added BSP-Y02 Web Arcade Controller guide (pairing, clean A/B/Select/Start roles, deadzones, testing checklist) in the same restoration-guide PDF format.
+- Restoration README DIY section updated to list both guides beside the vintage machine PDFs.
+- Field practice locked in: stick = charge + HOME wake after one-time HID pair; tablet = Fully Kiosk (or pinned home icon) opening coinop4charity.org/?kiosk=1 on boot.
+
 {Why}
-Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
+User interface upgrades: Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission. 
+Gameplay upgrades and joystick integration: STEM resources for students to build & distribute their own games now unfolding in real time as participants are underway. Creating tools and resources for community members to build.
 
 {Next}
 EIN when the filing lands. More sites on the map as placements expand (Reno / Eddy House still in motion). Optional updates.json edits for public notes without touching HTML. Still hunting local Reno help for light maintenance if the Eddy House fleet moves.
 
-I will be creating a user friendly file under restoration/docs with a template on how to easily implement low cost $9-$17 dollar joysticks with your own builds so you can turn your mobile game into an arcade game.
+I will be creating a user friendly file under restoration/docs with a template on how to easily implement the lowest cost $9-$17 dollar joysticks and control panels with your own builds so you can turn your DIY mobile and browser based games into playable arcade cabinets.
 
 Thank you to everyone moving cabinets, taking the calls, and treating free play for kids like it matters — because it does.
 
