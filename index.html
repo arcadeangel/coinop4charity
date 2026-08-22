@@ -81,15 +81,35 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
+			width: 100%;
 			width: 100vw;
+			width: 100dvw;
+			height: 100%;
 			height: 100vh;
 			height: 100dvh;
-			z-index: 99999;
+			z-index: 2147483000;
 			background: #000;
 			display: block;
 			overflow: hidden;
 			margin: 0;
 			padding: 0;
+			isolation: isolate;
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+		}
+		/* Hide terminal chrome until boot finishes — stops Leaflet map bleeding through */
+		body.boot-active .container,
+		body.boot-active #placementsMapWrap,
+		body.boot-active .leaflet-container,
+		body.boot-active #matrix,
+		body.boot-active #fx-overlay,
+		body.boot-active #scan-interference,
+		body.boot-active .arcade-intro {
+			visibility: hidden !important;
+			pointer-events: none !important;
+		}
+		body.boot-active {
+			overflow: hidden !important;
 		}
 
 		#intro-canvas {
@@ -1896,7 +1916,7 @@
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
-<body>
+<body class="boot-active">
 
 	<div id="crt-boot">
 		<canvas id="intro-canvas"></canvas>
@@ -1927,7 +1947,7 @@
 			<span>4 CHARITY</span>
 		</div>
 		<div class="idle-marquee" id="idleMarquee">1 CREDIT · FREE PLAY</div>
-		<p class="kiosk-hint" id="kioskHint">ARCADE STICK · ↑↓ SELECT · A / START PLAY · B EXIT</p>
+		<p class="kiosk-hint" id="kioskHint">ARCADE STICK · ↑↓ MOVE · A/START PLAY · SELECT BACK · HOLD START EXIT</p>
 
 		<div class="status">
 			SYSTEM ONLINE // ACCEPTING APPLICANTS
@@ -2079,7 +2099,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v2.9.5 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v2.9.7 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -2115,7 +2135,7 @@
 	</div>
 
 	<canvas id="attract-canvas" width="480" height="360"></canvas>
-	<div class="attract-badge" id="attractBadge">ATTRACT MODE · STICK / TOUCH / KEY TO PLAY</div>
+	<div class="attract-badge" id="attractBadge">ATTRACT MODE · STICK / TOUCH / KEY · HOLD START TO EXIT GAMES</div>
 
 	<div id="game-overlay">
 		<canvas id="game-canvas" width="480" height="360"></canvas>
@@ -2138,6 +2158,7 @@
 				return;
 			}
 			document.body.classList.add('crt-on');
+			document.body.classList.add('boot-active');
 			if (!canvas) {
 				setTimeout(() => { boot.classList.add('fade-out');
 					setTimeout(() => boot.classList.add('done'), 400); }, 900);
@@ -2149,7 +2170,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9.5',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9.7',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -2164,7 +2185,11 @@
 				if (finished) return;
 				finished = true;
 				boot.classList.add('fade-out');
-				setTimeout(() => boot.classList.add('done'), 380);
+				setTimeout(function() {
+					boot.classList.add('done');
+					document.body.classList.remove('boot-active');
+					try { window.dispatchEvent(new Event('c4c-boot-done')); } catch (e) {}
+				}, 380);
 			}
 
 			// Skip on any early interaction
@@ -2897,12 +2922,28 @@
 			});
 		})();
 
-		loadPlacements();
+		function bootThenPlacements() {
+			try { loadPlacements(); } catch (e) {}
+		}
+		// Wait for CRT boot so Leaflet never paints under the intro
+		if (document.body.classList.contains('boot-active')) {
+			window.addEventListener('c4c-boot-done', bootThenPlacements, { once: true });
+			// Safety: if boot is skipped/stuck, still load
+			setTimeout(function() {
+				if (document.body.classList.contains('boot-active')) {
+					document.body.classList.remove('boot-active');
+				}
+				bootThenPlacements();
+			}, 6000);
+		} else {
+			bootThenPlacements();
+		}
 
 		// Redraw placements map on resize when visible
 		window.addEventListener('resize', function() {
 			var wrap = document.getElementById('placementsMapWrap');
 			if (!wrap || wrap.style.display === 'none' || wrap.classList.contains('hidden')) return;
+			if (document.body.classList.contains('boot-active')) return;
 			try { loadPlacements(); } catch (e) {}
 		});
 
@@ -3126,7 +3167,7 @@
 			c.classList.add('on');
 			if (b) {
 				b.classList.add('on');
-				b.textContent = 'ATTRACT MODE · STICK / TOUCH / KEY TO PLAY';
+				b.textContent = 'ATTRACT MODE · STICK / TOUCH / KEY · HOLD START TO EXIT GAMES';
 			}
 			c.style.pointerEvents = 'auto';
 			c.style.cursor = 'pointer';
@@ -5425,44 +5466,136 @@
 		let animId = null;
 		let keys = {};
 		let touchState = { left: false, right: false, up: false, down: false, fire: false };
-		let gamepadState = { left: false, right: false, up: false, down: false, fire: false, jump: false, dash: false, slide: false, start: false, select: false, a: false, b: false };
+		// ========== BSP-Y02 / ARCADE STICK INPUT (v2 hardened) ==========
+		// Clean roles: A=primary, B=secondary, Start=hold-to-exit, Select=menu/back
+		// Axes use hysteresis so stick noise doesn't spam menu focus.
+		let gamepadState = {
+			left: false, right: false, up: false, down: false,
+			fire: false, jump: false, dash: false, slide: false,
+			start: false, select: false, a: false, b: false, x: false, y: false
+		};
 		let gamepadConnected = false;
 		let gamepadRaf = null;
+		let gpAxisLatch = { x: 0, y: 0 }; // -1, 0, 1 with hysteresis
+		let gpStartHoldMs = 0;
+		let gpLastMenuMove = 0;
+		let gpPrevButtons = {};
+		let gpEdge = {};
+		const GP_DEAD_ON = 0.48;
+		const GP_DEAD_OFF = 0.32;
+		const GP_MENU_DEBOUNCE = 160;
+		const GP_EXIT_HOLD_MS = 480;
+
+		function gpPressed(buttons, i) {
+			const b = buttons[i];
+			if (!b) return false;
+			return !!(b.pressed || (typeof b.value === 'number' && b.value > 0.5));
+		}
+
+		function axisLatch(axisVal, currentLatch) {
+			// Hysteresis: must push past DEAD_ON to engage, release below DEAD_OFF to clear
+			if (axisVal <= -GP_DEAD_ON) return -1;
+			if (axisVal >= GP_DEAD_ON) return 1;
+			if (Math.abs(axisVal) < GP_DEAD_OFF) return 0;
+			return currentLatch; // stay in previous state in the dead band
+		}
 
 		function pollGamepad() {
 			const gps = (navigator.getGamepads && navigator.getGamepads()) || [];
 			let gp = null;
 			for (let i = 0; i < gps.length; i++) {
-				if (gps[i]) { gp = gps[i]; break; }
+				if (gps[i] && gps[i].connected !== false) { gp = gps[i]; break; }
 			}
 			if (!gp) {
 				Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
+				gpAxisLatch.x = 0;
+				gpAxisLatch.y = 0;
+				gpStartHoldMs = 0;
 				return;
 			}
-			const a = gp.axes || [];
-			const b = gp.buttons || [];
-			const pressed = (i) => !!(b[i] && (b[i].pressed || b[i].value > 0.45));
-			// Axes + standard D-pad (12 up, 13 down, 14 left, 15 right)
-			gamepadState.left  = (a[0] < -0.35) || pressed(14);
-			gamepadState.right = (a[0] >  0.35) || pressed(15);
-			gamepadState.up    = (a[1] < -0.35) || pressed(12);
-			gamepadState.down  = (a[1] >  0.35) || pressed(13);
-			// Face buttons + shoulders (BSP-Y02 / generic HID)
-			gamepadState.fire  = pressed(0) || pressed(1) || pressed(2) || pressed(3) || pressed(5) || pressed(7);
-			gamepadState.jump  = gamepadState.up || pressed(0);
-			gamepadState.dash  = pressed(1) || pressed(5) || pressed(7);
-			gamepadState.slide = gamepadState.down || pressed(2);
-			// Start / Select (layout varies; cover common HID indices)
-			gamepadState.start  = pressed(9) || pressed(8) || pressed(11);
-			gamepadState.select = pressed(8) || pressed(9) || pressed(10);
-			gamepadState.a = pressed(0);
-			gamepadState.b = pressed(1) || pressed(2);
+
+			const axes = gp.axes || [];
+			const buttons = gp.buttons || [];
+			const ax = typeof axes[0] === 'number' ? axes[0] : 0;
+			const ay = typeof axes[1] === 'number' ? axes[1] : 0;
+			gpAxisLatch.x = axisLatch(ax, gpAxisLatch.x);
+			gpAxisLatch.y = axisLatch(ay, gpAxisLatch.y);
+
+			// D-pad (standard) OR latched stick
+			const dLeft = gpPressed(buttons, 14);
+			const dRight = gpPressed(buttons, 15);
+			const dUp = gpPressed(buttons, 12);
+			const dDown = gpPressed(buttons, 13);
+
+			gamepadState.left  = dLeft || gpAxisLatch.x === -1;
+			gamepadState.right = dRight || gpAxisLatch.x === 1;
+			gamepadState.up    = dUp || gpAxisLatch.y === -1;
+			gamepadState.down  = dDown || gpAxisLatch.y === 1;
+
+			// Standard face (A B X Y) + shoulders — BSP-Y02 / generic HID
+			const btnA = gpPressed(buttons, 0);
+			const btnB = gpPressed(buttons, 1);
+			const btnX = gpPressed(buttons, 2);
+			const btnY = gpPressed(buttons, 3);
+			const btnLB = gpPressed(buttons, 4);
+			const btnRB = gpPressed(buttons, 5);
+			const btnLT = gpPressed(buttons, 6);
+			const btnRT = gpPressed(buttons, 7);
+			// Select / Start — try common indices without overlapping roles in semantics
+			const btnSelect = gpPressed(buttons, 8);
+			const btnStart = gpPressed(buttons, 9) || gpPressed(buttons, 11);
+
+			gamepadState.a = btnA;
+			gamepadState.b = btnB;
+			gamepadState.x = btnX;
+			gamepadState.y = btnY;
+			gamepadState.select = btnSelect;
+			gamepadState.start = btnStart;
+
+			// PRIMARY fire = A only (plus optional X / RT for multi-button sticks)
+			// B is NEVER fire — it was exiting games and double-firing
+			gamepadState.fire = btnA || btnX || btnRT || btnY;
+			// Jump: A (button) — stick up is handled per-game via gamepadState.up
+			gamepadState.jump = btnA;
+			// Dash / secondary: B or shoulders
+			gamepadState.dash = btnB || btnRB || btnLB;
+			// Slide: stick/d-pad down only (not B)
+			gamepadState.slide = gamepadState.down;
+
+			// Edge detect raw buttons for menu / exit
+			const raw = {
+				up: gamepadState.up,
+				down: gamepadState.down,
+				left: gamepadState.left,
+				right: gamepadState.right,
+				a: btnA,
+				b: btnB,
+				x: btnX,
+				y: btnY,
+				start: btnStart,
+				select: btnSelect,
+				fire: gamepadState.fire
+			};
+			gpEdge = {};
+			Object.keys(raw).forEach(k => {
+				gpEdge[k] = raw[k] && !gpPrevButtons[k];
+			});
+			gpEdge.any = Object.keys(raw).some(k => gpEdge[k]);
+			gpPrevButtons = raw;
+
+			// Start hold timer for safe exit
+			if (btnStart) {
+				gpStartHoldMs += 16; // ~1 frame at 60Hz; good enough
+			} else {
+				gpStartHoldMs = 0;
+			}
 		}
 
 		function startGamepadLoop() {
 			if (gamepadRaf) return;
 			const tick = () => {
 				pollGamepad();
+				try { handleMenuGamepad(); } catch (err) {}
 				gamepadRaf = requestAnimationFrame(tick);
 			};
 			gamepadRaf = requestAnimationFrame(tick);
@@ -5471,6 +5604,7 @@
 			if (gamepadRaf) cancelAnimationFrame(gamepadRaf);
 			gamepadRaf = null;
 			Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
+			gpStartHoldMs = 0;
 		}
 
 		window.addEventListener('gamepadconnected', (e) => {
@@ -5479,7 +5613,7 @@
 			if (badge) {
 				badge.textContent = 'ARCADE STICK ONLINE';
 				badge.classList.add('on');
-				setTimeout(() => badge.classList.remove('on'), 3200);
+				setTimeout(() => badge.classList.remove('on'), 2800);
 			}
 			startGamepadLoop();
 			console.log('Gamepad connected:', e.gamepad && e.gamepad.id);
@@ -5490,13 +5624,12 @@
 			if (badge) {
 				badge.textContent = 'ARCADE STICK OFFLINE';
 				badge.classList.add('on');
-				setTimeout(() => badge.classList.remove('on'), 2200);
+				setTimeout(() => badge.classList.remove('on'), 2000);
 			}
 		});
 
-
-		// ========== MENU / ATTRACT GAMEPAD NAV + KIOSK ==========
-		window.C4C_KIOSK = false;
+		// ========== MENU / ATTRACT / EXIT ==========
+		window.C4C_KIOSK = window.C4C_KIOSK || false;
 		try {
 			const q = new URLSearchParams(location.search);
 			if (q.get('kiosk') === '1' || q.get('arcade') === '1' || location.hash === '#kiosk') {
@@ -5506,14 +5639,11 @@
 		} catch (e) {}
 
 		let menuFocusIdx = 0;
-		let gpEdge = { up: false, down: false, left: false, right: false, a: false, b: false, start: false, select: false, any: false };
-		let gpPrev = {};
 
 		function getMenuTargets() {
 			const games = Array.from(document.querySelectorAll('.game-btn[data-game]'));
-			const cta = document.getElementById('primaryCta');
-			// In kiosk mode, only games; otherwise games + CTA
 			if (window.C4C_KIOSK || document.body.classList.contains('kiosk-mode')) return games;
+			const cta = document.getElementById('primaryCta');
 			const list = games.slice();
 			if (cta && cta.offsetParent !== null) list.push(cta);
 			return list;
@@ -5545,105 +5675,76 @@
 			}
 		}
 
-		function updateGamepadEdges() {
-			const cur = {
-				up: !!gamepadState.up,
-				down: !!gamepadState.down,
-				left: !!gamepadState.left,
-				right: !!gamepadState.right,
-				a: !!gamepadState.a || !!gamepadState.fire,
-				b: !!gamepadState.b,
-				start: !!gamepadState.start,
-				select: !!gamepadState.select,
-				any: !!(gamepadState.up || gamepadState.down || gamepadState.left || gamepadState.right ||
-					gamepadState.a || gamepadState.b || gamepadState.fire || gamepadState.start || gamepadState.select)
-			};
-			gpEdge = {
-				up: cur.up && !gpPrev.up,
-				down: cur.down && !gpPrev.down,
-				left: cur.left && !gpPrev.left,
-				right: cur.right && !gpPrev.right,
-				a: cur.a && !gpPrev.a,
-				b: cur.b && !gpPrev.b,
-				start: cur.start && !gpPrev.start,
-				select: cur.select && !gpPrev.select,
-				any: cur.any && !gpPrev.any
-			};
-			gpPrev = cur;
+		function menuMove(delta) {
+			const now = performance.now();
+			if (now - gpLastMenuMove < GP_MENU_DEBOUNCE) return;
+			gpLastMenuMove = now;
+			setMenuFocus(menuFocusIdx + delta);
 		}
 
 		function handleMenuGamepad() {
-			updateGamepadEdges();
-			// Attract: any stick/button wakes and focuses games
+			if (document.body.classList.contains('boot-active')) return;
+
+			// ATTRACT: wake on any real edge (not held turbo spam — edges only)
 			if (window.C4C_OPS && window.C4C_OPS.attract) {
-				if (gpEdge.any || gpEdge.a || gpEdge.start || gpEdge.up || gpEdge.down) {
+				if (gpEdge.any) {
 					if (typeof stopAttract === 'function') stopAttract();
 					if (typeof bumpActivity === 'function') bumpActivity();
 					setMenuFocus(0);
 				}
 				return;
 			}
-			// In-game: B exits (back to menu)
+
+			// IN-GAME: safe exit only
+			// Select = instant back | Start held ~0.5s = exit
+			// B is gameplay (dash/secondary) — never exits mid-match
 			if (currentGame) {
-				if (gpEdge.b) {
+				if (gpEdge.select || gpStartHoldMs >= GP_EXIT_HOLD_MS) {
+					gpStartHoldMs = 0;
+					stopGame();
+					setMenuFocus(menuFocusIdx);
+					if (typeof bumpActivity === 'function') bumpActivity();
+				}
+				return;
+			}
+
+			// MENU NAV
+			if (gpEdge.up || gpEdge.left) menuMove(-1);
+			if (gpEdge.down || gpEdge.right) menuMove(1);
+			if (gpEdge.select) menuMove(1);
+			if (gpEdge.a || gpEdge.start) activateMenuFocus();
+		}
+
+		// Always run the loop so menu + attract work before first game
+		startGamepadLoop();
+		if (window.C4C_KIOSK) {
+			setTimeout(function() { setMenuFocus(0); }, 450);
+			try { attractIdleMs = 18000; } catch (e) {}
+		}
+
+		// Keyboard mirror for menu (does not fight form fields)
+		window.addEventListener('keydown', function(e) {
+			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+			if (document.body.classList.contains('boot-active')) return;
+			if (currentGame) {
+				if (e.key === 'Escape') {
 					stopGame();
 					setMenuFocus(menuFocusIdx);
 				}
 				return;
 			}
-			// Menu navigation
-			if (gpEdge.up || gpEdge.left) setMenuFocus(menuFocusIdx - 1);
-			if (gpEdge.down || gpEdge.right) setMenuFocus(menuFocusIdx + 1);
-			if (gpEdge.select) setMenuFocus(menuFocusIdx + 1);
-			if (gpEdge.a || gpEdge.start) activateMenuFocus();
-		}
-
-		// Hook menu nav into the gamepad rAF loop
-		const _startGamepadLoop = startGamepadLoop;
-		startGamepadLoop = function() {
-			if (gamepadRaf) return;
-			const tick = () => {
-				pollGamepad();
-				try { handleMenuGamepad(); } catch (e) {}
-				gamepadRaf = requestAnimationFrame(tick);
-			};
-			gamepadRaf = requestAnimationFrame(tick);
-		};
-
-		// Boot gamepad loop (menu ready even before a game starts)
-		startGamepadLoop();
-		// Initial focus on first game in kiosk
-		if (window.C4C_KIOSK) {
-			setTimeout(function() { setMenuFocus(0); }, 400);
-			// Faster attract return in kiosk
-			try { attractIdleMs = 18000; } catch (e) {}
-		}
-
-		// Keyboard mirror for menu when not typing in a field
-		window.addEventListener('keydown', function(e) {
-			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
-			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
-			if (currentGame) {
-				if (e.key === 'Escape') { stopGame(); setMenuFocus(menuFocusIdx); }
-				return;
-			}
-			if (window.C4C_OPS && window.C4C_OPS.attract) return; // bumpActivity handles wake
+			if (window.C4C_OPS && window.C4C_OPS.attract) return;
 			const targets = getMenuTargets();
 			if (!targets.length) return;
-			if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); setMenuFocus(menuFocusIdx - 1); }
-			if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'Tab') {
+			if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); menuMove(-1); }
+			if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); menuMove(1); }
+			if (e.key === 'Tab') { e.preventDefault(); menuMove(e.shiftKey ? -1 : 1); }
+			if ((e.key === 'Enter' || e.key === ' ') && document.querySelector('.gp-focus')) {
 				e.preventDefault();
-				setMenuFocus(menuFocusIdx + (e.shiftKey ? -1 : 1));
-			}
-			if (e.key === 'Enter' || e.key === ' ') {
-				// only if a gp-focus exists to avoid stealing space from other UI
-				if (document.querySelector('.gp-focus')) {
-					e.preventDefault();
-					activateMenuFocus();
-				}
+				activateMenuFocus();
 			}
 		});
-
 
 		window.addEventListener('keydown', e => {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
@@ -8101,8 +8202,8 @@
 
 			if (r.frame % 5 === 0) updateUI(r.score, null);
 
-			const jumpPressed = !!(keys['ArrowUp'] || keys['w'] || keys['W'] || keys[' '] || touchState.up || gamepadState.jump || gamepadState.fire);
-			const dashPressed = !!(keys['Shift'] || keys['f'] || keys['F'] || touchState.fire || gamepadState.dash || gamepadState.fire);
+			const jumpPressed = !!(keys['ArrowUp'] || keys['w'] || keys['W'] || keys[' '] || touchState.up || gamepadState.up || gamepadState.jump || gamepadState.a);
+			const dashPressed = !!(keys['Shift'] || keys['f'] || keys['F'] || touchState.fire || gamepadState.dash);
 			const slidePressed = !!(keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide);
 
 			// Variable jump + double jump
