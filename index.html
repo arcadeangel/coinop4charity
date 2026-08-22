@@ -1601,6 +1601,171 @@
 		.share-card:focus {
 			box-shadow: 0 0 0 2px #00ff9f, 0 0 30px rgba(0, 255, 159, 0.25);
 		}
+
+
+		.trust-strip {
+			border: 1px solid rgba(0, 255, 159, 0.28);
+			background: rgba(0, 20, 16, 0.55);
+			padding: 10px 12px;
+			margin: 0 0 1.1rem;
+			text-align: center;
+			font-size: 0.68rem;
+			letter-spacing: 0.1em;
+			color: #7dffc8;
+			line-height: 1.55;
+		}
+		.trust-strip strong {
+			color: #00ff9f;
+			font-weight: bold;
+			letter-spacing: 0.12em;
+		}
+		.primary-cta {
+			display: block;
+			width: 100%;
+			margin: 0 0 1.2rem;
+			padding: 0.95rem 1rem;
+			border: 1px solid #00ff9f;
+			background: #00ff9f;
+			color: #000;
+			font-family: inherit;
+			font-size: 0.95rem;
+			font-weight: bold;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			cursor: pointer;
+			box-shadow: 0 0 22px #00ff9f66;
+			transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+		}
+		.primary-cta:hover,
+		.primary-cta:focus {
+			background: #33ffb3;
+			box-shadow: 0 0 32px #00ff9fcc;
+			outline: none;
+		}
+		.primary-cta:active { transform: scale(0.98); }
+		.primary-cta span {
+			display: block;
+			font-size: 0.68rem;
+			font-weight: normal;
+			letter-spacing: 0.08em;
+			margin-top: 4px;
+			opacity: 0.85;
+		}
+		.updates-panel {
+			border: 1px solid #00ff9f44;
+			background: rgba(0, 255, 159, 0.05);
+			padding: 10px 12px;
+			margin: 0 0 1.2rem;
+			text-align: left;
+		}
+		.updates-panel h4 {
+			font-size: 0.72rem;
+			letter-spacing: 0.16em;
+			color: #00ff9f;
+			text-align: center;
+			margin-bottom: 8px;
+		}
+		.updates-panel .upd-row {
+			font-size: 0.7rem;
+			letter-spacing: 0.04em;
+			color: #7dffc8;
+			margin: 5px 0;
+			line-height: 1.4;
+		}
+		.updates-panel .upd-row b {
+			color: #ffff99;
+			font-weight: bold;
+			margin-right: 6px;
+		}
+		.placements-stats {
+			font-size: 0.68rem;
+			letter-spacing: 0.1em;
+			color: #7dffc8;
+			text-align: center;
+			margin: 0.35rem 0 0.15rem;
+			opacity: 0.9;
+		}
+		.involve-details {
+			margin: 0 0 1.4rem;
+			border: 1px solid #00ff9f33;
+			background: rgba(0, 0, 0, 0.35);
+			padding: 0;
+		}
+		.involve-details > summary {
+			list-style: none;
+			cursor: pointer;
+			padding: 0.7rem 1rem;
+			font-size: 0.78rem;
+			letter-spacing: 0.12em;
+			color: #00ff9f;
+			text-align: center;
+			text-transform: uppercase;
+			user-select: none;
+		}
+		.involve-details > summary::-webkit-details-marker { display: none; }
+		.involve-details > summary::after {
+			content: " ▾";
+			opacity: 0.7;
+		}
+		.involve-details[open] > summary::after { content: " ▴"; }
+		.involve-details .form-wrap {
+			padding: 0 12px 14px;
+		}
+		.placements-map-wrap {
+			margin-top: 0.55rem;
+			border: 1px solid #00ff9f44;
+			background: rgba(0, 12, 10, 0.92);
+			overflow: hidden;
+		}
+		.placements-map-wrap.hidden { display: none; }
+		#placements-map {
+			width: 100%;
+			height: 180px;
+			display: block;
+			background: #00140f;
+			cursor: crosshair;
+		}
+		.map-legend {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px 12px;
+			padding: 6px 10px 8px;
+			font-size: 0.62rem;
+			letter-spacing: 0.06em;
+			color: #7dffc8;
+			border-top: 1px solid #00ff9f22;
+			justify-content: center;
+		}
+		.map-legend span {
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
+		}
+		.map-legend i {
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			box-shadow: 0 0 6px currentColor;
+		}
+		.gamepad-badge {
+			display: none;
+			position: fixed;
+			top: max(10px, env(safe-area-inset-top));
+			right: 10px;
+			z-index: 250;
+			font-family: "Courier New", monospace;
+			font-size: 0.62rem;
+			letter-spacing: 0.12em;
+			color: #00ff9f;
+			background: rgba(0, 0, 0, 0.88);
+			border: 1px solid #00ff9faa;
+			padding: 6px 10px;
+			box-shadow: 0 0 14px #00ff9f44;
+			text-transform: uppercase;
+			pointer-events: none;
+		}
+		.gamepad-badge.on { display: block; }
 	</style>
 </head>
 
@@ -1625,6 +1790,7 @@
 
 	<canvas id="matrix"></canvas>
 
+	<div id="gamepad-badge" class="gamepad-badge">ARCADE STICK ONLINE</div>
 	<div id="fx-overlay"></div>
 	<div id="scan-interference"></div>
 
@@ -1640,40 +1806,64 @@
 		</div>
 
 		<p class="mission" id="mission"></p>
-		<p class="how-it-works" style="font-size:0.72rem;letter-spacing:0.12em;color:#7dffc8;opacity:0.75;margin:-0.6rem 0 1.2rem;text-align:center;">
+		<p class="how-it-works" style="font-size:0.72rem;letter-spacing:0.12em;color:#7dffc8;opacity:0.75;margin:-0.6rem 0 0.9rem;text-align:center;">
 			machines restored · placed free · kids play
 		</p>
 
-		<form action="https://formspree.io/f/mrpzenbr" method="POST">
-			<label for="name">Name</label>
-			<input type="text" id="name" name="name" required>
+		<div class="trust-strip">
+			<strong>NEVADA NONPROFIT</strong><br>
+			new and restored arcade games placed free · no cost to youth centers · kids play free
+		</div>
 
-			<label for="email">Email</label>
-			<input type="email" id="email" name="email" required>
+		<button type="button" class="primary-cta" id="primaryCta">
+			HOST A MACHINE
+			<span>Free placement for Nevada youth centers</span>
+		</button>
 
-			<label for="phone">Phone <span style="opacity:0.6">(optional)</span></label>
-			<input type="tel" id="phone" name="phone">
-
-			<label for="interest">I'm interested in...</label>
-			<select id="interest" name="interest">
-				<option value="">Select one</option>
-				<option value="host">Hosting a machine</option>
-				<option value="donate">Giving away a machine</option>
-				<option value="partner">Partnership / sponsorship</option>
-				<option value="volunteer">Volunteering</option>
-				<option value="other">Other / general inquiry</option>
-			</select>
-
-			<label for="inquiry">Message</label>
-			<textarea id="inquiry" name="inquiry" required></textarea>
-
-			<div class="hp" aria-hidden="true">
-				<input type="text" name="website" tabindex="-1" autocomplete="off">
+		<div class="updates-panel" id="updatesPanel">
+			<h4>UPDATES</h4>
+			<div id="updatesList">
+				<div class="upd-row"><b>08.21</b> Southern Highlands live — more machines on the floor</div>
+				<div class="upd-row"><b>08.20</b> First placements at James Club, North Las Vegas</div>
+				<div class="upd-row"><b>08.19</b> Fleet moving · expanding outreach statewide</div>
 			</div>
+		</div>
 
-			<input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
-			<button type="submit">GET INVOLVED</button>
-		</form>
+		<details class="involve-details" id="involveDetails">
+			<summary>Get involved — contact form</summary>
+			<div class="form-wrap">
+			<form action="https://formspree.io/f/mrpzenbr" method="POST" id="involveForm">
+				<label for="name">Name</label>
+				<input type="text" id="name" name="name" required>
+
+				<label for="email">Email</label>
+				<input type="email" id="email" name="email" required>
+
+				<label for="phone">Phone <span style="opacity:0.6">(optional)</span></label>
+				<input type="tel" id="phone" name="phone">
+
+				<label for="interest">I'm interested in...</label>
+				<select id="interest" name="interest">
+					<option value="">Select one</option>
+					<option value="host">Hosting a machine</option>
+					<option value="donate">Giving away a machine</option>
+					<option value="partner">Partnership / sponsorship</option>
+					<option value="volunteer">Volunteering</option>
+					<option value="other">Other / general inquiry</option>
+				</select>
+
+				<label for="inquiry">Message</label>
+				<textarea id="inquiry" name="inquiry" required></textarea>
+
+				<div class="hp" aria-hidden="true">
+					<input type="text" name="website" tabindex="-1" autocomplete="off">
+				</div>
+
+				<input type="hidden" name="_subject" value="New inquiry from Coin-Op 4 Charity">
+				<button type="submit">SEND</button>
+			</form>
+			</div>
+		</details>
 
 		<div class="fleet-panel" id="fleetPanel">
 			<button type="button" class="fleet-btn" id="fleetBtn" aria-expanded="false">
@@ -1683,10 +1873,16 @@
 		</div>
 
 		<div class="fleet-panel" id="placementsPanel">
-			<button type="button" class="fleet-btn" id="placementsBtn" aria-expanded="false">
+			<button type="button" class="fleet-btn" id="placementsBtn" aria-expanded="true">
 				ACTIVE PLACEMENTS <span id="placementsCount">(—)</span>
 			</button>
-			<div class="fleet-list" id="placementsList" hidden></div>
+			<p class="placements-stats" id="placementsStats">Loading placement data…</p>
+			<div class="fleet-list" id="placementsList"></div>
+
+		<div class="placements-map-wrap hidden" id="placementsMapWrap">
+			<canvas id="placements-map" width="400" height="180" aria-label="Live map of active machine placements"></canvas>
+			<div class="map-legend" id="mapLegend"></div>
+		</div>
 		</div>
 
 		<div class="free-games">
@@ -1748,8 +1944,9 @@
 		</div>
 
 		<p class="oss-line" id="ossLine">
-			terminal games · <a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a><br>
-			<a href="https://github.com/arcadeangel/coinop4charity/tree/main/docs/restoration" target="_blank" rel="noopener">restoration guides</a>
+			<a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a>
+			· <a href="https://github.com/arcadeangel/coinop4charity/tree/main/docs/restoration" target="_blank" rel="noopener">restoration guides</a>
+			· <a href="https://github.com/arcadeangel/coinop4charity/blob/main/journal.md" target="_blank" rel="noopener">field notes</a>
 		</p>
 
 		<div class="footer">
@@ -1757,7 +1954,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v2.8 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v2.9 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -1827,7 +2024,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v2.8',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -2305,6 +2502,195 @@
 		loadFleet();
 
 		// ========== PLACEMENTS — Machines already on location ==========
+		// Known partner sites (keyword → coords). Explicit lat/lng on a placement always wins.
+		const PLACEMENT_COORDS = {
+			'james club': { lat: 36.1985, lng: -115.1230, label: 'James Club', short: 'JAMES' },
+			'southern highlands': { lat: 35.9968, lng: -115.2075, label: 'Southern Highlands', short: 'S.HIGH' },
+			'children\'s cabinet': { lat: 39.5296, lng: -119.8138, label: "Children's Cabinet", short: 'CABINET' },
+			'childrens cabinet': { lat: 39.5296, lng: -119.8138, label: "Children's Cabinet", short: 'CABINET' },
+			'reno': { lat: 39.5296, lng: -119.8138, label: 'Reno', short: 'RENO' },
+			'henderson': { lat: 36.0395, lng: -114.9817, label: 'Henderson', short: 'HEND' },
+			'north las vegas': { lat: 36.1989, lng: -115.1175, label: 'North Las Vegas', short: 'NLV' },
+			'enterprise': { lat: 36.0252, lng: -115.2419, label: 'Enterprise', short: 'ENT' },
+			'summerlin': { lat: 36.1830, lng: -115.3260, label: 'Summerlin', short: 'SUMM' },
+			'las vegas': { lat: 36.1699, lng: -115.1398, label: 'Las Vegas', short: 'LV' }
+		};
+
+		function shortLabelFromLocation(location) {
+			const raw = String(location || '').trim();
+			if (!raw) return 'SITE';
+			// Prefer text after en/em dash or hyphen separators used in BGCSNV titles
+			const parts = raw.split(/\s*[–—-]\s*/);
+			let label = (parts.length > 1 ? parts[parts.length - 1] : raw).trim();
+			// Drop org prefixes if still long
+			label = label.replace(/^Boys\s*&\s*Girls\s*Clubs?\s*(of\s*)?/i, '').trim();
+			if (label.length > 18) label = label.slice(0, 16) + '…';
+			const short = label.replace(/[^A-Za-z0-9]+/g, ' ').trim().split(/\s+/).map(w => w.slice(0, 4).toUpperCase()).slice(0, 2).join('.') || 'SITE';
+			return { label: label || 'Site', short: short.slice(0, 8) };
+		}
+
+		function resolvePlacementCoord(p) {
+			// 1) Explicit coordinates on the placement win
+			const lat = Number(p && p.lat);
+			const lng = Number(p && p.lng);
+			if (Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+				const derived = shortLabelFromLocation(p.location || p.name);
+				return {
+					lat: lat,
+					lng: lng,
+					label: (p.site || derived.label),
+					short: (p.short || derived.short)
+				};
+			}
+			// 2) Keyword match against known partners (location title first, then name)
+			const hay = String((p && p.location) || '') + ' ' + String((p && p.name) || '');
+			const loc = hay.toLowerCase();
+			for (const key of Object.keys(PLACEMENT_COORDS)) {
+				if (loc.includes(key)) {
+					const base = PLACEMENT_COORDS[key];
+					const derived = shortLabelFromLocation(p.location || p.name);
+					// Prefer the more specific label from the title when available
+					return {
+						lat: base.lat,
+						lng: base.lng,
+						label: derived.label && derived.label.length > 2 ? derived.label : base.label,
+						short: base.short
+					};
+				}
+			}
+			return null;
+		}
+
+		function drawPlacementsMap(placements) {
+			const wrap = document.getElementById('placementsMapWrap');
+			const canvas = document.getElementById('placements-map');
+			const legend = document.getElementById('mapLegend');
+			if (!wrap || !canvas) return;
+
+			// Group by resolved site key (coords rounded + short label)
+			const sites = {};
+			placements.forEach(p => {
+				const c = resolvePlacementCoord(p);
+				if (!c) return;
+				const key = c.short + '|' + c.lat.toFixed(3) + '|' + c.lng.toFixed(3);
+				if (!sites[key]) sites[key] = { coord: c, machines: [], location: p.location || '' };
+				sites[key].machines.push(p.name || p.id || 'machine');
+			});
+			const siteList = Object.values(sites);
+			if (!siteList.length) {
+				wrap.classList.add('hidden');
+				wrap.style.display = 'none';
+				return;
+			}
+			wrap.classList.remove('hidden');
+			const pbtn = document.getElementById('placementsBtn');
+			const expanded = pbtn && pbtn.getAttribute('aria-expanded') === 'true';
+			wrap.style.display = expanded ? 'block' : 'none';
+
+			const dpr = Math.min(window.devicePixelRatio || 1, 2);
+			const cssW = canvas.clientWidth || 400;
+			const cssH = 180;
+			canvas.width = Math.floor(cssW * dpr);
+			canvas.height = Math.floor(cssH * dpr);
+			const ctx = canvas.getContext('2d');
+			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+			// Auto-fit bounds from pins (with padding); fallback metro box if single point
+			let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+			siteList.forEach(s => {
+				minLat = Math.min(minLat, s.coord.lat);
+				maxLat = Math.max(maxLat, s.coord.lat);
+				minLng = Math.min(minLng, s.coord.lng);
+				maxLng = Math.max(maxLng, s.coord.lng);
+			});
+			const latPad = Math.max(0.06, (maxLat - minLat) * 0.55 || 0.08);
+			const lngPad = Math.max(0.08, (maxLng - minLng) * 0.55 || 0.10);
+			minLat -= latPad; maxLat += latPad;
+			minLng -= lngPad; maxLng += lngPad;
+
+			const pad = 18;
+			const toXY = (lat, lng) => {
+				const x = pad + ((lng - minLng) / (maxLng - minLng || 1)) * (cssW - pad * 2);
+				const y = pad + ((maxLat - lat) / (maxLat - minLat || 1)) * (cssH - pad * 2);
+				return [x, y];
+			};
+
+			// Background
+			ctx.fillStyle = '#00140f';
+			ctx.fillRect(0, 0, cssW, cssH);
+
+			// Subtle grid
+			ctx.strokeStyle = 'rgba(0,255,159,0.06)';
+			ctx.lineWidth = 1;
+			for (let i = 0; i < 8; i++) {
+				const x = (cssW / 8) * i;
+				ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cssH); ctx.stroke();
+				const y = (cssH / 6) * i;
+				ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cssW, y); ctx.stroke();
+			}
+
+			// Soft region wash
+			ctx.fillStyle = 'rgba(0,255,159,0.03)';
+			ctx.fillRect(pad, pad, cssW - pad * 2, cssH - pad * 2);
+			ctx.strokeStyle = 'rgba(0,255,159,0.14)';
+			ctx.strokeRect(pad, pad, cssW - pad * 2, cssH - pad * 2);
+
+			ctx.fillStyle = 'rgba(0,255,159,0.35)';
+			ctx.font = '9px Courier New';
+			ctx.textAlign = 'left';
+			ctx.fillText('ACTIVE PLACEMENTS · LIVE', 10, 14);
+
+			const colors = ['#00ff9f', '#00d4ff', '#ffff66', '#ff66cc', '#ffaa66'];
+			siteList.forEach((site, i) => {
+				const [x, y] = toXY(site.coord.lat, site.coord.lng);
+				const col = colors[i % colors.length];
+				ctx.strokeStyle = col;
+				ctx.globalAlpha = 0.35;
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				ctx.arc(x, y, 14, 0, Math.PI * 2);
+				ctx.stroke();
+				ctx.globalAlpha = 1;
+				ctx.fillStyle = col;
+				ctx.shadowColor = col;
+				ctx.shadowBlur = 12;
+				ctx.beginPath();
+				ctx.arc(x, y, 5, 0, Math.PI * 2);
+				ctx.fill();
+				ctx.shadowBlur = 0;
+				ctx.fillStyle = col;
+				ctx.font = 'bold 10px Courier New';
+				ctx.textAlign = 'center';
+				ctx.fillText(site.coord.short, x, y - 18);
+				ctx.font = '8px Courier New';
+				ctx.fillStyle = '#7dffc8';
+				const n = site.machines.length;
+				ctx.fillText(n + ' machine' + (n === 1 ? '' : 's'), x, y + 22);
+			});
+
+			if (siteList.length >= 2) {
+				ctx.strokeStyle = 'rgba(0,255,159,0.25)';
+				ctx.setLineDash([4, 4]);
+				ctx.lineWidth = 1;
+				ctx.beginPath();
+				siteList.forEach((site, i) => {
+					const [x, y] = toXY(site.coord.lat, site.coord.lng);
+					if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+				});
+				ctx.stroke();
+				ctx.setLineDash([]);
+			}
+
+			if (legend) {
+				legend.innerHTML = siteList.map((s, i) => {
+					const col = colors[i % colors.length];
+					const name = s.coord.label || s.coord.short;
+					return '<span><i style="background:' + col + ';color:' + col + '"></i>' +
+						name + ' · ' + s.machines.length + '</span>';
+				}).join('');
+			}
+		}
+
 		async function loadPlacements() {
 			var countEl = document.getElementById('placementsCount');
 			var listEl = document.getElementById('placementsList');
@@ -2331,8 +2717,24 @@
 				if (countEl) countEl.textContent = '(' + list.length + ')';
 				listEl.innerHTML = '';
 
+				// Stats line: N machines · M sites
+				var statsEl = document.getElementById('placementsStats');
+				var siteSet = {};
+				list.forEach(function(p) {
+					var k = String(p.location || 'unknown').toLowerCase().trim();
+					if (k) siteSet[k] = true;
+				});
+				var siteCount = Object.keys(siteSet).length;
+				if (statsEl) {
+					if (!list.length) statsEl.textContent = 'No active placements yet';
+					else statsEl.textContent = list.length + ' machine' + (list.length === 1 ? '' : 's') +
+						' · ' + siteCount + ' site' + (siteCount === 1 ? '' : 's') + ' · free play for kids';
+				}
+
 				if (!list.length) {
 					listEl.innerHTML = '<div class="fleet-empty">No placements listed yet</div>';
+					var wrap = document.getElementById('placementsMapWrap');
+					if (wrap) { wrap.classList.add('hidden'); wrap.style.display = 'none'; }
 				} else {
 					list.forEach(function(p) {
 						var row = document.createElement('div');
@@ -2352,6 +2754,7 @@
 						row.appendChild(loc);
 						listEl.appendChild(row);
 					});
+					try { drawPlacementsMap(list); } catch (err) { console.warn('map', err); }
 				}
 			} catch (e) {
 				if (countEl) countEl.textContent = '(—)';
@@ -2362,15 +2765,83 @@
 		(function setupPlacementsToggle() {
 			var btn = document.getElementById('placementsBtn');
 			var list = document.getElementById('placementsList');
+			var mapWrap = document.getElementById('placementsMapWrap');
+			var statsEl = document.getElementById('placementsStats');
 			if (!btn || !list) return;
+
+			function applyExpanded(expanded) {
+				btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+				list.hidden = !expanded;
+				if (statsEl) statsEl.style.display = expanded ? 'block' : 'none';
+				if (mapWrap) {
+					if (!expanded) mapWrap.style.display = 'none';
+					else if (!mapWrap.classList.contains('hidden')) mapWrap.style.display = 'block';
+				}
+			}
+
+			// Default open for social proof
+			applyExpanded(btn.getAttribute('aria-expanded') !== 'false');
+
 			btn.addEventListener('click', function() {
 				var open = btn.getAttribute('aria-expanded') === 'true';
-				btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-				list.hidden = open;
+				applyExpanded(!open);
+				if (!open) {
+					setTimeout(function() {
+						try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+					}, 40);
+				}
 			});
 		})();
 
 		loadPlacements();
+
+		// Redraw placements map on resize when visible
+		window.addEventListener('resize', function() {
+			var wrap = document.getElementById('placementsMapWrap');
+			if (!wrap || wrap.style.display === 'none' || wrap.classList.contains('hidden')) return;
+			try { loadPlacements(); } catch (e) {}
+		});
+
+		// Primary CTA → open contact form, preselect host
+		(function setupPrimaryCta() {
+			var cta = document.getElementById('primaryCta');
+			var details = document.getElementById('involveDetails');
+			var interest = document.getElementById('interest');
+			if (!cta) return;
+			cta.addEventListener('click', function() {
+				if (details) details.open = true;
+				if (interest) interest.value = 'host';
+				var name = document.getElementById('name');
+				if (name) {
+					try { name.focus(); } catch (e) {}
+					try { name.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {
+						try { details.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e2) {}
+					}
+				}
+			});
+		})();
+
+		// Optional public updates.json (falls back to hardcoded rows in HTML)
+		(async function loadUpdates() {
+			var list = document.getElementById('updatesList');
+			if (!list) return;
+			try {
+				var r = await fetch('/updates.json', { cache: 'no-store' });
+				if (!r.ok) return;
+				var data = await r.json();
+				if (!Array.isArray(data) || !data.length) return;
+				list.innerHTML = '';
+				data.slice(0, 5).forEach(function(u) {
+					var row = document.createElement('div');
+					row.className = 'upd-row';
+					var date = (u.date || u.d || '').toString();
+					var msg = (u.text || u.msg || u.title || '').toString();
+					if (!msg) return;
+					row.innerHTML = '<b>' + date.replace(/</g, '') + '</b> ' + msg.replace(/</g, '');
+					list.appendChild(row);
+				});
+			} catch (e) {}
+		})();
 
 		// ========== TOP SCORE + SETTINGS + ATTRACT ==========
 		window.C4C_OPS = {
@@ -4850,6 +5321,69 @@
 		let animId = null;
 		let keys = {};
 		let touchState = { left: false, right: false, up: false, down: false, fire: false };
+		let gamepadState = { left: false, right: false, up: false, down: false, fire: false, jump: false, dash: false, slide: false };
+		let gamepadConnected = false;
+		let gamepadRaf = null;
+
+		function pollGamepad() {
+			const gps = (navigator.getGamepads && navigator.getGamepads()) || [];
+			let gp = null;
+			for (let i = 0; i < gps.length; i++) {
+				if (gps[i]) { gp = gps[i]; break; }
+			}
+			if (!gp) {
+				Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
+				return;
+			}
+			const a = gp.axes || [];
+			const b = gp.buttons || [];
+			const pressed = (i) => !!(b[i] && (b[i].pressed || b[i].value > 0.45));
+			// Axes + standard D-pad (12 up, 13 down, 14 left, 15 right)
+			gamepadState.left  = (a[0] < -0.35) || pressed(14);
+			gamepadState.right = (a[0] >  0.35) || pressed(15);
+			gamepadState.up    = (a[1] < -0.35) || pressed(12);
+			gamepadState.down  = (a[1] >  0.35) || pressed(13);
+			// Face buttons + shoulders (BSP-Y02 / generic HID)
+			gamepadState.fire  = pressed(0) || pressed(1) || pressed(2) || pressed(3) || pressed(5) || pressed(7);
+			gamepadState.jump  = gamepadState.up || pressed(0);
+			gamepadState.dash  = pressed(1) || pressed(5) || pressed(7);
+			gamepadState.slide = gamepadState.down || pressed(2);
+		}
+
+		function startGamepadLoop() {
+			if (gamepadRaf) return;
+			const tick = () => {
+				pollGamepad();
+				gamepadRaf = requestAnimationFrame(tick);
+			};
+			gamepadRaf = requestAnimationFrame(tick);
+		}
+		function stopGamepadLoop() {
+			if (gamepadRaf) cancelAnimationFrame(gamepadRaf);
+			gamepadRaf = null;
+			Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
+		}
+
+		window.addEventListener('gamepadconnected', (e) => {
+			gamepadConnected = true;
+			const badge = document.getElementById('gamepad-badge');
+			if (badge) {
+				badge.textContent = 'ARCADE STICK ONLINE';
+				badge.classList.add('on');
+				setTimeout(() => badge.classList.remove('on'), 3200);
+			}
+			if (currentGame) startGamepadLoop();
+			console.log('Gamepad connected:', e.gamepad && e.gamepad.id);
+		});
+		window.addEventListener('gamepaddisconnected', () => {
+			gamepadConnected = false;
+			const badge = document.getElementById('gamepad-badge');
+			if (badge) {
+				badge.textContent = 'ARCADE STICK OFFLINE';
+				badge.classList.add('on');
+				setTimeout(() => badge.classList.remove('on'), 2200);
+			}
+		});
 
 		window.addEventListener('keydown', e => {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
@@ -4884,6 +5418,7 @@
 			animId = null;
 			keys = {};
 			touchState = { left: false, right: false, up: false, down: false, fire: false };
+			stopGamepadLoop();
 			overlay.classList.remove('active', 'accent-ufo', 'accent-runner', 'accent-fish', 'accent-racer', 'accent-cycles');
 			touchContainer.innerHTML = '';
 			document.body.classList.remove('game-open');
@@ -4909,6 +5444,7 @@
 			document.body.classList.add('game-open');
 			window.scrollTo(0, 0);
 			currentGame = name;
+			startGamepadLoop();
 			sfx('select');
 			// per-game neon accent on overlay
 			overlay.className = 'active';
@@ -5343,9 +5879,9 @@
 			r.shakeX *= 0.86;
 			r.shakeY *= 0.86;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-			const fire = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up;
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const fire = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up || gamepadState.fire || gamepadState.up || gamepadState.jump;
 
 			if (r.mode === 'highway' && r.distance > 1380) {
 				r.mode = 'tunnel';
@@ -6172,9 +6708,9 @@
 		function loopSwarm() {
 			if (currentGame !== 'swarm') return;
 			const s = swarm;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-			const fire = keys[' '] || touchState.fire;
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const fire = keys[' '] || touchState.fire || gamepadState.fire;
 			if (left) s.player.x -= 5.5;
 			if (right) s.player.x += 5.5;
 			s.player.x = Math.max(4, Math.min(434, s.player.x));
@@ -6275,10 +6811,10 @@
 
 		function loopWorm() {
 			if (currentGame !== 'worm') return;
-			if ((keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up) && worm.dir.y === 0) worm.nextDir = { x: 0, y: -1 };
-			if ((keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down) && worm.dir.y === 0) worm.nextDir = { x: 0, y: 1 };
-			if ((keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left) && worm.dir.x === 0) worm.nextDir = { x: -1, y: 0 };
-			if ((keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right) && worm.dir.x === 0) worm.nextDir = { x: 1, y: 0 };
+			if ((keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump) && worm.dir.y === 0) worm.nextDir = { x: 0, y: -1 };
+			if ((keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide) && worm.dir.y === 0) worm.nextDir = { x: 0, y: 1 };
+			if ((keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left) && worm.dir.x === 0) worm.nextDir = { x: -1, y: 0 };
+			if ((keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right) && worm.dir.x === 0) worm.nextDir = { x: 1, y: 0 };
 			const now = Date.now();
 			if (now - worm.lastMove >= worm.moveDelay && !worm.gameOver) {
 				worm.lastMove = now;
@@ -6338,8 +6874,8 @@
 		function loopPaddle() {
 			if (currentGame !== 'paddle') return;
 			const p = paddle;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
 			if (left) p.paddle.x -= 6.8;
 			if (right) p.paddle.x += 6.8;
 			p.paddle.x = Math.max(0, Math.min(480 - p.paddle.w, p.paddle.x));
@@ -6468,10 +7004,10 @@
 			if (currentGame !== 'yeti') return;
 			if (yeti.gameOver) return;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
-			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down;
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
+			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
 
 			if (left) yeti.skier.x -= 5.5;
 			if (right) yeti.skier.x += 5.5;
@@ -6670,8 +7206,8 @@
 			const sk = yeti.skier;
 			ctx.save();
 			ctx.translate(sk.x, sk.y);
-			const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left) ? -0.28 :
-				(keys['ArrowRight'] || keys['d'] || touchState.right) ? 0.28 : 0;
+			const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left || gamepadState.left) ? -0.28 :
+				(keys['ArrowRight'] || keys['d'] || touchState.right || gamepadState.right) ? 0.28 : 0;
 			ctx.rotate(leanX);
 			ctx.shadowColor = '#00ff9f';
 			ctx.shadowBlur = 10;
@@ -6917,10 +7453,10 @@
 		function loopRocks() {
 			if (currentGame !== 'rocks') return;
 			const r = rocks;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-			const thrust = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
-			const fire = keys[' '] || touchState.fire;
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const thrust = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
+			const fire = keys[' '] || touchState.fire || gamepadState.fire;
 			if (left) r.ship.angle -= 0.085;
 			if (right) r.ship.angle += 0.085;
 			if (thrust) { r.ship.vx += Math.cos(r.ship.angle) * 0.18;
@@ -7305,9 +7841,9 @@
 
 			if (r.frame % 5 === 0) updateUI(r.score, null);
 
-			const jumpPressed = !!(keys['ArrowUp'] || keys['w'] || keys['W'] || keys[' '] || touchState.up);
-			const dashPressed = !!(keys['Shift'] || keys['f'] || keys['F'] || touchState.fire);
-			const slidePressed = !!(keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down);
+			const jumpPressed = !!(keys['ArrowUp'] || keys['w'] || keys['W'] || keys[' '] || touchState.up || gamepadState.jump || gamepadState.fire);
+			const dashPressed = !!(keys['Shift'] || keys['f'] || keys['F'] || touchState.fire || gamepadState.dash || gamepadState.fire);
+			const slidePressed = !!(keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide);
 
 			// Variable jump + double jump
 			if (jumpPressed && !r.wasJump) {
@@ -8270,9 +8806,9 @@
 					c.speed = c.baseSpeed + Math.min(2.8, c.survival / 1400);
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-				const boost = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up;
+				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+				const boost = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up || gamepadState.fire || gamepadState.up || gamepadState.jump;
 
 				if (b.alive) {
 					// Queue turns (applied on grid step — prevents mid-cell glitches)
@@ -8779,11 +9315,11 @@
 					return;
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-				const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
-				const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down;
-				const beam = !!(keys[' '] || touchState.fire);
+				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+				const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
+				const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
+				const beam = !!(keys[' '] || touchState.fire || gamepadState.fire);
 
 				const u = g.ufo;
 				const prevX = u.x;
@@ -9631,9 +10167,9 @@
 					return;
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-				const action = !!(keys[' '] || touchState.fire);
+				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+				const action = !!(keys[' '] || touchState.fire || gamepadState.fire);
 
 				if (g.msgT > 0) g.msgT--;
 				if (g.biteFlash > 0) g.biteFlash--;
@@ -10659,11 +11195,11 @@
 			if (g.msgT > 0) g.msgT--;
 			if (g.selectFlash > 0) g.selectFlash--;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right;
-			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up;
-			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down;
-			const fire = !!(keys[' '] || touchState.fire);
+			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
+			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
+			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
+			const fire = !!(keys[' '] || touchState.fire || gamepadState.fire);
 
 			// INTRO — readable but skippable
 			if (g.phase === 'intro') {
