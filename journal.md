@@ -1,6 +1,22 @@
 # Coin-Op 4 Charity — Dev Journal
 
 ## 
+## 2026-08-22 — Arrrcadé OS 3.0a (preview game → approve game → live across network at participating partner sites)
+
+Excellence in STEM doesn’t start on a worksheet. It starts when young people get real tools, a real audience, and a path from “I made this” to “it’s running on a machine on a network in different youth centers and public spaces.”
+
+**What we shipped**
+- **Arrrcadé OS** on the site: youth-made open source submit games → playable **Preview Lab** on coinop4charity.org → review for safety/fit → **LIVE** on ALL free-play stations in youth centers.
+- Naming: **Arrrcadé OS** =  (arrr matey, our arcade, arrrcade. welcome aboard. lulz.). Terminal build **v3.0.0-a2**.
+- Submit form: age band, club, pitch, optional file link, required content/appropriateness checkbox. Mentors submit with under-13 creators.
+- Kiosk path unchanged (`?kiosk=1`) — club tablets stay play-only; Arrrcadé panel is hidden there.
+- DIY docs for staff: tablet + BSP-Y02 station setup (charge + HOME wake, no obscure button combos) + controller guide under restoration/docs.
+
+**Why it matters for partners**
+Placements stop being a one-time drop-off. Machines become a live hub of creativity and display of excellence in STEM, even with w small **distribution network** for age-appropriate games kids build — visible first on the site, then on the floor at youth centers and similar sites.
+
+**Next**
+Manual review queue → promote first external titles to LIVE → later auto-sync of the live catalog to kiosk/cabinet agents.
 
 08.22.26 12:12 Site update — TERMINAL v2.9.7
 
