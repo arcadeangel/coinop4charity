@@ -1,6 +1,30 @@
 # Coin-Op 4 Charity — Dev Journal
 
 ## 
+
+08.22.26 11:04 Site update — TERMINAL v2.9
+
+Shipped a public-facing site pass focused on clarity and social proof, not feature bloat.
+
+{What went live}
+•  BSP-Y02 / generic gamepad support on all terminal games (keyboard + touch still work). Arcade-stick badge on connect.
+•  Live placements map under ACTIVE PLACEMENTS. Pins resolve from optional lat/lng on placements.json, or from location title keywords (James Club, Southern Highlands, etc.). Auto-groups machines by site and auto-fits the map bounds.
+•  ACTIVE PLACEMENTS opens by default with a stats line (machine count · site count · free play for kids).
+•  Trust strip: Nevada nonprofit · new and restored arcade games placed free · no cost to youth centers · kids play free.
+•  Primary CTA: HOST A MACHINE — opens the contact form and preselects hosting.
+•  Contact form tucked under a “Get involved” details block so the page leads with action and proof.
+•  Small UPDATES panel (hardcoded fallback + optional updates.json).
+•  Footer cleaned to: open source · restoration guides · field notes (links journal.md).
+•  Replaced the canvas “dot map” under ACTIVE PLACEMENTS with a real Leaflet map (Carto dark / OSM tiles, no API key). Pins still resolve from lat/lng or location titles; popups list machines per site. Site stamp TERMINAL v2.9.3.
+
+{Why}
+Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
+
+{Next}
+EIN when the filing lands. More sites on the map as placements expand (Reno / Eddy House still in motion). Optional updates.json edits for public notes without touching HTML. Still hunting local Reno help for light maintenance if the Eddy House fleet moves.
+
+Thank you to everyone moving cabinets, taking the calls, and treating free play for kids like it matters — because it does.
+
 08.21.26 13:47 More placements live + more meetings + more fleet additions. Expanding to Reno. Special thanks.
 
 It's been a busy couple of days we have added 6 new games to the fleet, visited with numerous Boys and Girls Clubs locations
