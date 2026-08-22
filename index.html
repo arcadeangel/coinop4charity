@@ -1720,11 +1720,76 @@
 		.placements-map-wrap.hidden { display: none; }
 		#placements-map {
 			width: 100%;
-			height: 180px;
+			height: 220px;
 			display: block;
 			background: #00140f;
-			cursor: crosshair;
+			z-index: 1;
 		}
+		#placements-map .leaflet-container {
+			font-family: "Courier New", monospace;
+			background: #00140f;
+		}
+		#placements-map .leaflet-control-attribution {
+			background: rgba(0, 0, 0, 0.65) !important;
+			color: #3a7a60 !important;
+			font-size: 9px !important;
+		}
+		#placements-map .leaflet-control-attribution a {
+			color: #5a9a78 !important;
+		}
+		#placements-map .leaflet-bar a {
+			background: #001a14 !important;
+			color: #00ff9f !important;
+			border-bottom-color: #00ff9f33 !important;
+		}
+		#placements-map .leaflet-bar a:hover {
+			background: #003328 !important;
+		}
+		.c4c-pin {
+			background: transparent;
+			border: none;
+		}
+		.c4c-pin-core {
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			background: #00ff9f;
+			box-shadow: 0 0 0 3px rgba(0, 255, 159, 0.25), 0 0 14px #00ff9f;
+			margin: 4px auto 0;
+		}
+		.c4c-pin-label {
+			font-family: "Courier New", monospace;
+			font-size: 9px;
+			font-weight: bold;
+			letter-spacing: 0.06em;
+			color: #00ff9f;
+			text-align: center;
+			text-shadow: 0 0 6px #00ff9f, 0 1px 2px #000;
+			white-space: nowrap;
+		}
+		.leaflet-popup-content-wrapper {
+			background: #00140f !important;
+			color: #00ff9f !important;
+			border: 1px solid #00ff9faa;
+			border-radius: 2px;
+			box-shadow: 0 0 16px #00ff9f44;
+			font-family: "Courier New", monospace;
+		}
+		.leaflet-popup-tip {
+			background: #00140f !important;
+			border: 1px solid #00ff9faa;
+		}
+		.leaflet-popup-content {
+			margin: 10px 12px !important;
+			font-size: 11px;
+			line-height: 1.45;
+			color: #7dffc8;
+		}
+		.leaflet-popup-content strong {
+			color: #00ff9f;
+			letter-spacing: 0.08em;
+		}
+
 		.map-legend {
 			display: flex;
 			flex-wrap: wrap;
@@ -1767,6 +1832,8 @@
 		}
 		.gamepad-badge.on { display: block; }
 	</style>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body>
@@ -1880,7 +1947,7 @@
 			<div class="fleet-list" id="placementsList"></div>
 
 		<div class="placements-map-wrap hidden" id="placementsMapWrap">
-			<canvas id="placements-map" width="400" height="180" aria-label="Live map of active machine placements"></canvas>
+			<div id="placements-map" role="img" aria-label="Live map of active machine placements"></div>
 			<div class="map-legend" id="mapLegend"></div>
 		</div>
 		</div>
@@ -1954,7 +2021,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v2.9 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v2.9.3 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -2024,7 +2091,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9.3',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -2561,13 +2628,23 @@
 			return null;
 		}
 
+		let placementsLeafletMap = null;
+		let placementsLeafletLayer = null;
+
 		function drawPlacementsMap(placements) {
 			const wrap = document.getElementById('placementsMapWrap');
-			const canvas = document.getElementById('placements-map');
+			const mapEl = document.getElementById('placements-map');
 			const legend = document.getElementById('mapLegend');
-			if (!wrap || !canvas) return;
+			if (!wrap || !mapEl) return;
 
-			// Group by resolved site key (coords rounded + short label)
+			if (typeof L === 'undefined') {
+				wrap.classList.add('hidden');
+				wrap.style.display = 'none';
+				console.warn('Leaflet not loaded');
+				return;
+			}
+
+			// Group by resolved site
 			const sites = {};
 			placements.forEach(p => {
 				const c = resolvePlacementCoord(p);
@@ -2587,99 +2664,61 @@
 			const expanded = pbtn && pbtn.getAttribute('aria-expanded') === 'true';
 			wrap.style.display = expanded ? 'block' : 'none';
 
-			const dpr = Math.min(window.devicePixelRatio || 1, 2);
-			const cssW = canvas.clientWidth || 400;
-			const cssH = 180;
-			canvas.width = Math.floor(cssW * dpr);
-			canvas.height = Math.floor(cssH * dpr);
-			const ctx = canvas.getContext('2d');
-			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-			// Auto-fit bounds from pins (with padding); fallback metro box if single point
-			let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
-			siteList.forEach(s => {
-				minLat = Math.min(minLat, s.coord.lat);
-				maxLat = Math.max(maxLat, s.coord.lat);
-				minLng = Math.min(minLng, s.coord.lng);
-				maxLng = Math.max(maxLng, s.coord.lng);
-			});
-			const latPad = Math.max(0.06, (maxLat - minLat) * 0.55 || 0.08);
-			const lngPad = Math.max(0.08, (maxLng - minLng) * 0.55 || 0.10);
-			minLat -= latPad; maxLat += latPad;
-			minLng -= lngPad; maxLng += lngPad;
-
-			const pad = 18;
-			const toXY = (lat, lng) => {
-				const x = pad + ((lng - minLng) / (maxLng - minLng || 1)) * (cssW - pad * 2);
-				const y = pad + ((maxLat - lat) / (maxLat - minLat || 1)) * (cssH - pad * 2);
-				return [x, y];
-			};
-
-			// Background
-			ctx.fillStyle = '#00140f';
-			ctx.fillRect(0, 0, cssW, cssH);
-
-			// Subtle grid
-			ctx.strokeStyle = 'rgba(0,255,159,0.06)';
-			ctx.lineWidth = 1;
-			for (let i = 0; i < 8; i++) {
-				const x = (cssW / 8) * i;
-				ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cssH); ctx.stroke();
-				const y = (cssH / 6) * i;
-				ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cssW, y); ctx.stroke();
-			}
-
-			// Soft region wash
-			ctx.fillStyle = 'rgba(0,255,159,0.03)';
-			ctx.fillRect(pad, pad, cssW - pad * 2, cssH - pad * 2);
-			ctx.strokeStyle = 'rgba(0,255,159,0.14)';
-			ctx.strokeRect(pad, pad, cssW - pad * 2, cssH - pad * 2);
-
-			ctx.fillStyle = 'rgba(0,255,159,0.35)';
-			ctx.font = '9px Courier New';
-			ctx.textAlign = 'left';
-			ctx.fillText('ACTIVE PLACEMENTS · LIVE', 10, 14);
-
 			const colors = ['#00ff9f', '#00d4ff', '#ffff66', '#ff66cc', '#ffaa66'];
+
+			// Init map once
+			if (!placementsLeafletMap) {
+				placementsLeafletMap = L.map(mapEl, {
+					zoomControl: true,
+					attributionControl: true,
+					scrollWheelZoom: false
+				});
+				// Dark tiles (CartoDB Dark Matter) — fits terminal aesthetic, free, no key
+				L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+					attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+					subdomains: 'abcd',
+					maxZoom: 19
+				}).addTo(placementsLeafletMap);
+				placementsLeafletLayer = L.layerGroup().addTo(placementsLeafletMap);
+			}
+
+			placementsLeafletLayer.clearLayers();
+			const bounds = [];
+
 			siteList.forEach((site, i) => {
-				const [x, y] = toXY(site.coord.lat, site.coord.lng);
 				const col = colors[i % colors.length];
-				ctx.strokeStyle = col;
-				ctx.globalAlpha = 0.35;
-				ctx.lineWidth = 2;
-				ctx.beginPath();
-				ctx.arc(x, y, 14, 0, Math.PI * 2);
-				ctx.stroke();
-				ctx.globalAlpha = 1;
-				ctx.fillStyle = col;
-				ctx.shadowColor = col;
-				ctx.shadowBlur = 12;
-				ctx.beginPath();
-				ctx.arc(x, y, 5, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.shadowBlur = 0;
-				ctx.fillStyle = col;
-				ctx.font = 'bold 10px Courier New';
-				ctx.textAlign = 'center';
-				ctx.fillText(site.coord.short, x, y - 18);
-				ctx.font = '8px Courier New';
-				ctx.fillStyle = '#7dffc8';
 				const n = site.machines.length;
-				ctx.fillText(n + ' machine' + (n === 1 ? '' : 's'), x, y + 22);
+				const icon = L.divIcon({
+					className: 'c4c-pin',
+					html: '<div class="c4c-pin-label" style="color:' + col + '">' + site.coord.short + '</div>' +
+						'<div class="c4c-pin-core" style="background:' + col + ';box-shadow:0 0 0 3px ' + col + '44,0 0 14px ' + col + '"></div>',
+					iconSize: [64, 36],
+					iconAnchor: [32, 28],
+					popupAnchor: [0, -24]
+				});
+				const marker = L.marker([site.coord.lat, site.coord.lng], { icon: icon });
+				const machineList = site.machines.slice(0, 8).map(m => '· ' + m).join('<br>');
+				const more = site.machines.length > 8 ? '<br>· +' + (site.machines.length - 8) + ' more' : '';
+				marker.bindPopup(
+					'<strong>' + (site.coord.label || site.coord.short) + '</strong><br>' +
+					n + ' machine' + (n === 1 ? '' : 's') + ' · free play<br>' +
+					'<span style="opacity:0.85">' + machineList + more + '</span>'
+				);
+				placementsLeafletLayer.addLayer(marker);
+				bounds.push([site.coord.lat, site.coord.lng]);
 			});
 
-			if (siteList.length >= 2) {
-				ctx.strokeStyle = 'rgba(0,255,159,0.25)';
-				ctx.setLineDash([4, 4]);
-				ctx.lineWidth = 1;
-				ctx.beginPath();
-				siteList.forEach((site, i) => {
-					const [x, y] = toXY(site.coord.lat, site.coord.lng);
-					if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-				});
-				ctx.stroke();
-				ctx.setLineDash([]);
-			}
+			// Fit after layout (map may have been display:none)
+			setTimeout(function() {
+				try {
+					placementsLeafletMap.invalidateSize();
+					if (bounds.length === 1) {
+						placementsLeafletMap.setView(bounds[0], 12);
+					} else if (bounds.length > 1) {
+						placementsLeafletMap.fitBounds(bounds, { padding: [36, 36], maxZoom: 13 });
+					}
+				} catch (e) {}
+			}, expanded ? 80 : 0);
 
 			if (legend) {
 				legend.innerHTML = siteList.map((s, i) => {
@@ -2775,7 +2814,14 @@
 				if (statsEl) statsEl.style.display = expanded ? 'block' : 'none';
 				if (mapWrap) {
 					if (!expanded) mapWrap.style.display = 'none';
-					else if (!mapWrap.classList.contains('hidden')) mapWrap.style.display = 'block';
+					else if (!mapWrap.classList.contains('hidden')) {
+						mapWrap.style.display = 'block';
+						setTimeout(function() {
+							try {
+								if (placementsLeafletMap) placementsLeafletMap.invalidateSize();
+							} catch (e) {}
+						}, 60);
+					}
 				}
 			}
 
