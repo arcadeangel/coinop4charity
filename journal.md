@@ -2,7 +2,7 @@
 
 ## 
 
-08.22.26 11:04 Site update — TERMINAL v2.9
+08.22.26 12:12 Site update — TERMINAL v2.9.7
 
 Shipped a public-facing site pass focused on clarity and social proof, not feature bloat.
 
@@ -23,7 +23,10 @@ Shipped a public-facing site pass focused on clarity and social proof, not featu
 •  Hardened BSP-Y02 input (v2.9.7): A = fire/confirm, B = secondary only (no longer exits games), Select = back, hold Start ~0.5s = exit.
 •  Stick axes use hysteresis + menu debounce so drift/turbo doesn’t spam focus or double-launch.
 •  Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.7.
-
+•  Added DIY station docs for youth centers: Tablet + Arcade Stick Station setup guide (STEM intro, power without obscure combos, kiosk boot to ?kiosk=1, daily staff routine, table card).
+•  Added BSP-Y02 Web Arcade Controller guide (pairing, clean A/B/Select/Start roles, deadzones, testing checklist) in the same restoration-guide PDF format.
+•  Restoration README DIY section updated to list both guides beside the vintage machine PDFs.
+•  Field practice locked in: stick = charge + HOME wake after one-time HID pair; tablet = Fully Kiosk (or pinned home icon) opening coinop4charity.org/?kiosk=1 on boot.
 {Why}
 Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
 
