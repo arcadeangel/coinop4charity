@@ -1742,6 +1742,179 @@
 			box-shadow: 0 0 0 2px #fff, 0 0 28px #00ff9fcc !important;
 			transform: scale(1.02);
 		}
+
+		/* ========== ARRRCADÉ OS (3.0a) ========== */
+		.arrcade-panel {
+			margin: 1.1rem 0 1.25rem;
+			padding: 0.85rem 0.9rem 1rem;
+			border: 1px solid rgba(0, 255, 170, 0.35);
+			background: rgba(0, 40, 30, 0.35);
+			box-shadow: 0 0 18px rgba(0, 255, 170, 0.08);
+		}
+		.arrcade-head {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: baseline;
+			gap: 0.4rem 0.75rem;
+			margin-bottom: 0.45rem;
+		}
+		.arrcade-head strong {
+			font-family: var(--font-mono, ui-monospace, monospace);
+			letter-spacing: 0.12em;
+			color: #5fffcf;
+			font-size: 0.95rem;
+		}
+		.arrcade-mark {
+			font-size: 1.05rem;
+			line-height: 1;
+			color: #7dffc8;
+			text-shadow: 0 0 8px rgba(0, 255, 170, 0.55);
+			opacity: 0.95;
+			user-select: none;
+			margin-left: 0.15rem;
+		}
+		.arrcade-skull { font-size: 1.05rem; }
+		.arrcade-flag { font-size: 0.95rem; margin-left: 0.1rem; }
+		.arrcade-tagline {
+			font-size: 0.72rem;
+			opacity: 0.75;
+			letter-spacing: 0.04em;
+		}
+		.arrcade-panel:focus-within {
+			border-color: rgba(0, 255, 170, 0.55);
+		}
+		.arrcade-pitch {
+			font-size: 0.82rem;
+			line-height: 1.45;
+			opacity: 0.9;
+			margin: 0 0 0.75rem;
+		}
+		.arrcade-tabs {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			margin-bottom: 0.75rem;
+		}
+		.arrcade-tabs button {
+			font-family: inherit;
+			font-size: 0.72rem;
+			letter-spacing: 0.08em;
+			padding: 0.4rem 0.65rem;
+			cursor: pointer;
+			border: 1px solid rgba(0, 255, 170, 0.4);
+			background: transparent;
+			color: #9fffe0;
+		}
+		.arrcade-tabs button.active,
+		.arrcade-tabs button:hover {
+			background: rgba(0, 255, 170, 0.15);
+			border-color: #5fffcf;
+			color: #fff;
+		}
+		.arrcade-lab-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.45rem;
+		}
+		.arrcade-card {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.35rem 0.75rem;
+			padding: 0.5rem 0.55rem;
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			background: rgba(0, 0, 0, 0.25);
+			font-size: 0.8rem;
+		}
+		.arrcade-card .title { font-weight: 600; letter-spacing: 0.04em; }
+		.arrcade-card .meta { opacity: 0.7; font-size: 0.72rem; width: 100%; }
+		.arrcade-badge {
+			font-size: 0.65rem;
+			letter-spacing: 0.1em;
+			padding: 0.15rem 0.4rem;
+			border: 1px solid rgba(0, 255, 170, 0.45);
+			color: #5fffcf;
+			white-space: nowrap;
+		}
+		.arrcade-badge.preview {
+			border-color: rgba(255, 200, 80, 0.55);
+			color: #ffc850;
+		}
+		.arrcade-card button.play-mini {
+			font-family: inherit;
+			font-size: 0.7rem;
+			letter-spacing: 0.06em;
+			padding: 0.3rem 0.55rem;
+			cursor: pointer;
+			border: 1px solid rgba(0, 255, 170, 0.5);
+			background: rgba(0, 255, 170, 0.1);
+			color: #bfffea;
+		}
+		.arrcade-card button.play-mini:hover {
+			background: rgba(0, 255, 170, 0.22);
+		}
+		.arrcade-submit .form-wrap {
+			margin-top: 0.25rem;
+		}
+		.arrcade-submit label {
+			display: block;
+			font-size: 0.75rem;
+			margin: 0.45rem 0 0.2rem;
+			opacity: 0.85;
+		}
+		.arrcade-submit input,
+		.arrcade-submit select,
+		.arrcade-submit textarea {
+			width: 100%;
+			box-sizing: border-box;
+			font: inherit;
+			font-size: 0.85rem;
+			padding: 0.4rem 0.45rem;
+			border: 1px solid rgba(0, 255, 170, 0.3);
+			background: rgba(0, 0, 0, 0.4);
+			color: #e8fff6;
+		}
+		.arrcade-submit textarea { min-height: 4.5rem; resize: vertical; }
+		.arrcade-submit button[type="submit"] {
+			margin-top: 0.75rem;
+			font-family: inherit;
+			letter-spacing: 0.1em;
+			padding: 0.5rem 0.9rem;
+			cursor: pointer;
+			border: 1px solid #5fffcf;
+			background: rgba(0, 255, 170, 0.15);
+			color: #e8fff6;
+		}
+		.arrcade-note {
+			font-size: 0.72rem;
+			opacity: 0.7;
+			margin: 0.6rem 0 0;
+			line-height: 1.4;
+		}
+		.arrcade-check {
+			display: flex !important;
+			align-items: flex-start;
+			gap: 0.45rem;
+			font-size: 0.72rem !important;
+			line-height: 1.35;
+			margin: 0.75rem 0 0.25rem !important;
+			opacity: 0.9;
+			cursor: pointer;
+		}
+		.arrcade-check input {
+			width: auto !important;
+			margin-top: 0.15rem;
+			flex-shrink: 0;
+		}
+		#arrcadeFormStatus {
+			color: #5fffcf;
+			opacity: 1;
+			min-height: 1.2em;
+		}
+		#arrcadeFormStatus.err { color: #ff8a8a; }
+		body.kiosk-mode #arrcadePanel { display: none !important; }
+
 		body.kiosk-mode .trust-strip,
 		body.kiosk-mode #involveDetails,
 		body.kiosk-mode form,
@@ -1960,6 +2133,104 @@
 			new and restored arcade games placed free · no cost to youth centers · kids play free
 		</div>
 
+		<div class="arrcade-panel" id="arrcadePanel">
+			<div class="arrcade-head">
+				<strong>ARRRCADÉ OS</strong>
+				<span class="arrcade-mark" title="Our Arr — our arcade" role="img" aria-label="Pirate mark — Arrcade"><span class="arrcade-skull">☠</span><span class="arrcade-flag" aria-hidden="true"> 🏴‍☠️</span></span>
+				<span class="arrcade-tagline">games by kids · on real machines</span>
+			</div>
+			<p class="arrcade-pitch">
+				Youth design games. We preview them here, review for safety and fit, then put approved titles live on free-play stations in youth centers — a shared network kids can see their work on, not a one-time drop-off.
+			</p>
+			<div class="arrcade-tabs" role="tablist">
+				<button type="button" class="active" data-arrtab="lab" id="arrTabLab">PREVIEW LAB</button>
+				<button type="button" data-arrtab="submit" id="arrTabSubmit">SUBMIT A GAME</button>
+			</div>
+
+			<div id="arrLab" class="arrcade-lab">
+				<div class="arrcade-lab-list">
+					<div class="arrcade-card">
+						<div>
+							<div class="title">SAUCER BEAM</div>
+							<div class="meta">Coin Op terminal · sample live title</div>
+						</div>
+						<span class="arrcade-badge">LIVE</span>
+						<button type="button" class="play-mini" data-game="ufo">PLAY</button>
+					</div>
+					<div class="arrcade-card">
+						<div>
+							<div class="title">CIRCUIT RUNNER</div>
+							<div class="meta">Coin Op terminal · sample live title</div>
+						</div>
+						<span class="arrcade-badge">LIVE</span>
+						<button type="button" class="play-mini" data-game="runner">PLAY</button>
+					</div>
+					<div class="arrcade-card">
+						<div>
+							<div class="title">NEON KAIJU</div>
+							<div class="meta">Coin Op terminal · sample live title</div>
+						</div>
+						<span class="arrcade-badge">LIVE</span>
+						<button type="button" class="play-mini" data-game="kaiju">PLAY</button>
+					</div>
+					<div class="arrcade-card">
+						<div>
+							<div class="title">YOUR GAME HERE</div>
+							<div class="meta">Submit below · preview on site first · then machines</div>
+						</div>
+						<span class="arrcade-badge preview">PREVIEW SLOT</span>
+					</div>
+				</div>
+				<p class="arrcade-note">Approved youth titles will show as LIVE on this shelf and on kiosk stations (?kiosk=1) across placements. Preview = playable on the site before cabinets update.</p>
+			</div>
+
+			<div id="arrSubmit" class="arrcade-submit" hidden>
+				<div class="form-wrap">
+				<form action="https://formspree.io/f/mrpzenbr" method="POST" id="arrcadeForm">
+					<label for="arr_creator">Creator name</label>
+					<input type="text" id="arr_creator" name="creator_name" required maxlength="80" autocomplete="name">
+
+					<label for="arr_email">Contact email</label>
+					<input type="email" id="arr_email" name="email" required maxlength="120" autocomplete="email">
+
+					<label for="arr_age">Age band</label>
+					<select id="arr_age" name="age_band" required>
+						<option value="">Select one</option>
+						<option value="under_13">Under 13 (mentor required)</option>
+						<option value="13_17">13–17</option>
+						<option value="18_plus">18+ mentor / staff submitting</option>
+					</select>
+
+					<label for="arr_club">Club / youth center <span style="opacity:0.6">(optional)</span></label>
+					<input type="text" id="arr_club" name="club" maxlength="120" placeholder="e.g. Boys &amp; Girls Club — North Las Vegas">
+
+					<label for="arr_title">Game title</label>
+					<input type="text" id="arr_title" name="game_title" required maxlength="80">
+
+					<label for="arr_link">Link to game or files <span style="opacity:0.6">(optional — URL, GitHub, itch, Drive)</span></label>
+					<input type="url" id="arr_link" name="game_url" maxlength="300" placeholder="https://">
+
+					<label for="arr_pitch">Short pitch + controls</label>
+					<textarea id="arr_pitch" name="pitch" required maxlength="2000" placeholder="What the player does, buttons used, content notes (must be age-appropriate for youth centers)…"></textarea>
+
+					<label class="arrcade-check" for="arr_safe">
+						<input type="checkbox" id="arr_safe" name="content_ok" value="yes" required>
+						I confirm this game is original or properly licensed, and appropriate for youth centers (no hate, exploitation, or graphic violence).
+					</label>
+
+					<div class="hp" aria-hidden="true">
+						<input type="text" name="website" tabindex="-1" autocomplete="off">
+					</div>
+					<input type="hidden" name="_subject" value="Arrrcadé OS — game submission">
+					<input type="hidden" name="form_type" value="arrcade_submit">
+					<button type="submit" id="arrcadeSubmitBtn">SUBMIT FOR PREVIEW</button>
+				</form>
+				</div>
+				<p class="arrcade-note">Every submission is reviewed before it appears as a public preview or goes live on club machines. Web games (HTML/JS) preferred for this phase. Mentors should submit with under-13 creators.</p>
+				<p class="arrcade-note" id="arrcadeFormStatus" role="status" aria-live="polite"></p>
+			</div>
+		</div>
+
 		<button type="button" class="primary-cta" id="primaryCta">
 			HOST A MACHINE
 			<span>Free placement for Nevada youth centers</span>
@@ -2092,6 +2363,7 @@
 			<a href="https://github.com/arcadeangel/coinop4charity" target="_blank" rel="noopener">open source</a>
 			· <a href="https://github.com/arcadeangel/coinop4charity/tree/main/docs/restoration" target="_blank" rel="noopener">restoration guides</a>
 			· <a href="https://github.com/arcadeangel/coinop4charity/blob/main/journal.md" target="_blank" rel="noopener">field notes</a>
+			· <a href="#arrcadePanel">arrrcadé os</a>
 		</p>
 
 		<div class="footer">
@@ -2099,7 +2371,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v2.9.7 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v3.0.0-a2 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -2170,7 +2442,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v2.9.7',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.0.0-a2',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -5721,6 +5993,62 @@
 			setTimeout(function() { setMenuFocus(0); }, 450);
 			try { attractIdleMs = 18000; } catch (e) {}
 		}
+
+		// ========== ARRRCADÉ OS UI ==========
+		(function initArrcade() {
+			const lab = document.getElementById('arrLab');
+			const sub = document.getElementById('arrSubmit');
+			const tabLab = document.getElementById('arrTabLab');
+			const tabSub = document.getElementById('arrTabSubmit');
+			const form = document.getElementById('arrcadeForm');
+			const statusEl = document.getElementById('arrcadeFormStatus');
+
+			function showTab(which) {
+				const isLab = which === 'lab';
+				if (lab) lab.hidden = !isLab;
+				if (sub) sub.hidden = isLab;
+				if (tabLab) {
+					tabLab.classList.toggle('active', isLab);
+					tabLab.setAttribute('aria-selected', isLab ? 'true' : 'false');
+				}
+				if (tabSub) {
+					tabSub.classList.toggle('active', !isLab);
+					tabSub.setAttribute('aria-selected', !isLab ? 'true' : 'false');
+				}
+			}
+
+			if (tabLab) tabLab.addEventListener('click', function() { showTab('lab'); });
+			if (tabSub) tabSub.addEventListener('click', function() { showTab('submit'); });
+
+			document.querySelectorAll('.arrcade-card .play-mini[data-game]').forEach(function(btn) {
+				btn.addEventListener('click', function() {
+					const g = btn.getAttribute('data-game');
+					if (g && typeof startGame === 'function') {
+						try { startGame(g); } catch (err) { console.warn('Arrcade play failed', err); }
+					}
+				});
+			});
+
+			if (form) {
+				form.addEventListener('submit', function() {
+					if (statusEl) {
+						statusEl.classList.remove('err');
+						statusEl.textContent = 'Sending submission…';
+					}
+				});
+			}
+
+			try {
+				const h = location.hash || '';
+				const q = location.search || '';
+				if (h === '#arrcadePanel' || h === '#arrcade' || q.indexOf('arrcade=1') >= 0) {
+					const p = document.getElementById('arrcadePanel');
+					if (p) setTimeout(function() { p.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 450);
+				}
+				if (h === '#submit' || q.indexOf('submit=1') >= 0) showTab('submit');
+			} catch (e) {}
+		})();
+
 
 		// Keyboard mirror for menu (does not fight form fields)
 		window.addEventListener('keydown', function(e) {
