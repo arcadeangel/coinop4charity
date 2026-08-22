@@ -7,9 +7,9 @@
 Shipped a public-facing site pass focused on clarity and social proof, not feature bloat.
 
 {What went live}
-•  BSP-Y02 / generic gamepad support on all terminal games (keyboard + touch still work). Arcade-stick badge on connect.
-•  Live placements map under ACTIVE PLACEMENTS. Pins resolve from optional lat/lng on placements.json, or from location title keywords (James Club, Southern Highlands, etc.). Auto-groups machines by site and auto-fits the map bounds.
-•  ACTIVE PLACEMENTS opens by default with a stats line (machine count · site count · free play for kids).
+- BSP-Y02 / generic gamepad support on all terminal games (keyboard + touch still work). Arcade-stick badge on connect.
+- Live placements map under ACTIVE PLACEMENTS. Pins resolve from optional lat/lng on placements.json, or from location title keywords (James Club, Southern Highlands, etc.). Auto-groups machines by site and auto-fits the map bounds.
+- ACTIVE PLACEMENTS opens by default with a stats line (machine count · site count · free play for kids).
 •  Trust strip: Nevada nonprofit · new and restored arcade games placed free · no cost to youth centers · kids play free.
 •  Primary CTA: HOST A MACHINE — opens the contact form and preselects hosting.
 •  Contact form tucked under a “Get involved” details block so the page leads with action and proof.
