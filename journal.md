@@ -19,13 +19,18 @@ Shipped a public-facing site pass focused on clarity and social proof, not featu
 •  Arcade-stick menu nav: stick moves highlight on terminal games / HOST CTA; A or Start launches; B exits a game back to the menu.
 •  Attract mode wakes on any stick input and lands focus on the game list (badge text notes stick / touch / key).
 •  Kiosk shell: ?kiosk=1 (or arcade=1 / #kiosk) strips form & admin chrome for tablet + BSP-Y02 cabinets; same games and scores.
-•  Gamepad poll loop stays alive on the menu (not only in-game). Site stamp TERMINAL v2.9.5.
+•  Gamepad poll loop stays alive on the menu (not only in-game). 
+•  Hardened BSP-Y02 input (v2.9.7): A = fire/confirm, B = secondary only (no longer exits games), Select = back, hold Start ~0.5s = exit.
+•  Stick axes use hysteresis + menu debounce so drift/turbo doesn’t spam focus or double-launch.
+•  Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.6.
 
 {Why}
 Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
 
 {Next}
 EIN when the filing lands. More sites on the map as placements expand (Reno / Eddy House still in motion). Optional updates.json edits for public notes without touching HTML. Still hunting local Reno help for light maintenance if the Eddy House fleet moves.
+
+I will be creating a user friendly file under restoration/docs with a template on how to easily implement low cost $9-$17 dollar joysticks with your own builds so you can turn your mobile game into an arcade game.
 
 Thank you to everyone moving cabinets, taking the calls, and treating free play for kids like it matters — because it does.
 
