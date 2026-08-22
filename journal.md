@@ -22,7 +22,7 @@ Shipped a public-facing site pass focused on clarity and social proof, not featu
 •  Gamepad poll loop stays alive on the menu (not only in-game). 
 •  Hardened BSP-Y02 input (v2.9.7): A = fire/confirm, B = secondary only (no longer exits games), Select = back, hold Start ~0.5s = exit.
 •  Stick axes use hysteresis + menu debounce so drift/turbo doesn’t spam focus or double-launch.
-•  Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.6.
+•  Attract still wakes on any stick edge; in-game exit is intentional (Select or hold Start), not an accident on B. Site stamp TERMINAL v2.9.7.
 
 {Why}
 Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
