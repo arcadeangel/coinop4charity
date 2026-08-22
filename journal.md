@@ -15,7 +15,11 @@ Shipped a public-facing site pass focused on clarity and social proof, not featu
 •  Contact form tucked under a “Get involved” details block so the page leads with action and proof.
 •  Small UPDATES panel (hardcoded fallback + optional updates.json).
 •  Footer cleaned to: open source · restoration guides · field notes (links journal.md).
-•  Replaced the canvas “dot map” under ACTIVE PLACEMENTS with a real Leaflet map (Carto dark / OSM tiles, no API key). Pins still resolve from lat/lng or location titles; popups list machines per site. Site stamp TERMINAL v2.9.3.
+•  Replaced the canvas “dot map” under ACTIVE PLACEMENTS with a real Leaflet map (Carto dark / OSM tiles, no API key). Pins still resolve from lat/lng or location titles; popups list machines per site.
+•  Arcade-stick menu nav: stick moves highlight on terminal games / HOST CTA; A or Start launches; B exits a game back to the menu.
+•  Attract mode wakes on any stick input and lands focus on the game list (badge text notes stick / touch / key).
+•  Kiosk shell: ?kiosk=1 (or arcade=1 / #kiosk) strips form & admin chrome for tablet + BSP-Y02 cabinets; same games and scores.
+•  Gamepad poll loop stays alive on the menu (not only in-game). Site stamp TERMINAL v2.9.5.
 
 {Why}
 Partners and youth centers need to see machines on the floor and a clear next step in under ten seconds. Games stay as attract / brand; placements and hosting are the main mission.
