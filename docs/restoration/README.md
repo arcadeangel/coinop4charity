@@ -31,6 +31,7 @@ Guides in this folder focus on reliability, safety, and player experience for yo
 
 | File | Description |
 |------|-------------|
+| [Tablet_Arcade_Station_Youth_Center_Setup_Guide.pdf](Tablet_Arcade_Station_Youth_Center_Setup_Guide.pdf) | Youth-center tablet + BSP-Y02 station setup (STEM intro, power without obscure combos, kiosk boot, daily staff routine, table card) |
 | [BSP-Y02_Web_Arcade_Controller_Guide.pdf](BSP-Y02_Web_Arcade_Controller_Guide.pdf) | Beginner guide for BSP-Y02 and similar HID arcade sticks with browser-based terminal games (pairing, button roles, deadzones, kiosk mode, pre-placement checklist) |
 
 ---
