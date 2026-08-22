@@ -29,11 +29,9 @@ Guides in this folder focus on reliability, safety, and player experience for yo
 
 ## DIY / Tablet Terminal Guides
 
-See **[../diy/](../diy/)** for tablet and arcade-stick station guides.
-
 | File | Description |
 |------|-------------|
-| [BSP-Y02_Web_Arcade_Controller_Guide.pdf](../diy/BSP-Y02_Web_Arcade_Controller_Guide.pdf) | Beginner guide for BSP-Y02 and similar HID arcade sticks with browser-based terminal games (pairing, button roles, deadzones, kiosk mode, pre-placement checklist) |
+| [BSP-Y02_Web_Arcade_Controller_Guide.pdf](BSP-Y02_Web_Arcade_Controller_Guide.pdf) | Beginner guide for BSP-Y02 and similar HID arcade sticks with browser-based terminal games (pairing, button roles, deadzones, kiosk mode, pre-placement checklist) |
 
 ---
 
@@ -45,3 +43,5 @@ See **[../diy/](../diy/)** for tablet and arcade-stick station guides.
 - Note any parts that are scarce or have modern alternatives
 - Include free-play / charity configuration notes when relevant
 - For DIY controller / tablet guides: document button roles, exit behavior, and a host-site checklist
+
+More guides will be added as machines are restored and documented.
