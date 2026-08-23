@@ -1,6 +1,29 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 
+## 2026-08-22 — Arrrcadé OS 3.0.9 (play → make for real → share → YOUR GAME HERE)
+
+Excellence in STEM. It goes from being a worksheet or checklist item to real tools, a path from “I made this” to “it’s on the site, distributed through a network of machines” and a chance — after review — to sit next to the live titles kids already play free.
+Real visibility inspiring creation and development. Now it's time to do the electric slide.
+
+**What we shipped**
+- **Arrrcadé OS 3.0.9** on the terminal: PLAY samples, MAKE with real builders, SHARE a link for review, **YOUR GAME HERE** preview slot under the three live games.
+- **Captain Code** — pixel pirate face (blink + talk), readable ask field, tip chips (Where to build, Move, Draw, Idea, Stuck), idle “Need a tip, matey?” G-rated, all-ages. Onboard tips only — no cloud AI required on club wifi.
+- **MAKE → BUILD FOR REAL** (new tab): [Scratch](https://scratch.mit.edu/projects/editor/), [MakeCode Arcade](https://arcade.makecode.com/), [p5.js Editor](https://editor.p5js.org/). Pixel Pad stays for quick sprite sketches.
+- Help levels: Lots of help / Some help / I got this (same tools, different tip density).
+- SHARE: name, email, title, playable link, how-to-play, safety checkbox. No age-band fields.
+- Earlier in this cycle (still in build): CRT boot skippable with **BSP-Y02** stick (not only touch/key). Kiosk `?kiosk=1` still hides Arrrcadé so cabinets stay play-first.
+
+**Why it matters for partners**
+Clubs get a clear loop: play free samples → build in tools schools already trust → send a link → staff review → maybe LIVE next to YOUR GAME HERE and on free-play machines. Placements stay more than a one-time drop-off.
+
+**Next**
+Manual review queue for first external titles → promote to LIVE → one-pager for club staff (tablet + stick + Arrrcadé). File upload later if we add storage; links are the stable path now.
+
+Free play stays free.
+
+Everyone wins.
+
+
 ## 2026-08-22 — Arrrcadé OS 3.0a (preview game → approve game → live across network at participating partner sites)
 
 Excellence in STEM doesn’t start on a worksheet. It starts when young people get real tools, a real audience, and a path from “I made this” to “it’s running on a machine on a network in different youth centers and public spaces.”
