@@ -820,11 +820,19 @@
 			margin: 0 auto;
 		}
 
-		/* Kiosk / cabinet: fill more of the screen; physical stick replaces on-screen pads */
+		/* Kiosk / cabinet: larger playfield, but keep 4:3 — never stretch/warp pixels */
 		body.kiosk-mode #game-canvas {
-			width: min(960px, 98vw);
-			max-height: min(720px, 78dvh);
+			/* Fit inside viewport while locking aspect-ratio 480:360 */
+			width: min(720px, 92vw, calc(72dvh * 4 / 3));
+			max-width: 100%;
+			height: auto;
+			aspect-ratio: 480 / 360;
+			max-height: min(540px, 72dvh);
 			border-width: 3px;
+			/* integer-ish scale feels sharper on cabinets; browser still scales uniformly */
+			image-rendering: pixelated;
+			image-rendering: crisp-edges;
+			object-fit: contain;
 		}
 		body.kiosk-mode .touch-controls {
 			display: none !important;
