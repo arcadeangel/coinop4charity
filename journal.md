@@ -4,6 +4,10 @@
 
 Excellence in STEM by accident or divine intervention? Now play something free, make something small, submit a link, and — after review — maybe see it next to the live titles in your own arcade cabinet. Same terminal. Clearer loop. Less noise on first glance.
 
+**Screen Tests after BSP-Y02 Integration**
+After deploying the BSP-Y02 interface (joystick controller integration) with the website we started testing it out after realizing the terminal is wonky on Orange Pi and Raspberry Pi Zero 2W. Initial plan was to rig those to some low cost LEDs but with all the updates 1 GB of storage 
+and the specs on those won't cut it. I am trying to keep costs under $100-$130 a unit if possible. BSP-Y02 and similar models of Bluetooth controllers run for around $9-$17 USD, the only thing we need to have with that (aside from a 3d printed cabinet shell) would be a screen. I figured we could source these low cost on local marketplace or find a reseller. I tested Asus Zenpad that was buggy, fire tablet hd 10 and a Walmart ONN which did slightly better but also couldn't handle the bandwidth. I found a 60 dollar 8 inch 8 GB (allegedy) RAM tablet overseas I ordered to test out but it seems too good to be true. If it workd though with the BSP-Y02 and electricity and filament for the 3d print of the cabinet cost would be under $100 a unit aroud $75-80 USD (if that screen overseas isn't half the RAM that's advertised). So far we know that even with 4 GB RAM we ran into some problems. The goal is to keep unit costs under $100 but if this next screen doesn't work we could end up a little over that.
+
 **What we shipped**
 - **ArrrcadeOS 3.1.0** on the terminal build: version strings, boot footer, and UI aligned.
 - **Captain Code** upgraded: language filter for youth-center safety; clearer pirate face (hat mark, eyepatch, beard separation, smile + talk, animated parrot); greeting *Ahoy! Welcome aboard ArrrcadeOS sailor…*
@@ -19,8 +23,6 @@ Staff and kids should not hunt. Play is one click. Make is one click. Submit is 
 
 **Next**
 Land 3.1.0 on the live site → commit staff guide to the repo → first external SUBMIT reviews → promote a YOUR GAME HERE title when ready. Keep free play free.
-
-Everyone wins.
 
 
 ## 2026-08-22 — Arrrcadé OS 3.0.9 (play → make for real → share → YOUR GAME HERE)
