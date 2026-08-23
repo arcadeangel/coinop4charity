@@ -1774,8 +1774,7 @@
 			margin-left: 0.15rem;
 		}
 		.arrcade-skull { font-size: 1.05rem; }
-		.arrcade-flag { font-size: 0.95rem; margin-left: 0.1rem; }
-		.arrcade-tagline {
+				.arrcade-tagline {
 			font-size: 0.72rem;
 			opacity: 0.75;
 			letter-spacing: 0.04em;
@@ -1913,7 +1912,431 @@
 			min-height: 1.2em;
 		}
 		#arrcadeFormStatus.err { color: #ff8a8a; }
+				body.mode-beginner #buildCard { opacity: 0.7; }
+		body.mode-beginner #arrShare .section-lead::after {
+			content: " (best with a mentor)";
+			opacity: 0.8;
+		}
+
+		.build-link {
+			display: block;
+			text-align: left;
+			text-decoration: none;
+			border: 1px solid #00ff9f55;
+			background: rgba(0, 255, 159, 0.06);
+			padding: 10px 12px;
+			margin: 0 0 8px;
+			color: #00ff9f;
+			border-radius: 3px;
+			transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+		}
+		.build-link:hover,
+		.build-link:focus {
+			background: rgba(0, 255, 159, 0.14);
+			border-color: #00ff9f;
+			box-shadow: 0 0 14px #00ff9f33;
+			outline: none;
+		}
+		.build-name {
+			display: block;
+			font-size: 0.9rem;
+			font-weight: bold;
+			letter-spacing: 0.06em;
+			margin-bottom: 2px;
+		}
+		.build-meta {
+			display: block;
+			font-size: 0.7rem;
+			color: #7dffc8;
+			line-height: 1.35;
+		}
+		.make-card-featured {
+			border-color: #00ff9f66;
+			background: rgba(0, 255, 159, 0.07);
+		}
+
 		body.kiosk-mode #arrcadePanel { display: none !important; }
+
+
+		/* Arrrcadé OS 3.3 — clean youth maker terminal */
+		.arrcade-panel {
+			border: 1px solid #00ff9f44;
+			background: rgba(0, 12, 8, 0.72);
+			padding: 14px 12px 16px;
+			margin: 1rem 0 1.2rem;
+			box-shadow: 0 0 24px #00ff9f14;
+		}
+		.arrcade-head {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			margin-bottom: 0.25rem;
+		}
+		.arrcade-head strong {
+			font-size: 1.05rem;
+			letter-spacing: 0.14em;
+			color: #00ff9f;
+			text-shadow: 0 0 12px #00ff9f66;
+		}
+		.arrcade-mark { font-size: 1.1rem; line-height: 1; }
+		.arrcade-tagline-bar {
+			text-align: center;
+			font-size: 0.72rem;
+			letter-spacing: 0.1em;
+			color: #7dffc8;
+			margin: 0 0 0.85rem;
+			opacity: 0.9;
+		}
+		.arrcade-modebar {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 6px;
+			margin-bottom: 0.35rem;
+		}
+		.arr-mode {
+			background: transparent;
+			border: 1px solid #00ff9f44;
+			color: #00ff9f99;
+			font-family: inherit;
+			font-size: 0.65rem;
+			letter-spacing: 0.06em;
+			padding: 7px 11px;
+			cursor: pointer;
+			text-transform: uppercase;
+			border-radius: 2px;
+		}
+		.arr-mode.active,
+		.arr-mode:hover {
+			background: rgba(0, 255, 159, 0.16);
+			border-color: #00ff9f;
+			color: #00ff9f;
+			box-shadow: 0 0 12px #00ff9f33;
+		}
+		.arrcade-mode-hint {
+			font-size: 0.68rem;
+			color: #7dffc8;
+			text-align: center;
+			margin: 0 0 0.9rem;
+			line-height: 1.4;
+		}
+		.section-lead {
+			font-size: 0.8rem;
+			color: #7dffc8;
+			text-align: center;
+			margin: 0.15rem 0 0.75rem;
+			line-height: 1.4;
+		}
+		.captain-dock {
+			display: flex;
+			gap: 10px;
+			align-items: flex-start;
+			border: 1px solid #00ff9f55;
+			background: linear-gradient(160deg, rgba(0, 255, 159, 0.07), rgba(0, 0, 0, 0.25));
+			padding: 12px;
+			margin: 0 0 0.65rem;
+			text-align: left;
+			border-radius: 3px;
+		}
+		
+		.captain-face {
+			width: 56px;
+			height: 56px;
+			flex-shrink: 0;
+			image-rendering: pixelated;
+			image-rendering: crisp-edges;
+			border: 1px solid #00ff9f44;
+			background: #02140e;
+			border-radius: 4px;
+		}
+		.captain-body { flex: 1; min-width: 0; max-width: 100%; overflow: hidden; }
+		.captain-name {
+			font-size: 0.7rem;
+			letter-spacing: 0.16em;
+			color: #00ff9f;
+			margin-bottom: 6px;
+		}
+		.captain-chat {
+			max-height: 120px;
+			overflow-y: auto;
+			margin-bottom: 8px;
+		}
+		.cap-msg {
+			font-size: 0.76rem;
+			line-height: 1.45;
+			margin: 0 0 5px;
+			padding: 6px 8px;
+			border-radius: 3px;
+		}
+		.cap-bot {
+			color: #b8ffe0;
+			background: rgba(0, 255, 159, 0.08);
+			border-left: 2px solid #00ff9f;
+		}
+		.cap-user {
+			color: #e8fff4;
+			background: rgba(255, 255, 255, 0.05);
+			border-left: 2px solid #7dffc8;
+		}
+		.captain-ask {
+			display: flex;
+			gap: 6px;
+			margin-bottom: 8px;
+		}
+		.captain-ask input {
+			flex: 1 1 auto;
+			min-width: 0;
+			width: 100%;
+			max-width: 100%;
+			margin-bottom: 0;
+			font-size: clamp(0.8rem, 2.8vw, 0.92rem);
+			line-height: 1.3;
+			padding: 8px 10px;
+			min-height: 38px;
+			height: 38px;
+			box-sizing: border-box;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.captain-ask button {
+			background: #00ff9f;
+			color: #000;
+			border: none;
+			font-family: inherit;
+			font-weight: bold;
+			font-size: 0.68rem;
+			letter-spacing: 0.06em;
+			padding: 0 10px;
+			min-height: 38px;
+			height: 38px;
+			min-width: 48px;
+			max-width: 56px;
+			cursor: pointer;
+			flex: 0 0 auto;
+			border-radius: 2px;
+			box-sizing: border-box;
+		}
+		.captain-ask button {
+			background: #00ff9f;
+			color: #000;
+			border: none;
+			font-family: inherit;
+			font-weight: bold;
+			font-size: 0.72rem;
+			letter-spacing: 0.08em;
+			padding: 0 14px;
+			cursor: pointer;
+			border-radius: 2px;
+		}
+		.captain-ask button:hover { background: #33ffb3; }
+		.captain-chips {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 5px;
+		}
+		.captain-chips button {
+			background: rgba(0, 255, 159, 0.06);
+			border: 1px solid #00ff9f44;
+			color: #7dffc8;
+			font-family: inherit;
+			font-size: 0.65rem;
+			padding: 5px 9px;
+			cursor: pointer;
+			border-radius: 2px;
+		}
+		.captain-chips button:hover {
+			border-color: #00ff9f;
+			color: #00ff9f;
+		}
+		.captain-idle {
+			text-align: center;
+			margin: 0 0 0.85rem;
+		}
+		.captain-idle button {
+			background: transparent;
+			border: 1px dashed #00ff9f66;
+			color: #00ff9f;
+			font-family: inherit;
+			font-size: 0.72rem;
+			letter-spacing: 0.06em;
+			padding: 8px 14px;
+			cursor: pointer;
+			animation: capIdlePulse 2.2s ease-in-out infinite;
+		}
+		@keyframes capIdlePulse {
+			0%, 100% { opacity: 0.75; box-shadow: none; }
+			50% { opacity: 1; box-shadow: 0 0 14px #00ff9f44; }
+		}
+		.arrcade-tabs {
+			display: flex;
+			gap: 4px;
+			margin: 0.5rem 0 0.85rem;
+			justify-content: center;
+		}
+		.arrcade-tabs button {
+			flex: 1;
+			max-width: 110px;
+			background: transparent;
+			border: 1px solid #00ff9f44;
+			color: #00ff9f99;
+			font-family: inherit;
+			font-size: 0.75rem;
+			letter-spacing: 0.1em;
+			padding: 0.55rem 0.4rem;
+			cursor: pointer;
+			text-transform: uppercase;
+		}
+		.arrcade-tabs button.active,
+		.arrcade-tabs button:hover {
+			background: rgba(0, 255, 159, 0.14);
+			border-color: #00ff9f;
+			color: #00ff9f;
+		}
+		.arrcade-lab-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.55rem;
+		}
+		.arrcade-card {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			border: 1px solid #00ff9f33;
+			background: rgba(0, 255, 159, 0.04);
+			padding: 10px 12px;
+			text-align: left;
+		}
+		.arrcade-card .title {
+			font-weight: 600;
+			letter-spacing: 0.04em;
+			font-size: 0.88rem;
+		}
+		.arrcade-card .meta {
+			opacity: 0.75;
+			font-size: 0.7rem;
+			margin-top: 2px;
+		}
+		.arrcade-card button.play-mini {
+			background: #00ff9f;
+			color: #000;
+			border: none;
+			font-family: inherit;
+			font-weight: bold;
+			font-size: 0.72rem;
+			letter-spacing: 0.08em;
+			padding: 0.45rem 0.85rem;
+			cursor: pointer;
+			flex-shrink: 0;
+		}
+		.arrcade-card button.play-mini:hover { background: #33ffb3; }
+		.arrcade-note {
+			font-size: 0.7rem;
+			color: #7dffc8;
+			opacity: 0.85;
+			margin: 0.75rem 0 0;
+			line-height: 1.45;
+			text-align: center;
+		}
+		.make-tools { display: flex; flex-direction: column; gap: 0.75rem; }
+		.make-card {
+			border: 1px solid #00ff9f33;
+			background: rgba(0, 255, 159, 0.04);
+			padding: 12px;
+			text-align: left;
+		}
+		.make-title {
+			font-size: 0.82rem;
+			letter-spacing: 0.12em;
+			color: #00ff9f;
+			margin-bottom: 6px;
+		}
+		.make-desc {
+			font-size: 0.74rem;
+			color: #7dffc8;
+			line-height: 1.45;
+			margin: 0 0 8px;
+		}
+		.make-ideas {
+			margin: 0 0 8px;
+			padding-left: 1.05rem;
+			font-size: 0.74rem;
+			color: #7dffc8;
+			line-height: 1.55;
+		}
+		.make-ideas b { color: #00ff9f; }
+		.pixel-colors {
+			display: flex;
+			gap: 8px;
+			justify-content: center;
+			margin-bottom: 8px;
+		}
+		.pix-col {
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			border: 2px solid #00ff9f33;
+			background: var(--c, #00ff9f);
+			cursor: pointer;
+			padding: 0;
+		}
+		.pix-col.active {
+			border-color: #fff;
+			box-shadow: 0 0 10px var(--c, #00ff9f);
+		}
+		#pixelPad {
+			display: block;
+			width: 100%;
+			max-width: 240px;
+			height: auto;
+			aspect-ratio: 1;
+			image-rendering: pixelated;
+			border: 1px solid #00ff9f55;
+			background: #02140e;
+			cursor: crosshair;
+			touch-action: none;
+			margin: 0 auto 8px;
+			border-radius: 2px;
+		}
+		.make-actions {
+			display: flex;
+			gap: 8px;
+			justify-content: center;
+		}
+		.make-actions button {
+			background: transparent;
+			border: 1px solid #00ff9f55;
+			color: #00ff9f;
+			font-family: inherit;
+			font-size: 0.7rem;
+			letter-spacing: 0.08em;
+			padding: 7px 14px;
+			cursor: pointer;
+		}
+		.make-actions button:hover {
+			background: rgba(0, 255, 159, 0.14);
+		}
+		.make-status {
+			font-size: 0.68rem;
+			color: #7dffc8;
+			text-align: center;
+			min-height: 1.1em;
+			margin-top: 6px;
+		}
+		.arrcade-submit .form-wrap { text-align: left; }
+		.arrcade-check {
+			display: flex;
+			gap: 8px;
+			align-items: flex-start;
+			font-size: 0.74rem;
+			color: #7dffc8;
+			line-height: 1.4;
+			margin: 0.5rem 0 0.9rem;
+		}
+		.arrcade-check input { margin-top: 3px; flex-shrink: 0; }
+		body.kiosk-mode #arrcadePanel { display: none !important; }
+
 
 		body.kiosk-mode .trust-strip,
 		body.kiosk-mode #involveDetails,
@@ -2133,26 +2556,57 @@
 			new and restored arcade games placed free · no cost to youth centers · kids play free
 		</div>
 
-		<div class="arrcade-panel" id="arrcadePanel">
+														<div class="arrcade-panel" id="arrcadePanel">
 			<div class="arrcade-head">
 				<strong>ARRRCADÉ OS</strong>
-				<span class="arrcade-mark" title="Our Arr — our arcade" role="img" aria-label="Pirate mark — Arrcade"><span class="arrcade-skull">☠</span><span class="arrcade-flag" aria-hidden="true"> 🏴‍☠️</span></span>
-				<span class="arrcade-tagline">games by kids · on real machines</span>
+				<span class="arrcade-mark" title="Arrrcadé" role="img" aria-label="Skull"><span class="arrcade-skull">☠</span></span>
 			</div>
-			<p class="arrcade-pitch">
-				Youth design games. We preview them here, review for safety and fit, then put approved titles live on free-play stations in youth centers — a shared network kids can see their work on, not a one-time drop-off.
-			</p>
+			<p class="arrcade-tagline-bar">Make a game · Ask Captain · Play free</p>
+
+			<div class="arrcade-modebar" id="arrModeBar" role="group" aria-label="Help level">
+				<button type="button" class="arr-mode active" data-mode="beginner" id="modeBeginner">LOTS OF HELP</button>
+				<button type="button" class="arr-mode" data-mode="intermediate" id="modeIntermediate">SOME HELP</button>
+				<button type="button" class="arr-mode" data-mode="advanced" id="modeAdvanced">I GOT THIS</button>
+			</div>
+			<p class="arrcade-mode-hint" id="arrModeHint">Lots of help — clear tips and big controls.</p>
+
+			<div class="captain-dock" id="captainDock">
+				<canvas class="captain-face" id="captainPixel" width="64" height="64" aria-hidden="true" title="Captain Code"></canvas>
+				<div class="captain-body">
+					<div class="captain-name">CAPTAIN CODE</div>
+					<div class="captain-chat" id="captainChat" aria-live="polite">
+						<div class="cap-msg cap-bot">Ahoy! Ask how to move a player, draw pixels, or fix something stuck. Or open MAKE for real build tools.</div>
+					</div>
+					<form class="captain-ask" id="captainAskForm" autocomplete="off">
+						<input type="text" id="captainInput" maxlength="200" placeholder="Ask Captain Code…" aria-label="Ask Captain Code">
+						<button type="submit" id="captainSend">ASK</button>
+					</form>
+					<div class="captain-chips" id="captainChips">
+						<button type="button" data-q="Where do I build a real game?">Where to build</button>
+						<button type="button" data-q="How do I make a player move left and right?">Move</button>
+						<button type="button" data-q="How do I draw on Pixel Pad?">Draw</button>
+						<button type="button" data-q="Give me a simple game idea.">Idea</button>
+						<button type="button" data-q="I feel stuck. What should I try?">Stuck</button>
+					</div>
+				</div>
+			</div>
+			<div class="captain-idle" id="captainIdle" hidden>
+				<button type="button" id="captainIdleBtn">Need a tip, matey?</button>
+			</div>
+
 			<div class="arrcade-tabs" role="tablist">
-				<button type="button" class="active" data-arrtab="lab" id="arrTabLab">PREVIEW LAB</button>
-				<button type="button" data-arrtab="submit" id="arrTabSubmit">SUBMIT A GAME</button>
+				<button type="button" class="active" data-arrtab="lab" id="arrTabLab">PLAY</button>
+				<button type="button" data-arrtab="make" id="arrTabMake">MAKE</button>
+				<button type="button" data-arrtab="share" id="arrTabShare">SHARE</button>
 			</div>
 
 			<div id="arrLab" class="arrcade-lab">
+				<p class="section-lead">Play a live game — then build yours in MAKE. Approved titles can land on club machines.</p>
 				<div class="arrcade-lab-list">
 					<div class="arrcade-card">
 						<div>
 							<div class="title">SAUCER BEAM</div>
-							<div class="meta">Coin Op terminal · sample live title</div>
+							<div class="meta">Coin Op terminal · live sample</div>
 						</div>
 						<span class="arrcade-badge">LIVE</span>
 						<button type="button" class="play-mini" data-game="ufo">PLAY</button>
@@ -2160,7 +2614,7 @@
 					<div class="arrcade-card">
 						<div>
 							<div class="title">CIRCUIT RUNNER</div>
-							<div class="meta">Coin Op terminal · sample live title</div>
+							<div class="meta">Coin Op terminal · live sample</div>
 						</div>
 						<span class="arrcade-badge">LIVE</span>
 						<button type="button" class="play-mini" data-game="runner">PLAY</button>
@@ -2168,70 +2622,109 @@
 					<div class="arrcade-card">
 						<div>
 							<div class="title">NEON KAIJU</div>
-							<div class="meta">Coin Op terminal · sample live title</div>
+							<div class="meta">Coin Op terminal · live sample</div>
 						</div>
 						<span class="arrcade-badge">LIVE</span>
 						<button type="button" class="play-mini" data-game="kaiju">PLAY</button>
 					</div>
-					<div class="arrcade-card">
+					<div class="arrcade-card arrcade-card-slot">
 						<div>
 							<div class="title">YOUR GAME HERE</div>
-							<div class="meta">Submit below · preview on site first · then machines</div>
+							<div class="meta">Build in MAKE · SHARE a link · preview then machines</div>
 						</div>
 						<span class="arrcade-badge preview">PREVIEW SLOT</span>
 					</div>
 				</div>
-				<p class="arrcade-note">Approved youth titles will show as LIVE on this shelf and on kiosk stations (?kiosk=1) across placements. Preview = playable on the site before cabinets update.</p>
+				<p class="arrcade-note">Free play on club machines. Use SHARE when you have a playable link.</p>
 			</div>
 
-			<div id="arrSubmit" class="arrcade-submit" hidden>
+			<div id="arrMake" class="arrcade-make" hidden>
+				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch or MakeCode. SHARE when it runs in a browser.</p>
+
+				<div class="make-tools">
+					<div class="make-card make-card-featured">
+						<div class="make-title">BUILD FOR REAL</div>
+						<p class="make-desc">These open free tools in a new tab. Start with Scratch if you want blocks only.</p>
+						<a class="build-link" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener noreferrer">
+							<span class="build-name">Scratch</span>
+							<span class="build-meta">Drag blocks · great for beginners · MIT</span>
+						</a>
+						<a class="build-link" href="https://arcade.makecode.com/" target="_blank" rel="noopener noreferrer">
+							<span class="build-name">MakeCode Arcade</span>
+							<span class="build-meta">Blocks or JavaScript · game-ready · Microsoft</span>
+						</a>
+						<a class="build-link" href="https://editor.p5js.org/" target="_blank" rel="noopener noreferrer">
+							<span class="build-name">p5.js Editor</span>
+							<span class="build-meta">Type simple code · draw &amp; animate</span>
+						</a>
+					</div>
+					<div class="make-card">
+						<div class="make-title">PIXEL PAD</div>
+						<p class="make-desc">Quick sprite sketch. Tap or drag. Copy the pattern when you like it.</p>
+						<div class="pixel-colors" role="group" aria-label="Color">
+							<button type="button" class="pix-col active" data-col="#00ff9f" style="--c:#00ff9f" title="Green"></button>
+							<button type="button" class="pix-col" data-col="#c44dff" style="--c:#c44dff" title="Purple"></button>
+							<button type="button" class="pix-col" data-col="#ffe566" style="--c:#ffe566" title="Yellow"></button>
+							<button type="button" class="pix-col" data-col="#000000" style="--c:#000" title="Erase"></button>
+						</div>
+						<canvas id="pixelPad" width="192" height="192" aria-label="Pixel drawing pad"></canvas>
+						<div class="make-actions">
+							<button type="button" id="pixelClear">CLEAR</button>
+							<button type="button" id="pixelCopy">COPY</button>
+						</div>
+						<p class="make-status" id="pixelStatus" role="status"></p>
+					</div>
+					<div class="make-card" id="ideasCard">
+						<div class="make-title">EASY IDEAS</div>
+						<ul class="make-ideas">
+							<li><b>Star Catcher</b> — ship moves, catch falling stars</li>
+							<li><b>Coin Maze</b> — collect coins before time is up</li>
+							<li><b>Pet Follow</b> — a critter follows your finger</li>
+							<li><b>Bounce Break</b> — ball breaks blocks</li>
+						</ul>
+						<p class="make-desc">Ask Captain how to add a score or move a player.</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="arrShare" class="arrcade-submit" hidden>
+				<p class="section-lead">Send a playable link for review. Staff check it before LIVE.</p>
 				<div class="form-wrap">
 				<form action="https://formspree.io/f/mrpzenbr" method="POST" id="arrcadeForm">
-					<label for="arr_creator">Creator name</label>
+					<label for="arr_creator">Your name</label>
 					<input type="text" id="arr_creator" name="creator_name" required maxlength="80" autocomplete="name">
 
-					<label for="arr_email">Contact email</label>
+					<label for="arr_email">Email</label>
 					<input type="email" id="arr_email" name="email" required maxlength="120" autocomplete="email">
 
-					<label for="arr_age">Age band</label>
-					<select id="arr_age" name="age_band" required>
-						<option value="">Select one</option>
-						<option value="under_13">Under 13 (mentor required)</option>
-						<option value="13_17">13–17</option>
-						<option value="18_plus">18+ mentor / staff submitting</option>
-					</select>
-
-					<label for="arr_club">Club / youth center <span style="opacity:0.6">(optional)</span></label>
-					<input type="text" id="arr_club" name="club" maxlength="120" placeholder="e.g. Boys &amp; Girls Club — North Las Vegas">
-
 					<label for="arr_title">Game title</label>
-					<input type="text" id="arr_title" name="game_title" required maxlength="80">
+					<input type="text" id="arr_title" name="game_title" required maxlength="80" placeholder="Star Catcher">
 
-					<label for="arr_link">Link to game or files <span style="opacity:0.6">(optional — URL, GitHub, itch, Drive)</span></label>
-					<input type="url" id="arr_link" name="game_url" maxlength="300" placeholder="https://">
+					<label for="arr_link">Play link (Scratch, MakeCode, Drive…)</label>
+					<input type="url" id="arr_link" name="game_link" required maxlength="500" placeholder="https://">
 
-					<label for="arr_pitch">Short pitch + controls</label>
-					<textarea id="arr_pitch" name="pitch" required maxlength="2000" placeholder="What the player does, buttons used, content notes (must be age-appropriate for youth centers)…"></textarea>
+					<label for="arr_desc">How do you play?</label>
+					<textarea id="arr_desc" name="description" maxlength="800" placeholder="Left/right to move. Catch the stars."></textarea>
 
-					<label class="arrcade-check" for="arr_safe">
-						<input type="checkbox" id="arr_safe" name="content_ok" value="yes" required>
-						I confirm this game is original or properly licensed, and appropriate for youth centers (no hate, exploitation, or graphic violence).
+					<label class="arrcade-check">
+						<input type="checkbox" name="safety_ok" value="yes" required>
+						Friendly for a youth club · original or credited · no personal data collected
 					</label>
 
 					<div class="hp" aria-hidden="true">
 						<input type="text" name="website" tabindex="-1" autocomplete="off">
 					</div>
-					<input type="hidden" name="_subject" value="Arrrcadé OS — game submission">
-					<input type="hidden" name="form_type" value="arrcade_submit">
-					<button type="submit" id="arrcadeSubmitBtn">SUBMIT FOR PREVIEW</button>
+					<input type="hidden" name="_subject" value="Arrrcadé OS — game share">
+					<input type="hidden" name="form_type" value="arrcade_share">
+					<button type="submit" id="arrcadeSubmitBtn">SEND FOR REVIEW</button>
 				</form>
 				</div>
-				<p class="arrcade-note">Every submission is reviewed before it appears as a public preview or goes live on club machines. Web games (HTML/JS) preferred for this phase. Mentors should submit with under-13 creators.</p>
+				<p class="arrcade-note">Free play stays free on the machines.</p>
 				<p class="arrcade-note" id="arrcadeFormStatus" role="status" aria-live="polite"></p>
 			</div>
 		</div>
 
-		<button type="button" class="primary-cta" id="primaryCta">
+<button type="button" class="primary-cta" id="primaryCta">
 			HOST A MACHINE
 			<span>Free placement for Nevada youth centers</span>
 		</button>
@@ -2442,7 +2935,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.0.0-a2',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.0.9',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -2464,13 +2957,36 @@
 				}, 380);
 			}
 
-			// Skip on any early interaction
+			// Skip on touch, key, OR arcade stick (BSP-Y02 / HID gamepad)
+			// Without gamepad polling here, kiosk tablets only respond to screen touch
+			// and feel like they "reboot" until touched.
 			const skip = () => finishBoot();
 			boot.addEventListener('pointerdown', skip, { once: true });
 			window.addEventListener('keydown', skip, { once: true });
 
+			function bootGamepadWantsSkip() {
+				try {
+					const gps = (navigator.getGamepads && navigator.getGamepads()) || [];
+					for (let i = 0; i < gps.length; i++) {
+						const gp = gps[i];
+						if (!gp || gp.connected === false) continue;
+						const buttons = gp.buttons || [];
+						const axes = gp.axes || [];
+						for (let b = 0; b < buttons.length; b++) {
+							const btn = buttons[b];
+							if (btn && (btn.pressed || (typeof btn.value === 'number' && btn.value > 0.5))) return true;
+						}
+						for (let a = 0; a < axes.length; a++) {
+							if (typeof axes[a] === 'number' && Math.abs(axes[a]) > 0.45) return true;
+						}
+					}
+				} catch (e) {}
+				return false;
+			}
+
 			function frame(now) {
 				if (finished) return;
+				if (bootGamepadWantsSkip()) { finishBoot(); return; }
 				const t = now - t0;
 				// keep canvas sized to viewport (handles orientation / mobile)
 				const nw = Math.max(320, window.innerWidth || 390);
@@ -2620,7 +3136,7 @@
 						ctx.shadowBlur = 0;
 						ctx.font = Math.max(10, Math.floor(w * 0.022)) + 'px "Courier New"';
 						ctx.fillStyle = 'rgba(125,255,200,0.85)';
-						ctx.fillText('TOUCH OR KEY TO ENTER TERMINAL', w / 2, h * 0.82);
+						ctx.fillText('TOUCH · KEY · OR STICK TO ENTER', w / 2, h * 0.82);
 						// blinking skip
 						if (Math.floor(t / 400) % 2 === 0) {
 							ctx.fillStyle = 'rgba(0,255,159,0.45)';
@@ -5995,36 +6511,254 @@
 		}
 
 		// ========== ARRRCADÉ OS UI ==========
+		// ========== ARRRCADÉ OS UI (3.0.9) — real build links, no Jr ==========
 		(function initArrcade() {
 			const lab = document.getElementById('arrLab');
-			const sub = document.getElementById('arrSubmit');
+			const make = document.getElementById('arrMake');
+			const share = document.getElementById('arrShare');
 			const tabLab = document.getElementById('arrTabLab');
-			const tabSub = document.getElementById('arrTabSubmit');
+			const tabMake = document.getElementById('arrTabMake');
+			const tabShare = document.getElementById('arrTabShare');
 			const form = document.getElementById('arrcadeForm');
 			const statusEl = document.getElementById('arrcadeFormStatus');
+			const modeHint = document.getElementById('arrModeHint');
+			const chatEl = document.getElementById('captainChat');
+			const askForm = document.getElementById('captainAskForm');
+			const askInput = document.getElementById('captainInput');
+			const idleWrap = document.getElementById('captainIdle');
+			const idleBtn = document.getElementById('captainIdleBtn');
+			const dock = document.getElementById('captainDock');
+			const makeLead = document.getElementById('makeLead');
+
+			const MODE_COPY = {
+				beginner: {
+					hint: 'Lots of help — clear tips and big controls.',
+					hello: 'Ahoy! Ask a question or open MAKE for Scratch, MakeCode Arcade, and Pixel Pad.'
+				},
+				intermediate: {
+					hint: 'Some help — tips plus typing when you want detail.',
+					hello: 'Ahoy! Movement, pixels, scores, or where to build — ask anytime.'
+				},
+				advanced: {
+					hint: 'I got this — shorter answers. SHARE when your game runs in a browser.',
+					hello: 'Captain on deck. Quick tips, then SHARE a play link for review.'
+				}
+			};
+
+			
+			// Pixel pirate face — blink + talk when Captain replies
+			(function initCaptainPixel() {
+				const c = document.getElementById('captainPixel');
+				if (!c || !c.getContext) return;
+				const ctx = c.getContext('2d');
+				const S = 4; // pixel scale on 64 canvas -> 16 grid
+				let blinkT = 0;
+				let talkT = 0;
+				let frame = 0;
+
+				function px(x, y, col) {
+					ctx.fillStyle = col;
+					ctx.fillRect(x * S, y * S, S, S);
+				}
+				function draw(blink, talk) {
+					ctx.fillStyle = '#02140e';
+					ctx.fillRect(0, 0, 64, 64);
+					// hat
+					const hat = '#1a1a1a';
+					const band = '#c44dff';
+					for (let x = 2; x <= 13; x++) px(x, 2, hat);
+					for (let x = 1; x <= 14; x++) px(x, 3, hat);
+					for (let x = 3; x <= 12; x++) px(x, 4, hat);
+					px(7, 2, band); px(8, 2, band); px(9, 3, '#ffe566');
+					// face
+					const skin = '#e8c49a';
+					for (let y = 5; y <= 11; y++)
+						for (let x = 4; x <= 11; x++) px(x, y, skin);
+					// eyes
+					if (blink) {
+						px(5, 7, '#333'); px(6, 7, '#333');
+						px(9, 7, '#333'); px(10, 7, '#333');
+					} else {
+						px(5, 7, '#111'); px(6, 7, '#00ff9f');
+						px(9, 7, '#111'); px(10, 7, '#00ff9f');
+					}
+					// beard
+					const beard = '#2a2a2a';
+					for (let x = 4; x <= 11; x++) px(x, 10, beard);
+					for (let x = 5; x <= 10; x++) px(x, 11, beard);
+					for (let x = 6; x <= 9; x++) px(x, 12, beard);
+					// mouth
+					if (talk) {
+						px(7, 9, '#5a2030'); px(8, 9, '#5a2030');
+						px(7, 10, '#5a2030'); px(8, 10, '#5a2030');
+					} else {
+						px(6, 9, '#333'); px(7, 9, '#333'); px(8, 9, '#333'); px(9, 9, '#333');
+					}
+					// shoulders / coat
+					const coat = '#0a3d2e';
+					for (let x = 2; x <= 13; x++) px(x, 13, coat);
+					for (let x = 1; x <= 14; x++) px(x, 14, coat);
+					for (let x = 1; x <= 14; x++) px(x, 15, coat);
+					px(7, 13, '#00ff9f'); px(8, 13, '#00ff9f');
+				}
+				function tick() {
+					frame++;
+					if (blinkT > 0) blinkT--;
+					else if (frame % 180 === 0) blinkT = 8;
+					if (talkT > 0) talkT--;
+					draw(blinkT > 0, talkT > 0 && (frame % 6 < 3));
+					requestAnimationFrame(tick);
+				}
+				window.__captainTalk = function() { talkT = 36; };
+				draw(false, false);
+				requestAnimationFrame(tick);
+			})();
+
+			function addCapMsg(text, who) {
+
+				if (!chatEl) return;
+				const div = document.createElement('div');
+				div.className = 'cap-msg ' + (who === 'user' ? 'cap-user' : 'cap-bot');
+				div.textContent = text;
+				chatEl.appendChild(div);
+				chatEl.scrollTop = chatEl.scrollHeight;
+			}
+
+			function captainReply(q) {
+				const s = (q || '').toLowerCase();
+				const lots = document.body.classList.contains('mode-beginner');
+				if (!s.trim()) return 'Type a question or tap a tip below.';
+				if (/where|build|scratch|makecode|make code|p5|real game|editor/.test(s)) {
+					return 'Open the MAKE tab. Tap Scratch (blocks), MakeCode Arcade (blocks or code), or p5.js. They open in a new tab — free accounts work fine for clubs.';
+				}
+				if (/move|left|right|arrow|stick|wasd|player/.test(s)) {
+					return lots
+						? 'In Scratch: use arrow keys or “when key pressed” blocks to change x. In MakeCode: move sprite with buttons. Ask me if you get stuck on one tool.'
+						: 'Change player.x on left/right input, redraw each frame, clamp so you stay on screen.';
+				}
+				if (/pixel|draw|canvas|paint|grid|art|color|sprite/.test(s)) {
+					return 'Pixel Pad in MAKE is for quick sketches. For a real game sprite, draw in Scratch costumes or MakeCode’s sprite editor.';
+				}
+				if (/stuck|broken|load|error|work|fix|bug/.test(s)) {
+					return lots
+						? 'Try: save your project, refresh, read any red error, undo the last change. Still stuck? Ask a mentor or tell me which tool you’re in.'
+						: 'Check the browser console, test the play link in a private window, change one thing at a time.';
+				}
+				if (/score|point|coin|collect|win|star/.test(s)) {
+					return 'Start score at 0. When you touch a coin/star, add 1 and show the number on screen. Both Scratch and MakeCode have easy score blocks.';
+				}
+				if (/idea|game|what should|project|beginner/.test(s)) {
+					return 'Star Catcher is a great first build in Scratch or MakeCode: ship moves left/right, stars fall, catch for points.';
+				}
+				if (/share|submit|upload|club|live|machine|review/.test(s)) {
+					return 'When the game plays in a browser, open SHARE, paste the link, and send it. Staff review before anything goes LIVE on machines.';
+				}
+				if (/hello|hi|ahoy|hey|captain/.test(s)) {
+					return 'Ahoy! Ask where to build, how to move a player, draw, score, or share.';
+				}
+				return lots
+					? 'Try a tip: Where to build, Move, Draw, Idea, or Stuck.'
+					: 'Try: where to build, movement, canvas, score, debug, or share.';
+			}
+
+			function askCaptain(q) {
+				const query = (q || '').trim();
+				if (!query) return;
+				hideIdle();
+				addCapMsg(query, 'user');
+				setTimeout(function() { addCapMsg(captainReply(query), 'bot'); try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {} }, 150);
+			}
+
+			if (askForm) {
+				askForm.addEventListener('submit', function(e) {
+					e.preventDefault();
+					const v = askInput ? askInput.value : '';
+					if (askInput) askInput.value = '';
+					askCaptain(v);
+				});
+			}
+			document.querySelectorAll('#captainChips button').forEach(function(btn) {
+				btn.addEventListener('click', function() {
+					askCaptain(btn.getAttribute('data-q') || btn.textContent);
+				});
+			});
+
+			let idleTimer = null;
+			function hideIdle() {
+				if (idleWrap) idleWrap.hidden = true;
+				if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+			}
+			function scheduleIdle() {
+				hideIdle();
+				if (document.body.classList.contains('boot-active') || document.body.classList.contains('game-open')) return;
+				idleTimer = setTimeout(function() {
+					if (document.body.classList.contains('game-open')) return;
+					if (idleWrap) idleWrap.hidden = false;
+				}, 28000);
+			}
+			['pointerdown', 'keydown', 'touchstart'].forEach(function(ev) {
+				document.addEventListener(ev, scheduleIdle, { passive: true });
+			});
+			if (idleBtn) {
+				idleBtn.addEventListener('click', function() {
+					hideIdle();
+					if (dock) dock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+					if (askInput) askInput.focus();
+					addCapMsg('Ask where to build, or how to move, draw, score, or share.', 'bot');
+				});
+			}
+			setTimeout(scheduleIdle, 4000);
+
+			function setMode(mode) {
+				const m = MODE_COPY[mode] ? mode : 'beginner';
+				document.body.classList.remove('mode-beginner', 'mode-intermediate', 'mode-advanced');
+				document.body.classList.add('mode-' + m);
+				document.querySelectorAll('.arr-mode').forEach(btn => {
+					btn.classList.toggle('active', btn.getAttribute('data-mode') === m);
+				});
+				if (modeHint) modeHint.textContent = MODE_COPY[m].hint;
+				if (makeLead) {
+					makeLead.textContent = 'Sketch here, then build for real in Scratch or MakeCode. SHARE when it runs in a browser.';
+				}
+				try { localStorage.setItem('c4c_arr_mode', m); } catch (e) {}
+			}
+			document.querySelectorAll('.arr-mode').forEach(btn => {
+				btn.addEventListener('click', () => setMode(btn.getAttribute('data-mode')));
+			});
+			let savedMode = 'beginner';
+			try { savedMode = localStorage.getItem('c4c_arr_mode') || 'beginner'; } catch (e) {}
+			setMode(savedMode);
 
 			function showTab(which) {
 				const isLab = which === 'lab';
+				const isMake = which === 'make';
+				const isShare = which === 'share';
 				if (lab) lab.hidden = !isLab;
-				if (sub) sub.hidden = isLab;
+				if (make) make.hidden = !isMake;
+				if (share) share.hidden = !isShare;
 				if (tabLab) {
 					tabLab.classList.toggle('active', isLab);
 					tabLab.setAttribute('aria-selected', isLab ? 'true' : 'false');
 				}
-				if (tabSub) {
-					tabSub.classList.toggle('active', !isLab);
-					tabSub.setAttribute('aria-selected', !isLab ? 'true' : 'false');
+				if (tabMake) {
+					tabMake.classList.toggle('active', isMake);
+					tabMake.setAttribute('aria-selected', isMake ? 'true' : 'false');
 				}
+				if (tabShare) {
+					tabShare.classList.toggle('active', isShare);
+					tabShare.setAttribute('aria-selected', isShare ? 'true' : 'false');
+				}
+				hideIdle();
 			}
-
 			if (tabLab) tabLab.addEventListener('click', function() { showTab('lab'); });
-			if (tabSub) tabSub.addEventListener('click', function() { showTab('submit'); });
+			if (tabMake) tabMake.addEventListener('click', function() { showTab('make'); });
+			if (tabShare) tabShare.addEventListener('click', function() { showTab('share'); });
 
 			document.querySelectorAll('.arrcade-card .play-mini[data-game]').forEach(function(btn) {
 				btn.addEventListener('click', function() {
 					const g = btn.getAttribute('data-game');
 					if (g && typeof startGame === 'function') {
-						try { startGame(g); } catch (err) { console.warn('Arrcade play failed', err); }
+						try { startGame(g); } catch (err) { console.warn('play failed', err); }
 					}
 				});
 			});
@@ -6033,10 +6767,92 @@
 				form.addEventListener('submit', function() {
 					if (statusEl) {
 						statusEl.classList.remove('err');
-						statusEl.textContent = 'Sending submission…';
+						statusEl.textContent = 'Sending for review… fair winds!';
 					}
 				});
 			}
+
+			// Pixel Pad only (Jr removed)
+			(function initPixelPad() {
+				const c = document.getElementById('pixelPad');
+				if (!c || !c.getContext) return;
+				const ctx = c.getContext('2d');
+				const N = 16;
+				const cells = new Array(N * N).fill(0);
+				let color = '#00ff9f';
+				const colorMap = { '#00ff9f': 1, '#c44dff': 2, '#ffe566': 3 };
+				const invMap = { 1: '#00ff9f', 2: '#c44dff', 3: '#ffe566' };
+				document.querySelectorAll('.pix-col').forEach(function(btn) {
+					btn.addEventListener('click', function() {
+						document.querySelectorAll('.pix-col').forEach(b => b.classList.remove('active'));
+						btn.classList.add('active');
+						color = btn.getAttribute('data-col') || '#00ff9f';
+					});
+				});
+				function paint() {
+					const s = c.width / N;
+					ctx.fillStyle = '#02140e';
+					ctx.fillRect(0, 0, c.width, c.height);
+					for (let y = 0; y < N; y++) {
+						for (let x = 0; x < N; x++) {
+							const v = cells[y * N + x];
+							if (v) {
+								ctx.fillStyle = invMap[v] || '#00ff9f';
+								ctx.fillRect(x * s, y * s, s - 0.5, s - 0.5);
+							}
+							ctx.strokeStyle = 'rgba(0,255,159,0.1)';
+							ctx.strokeRect(x * s, y * s, s, s);
+						}
+					}
+				}
+				function plot(clientX, clientY) {
+					const r = c.getBoundingClientRect();
+					const x = Math.floor((clientX - r.left) / r.width * N);
+					const y = Math.floor((clientY - r.top) / r.height * N);
+					if (x < 0 || y < 0 || x >= N || y >= N) return;
+					const i = y * N + x;
+					if (color === '#000000' || color === '#000') cells[i] = 0;
+					else cells[i] = colorMap[color] || 1;
+					paint();
+				}
+				let drawing = false;
+				c.addEventListener('pointerdown', function(e) {
+					e.preventDefault();
+					drawing = true;
+					c.setPointerCapture(e.pointerId);
+					plot(e.clientX, e.clientY);
+				});
+				c.addEventListener('pointermove', function(e) {
+					if (!drawing) return;
+					plot(e.clientX, e.clientY);
+				});
+				c.addEventListener('pointerup', function() { drawing = false; });
+				c.addEventListener('pointercancel', function() { drawing = false; });
+				const clearBtn = document.getElementById('pixelClear');
+				const copyBtn = document.getElementById('pixelCopy');
+				const st = document.getElementById('pixelStatus');
+				if (clearBtn) clearBtn.addEventListener('click', function() {
+					cells.fill(0); paint();
+					if (st) st.textContent = 'Cleared.';
+				});
+				if (copyBtn) copyBtn.addEventListener('click', function() {
+					let rows = [];
+					for (let y = 0; y < N; y++) {
+						let row = '';
+						for (let x = 0; x < N; x++) row += String(cells[y * N + x] || 0);
+						rows.push(row);
+					}
+					const out = rows.join('\n');
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard.writeText(out).then(function() {
+							if (st) st.textContent = 'Pattern copied!';
+						}).catch(function() {
+							if (st) st.textContent = 'Could not copy.';
+						});
+					} else if (st) st.textContent = 'Clipboard not available.';
+				});
+				paint();
+			})();
 
 			try {
 				const h = location.hash || '';
@@ -6045,7 +6861,8 @@
 					const p = document.getElementById('arrcadePanel');
 					if (p) setTimeout(function() { p.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 450);
 				}
-				if (h === '#submit' || q.indexOf('submit=1') >= 0) showTab('submit');
+				if (h === '#share' || h === '#submit' || q.indexOf('share=1') >= 0) showTab('share');
+				if (h === '#make' || q.indexOf('make=1') >= 0) showTab('make');
 			} catch (e) {}
 		})();
 
