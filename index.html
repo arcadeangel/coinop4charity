@@ -1743,7 +1743,7 @@
 			transform: scale(1.02);
 		}
 
-		/* ========== ARRRCADÉ OS (3.0a) ========== */
+		/* ========== ARRRCADÉOS (3.1.0) ========== */
 		.arrcade-panel {
 			margin: 1.1rem 0 1.25rem;
 			padding: 0.85rem 0.9rem 1rem;
@@ -1958,7 +1958,7 @@
 		body.kiosk-mode #arrcadePanel { display: none !important; }
 
 
-		/* Arrrcadé OS 3.3 — clean youth maker terminal */
+		/* ArrrcadeOS 3.1.0 — clean youth maker terminal */
 		.arrcade-panel {
 			border: 1px solid #00ff9f44;
 			background: rgba(0, 12, 8, 0.72);
@@ -2041,14 +2041,15 @@
 		}
 		
 		.captain-face {
-			width: 56px;
-			height: 56px;
+			width: 72px;
+			height: 72px;
 			flex-shrink: 0;
 			image-rendering: pixelated;
 			image-rendering: crisp-edges;
-			border: 1px solid #00ff9f44;
-			background: #02140e;
-			border-radius: 4px;
+			border: 1px solid #00ff9faa;
+			background: rgba(0, 60, 45, 0.85);
+			border-radius: 6px;
+			box-shadow: 0 0 18px rgba(0, 255, 159, 0.55), 0 0 4px rgba(0, 255, 159, 0.8);
 		}
 		.captain-body { flex: 1; min-width: 0; max-width: 100%; overflow: hidden; }
 		.captain-name {
@@ -2324,6 +2325,93 @@
 			min-height: 1.1em;
 			margin-top: 6px;
 		}
+
+		.shiprekt-steps {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			margin: 10px 0 8px;
+		}
+		.sr-step {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			width: 100%;
+			text-align: left;
+			background: rgba(0, 255, 159, 0.05);
+			border: 1px solid #00ff9f33;
+			color: #7dffc8;
+			font-family: inherit;
+			font-size: 0.78rem;
+			letter-spacing: 0.04em;
+			padding: 9px 11px;
+			cursor: pointer;
+			border-radius: 3px;
+		}
+		.sr-step .sr-num {
+			flex-shrink: 0;
+			width: 22px;
+			height: 22px;
+			line-height: 22px;
+			text-align: center;
+			border: 1px solid #00ff9f66;
+			border-radius: 50%;
+			font-size: 0.7rem;
+			color: #00ff9f;
+		}
+		.sr-step[aria-pressed="true"] {
+			background: rgba(0, 255, 159, 0.16);
+			border-color: #00ff9f;
+			color: #e8fff4;
+			box-shadow: 0 0 12px #00ff9f33;
+		}
+		.sr-step[aria-pressed="true"] .sr-num {
+			background: #00ff9f;
+			color: #000;
+			border-color: #00ff9f;
+		}
+		.sr-step:hover { border-color: #00ff9f; color: #00ff9f; }
+		.sr-lesson {
+			border: 1px solid #00ff9f33;
+			background: rgba(0, 0, 0, 0.35);
+			padding: 10px 12px;
+			margin: 0 0 10px;
+			text-align: left;
+		}
+		.sr-plain {
+			font-size: 0.76rem;
+			line-height: 1.45;
+			color: #b8ffe0;
+			margin: 0 0 8px;
+		}
+		.sr-code {
+			margin: 0;
+			padding: 10px;
+			background: #010a08;
+			border: 1px solid #00ff9f22;
+			color: #7dffc8;
+			font-family: "Courier New", monospace;
+			font-size: 0.68rem;
+			line-height: 1.5;
+			overflow-x: auto;
+			white-space: pre-wrap;
+			word-break: break-word;
+			max-height: 160px;
+			overflow-y: auto;
+		}
+		#shiprektPreview {
+			width: 100%;
+			max-width: 320px;
+			height: auto;
+			aspect-ratio: 16 / 9;
+			image-rendering: pixelated;
+			border: 1px solid #00ff9f55;
+			background: #02140e;
+			display: block;
+			margin: 0 auto 8px;
+			border-radius: 2px;
+		}
+
 		.arrcade-submit .form-wrap { text-align: left; }
 		.arrcade-check {
 			display: flex;
@@ -2338,20 +2426,43 @@
 		body.kiosk-mode #arrcadePanel { display: none !important; }
 
 
+		/* Kiosk lite: games + short mission only — kill heavy UI/FX for RAM + FPS */
 		body.kiosk-mode .trust-strip,
 		body.kiosk-mode #involveDetails,
 		body.kiosk-mode form,
 		body.kiosk-mode #fleetPanel,
 		body.kiosk-mode #updatesPanel,
-		body.kiosk-mode .mission,
 		body.kiosk-mode .status,
 		body.kiosk-mode #shareBtn,
 		body.kiosk-mode #opsOpenBtn,
+		body.kiosk-mode #installBtn,
+		body.kiosk-mode #fxToggle,
 		body.kiosk-mode .oss-line,
 		body.kiosk-mode .hi-scores,
 		body.kiosk-mode #topOps,
-		body.kiosk-mode .charity-frame {
+		body.kiosk-mode .charity-frame,
+		body.kiosk-mode #placementsPanel,
+		body.kiosk-mode #placementsMapWrap,
+		body.kiosk-mode #arrcadePanel,
+		body.kiosk-mode #matrix,
+		body.kiosk-mode #fx-overlay,
+		body.kiosk-mode #scan-interference,
+		body.kiosk-mode .arcade-intro,
+		body.kiosk-mode #crt-boot,
+		body.kiosk-mode .footer button {
 			display: none !important;
+		}
+		body.kiosk-mode .mission {
+			font-size: 0.78rem;
+			min-height: 0;
+			margin-bottom: 0.9rem;
+			opacity: 0.9;
+		}
+		body.kiosk-mode #matrix,
+		body.kiosk-mode #fx-overlay,
+		body.kiosk-mode #scan-interference {
+			visibility: hidden !important;
+			pointer-events: none !important;
 		}
 		body.kiosk-mode .logo {
 			font-size: clamp(1.4rem, 6vw, 2.1rem);
@@ -2558,8 +2669,8 @@
 
 														<div class="arrcade-panel" id="arrcadePanel">
 			<div class="arrcade-head">
-				<strong>ARRRCADÉ OS</strong>
-				<span class="arrcade-mark" title="Arrrcadé" role="img" aria-label="Skull"><span class="arrcade-skull">☠</span></span>
+				<strong>ARRRCADÉOS</strong>
+				<span class="arrcade-mark" title="ArrrcadeOS" role="img" aria-label="Skull"><span class="arrcade-skull">☠</span></span>
 			</div>
 			<p class="arrcade-tagline-bar">Make a game · Ask Captain · Play free</p>
 
@@ -2575,7 +2686,7 @@
 				<div class="captain-body">
 					<div class="captain-name">CAPTAIN CODE</div>
 					<div class="captain-chat" id="captainChat" aria-live="polite">
-						<div class="cap-msg cap-bot">Ahoy! Ask how to move a player, draw pixels, or fix something stuck. Or open MAKE for real build tools.</div>
+						<div class="cap-msg cap-bot">Ahoy! Welcome aboard ArrrcadeOS sailor. Ask me how to move a player, draw pixels, or get unstuck. Or open MAKE for the real build tools.</div>
 					</div>
 					<form class="captain-ask" id="captainAskForm" autocomplete="off">
 						<input type="text" id="captainInput" maxlength="200" placeholder="Ask Captain Code…" aria-label="Ask Captain Code">
@@ -2630,7 +2741,7 @@
 					<div class="arrcade-card arrcade-card-slot">
 						<div>
 							<div class="title">YOUR GAME HERE</div>
-							<div class="meta">Build in MAKE · SHARE a link · preview then machines</div>
+							<div class="meta">Build in “MAKE” · Submit Your Game · See It Here &amp; On The Machines</div>
 						</div>
 						<span class="arrcade-badge preview">PREVIEW SLOT</span>
 					</div>
@@ -2639,7 +2750,7 @@
 			</div>
 
 			<div id="arrMake" class="arrcade-make" hidden>
-				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch or MakeCode. SHARE when it runs in a browser.</p>
+				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SHARE when it runs in a browser.</p>
 
 				<div class="make-tools">
 					<div class="make-card make-card-featured">
@@ -2658,6 +2769,43 @@
 							<span class="build-meta">Type simple code · draw &amp; animate</span>
 						</a>
 					</div>
+					<div class="make-card" id="shiprektCard">
+						<div class="make-title">SHIPREKT CONTROLS</div>
+						<p class="make-desc">Learn how a game control system works. Tap a step — see plain English, then the real code that makes it happen.</p>
+						<div id="shiprektSteps" class="shiprekt-steps" role="list">
+							<button type="button" class="sr-step" data-step="move" aria-pressed="false">
+								<span class="sr-num">1</span>
+								<span class="sr-label">Read keys → move</span>
+							</button>
+							<button type="button" class="sr-step" data-step="jump" aria-pressed="false">
+								<span class="sr-num">2</span>
+								<span class="sr-label">Jump + gravity</span>
+							</button>
+							<button type="button" class="sr-step" data-step="collide" aria-pressed="false">
+								<span class="sr-num">3</span>
+								<span class="sr-label">Touch = collide</span>
+							</button>
+							<button type="button" class="sr-step" data-step="score" aria-pressed="false">
+								<span class="sr-num">4</span>
+								<span class="sr-label">Score on collect</span>
+							</button>
+							<button type="button" class="sr-step" data-step="win" aria-pressed="false">
+								<span class="sr-num">5</span>
+								<span class="sr-label">Win condition</span>
+							</button>
+						</div>
+						<div class="sr-lesson" id="shiprektLesson">
+							<p class="sr-plain" id="shiprektPlain">Tap a step above. You’ll see what it means in plain words, then the code games actually use.</p>
+							<pre class="sr-code" id="shiprektCode" aria-label="Control system code">// your control script builds here</pre>
+						</div>
+						<canvas id="shiprektPreview" width="320" height="180" aria-label="Shiprekt live demo"></canvas>
+						<div class="make-actions">
+							<button type="button" id="shiprektPlay">TRY IT</button>
+							<button type="button" id="shiprektReset">CLEAR</button>
+							<button type="button" id="shiprektCopy">COPY CODE</button>
+						</div>
+						<p class="make-status" id="shiprektStatus" role="status">Build the control system one idea at a time.</p>
+					</div>
 					<div class="make-card">
 						<div class="make-title">PIXEL PAD</div>
 						<p class="make-desc">Quick sprite sketch. Tap or drag. Copy the pattern when you like it.</p>
@@ -2674,16 +2822,6 @@
 						</div>
 						<p class="make-status" id="pixelStatus" role="status"></p>
 					</div>
-					<div class="make-card" id="ideasCard">
-						<div class="make-title">EASY IDEAS</div>
-						<ul class="make-ideas">
-							<li><b>Star Catcher</b> — ship moves, catch falling stars</li>
-							<li><b>Coin Maze</b> — collect coins before time is up</li>
-							<li><b>Pet Follow</b> — a critter follows your finger</li>
-							<li><b>Bounce Break</b> — ball breaks blocks</li>
-						</ul>
-						<p class="make-desc">Ask Captain how to add a score or move a player.</p>
-					</div>
 				</div>
 			</div>
 
@@ -2698,13 +2836,13 @@
 					<input type="email" id="arr_email" name="email" required maxlength="120" autocomplete="email">
 
 					<label for="arr_title">Game title</label>
-					<input type="text" id="arr_title" name="game_title" required maxlength="80" placeholder="Star Catcher">
+					<input type="text" id="arr_title" name="game_title" required maxlength="80" placeholder="My first game">
 
 					<label for="arr_link">Play link (Scratch, MakeCode, Drive…)</label>
 					<input type="url" id="arr_link" name="game_link" required maxlength="500" placeholder="https://">
 
 					<label for="arr_desc">How do you play?</label>
-					<textarea id="arr_desc" name="description" maxlength="800" placeholder="Left/right to move. Catch the stars."></textarea>
+					<textarea id="arr_desc" name="description" maxlength="800" placeholder="Left/right to move. Collect coins."></textarea>
 
 					<label class="arrcade-check">
 						<input type="checkbox" name="safety_ok" value="yes" required>
@@ -2714,7 +2852,7 @@
 					<div class="hp" aria-hidden="true">
 						<input type="text" name="website" tabindex="-1" autocomplete="off">
 					</div>
-					<input type="hidden" name="_subject" value="Arrrcadé OS — game share">
+					<input type="hidden" name="_subject" value="ArrrcadeOS — game share">
 					<input type="hidden" name="form_type" value="arrcade_share">
 					<button type="submit" id="arrcadeSubmitBtn">SEND FOR REVIEW</button>
 				</form>
@@ -2864,7 +3002,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v3.0.0-a2 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v3.1.0 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -2935,7 +3073,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.0.9',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.1.0',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -3711,6 +3849,7 @@
 		})();
 
 		function bootThenPlacements() {
+			if (window.C4C_KIOSK_LITE) return; // no Leaflet / map on kiosk — saves RAM
 			try { loadPlacements(); } catch (e) {}
 		}
 		// Wait for CRT boot so Leaflet never paints under the intro
@@ -5384,19 +5523,25 @@
 			}
 		}
 
-		setTimeout(() => {
-			typeWriter();
-			startOccasionalGlitch();
-		}, 1200);
+		if (window.C4C_KIOSK_LITE && missionEl) {
+			missionEl.innerHTML = 'Nevada nonprofit · free arcade play for youth centers · pick a game below';
+			window.C4C_MISSION_DONE = true;
+			lastActivity = Date.now();
+		} else {
+			setTimeout(() => {
+				typeWriter();
+				startOccasionalGlitch();
+			}, 1200);
 
-		setTimeout(() => {
-			if (missionEl.innerText.trim().length < 20) {
-				missionEl.innerHTML = withGitHubLink(fullText1 + "<br><br>" + fullText2);
-				stopOccasionalGlitch();
-				window.C4C_MISSION_DONE = true;
-				lastActivity = Date.now();
-			}
-		}, 9000);
+			setTimeout(() => {
+				if (missionEl && missionEl.innerText.trim().length < 20) {
+					missionEl.innerHTML = withGitHubLink(fullText1 + "<br><br>" + fullText2);
+					stopOccasionalGlitch();
+					window.C4C_MISSION_DONE = true;
+					lastActivity = Date.now();
+				}
+			}, 9000);
+		}
 
 		// ========== Matrix (Reactive) ==========
 		const mCanvas = document.getElementById('matrix');
@@ -5455,8 +5600,15 @@
 			}
 		}
 		window.addEventListener('resize', resizeMatrix);
-		resizeMatrix();
-		drawMatrix();
+		if (!window.C4C_KIOSK_LITE) {
+			resizeMatrix();
+			drawMatrix();
+		} else {
+			try {
+				const mc = document.getElementById('matrix');
+				if (mc) { mc.width = 0; mc.height = 0; }
+			} catch (e) {}
+		}
 
 		// ========== REACTIVE / TRIPPY FX ENGINE ==========
 		const fxOverlay = document.getElementById('fx-overlay');
@@ -6422,7 +6574,14 @@
 			const q = new URLSearchParams(location.search);
 			if (q.get('kiosk') === '1' || q.get('arcade') === '1' || location.hash === '#kiosk') {
 				window.C4C_KIOSK = true;
-				document.body.classList.add('kiosk-mode');
+				document.body.classList.add('kiosk-mode', 'reduce-fx');
+				// Lite mode: no map, no matrix rain, no CRT boot delay, short mission
+				window.C4C_KIOSK_LITE = true;
+				try {
+					const boot = document.getElementById('crt-boot');
+					if (boot) { boot.classList.add('done'); boot.style.display = 'none'; }
+					document.body.classList.remove('boot-active');
+				} catch (e2) {}
 			}
 		} catch (e) {}
 
@@ -6507,11 +6666,12 @@
 		startGamepadLoop();
 		if (window.C4C_KIOSK) {
 			setTimeout(function() { setMenuFocus(0); }, 450);
-			try { attractIdleMs = 18000; } catch (e) {}
+			// longer idle before attract = less background canvas work on weak kiosk hardware
+			try { attractIdleMs = 45000; } catch (e) {}
 		}
 
-		// ========== ARRRCADÉ OS UI ==========
-		// ========== ARRRCADÉ OS UI (3.0.9) — real build links, no Jr ==========
+		// ========== ARRRCADÉOS UI ==========
+		// ========== ARRRCADÉOS UI (3.1.0) — Shiprekt Controls + filters + Captain upgrade ==========
 		(function initArrcade() {
 			const lab = document.getElementById('arrLab');
 			const make = document.getElementById('arrMake');
@@ -6533,11 +6693,11 @@
 			const MODE_COPY = {
 				beginner: {
 					hint: 'Lots of help — clear tips and big controls.',
-					hello: 'Ahoy! Ask a question or open MAKE for Scratch, MakeCode Arcade, and Pixel Pad.'
+					hello: 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask a question or open MAKE for Scratch, MakeCode, Pixel Pad, and Shiprekt Controls.'
 				},
 				intermediate: {
 					hint: 'Some help — tips plus typing when you want detail.',
-					hello: 'Ahoy! Movement, pixels, scores, or where to build — ask anytime.'
+					hello: 'Ahoy! Movement, pixels, scores, or where to build — ask anytime. Shiprekt Controls is in MAKE.'
 				},
 				advanced: {
 					hint: 'I got this — shorter answers. SHARE when your game runs in a browser.',
@@ -6546,71 +6706,147 @@
 			};
 
 			
-			// Pixel pirate face — blink + talk when Captain replies
+			// Pixel pirate — skull & bones hat, animated parrot, smile/talk (v3.1.0)
 			(function initCaptainPixel() {
 				const c = document.getElementById('captainPixel');
 				if (!c || !c.getContext) return;
 				const ctx = c.getContext('2d');
-				const S = 4; // pixel scale on 64 canvas -> 16 grid
+				const S = 4;
 				let blinkT = 0;
 				let talkT = 0;
+				let smileT = 0;
 				let frame = 0;
 
 				function px(x, y, col) {
+					if (x < 0 || x > 15 || y < 0 || y > 15) return;
 					ctx.fillStyle = col;
 					ctx.fillRect(x * S, y * S, S, S);
 				}
-				function draw(blink, talk) {
-					ctx.fillStyle = '#02140e';
+
+				function draw(blink, talk, smile, flap, headTilt) {
+					ctx.fillStyle = '#0a3d30';
 					ctx.fillRect(0, 0, 64, 64);
-					// hat
-					const hat = '#1a1a1a';
-					const band = '#c44dff';
-					for (let x = 2; x <= 13; x++) px(x, 2, hat);
+					ctx.fillStyle = 'rgba(0,255,159,0.14)';
+					ctx.fillRect(0, 0, 64, 3);
+					ctx.fillRect(0, 61, 64, 3);
+
+					// ===== BLACK TRICORN + SKULL & CROSSBONES (no red) =====
+					const hat = '#0a0a0a';
+					for (let x = 4; x <= 11; x++) px(x, 0, hat);
+					for (let x = 3; x <= 12; x++) px(x, 1, hat);
+					for (let x = 3; x <= 12; x++) px(x, 2, hat);
 					for (let x = 1; x <= 14; x++) px(x, 3, hat);
-					for (let x = 3; x <= 12; x++) px(x, 4, hat);
-					px(7, 2, band); px(8, 2, band); px(9, 3, '#ffe566');
-					// face
-					const skin = '#e8c49a';
-					for (let y = 5; y <= 11; y++)
+					for (let x = 0; x <= 15; x++) px(x, 4, hat);
+					px(1, 1, hat); px(1, 2, hat); px(0, 2, hat);
+					px(14, 1, hat); px(14, 2, hat); px(15, 2, hat);
+
+					// skull (white)
+					const sk = '#f0f0f0';
+					px(7, 1, sk); px(8, 1, sk);
+					px(6, 2, sk); px(7, 2, sk); px(8, 2, sk); px(9, 2, sk);
+					px(7, 3, sk); px(8, 3, sk);
+					// eye sockets
+					px(7, 2, '#111'); px(8, 2, '#111');
+					// crossbones under skull
+					px(5, 3, sk); px(6, 3, sk); px(9, 3, sk); px(10, 3, sk);
+					px(5, 4, sk); px(10, 4, sk);
+
+					// ===== FACE =====
+					const skin = '#f0c090';
+					for (let y = 5; y <= 9; y++)
 						for (let x = 4; x <= 11; x++) px(x, y, skin);
-					// eyes
+
+					// eyepatch (left) — clean, not into beard
+					px(4, 6, '#111'); px(5, 6, '#111'); px(6, 6, '#111');
+					px(4, 7, '#111'); px(5, 7, '#222'); px(6, 7, '#111');
+					px(3, 6, '#1a1a1a'); px(7, 6, '#1a1a1a'); px(8, 6, '#1a1a1a');
+
 					if (blink) {
-						px(5, 7, '#333'); px(6, 7, '#333');
-						px(9, 7, '#333'); px(10, 7, '#333');
+						px(9, 7, '#5a4030'); px(10, 7, '#5a4030');
 					} else {
-						px(5, 7, '#111'); px(6, 7, '#00ff9f');
-						px(9, 7, '#111'); px(10, 7, '#00ff9f');
+						px(9, 7, '#1a1008');
+						px(10, 7, '#39ff14');
+						px(10, 6, '#c8ffc8');
+						// occasional wink sparkle when smiling
+						if (smile) px(11, 6, '#fff');
 					}
-					// beard
-					const beard = '#2a2a2a';
-					for (let x = 4; x <= 11; x++) px(x, 10, beard);
-					for (let x = 5; x <= 10; x++) px(x, 11, beard);
-					for (let x = 6; x <= 9; x++) px(x, 12, beard);
-					// mouth
+
+					px(7, 8, '#d4a070'); px(8, 8, '#d4a070');
+
 					if (talk) {
-						px(7, 9, '#5a2030'); px(8, 9, '#5a2030');
-						px(7, 10, '#5a2030'); px(8, 10, '#5a2030');
+						px(6, 9, '#8a2030'); px(7, 9, '#c04050'); px(8, 9, '#c04050'); px(9, 9, '#8a2030');
+						px(7, 9, '#ffe080');
+					} else if (smile) {
+						px(5, 9, '#5a3020'); px(6, 9, '#3a2010');
+						px(7, 9, '#3a2010'); px(8, 9, '#3a2010');
+						px(9, 9, '#3a2010'); px(10, 9, '#5a3020');
 					} else {
-						px(6, 9, '#333'); px(7, 9, '#333'); px(8, 9, '#333'); px(9, 9, '#333');
+						px(6, 9, '#5a4030'); px(7, 9, '#5a4030'); px(8, 9, '#5a4030'); px(9, 9, '#5a4030');
 					}
-					// shoulders / coat
-					const coat = '#0a3d2e';
-					for (let x = 2; x <= 13; x++) px(x, 13, coat);
+
+					// beard from y=10
+					const beard = '#1c140c';
+					const beardHi = '#2a2018';
+					for (let x = 4; x <= 11; x++) px(x, 10, beard);
+					for (let x = 3; x <= 12; x++) px(x, 11, beard);
+					for (let x = 4; x <= 11; x++) px(x, 12, beard);
+					for (let x = 5; x <= 10; x++) px(x, 13, beard);
+					px(5, 9, beardHi); px(10, 9, beardHi);
+
+					px(12, 7, '#ffd700'); px(12, 8, '#e6c200');
+
+					// coat
+					const coat = '#0d3d32';
 					for (let x = 1; x <= 14; x++) px(x, 14, coat);
-					for (let x = 1; x <= 14; x++) px(x, 15, coat);
-					px(7, 13, '#00ff9f'); px(8, 13, '#00ff9f');
+					for (let x = 0; x <= 15; x++) px(x, 15, coat);
+					px(6, 14, '#ffd700'); px(9, 14, '#ffd700');
+					px(5, 14, '#00ff9f'); px(10, 14, '#00ff9f');
+
+					// ===== PARROT — flaps + head tilt =====
+					const bodyY = 11;
+					const headY = headTilt ? 8 : 9;
+					// body
+					px(1, bodyY, '#1f8f1f'); px(2, bodyY, '#2ecc2e');
+					px(1, bodyY + 1, '#176b17'); px(2, bodyY + 1, '#1f8f1f'); px(3, bodyY + 1, '#1f8f1f');
+					// wing flap
+					if (flap) {
+						px(0, bodyY, '#2ecc2e');
+						px(0, bodyY - 1, '#3ddc3d');
+						px(1, bodyY - 1, '#1f8f1f');
+					} else {
+						px(0, bodyY + 1, '#176b17');
+						px(1, bodyY + 2, '#1f8f1f');
+					}
+					// head (red macaw)
+					px(2, headY, '#e01515'); px(3, headY, '#e01515');
+					px(2, headY + 1, '#e01515'); px(3, headY + 1, '#ff4a4a');
+					// beak
+					px(4, headY + 1, '#ffd700');
+					if (headTilt) px(4, headY, '#ffd700');
+					// eye
+					px(3, headY, '#111');
+					// tail
+					px(0, 12, '#c01010'); px(0, 13, '#8b0000');
 				}
+
 				function tick() {
 					frame++;
 					if (blinkT > 0) blinkT--;
-					else if (frame % 180 === 0) blinkT = 8;
+					else if (frame % 150 === 0) blinkT = 10;
 					if (talkT > 0) talkT--;
-					draw(blinkT > 0, talkT > 0 && (frame % 6 < 3));
+					if (smileT > 0) smileT--;
+					else if (frame % 220 === 0 && talkT <= 0) smileT = 60;
+
+					const talking = talkT > 0 && (frame % 4 < 2);
+					const smiling = smileT > 0 && !talking;
+					// parrot: flap every ~1.2s, head tilt on a slower cycle
+					const flap = (frame % 36) < 10;
+					const headTilt = (frame % 90) < 35;
+					draw(blinkT > 0, talking, smiling, flap, headTilt);
 					requestAnimationFrame(tick);
 				}
-				window.__captainTalk = function() { talkT = 36; };
-				draw(false, false);
+				window.__captainTalk = function () { talkT = 52; smileT = 0; };
+				draw(false, false, false, false, false);
 				requestAnimationFrame(tick);
 			})();
 
@@ -6629,7 +6865,7 @@
 				const lots = document.body.classList.contains('mode-beginner');
 				if (!s.trim()) return 'Type a question or tap a tip below.';
 				if (/where|build|scratch|makecode|make code|p5|real game|editor/.test(s)) {
-					return 'Open the MAKE tab. Tap Scratch (blocks), MakeCode Arcade (blocks or code), or p5.js. They open in a new tab — free accounts work fine for clubs.';
+					return 'Open the MAKE tab. Use Scratch, MakeCode Arcade, p5.js, Pixel Pad, or Shiprekt Controls. External tools open in a new tab — free accounts work fine for clubs.';
 				}
 				if (/move|left|right|arrow|stick|wasd|player/.test(s)) {
 					return lots
@@ -6648,23 +6884,31 @@
 					return 'Start score at 0. When you touch a coin/star, add 1 and show the number on screen. Both Scratch and MakeCode have easy score blocks.';
 				}
 				if (/idea|game|what should|project|beginner/.test(s)) {
-					return 'Star Catcher is a great first build in Scratch or MakeCode: ship moves left/right, stars fall, catch for points.';
+					return 'Try a simple first build: player moves left/right, coins fall, catch them for points. Works in Scratch, MakeCode, or Shiprekt Controls.';
 				}
 				if (/share|submit|upload|club|live|machine|review/.test(s)) {
 					return 'When the game plays in a browser, open SHARE, paste the link, and send it. Staff review before anything goes LIVE on machines.';
 				}
 				if (/hello|hi|ahoy|hey|captain/.test(s)) {
-					return 'Ahoy! Ask where to build, how to move a player, draw, score, or share.';
+					return 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask where to build, how to move a player, draw, score, or share.';
 				}
 				return lots
 					? 'Try a tip: Where to build, Move, Draw, Idea, or Stuck.'
 					: 'Try: where to build, movement, canvas, score, debug, or share.';
 			}
 
+			// Lightweight language filter for youth-center safety (v3.1.0)
+			const CAPTAIN_BLOCK = /\b(dildo|sex|porn|nude|naked|fuck|shit|bitch|asshole|cock|pussy|penis|vagina|rape|kill yourself|suicide|bomb|terroris|meth|cocaine|heroin|weed|vape|drug|gun|shoot|murder|hate|nazi|slur)\b/i;
+
 			function askCaptain(q) {
 				const query = (q || '').trim();
 				if (!query) return;
 				hideIdle();
+				if (CAPTAIN_BLOCK.test(query)) {
+					addCapMsg('Captain Code only talks about games, building, and arcade stuff. Try asking about movement, pixels, score, or where to build.', 'bot');
+					try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {}
+					return;
+				}
 				addCapMsg(query, 'user');
 				setTimeout(function() { addCapMsg(captainReply(query), 'bot'); try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {} }, 150);
 			}
@@ -6718,7 +6962,7 @@
 				});
 				if (modeHint) modeHint.textContent = MODE_COPY[m].hint;
 				if (makeLead) {
-					makeLead.textContent = 'Sketch here, then build for real in Scratch or MakeCode. SHARE when it runs in a browser.';
+					makeLead.textContent = 'Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SHARE when it runs in a browser.';
 				}
 				try { localStorage.setItem('c4c_arr_mode', m); } catch (e) {}
 			}
@@ -6852,6 +7096,280 @@
 					} else if (st) st.textContent = 'Clipboard not available.';
 				});
 				paint();
+			})();
+
+			// Shiprekt Controls — educational control-system teacher (v3.1.0)
+			(function initShiprekt() {
+				const LESSONS = {
+					move: {
+						plain: 'Games check the keyboard every frame. If left is held, subtract from X. If right is held, add to X. That is movement.',
+						code: [
+							'// 1) READ KEYS → MOVE',
+							'if (keys.left)  player.x -= speed;',
+							'if (keys.right) player.x += speed;',
+							'// player.x is the horizontal position on screen'
+						].join('\n')
+					},
+					jump: {
+						plain: 'Jump sets upward velocity once while on the ground. Gravity adds a little downward speed every frame so you fall back.',
+						code: [
+							'// 2) JUMP + GRAVITY',
+							'if (keys.jump && player.onGround) {',
+							'  player.vy = -jumpPower;  // up is negative',
+							'  player.onGround = false;',
+							'}',
+							'player.vy += gravity;      // fall a bit each frame',
+							'player.y  += player.vy;',
+							'if (player.y >= groundY) {',
+							'  player.y = groundY;',
+							'  player.vy = 0;',
+							'  player.onGround = true;',
+							'}'
+						].join('\n')
+					},
+					collide: {
+						plain: 'Collision is just distance. If the player and a coin are close enough, they are touching.',
+						code: [
+							'// 3) TOUCH = COLLIDE',
+							'const dx = player.x - coin.x;',
+							'const dy = player.y - coin.y;',
+							'const dist = Math.sqrt(dx*dx + dy*dy);',
+							'if (dist < hitRadius) {',
+							'  // they overlap — handle the touch',
+							'  coin.alive = false;',
+							'}'
+						].join('\n')
+					},
+					score: {
+						plain: 'When a collectible is touched, add to a number and show it. That number is the score.',
+						code: [
+							'// 4) SCORE ON COLLECT',
+							'if (touchedCoin) {',
+							'  score += 1;',
+							'  // draw "SCORE " + score on the HUD',
+							'}'
+						].join('\n')
+					},
+					win: {
+						plain: 'A win condition is a rule you check every frame. When score reaches the target, the run is over.',
+						code: [
+							'// 5) WIN CONDITION',
+							'if (score >= winAt) {',
+							'  won = true;',
+							'  // stop play / show YOU WIN',
+							'}'
+						].join('\n')
+					}
+				};
+
+				const order = ['move', 'jump', 'collide', 'score', 'win'];
+				const active = {};
+				const plainEl = document.getElementById('shiprektPlain');
+				const codeEl = document.getElementById('shiprektCode');
+				const status = document.getElementById('shiprektStatus');
+				const canvas = document.getElementById('shiprektPreview');
+				if (!canvas || !canvas.getContext) return;
+				const ctx = canvas.getContext('2d');
+				let running = false;
+				let raf = 0;
+				let state = null;
+				const keys = { left: false, right: false, jump: false };
+
+				function rebuildCode() {
+					const parts = ['// ArrrcadeOS — Shiprekt control script', '// Built one idea at a time', ''];
+					let any = false;
+					order.forEach(function(id) {
+						if (active[id] && LESSONS[id]) {
+							any = true;
+							parts.push(LESSONS[id].code);
+							parts.push('');
+						}
+					});
+					if (!any) parts.push('// tap steps above to add control code');
+					if (codeEl) codeEl.textContent = parts.join('\n');
+				}
+
+				function showLesson(id) {
+					const L = LESSONS[id];
+					if (!L || !plainEl) return;
+					plainEl.textContent = L.plain;
+				}
+
+				document.querySelectorAll('.sr-step').forEach(function(btn) {
+					btn.addEventListener('click', function() {
+						const id = btn.getAttribute('data-step');
+						const on = btn.getAttribute('aria-pressed') !== 'true';
+						btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+						active[id] = on;
+						showLesson(id);
+						rebuildCode();
+						if (status) {
+							status.textContent = on
+								? ('Added: ' + (LESSONS[id] ? id : '') + ' — read the plain English, then the code.')
+								: ('Removed ' + id + '.');
+						}
+					});
+				});
+
+				function resetState() {
+					state = {
+						x: 40, y: 140, vx: 0, vy: 0, onGround: true,
+						score: 0, coins: [], frame: 0, won: false, flash: ''
+					};
+					for (let i = 0; i < 5; i++) {
+						state.coins.push({ x: 70 + i * 48, y: 50 + (i % 2) * 28, alive: true });
+					}
+				}
+
+				function draw() {
+					const s = state;
+					ctx.fillStyle = '#02140e';
+					ctx.fillRect(0, 0, 320, 180);
+					ctx.fillStyle = '#0a3d2e';
+					ctx.fillRect(0, 160, 320, 20);
+					ctx.fillStyle = '#00ff9f33';
+					ctx.fillRect(0, 159, 320, 1);
+					s.coins.forEach(function(c) {
+						if (!c.alive) return;
+						ctx.fillStyle = '#ffe566';
+						ctx.beginPath();
+						ctx.arc(c.x, c.y, 6, 0, Math.PI * 2);
+						ctx.fill();
+					});
+					ctx.fillStyle = '#00ff9f';
+					ctx.fillRect(s.x - 8, s.y - 16, 16, 16);
+					ctx.fillStyle = '#02140e';
+					ctx.fillRect(s.x - 4, s.y - 12, 3, 3);
+					ctx.fillRect(s.x + 2, s.y - 12, 3, 3);
+					ctx.fillStyle = '#7dffc8';
+					ctx.font = '10px Courier New';
+					ctx.textAlign = 'left';
+					ctx.fillText('SCORE ' + s.score, 8, 14);
+					ctx.fillStyle = '#00ff9f66';
+					ctx.font = '9px Courier New';
+					ctx.fillText(active.move ? '←→ on' : '←→ off', 8, 28);
+					ctx.fillText(active.jump ? 'JUMP on' : 'JUMP off', 70, 28);
+					if (s.won) {
+						ctx.fillStyle = '#ffff66';
+						ctx.font = 'bold 14px Courier New';
+						ctx.textAlign = 'center';
+						ctx.fillText('YOU WIN', 160, 90);
+					}
+					if (s.flash) {
+						ctx.fillStyle = '#ffff66';
+						ctx.font = '11px Courier New';
+						ctx.textAlign = 'center';
+						ctx.fillText(s.flash, 160, 44);
+					}
+				}
+
+				window.addEventListener('keydown', function(e) {
+					if (!running) return;
+					if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+					if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+					if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+						keys.jump = true;
+						e.preventDefault();
+					}
+				});
+				window.addEventListener('keyup', function(e) {
+					if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+					if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+					if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') keys.jump = false;
+				});
+
+				function tick() {
+					if (!running || !state) return;
+					const s = state;
+					s.frame++;
+					if (s.won) { draw(); raf = requestAnimationFrame(tick); return; }
+
+					if (active.move) {
+						if (keys.left) s.vx = -2.2;
+						else if (keys.right) s.vx = 2.2;
+						else s.vx *= 0.65;
+					} else s.vx = 0;
+
+					if (active.jump && s.onGround && keys.jump) {
+						s.vy = -5.5;
+						s.onGround = false;
+						s.flash = 'vy = -jumpPower';
+					}
+					s.vy += active.jump ? 0.28 : 0.35;
+					s.x += s.vx;
+					s.y += s.vy;
+					if (s.x < 8) s.x = 8;
+					if (s.x > 312) s.x = 312;
+					if (s.y >= 160) { s.y = 160; s.vy = 0; s.onGround = true; }
+
+					if (active.collide || active.score) {
+						s.coins.forEach(function(c) {
+							if (!c.alive) return;
+							const dx = s.x - c.x, dy = (s.y - 8) - c.y;
+							if (dx * dx + dy * dy < 196) {
+								if (active.collide) c.alive = false;
+								if (active.score) {
+									s.score += 1;
+									s.flash = 'score += 1';
+								}
+							}
+						});
+					}
+					if (active.win && s.score >= 5) {
+						s.won = true;
+						s.flash = 'score >= winAt';
+					}
+					if (s.flash && s.frame % 50 === 0) s.flash = '';
+					draw();
+					raf = requestAnimationFrame(tick);
+				}
+
+				function play() {
+					resetState();
+					running = true;
+					const on = order.filter(function(id) { return active[id]; });
+					if (status) {
+						status.textContent = on.length
+							? ('Live demo — arrows/WASD. Active: ' + on.join(', '))
+							: 'No steps on yet — tap 1–5 first, then TRY IT.';
+					}
+					cancelAnimationFrame(raf);
+					tick();
+				}
+
+				function clearAll() {
+					running = false;
+					cancelAnimationFrame(raf);
+					order.forEach(function(id) { active[id] = false; });
+					document.querySelectorAll('.sr-step').forEach(function(b) {
+						b.setAttribute('aria-pressed', 'false');
+					});
+					if (plainEl) plainEl.textContent = 'Tap a step above. You’ll see what it means in plain words, then the code games actually use.';
+					rebuildCode();
+					resetState();
+					draw();
+					if (status) status.textContent = 'Cleared. Build the control system one idea at a time.';
+				}
+
+				const playBtn = document.getElementById('shiprektPlay');
+				const resetBtn = document.getElementById('shiprektReset');
+				const copyBtn = document.getElementById('shiprektCopy');
+				if (playBtn) playBtn.addEventListener('click', play);
+				if (resetBtn) resetBtn.addEventListener('click', clearAll);
+				if (copyBtn) copyBtn.addEventListener('click', function() {
+					const src = codeEl ? codeEl.textContent : '';
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard.writeText(src).then(function() {
+							if (status) status.textContent = 'Control code copied — paste into Scratch notes, MakeCode, or a text file.';
+						}).catch(function() {
+							if (status) status.textContent = 'Could not copy.';
+						});
+					} else if (status) status.textContent = 'Select the code box and copy manually.';
+				});
+
+				rebuildCode();
+				resetState();
+				draw();
 			})();
 
 			try {
