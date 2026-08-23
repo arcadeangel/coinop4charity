@@ -1744,6 +1744,59 @@
 		}
 
 		/* ========== ARRRCADÉOS (3.1.0) ========== */
+
+		/* Progressive layout: one job at a glance */
+		.action-bar {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			justify-content: center;
+			margin: 0.6rem 0 1rem;
+		}
+		.action-bar button {
+			flex: 1 1 140px;
+			max-width: 200px;
+			background: rgba(0, 255, 159, 0.1);
+			border: 1px solid #00ff9f88;
+			color: #00ff9f;
+			font-family: inherit;
+			font-size: 0.78rem;
+			letter-spacing: 0.1em;
+			padding: 0.75rem 0.9rem;
+			cursor: pointer;
+			text-transform: uppercase;
+		}
+		.action-bar button.primary-action {
+			background: #00ff9f;
+			color: #000;
+			font-weight: bold;
+			box-shadow: 0 0 16px #00ff9f55;
+		}
+		.action-bar button:hover { border-color: #00ff9f; box-shadow: 0 0 12px #00ff9f44; }
+		.action-bar button.primary-action:hover { background: #33ffb3; }
+		#arrcadePanel.arrcade-collapsed {
+			display: none !important;
+		}
+		#arrcadePanel.arrcade-open {
+			display: block;
+		}
+		.centers-block summary {
+			cursor: pointer;
+			color: #00ff9f;
+			letter-spacing: 0.08em;
+			font-size: 0.8rem;
+			padding: 0.6rem 0;
+			list-style: none;
+		}
+		.centers-block summary::-webkit-details-marker { display: none; }
+		.centers-block summary::before { content: "▸ "; opacity: 0.7; }
+		.centers-block[open] summary::before { content: "▾ "; }
+		body:not(.kiosk-mode) .mission {
+			min-height: 0;
+			max-height: 6.5em;
+			overflow: hidden;
+		}
+
 		.arrcade-panel {
 			margin: 1.1rem 0 1.25rem;
 			padding: 0.85rem 0.9rem 1rem;
@@ -2667,7 +2720,12 @@
 			new and restored arcade games placed free · no cost to youth centers · kids play free
 		</div>
 
-														<div class="arrcade-panel" id="arrcadePanel">
+		<div class="action-bar" id="actionBar" role="group" aria-label="Main actions">
+			<button type="button" class="primary-action" id="ctaPlayGames">Play games</button>
+			<button type="button" id="ctaMakeGame">Make games</button>
+		</div>
+
+														<div class="arrcade-panel arrcade-collapsed" id="arrcadePanel">
 			<div class="arrcade-head">
 				<strong>ARRRCADÉOS</strong>
 				<span class="arrcade-mark" title="ArrrcadeOS" role="img" aria-label="Skull"><span class="arrcade-skull">☠</span></span>
@@ -2708,7 +2766,7 @@
 			<div class="arrcade-tabs" role="tablist">
 				<button type="button" class="active" data-arrtab="lab" id="arrTabLab">PLAY</button>
 				<button type="button" data-arrtab="make" id="arrTabMake">MAKE</button>
-				<button type="button" data-arrtab="share" id="arrTabShare">SHARE</button>
+				<button type="button" data-arrtab="share" id="arrTabShare">SUBMIT</button>
 			</div>
 
 			<div id="arrLab" class="arrcade-lab">
@@ -2746,11 +2804,11 @@
 						<span class="arrcade-badge preview">PREVIEW SLOT</span>
 					</div>
 				</div>
-				<p class="arrcade-note">Free play on club machines. Use SHARE when you have a playable link.</p>
+				<p class="arrcade-note">Free play on club machines. Use SUBMIT when you have a playable link.</p>
 			</div>
 
 			<div id="arrMake" class="arrcade-make" hidden>
-				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SHARE when it runs in a browser.</p>
+				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SUBMIT when it runs in a browser.</p>
 
 				<div class="make-tools">
 					<div class="make-card make-card-featured">
@@ -6670,6 +6728,35 @@
 			try { attractIdleMs = 45000; } catch (e) {}
 		}
 
+
+		// Progressive CTAs — one job at a glance
+		(function initActionBar() {
+			const panel = document.getElementById('arrcadePanel');
+			const playBtn = document.getElementById('ctaPlayGames');
+			const makeBtn = document.getElementById('ctaMakeGame');
+			const games = document.querySelector('.free-games');
+			function openMake() {
+				if (!panel) return;
+				panel.classList.remove('arrcade-collapsed');
+				panel.classList.add('arrcade-open');
+				try { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+				try {
+					const tab = document.getElementById('arrTabMake');
+					if (tab) tab.click();
+				} catch (e) {}
+			}
+			function goPlay() {
+				if (games) try { games.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+			}
+			if (playBtn) playBtn.addEventListener('click', goPlay);
+			if (makeBtn) makeBtn.addEventListener('click', openMake);
+			try {
+				const q = location.search || '';
+				const h = location.hash || '';
+				if (h === '#make' || h === '#arrcade' || q.indexOf('make=1') >= 0) openMake();
+			} catch (e) {}
+		})();
+
 		// ========== ARRRCADÉOS UI ==========
 		// ========== ARRRCADÉOS UI (3.1.0) — Shiprekt Controls + filters + Captain upgrade ==========
 		(function initArrcade() {
@@ -6700,8 +6787,8 @@
 					hello: 'Ahoy! Movement, pixels, scores, or where to build — ask anytime. Shiprekt Controls is in MAKE.'
 				},
 				advanced: {
-					hint: 'I got this — shorter answers. SHARE when your game runs in a browser.',
-					hello: 'Captain on deck. Quick tips, then SHARE a play link for review.'
+					hint: 'I got this — shorter answers. SUBMIT when your game runs in a browser.',
+					hello: 'Captain on deck. Quick tips, then SUBMIT a play link for review.'
 				}
 			};
 
@@ -6740,16 +6827,17 @@
 					px(1, 1, hat); px(1, 2, hat); px(0, 2, hat);
 					px(14, 1, hat); px(14, 2, hat); px(15, 2, hat);
 
-					// skull (white)
-					const sk = '#f0f0f0';
+					// hat mark — classic “A” badge (Arrrcade / Angels)
+					const sk = '#f5f5f5';
+					// peak of A
 					px(7, 1, sk); px(8, 1, sk);
-					px(6, 2, sk); px(7, 2, sk); px(8, 2, sk); px(9, 2, sk);
-					px(7, 3, sk); px(8, 3, sk);
-					// eye sockets
-					px(7, 2, '#111'); px(8, 2, '#111');
-					// crossbones under skull
-					px(5, 3, sk); px(6, 3, sk); px(9, 3, sk); px(10, 3, sk);
+					// upper sides
+					px(6, 2, sk); px(9, 2, sk);
+					// crossbar of A
+					px(6, 3, sk); px(7, 3, sk); px(8, 3, sk); px(9, 3, sk);
+					// lower legs of A
 					px(5, 4, sk); px(10, 4, sk);
+					px(6, 4, sk); px(9, 4, sk);
 
 					// ===== FACE =====
 					const skin = '#f0c090';
@@ -6887,10 +6975,10 @@
 					return 'Try a simple first build: player moves left/right, coins fall, catch them for points. Works in Scratch, MakeCode, or Shiprekt Controls.';
 				}
 				if (/share|submit|upload|club|live|machine|review/.test(s)) {
-					return 'When the game plays in a browser, open SHARE, paste the link, and send it. Staff review before anything goes LIVE on machines.';
+					return 'When the game plays in a browser, open SUBMIT, paste the link, and send it. Staff review before anything goes LIVE on machines.';
 				}
 				if (/hello|hi|ahoy|hey|captain/.test(s)) {
-					return 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask where to build, how to move a player, draw, score, or share.';
+					return 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask where to build, how to move a player, draw, score, or submit.';
 				}
 				return lots
 					? 'Try a tip: Where to build, Move, Draw, Idea, or Stuck.'
@@ -6962,7 +7050,7 @@
 				});
 				if (modeHint) modeHint.textContent = MODE_COPY[m].hint;
 				if (makeLead) {
-					makeLead.textContent = 'Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SHARE when it runs in a browser.';
+					makeLead.textContent = 'Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SUBMIT when it runs in a browser.';
 				}
 				try { localStorage.setItem('c4c_arr_mode', m); } catch (e) {}
 			}
