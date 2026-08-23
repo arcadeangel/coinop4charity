@@ -820,6 +820,36 @@
 			margin: 0 auto;
 		}
 
+		/* Kiosk / cabinet: fill more of the screen; physical stick replaces on-screen pads */
+		body.kiosk-mode #game-canvas {
+			width: min(960px, 98vw);
+			max-height: min(720px, 78dvh);
+			border-width: 3px;
+		}
+		body.kiosk-mode .touch-controls {
+			display: none !important;
+		}
+		body.kiosk-mode .controls-hint {
+			display: none !important;
+		}
+		body.kiosk-mode .close-game {
+			margin-top: 10px;
+			padding: 0.65rem 1.8rem;
+			font-size: 0.95rem;
+			letter-spacing: 0.14em;
+			border-width: 2px;
+			box-shadow: 0 0 14px #00ff9f44;
+		}
+		body.kiosk-mode #game-overlay {
+			padding: max(6px, env(safe-area-inset-top)) 6px max(10px, env(safe-area-inset-bottom));
+			justify-content: flex-start;
+			padding-top: max(12px, env(safe-area-inset-top));
+		}
+		body.kiosk-mode .game-ui {
+			margin-top: 6px;
+			font-size: 0.85rem;
+		}
+
 		.game-ui {
 			margin-top: 10px;
 			font-size: 0.9rem;
@@ -1793,8 +1823,9 @@
 		.centers-block[open] summary::before { content: "▾ "; }
 		body:not(.kiosk-mode) .mission {
 			min-height: 0;
-			max-height: 6.5em;
-			overflow: hidden;
+			/* was max-height: 6.5em + overflow:hidden — clipped typewriter mid-sentence on phones */
+			max-height: none;
+			overflow: visible;
 		}
 
 		.arrcade-panel {
@@ -3112,10 +3143,29 @@
 	<script>
 		// ========== CINEMATIC CRT POWER-ON ==========
 		(function crtBoot() {
+			// Detect kiosk/arcade as early as possible (before later C4C_KIOSK assignment)
+			try {
+				const q = new URLSearchParams(location.search || '');
+				if (q.get('kiosk') === '1' || q.get('arcade') === '1' || location.hash === '#kiosk') {
+					window.C4C_KIOSK = true;
+					window.C4C_KIOSK_LITE = true;
+					document.body.classList.add('kiosk-mode', 'reduce-fx');
+				}
+			} catch (e) {}
+
 			const boot = document.getElementById('crt-boot');
 			const canvas = document.getElementById('intro-canvas');
 			if (!boot) {
 				document.body.classList.add('crt-on');
+				return;
+			}
+			// Kiosk cabinets skip the CRT boot entirely — go straight to games
+			if (window.C4C_KIOSK || window.C4C_KIOSK_LITE) {
+				boot.classList.add('done');
+				boot.style.display = 'none';
+				document.body.classList.add('crt-on');
+				document.body.classList.remove('boot-active');
+				try { window.dispatchEvent(new Event('c4c-boot-done')); } catch (e) {}
 				return;
 			}
 			document.body.classList.add('crt-on');
@@ -3141,10 +3191,13 @@
 			];
 			let t0 = performance.now();
 			let finished = false;
+			let bootGpInterval = null;
 
 			function finishBoot() {
 				if (finished) return;
 				finished = true;
+				try { if (bootGpInterval) clearInterval(bootGpInterval); } catch (e) {}
+				bootGpInterval = null;
 				boot.classList.add('fade-out');
 				setTimeout(function() {
 					boot.classList.add('done');
@@ -3153,12 +3206,21 @@
 				}, 380);
 			}
 
-			// Skip on touch, key, OR arcade stick (BSP-Y02 / HID gamepad)
-			// Without gamepad polling here, kiosk tablets only respond to screen touch
-			// and feel like they "reboot" until touched.
+			// Skip on touch, key, OR arcade stick (BSP-Y02 / HID / Bluetooth gamepad)
+			// Chrome/WebKit often return empty getGamepads() until a gesture OR until
+			// gamepadconnected fires — so we listen for connect, poll on a timer,
+			// and also accept any button/axis once the stick is live.
 			const skip = () => finishBoot();
 			boot.addEventListener('pointerdown', skip, { once: true });
+			boot.addEventListener('touchstart', skip, { once: true, passive: true });
 			window.addEventListener('keydown', skip, { once: true });
+			window.addEventListener('keyup', skip, { once: true });
+			window.addEventListener('gamepadconnected', skip, { once: true });
+			// Some Bluetooth sticks only show up after a short delay — keep polling
+			bootGpInterval = setInterval(function() {
+				if (finished) { try { clearInterval(bootGpInterval); } catch (e) {} return; }
+				if (bootGamepadWantsSkip()) finishBoot();
+			}, 80);
 
 			function bootGamepadWantsSkip() {
 				try {
@@ -3170,10 +3232,19 @@
 						const axes = gp.axes || [];
 						for (let b = 0; b < buttons.length; b++) {
 							const btn = buttons[b];
-							if (btn && (btn.pressed || (typeof btn.value === 'number' && btn.value > 0.5))) return true;
+							if (btn && (btn.pressed || (typeof btn.value === 'number' && btn.value > 0.35))) return true;
 						}
 						for (let a = 0; a < axes.length; a++) {
-							if (typeof axes[a] === 'number' && Math.abs(axes[a]) > 0.45) return true;
+							if (typeof axes[a] === 'number' && Math.abs(axes[a]) > 0.35) return true;
+						}
+						// On kiosk/arcade, a connected pad can end boot after warm-up without mashing
+						if (gp.id && buttons.length > 0 && (performance.now() - t0) > 900) {
+							try {
+								const q = new URLSearchParams(location.search || '');
+								if (q.get('kiosk') === '1' || q.get('arcade') === '1' || location.hash === '#kiosk' || window.C4C_KIOSK) {
+									return true;
+								}
+							} catch (e2) {}
 						}
 					}
 				} catch (e) {}
@@ -3181,7 +3252,10 @@
 			}
 
 			function frame(now) {
-				if (finished) return;
+				if (finished) {
+					try { if (bootGpInterval) clearInterval(bootGpInterval); } catch (e) {}
+					return;
+				}
 				if (bootGamepadWantsSkip()) { finishBoot(); return; }
 				const t = now - t0;
 				// keep canvas sized to viewport (handles orientation / mobile)
@@ -7544,7 +7618,16 @@
 			if (typeof bumpActivity === 'function') bumpActivity();
 		}
 
-		document.getElementById('closeGame').addEventListener('click', stopGame);
+		(function wireCloseBack() {
+			const closeBtn = document.getElementById('closeGame');
+			if (!closeBtn) return;
+			// Kiosk / cabinet: label as BACK so staff + kids know it leaves the game
+			if (window.C4C_KIOSK || document.body.classList.contains('kiosk-mode')) {
+				closeBtn.textContent = '◀ BACK';
+				closeBtn.setAttribute('aria-label', 'Back to game list');
+			}
+			closeBtn.addEventListener('click', stopGame);
+		})();
 
 		document.querySelectorAll('.game-btn').forEach(btn => {
 			btn.addEventListener('click', () => startGame(btn.dataset.game));
@@ -7557,6 +7640,13 @@
 			window.scrollTo(0, 0);
 			currentGame = name;
 			startGamepadLoop();
+			// Keep BACK label correct if kiosk was toggled late
+			try {
+				const closeBtn = document.getElementById('closeGame');
+				if (closeBtn && (window.C4C_KIOSK || document.body.classList.contains('kiosk-mode'))) {
+					closeBtn.textContent = '◀ BACK';
+				}
+			} catch (e) {}
 			sfx('select');
 			// per-game neon accent on overlay
 			overlay.className = 'active';
@@ -7621,6 +7711,10 @@
 
 		function setupTouchControls(buttons) {
 			touchContainer.innerHTML = '';
+			// Kiosk / BSP-Y02 cabinets use physical sticks — no on-screen pads
+			if (window.C4C_KIOSK || document.body.classList.contains('kiosk-mode')) {
+				return;
+			}
 			const map = {
 				left: { label: '◀', key: 'left' },
 				right: { label: '▶', key: 'right' },
