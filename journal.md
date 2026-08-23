@@ -1,5 +1,28 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 2026-08-23 — ArrrcadeOS 3.1.0 (play → make → submit · kiosk lite · staff path)
+
+Excellence in STEM by accident or divine intervention? Now play something free, make something small, submit a link, and — after review — maybe see it next to the live titles in your own arcade cabinet. Same terminal. Clearer loop. Less noise on first glance.
+
+**What we shipped**
+- **ArrrcadeOS 3.1.0** on the terminal build: version strings, boot footer, and UI aligned.
+- **Captain Code** upgraded: language filter for youth-center safety; clearer pirate face (hat mark, eyepatch, beard separation, smile + talk, animated parrot); greeting *Ahoy! Welcome aboard ArrrcadeOS sailor…*
+- **MAKE** keeps Scratch, MakeCode Arcade, p5.js, Pixel Pad — plus **Shiprekt Controls**: step-by-step control-system lessons (move, jump, collide, score, win) with plain English, real code samples, TRY IT demo, COPY CODE. Educational, not a toy toggle pad.
+- **SHARE → SUBMIT** on the Arrrcade tabs (PLAY · MAKE · SUBMIT). Site-wide “SHARE THIS TERMINAL” stays for QR / device share — different job.
+- **YOUR GAME HERE** copy: *Build in “MAKE” · Submit Your Game · See It Here & On The Machines.*
+- **Layout pass:** top actions **Play games** / **Make games** only. ArrrcadeOS stays collapsed until Make games (or `#make` / `?make=1`). Host CTA remains the single glowing placement button lower on the page — no third redundant button up top.
+- **Kiosk lite** (`?kiosk=1` / `?arcade=1` / `#kiosk`): skip heavy CRT delay, kill matrix/FX, skip Leaflet map, short static mission, `reduce-fx`, longer attract idle. Play-first cabinets get games + mission without the full maker chrome.
+- **Staff guide** drafted: *Youth Center Staff Game Creation and Submission Guide* (MAKE tools, Shiprekt, SUBMIT checklist, AI “fast lanes,” kiosk note). Markdown-first for GitHub `docs/staff/` (or next to tablet DIY notes); PDF optional for binders.
+
+**Why it matters for partners**
+Staff and kids should not hunt. Play is one click. Make is one click. Submit is the review door. Kiosk stays lean on real hardware. Filters and SUBMIT language match club safety. Shiprekt teaches *why* controls work so Scratch/MakeCode are less mysterious.
+
+**Next**
+Land 3.1.0 on the live site → commit staff guide to the repo → first external SUBMIT reviews → promote a YOUR GAME HERE title when ready. Keep free play free.
+
+Everyone wins.
+
+
 ## 2026-08-22 — Arrrcadé OS 3.0.9 (play → make for real → share → YOUR GAME HERE)
 
 Excellence in STEM. It goes from being a worksheet or checklist item to real tools, a path from “I made this” to “it’s on the site, distributed through a network of machines” and a chance — after review — to sit next to the live titles kids already play free.
@@ -95,7 +118,7 @@ Speaking of family, on a personal note, a big long overdue thank you to my uncle
 Heading to Reno will try to set up a few more meetings while in town. If you know any organizers helping create safe spaces for kids who could use some extra arcade games refer them
 to the contact form or give them my direct line.
 
-08.19.26 21:21 First placements live + terminal updates
+## 08.19.26 21:21 First placements live + terminal updates
 
 {Terminal / site updates}
 
@@ -117,7 +140,7 @@ A lot of the doors that opened this week trace back to a handful of individuals 
 Good to know there are courteous and classy individuals out there looking out for our youth. I see you striving to make these youth enrichment programs and experiences exactly that... unforgettable, in every way. I think the whole thesis that these things belong amongst the kids, and their youth centers for free play, instead of a dark storage unit or some winning bidder's house or movie theater lobby, makes plenty of sense especially after seeing it in action. Being there brought back some good memories. I am excited to hear the updates from the sites.
 
 
-08.16.26 21:12 First CoinOp4Charity Terminal Games Prototype.
+## 08.16.26 21:12 First CoinOp4Charity Terminal Games Prototype.
 
 It's alive! The CoinOp4Charity terminal is now available on a physical arcade cabinet for our youth center partners.
 Purely accidental, Frankensteined the thing tonight in the shop to display and run the coinop4charity terminal games.
@@ -127,7 +150,7 @@ Later on we can let the new owners decide if they want to run a old Hanaho drive
 My vision for terminal games here has always been a collective effort and a democracy of community code. I hope that we are building more terminal games with some of the youth communities we serve by offering free STEM workshops and making terminal a team/community effort. Wouldn't that be nice?
 We can do it.
 
-08.16.26 12:36 v2.7 New game ---> v2.8 Overhaul bugs. Dedication high score update with my personal dedication
+## 08.16.26 12:36 v2.7 New game ---> v2.8 Overhaul bugs. Dedication high score update with my personal dedication
 
 {New Game, Updates}
 v2.7 Neon Kaiju felt stiff and unfinished: long intro, weak movement, sparse world, clunky riding/combat, short timer.
@@ -156,8 +179,7 @@ even a couple kids happy the way my father made these memories for me its worth 
 Anyways the first high score dedication feature after locking it I dedicated in the loving memory of my father. Without him, my mother, my uncles and other loving family members I don't think I would've
 learned half if not any of the things that make this organization possible. 
 
-08.15.26 17:38
-Hey what's up? Hello Terminal v2.7 + weekly fleet acquisitions
+## 08.15.26 17:38 Hey what's up? Hello Terminal v2.7 + weekly fleet acquisitions
 
 {Website / terminal updates}
 Shipped Index.html as TERMINAL v2.7.
@@ -172,16 +194,14 @@ Global hi-score system and fleet panel left intact. Site is demo-ready for state
 Picked up a Hanaho ArcadePC multicade (needs work), large 26 inch working Galaga countercade running on Dell PC and Super Pacman countercade.
 Weekly acquisition total now sits at 9 machines.
 
-08.15.26 17:28
-Childhood experiences and why the spaces matter
+## 08.15.26 17:28 Childhood experiences and why the spaces matter
 Doubling down on a simple point: kids need to feel like kids.
 If more kids got real chances to just be kids, and enjoyed their time growing up, fewer would rush to copy the worst “adult” patterns around them.
 We all remember riding bikes with friends. Every kid deserves that kind of ordinary freedom. The same idea applies to supervised recreational spaces: arcades, game rooms, places that feel special the way you may remember leaving the skating rink, or bowling alley. When unhoused and highly stressed youth only get barren rooms, society is shortchanging them. As long as those centers don’t feel closer to somewhere a kid actually wants to be, our mission still has a lot of work to do.
 Classic skill-based games and supervised group play give short cycles of challenge, focus, recovery, and improvement. That is different from pure shutdown or endless scroll. It will not replace the adults who show up every day — those people are the ones who make the spaces work — but the tools should support them, not leave the rooms looking like an afterthought.
 We live in a different world than the one many of us grew up in. That does not mean the useful parts of childhood have to be written off. The adults can still build the rooms, the machines, and the time where kids get to practice being kids.
 
-08.14.26 00:33
-Built out the public restoration library and shipped a site update (v2.6).
+## 08.14.26 00:33 Built out the public restoration library and shipped a site update (v2.6).
 
 {Restoration documentation}
 Created and finalized a full set of public-facing restoration / service guides for the docs/restoration/ folder:
@@ -212,24 +232,21 @@ Updated docs/restoration/README.md with a full table of every guide currently in
 All changes tested and verified before handoff.
 Restoration library is now public-ready and linked from the homepage. High-score names are cleaner and safer for a youth-facing site. Site version is current at v2.6.
 
-08.13.26 22:33
-Application approved: active nonprofit
+## 08.13.26 22:33 Application approved: active nonprofit
 
 En route from picking up a large sized Pacman countercade and Ms. Pacman 1Up (added to fleet this afternoon), just noticed active nonprofit status on SilverFlume.
 Excited to make this announcement and look forward to helping youth leaders and organizers on the front lines build many arcades in the years to come! 
 Thanks to everyone who is getting the word out on our organization! 
 Special thanks to all of the people who have been helping out and also volunteering their time.
 
-08.13.26 12:17
-Global high scores finally registering
+## 08.13.26 12:17 Global high scores finally registering
 
 Validated global high-score system and KV backend. GET/POST working correctly — only higher scores update, name + timestamp persist, durable across edge. 
 Confirmed live board updates immediately and consistently.
 Meeting with Sharp Image for Sega Turbo CRT cleanup and TLC (tube clean, focus/geometry, presentation-ready service). Sega Turbo is now ready with the exception of a vinyl decal replacement.
 Available fleet front-end updates.
 
-08.13.26 11:37
-Scores backend back online
+## 08.13.26 11:37 Scores backend back online
 
 Worker code was returning 1101 (dead).
 Replaced with minimal CORS-enabled handler. GET/POST /scores now 200.
@@ -238,14 +255,12 @@ Already pointed at the same URL — no index change required for basic operation
 In-memory store works for live testing but does not persist across isolates.
 Next steps: binding free KV namespace so high scores survive cold starts and redeploys.
 
-08.12.26 22:33
-Top scores on server, no longer terminal local
+## 08.12.26 22:33 Top scores on server, no longer terminal local
 
 Using GitHub's API terminal games high scores are now hosted on the server and no longer local meaning your grind and bragging rights are there to stay. Took a couple tries and days.
 Picked up a cool Multicade earlier with volunteer. Designed by Chicago Games, lots of good games on it, super clean. Screen needed to be centered and needed a new power cord fixed and ready now in the warehouse storage space.
 
-08.12.26 14:56
-Not just a bad speaker (Final Fight).
+## 08.12.26 14:56 Not just a bad speaker (Final Fight).
 
 Received joystick replacement part today along with two spare speaker parts I landed for 9.95 each on eBay with free shipping.
 These were arcade1up speakers that came from the exact same game and manufacturer. I tested the last speaker with a multimeter and the reading was all over
@@ -254,8 +269,7 @@ and did not make any pop or sound when placed against a battery. Some real arcad
 older machines to these 1Ups because they feel like the classics are easier to fix. Still no sound, looking for low cost volume control replacement next. 
 
 
-08.12.26 00:53 
-Are Fighting Games Entirely Bad?
+## 08.12.26 00:53 Are Fighting Games Entirely Bad?
 
  First journal entry, how do we break the ice? What better way than posting an unpopular and (mostly) unsaid opinion: 
 Frogger, Cruisin USA, Pacman and other runner games offer temporary 
