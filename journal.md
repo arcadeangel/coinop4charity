@@ -1,10 +1,12 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 2026-08-23 — TERMINAL v3.1.1 (low-RAM kiosk profile · Pixel Pad undo button)
+## 08.24.26 11:11 The simple things we overlook...
 
-Custom made stations on older low-RAM tablets + BSP-Y02 getting buggy under the full terminal. Hosting was already fine (Cloudflare edge). The bottleneck is client RAM / continuous gamepad poll + attract canvas.
+When the world looks grey...
+**we just add some color, just like when the hue is off on those screens**
+But if they're CRTs, half the time, we call Sharp Image for that.
+I wish I wrote this a haiku, its poetic.
 
-**What shipped**
 
 * **Low-RAM / weak-device profile** (additive to existing kiosk path — does not change normal phones or stronger tablets):
   * Early detect via `navigator.deviceMemory`, core count, Android + coarse pointer.
@@ -41,7 +43,7 @@ Youth-center tablets are mixed — some are older Android units with 2–3 GB RA
 
 Watch first placements with BSP-Y02 + older tablets after deploy. If any unit still thrashes, force `?kiosk=1&lowram=1` and note device model for a possible further attract/canvas gate later.
 
-## 2026-08-23 — ArrrcadeOS 3.1.0 (play → make → submit · kiosk lite · staff path)
+## 08.23.26 00:00 — ArrrcadeOS 3.1.0 (play → make → submit · kiosk lite · staff path)
 
 Excellence in STEM by accident or divine intervention? Now play something free, make something small, submit a link, and — after review — maybe see it next to the live titles in your own arcade cabinet. Same terminal. Clearer loop. Less noise on first glance.
 
@@ -145,7 +147,7 @@ I will be creating a user friendly file under restoration/docs with a template o
 
 Thank you to everyone moving cabinets, taking the calls, and treating free play for kids like it matters — because it does.
 
-08.21.26 13:47 More placements live + more meetings + more fleet additions. Expanding to Reno. Special thanks.
+## 08.21.26 13:47 More placements live + more meetings + more fleet additions. Expanding to Reno. Special thanks.
 
 It's been a busy couple of days we have added 6 new games to the fleet, visited with numerous Boys and Girls Clubs locations
 in Southern Nevada and are now speaking with the Eddy House in Reno, a very well known organization with some wonderful history and work in the community. They provide a safe space for young people in need. 
