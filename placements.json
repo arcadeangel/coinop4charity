@@ -106,5 +106,23 @@
     "notes": "Donated. Full upright cabinet. Free play. Working great.",
     "placed": "Donated on 2026-08-21",
     "status": "active"
+  },
+  {
+    "id": "nba-jam-1up-01",
+    "name": "NBA Jam (1UP)",
+    "number": "020",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Donated. Free play multiplayer countercade includes NBA Jam, NBA Jam Tournament Edition and NBA Hangtime. Working great.",
+    "placed": "Donated on 2026-08-24",
+    "status": "active"
+  },
+  {
+    "id": "ms-pacman-1up-02",
+    "name": "Ms. Pacman (1UP)",
+    "number": "019",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Donated upright cabinet. Includes different versions of Pacman and even Galaga. Free play. Working great.",
+    "placed": "Donated on 2026-08-24",
+    "status": "active"
   }
 ]
