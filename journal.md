@@ -8,7 +8,7 @@ When the world looks grey...
 
 But if they're CRTs, half the time, we call Sharp Image for that.
 
-I wish I wrote this a haiku, its poetic.
+Wishing this was in haiku format, too late, its still poetic.
 
 
 * **Low-RAM / weak-device profile** (additive to existing kiosk path — does not change normal phones or stronger tablets):
