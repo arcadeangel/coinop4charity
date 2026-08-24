@@ -170,16 +170,6 @@
     "location": "shop"
   },
   {
-    "id": "mspacman-1up-04",
-    "name": "Ms. Pac-Man (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright with variety of Pacman titles and also Galaga. Cleaned, tested, working. ",
-    "fmv_estimate": 350,
-    "location": "shop"
-  },
-  {
     "id": "rampage-1up-01",
     "name": "Rampage (1UP)",
     "type": "video",
@@ -296,16 +286,6 @@
     "status": "ready",
     "condition": "working",
     "notes": "Solid countercade. Working through monitor and controls. Disabled Punisher game, more youth friendly.",
-    "fmv_estimate": 200,
-    "location": "shop"
-  },
-  {
-    "id": "nba-jam-1up-01",
-    "name": "NBA Jam (1UP)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Solid countercade. Working through monitor and controls.",
     "fmv_estimate": 200,
     "location": "shop"
   },
