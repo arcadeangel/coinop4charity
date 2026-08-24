@@ -3,15 +3,15 @@
 ## 08.24.26 11:11 The simple things we overlook...
 
 When the world looks grey...
-**we just add some color**
+**we just add some color.**
 
-Kind of like when the hue is off on those screens
+It's kind of like when the hue is off on those screens.
 
 But if they're CRTs, half the time, we call Sharp Image for that.
 
 Wisdom.
 
-Wishing this was in haiku format, too late, its still poetic.
+Wishing this was in haiku format, too late, still poetic.
 
 
 * **Low-RAM / weak-device profile** (additive to existing kiosk path — does not change normal phones or stronger tablets):
