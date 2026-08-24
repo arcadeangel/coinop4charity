@@ -3,8 +3,11 @@
 ## 08.24.26 11:11 The simple things we overlook...
 
 When the world looks grey...
+
 **we just add some color, just like when the hue is off on those screens**
+
 But if they're CRTs, half the time, we call Sharp Image for that.
+
 I wish I wrote this a haiku, its poetic.
 
 
