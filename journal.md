@@ -1,5 +1,46 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 2026-08-23 — TERMINAL v3.1.1 (low-RAM kiosk profile · Pixel Pad undo button)
+
+Custom made stations on older low-RAM tablets + BSP-Y02 getting buggy under the full terminal. Hosting was already fine (Cloudflare edge). The bottleneck is client RAM / continuous gamepad poll + attract canvas.
+
+**What shipped**
+
+* **Low-RAM / weak-device profile** (additive to existing kiosk path — does not change normal phones or stronger tablets):
+  * Early detect via `navigator.deviceMemory`, core count, Android + coarse pointer.
+  * Manual overrides: `?lowram=1` / `?lite=1` (force on), `?lowram=0` (force off).
+  * On detect: sets `C4C_LOW_RAM`, adds `low-ram` + `reduce-fx`, and auto-enables kiosk lite shell if `?kiosk=1` was missing.
+  * Attract idle stretched to **90s** on low-RAM (kiosk was already 45s).
+  * Menu gamepad poll throttled to ~30fps on low-RAM; full-speed while a game is open.
+  * Extra CSS kills matrix / FX overlays on `body.low-ram` as belt-and-suspenders.
+* **Pixel Pad UNDO** under MAKE:
+  * New UNDO button beside CLEAR / COPY.
+  * One undo step per stroke (saved on pointerdown).
+  * Clear also pushes undo so an accidental wipe is recoverable.
+  * Undo stack capped at 24.
+* Version stamp → **TERMINAL v3.1.1**.
+* Updates panel: `08.23` note for low-RAM profile + Pixel Pad undo.
+
+**What did not change**
+
+* Stick mapping, hysteresis, hold-Start exit, A/B/Select roles — untouched.
+* Game code, canvas resolution in-play, high scores, network path.
+* Visual look of the kiosk shell on normal devices.
+
+**Field practice**
+
+* Keep stations on `coinop4charity.org/?kiosk=1`.
+* Stubborn old tablets: append `&lowram=1`.
+* Strong devices: no param needed; profile stays off.
+
+**Why**
+
+Youth-center tablets are mixed — some are older Android units with 2–3 GB RAM. A living terminal + continuous HID poll + attract canvas is enough to tip them into jank. This keeps the same experience on good hardware and quietly conserves RAM/FPS where it matters, without a redesign.
+
+**Next**
+
+Watch first placements with BSP-Y02 + older tablets after deploy. If any unit still thrashes, force `?kiosk=1&lowram=1` and note device model for a possible further attract/canvas gate later.
+
 ## 2026-08-23 — ArrrcadeOS 3.1.0 (play → make → submit · kiosk lite · staff path)
 
 Excellence in STEM by accident or divine intervention? Now play something free, make something small, submit a link, and — after review — maybe see it next to the live titles in your own arcade cabinet. Same terminal. Clearer loop. Less noise on first glance.
