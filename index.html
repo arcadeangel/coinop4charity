@@ -2590,6 +2590,19 @@
 		}
 		body.kiosk-mode .kiosk-hint { display: block; }
 
+		/* Extra safety on detected low-RAM devices (additive to kiosk) */
+		body.low-ram #matrix,
+		body.low-ram #fx-overlay,
+		body.low-ram #scan-interference,
+		body.low-ram #attract-canvas:not(.on) {
+			display: none !important;
+			pointer-events: none !important;
+			visibility: hidden !important;
+		}
+		body.low-ram .arcade-intro {
+			display: none !important;
+		}
+
 		.placements-map-wrap {
 			margin-top: 0.55rem;
 			border: 1px solid #00ff9f44;
@@ -2914,6 +2927,7 @@
 						</div>
 						<canvas id="pixelPad" width="192" height="192" aria-label="Pixel drawing pad"></canvas>
 						<div class="make-actions">
+							<button type="button" id="pixelUndo" title="Undo last stroke">UNDO</button>
 							<button type="button" id="pixelClear">CLEAR</button>
 							<button type="button" id="pixelCopy">COPY</button>
 						</div>
@@ -2967,9 +2981,9 @@
 		<div class="updates-panel" id="updatesPanel">
 			<h4>UPDATES</h4>
 			<div id="updatesList">
+				<div class="upd-row"><b>08.23</b> Kiosk low-RAM profile + Pixel Pad undo · smoother on older tablets</div>
 				<div class="upd-row"><b>08.21</b> Southern Highlands live — more machines on the floor</div>
 				<div class="upd-row"><b>08.20</b> First placements at James Club, North Las Vegas</div>
-				<div class="upd-row"><b>08.19</b> Fleet moving · expanding outreach statewide</div>
 			</div>
 		</div>
 
@@ -3099,7 +3113,7 @@
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div>coinop4charity.org · TERMINAL v3.1.0 • We love you all. <span class="heart">♥</span></div>
+			<div>coinop4charity.org · TERMINAL v3.1.1 • We love you all. <span class="heart">♥</span></div>
 		</div>
 	</div>
 
@@ -3161,6 +3175,33 @@
 				}
 			} catch (e) {}
 
+			// Low-RAM / weak-device profile (additive to kiosk — never forced on strong devices)
+			(function detectLowRam() {
+				try {
+					var mem = navigator.deviceMemory; // Chrome/Android: approximate device RAM in GB
+					var cores = navigator.hardwareConcurrency || 4;
+					var isAndroid = /Android/i.test(navigator.userAgent || '');
+					var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+					var low = false;
+					if (typeof mem === 'number' && mem > 0 && mem <= 3) low = true;
+					else if (isAndroid && cores <= 4 && coarse) low = true;
+					else if (isAndroid && typeof mem === 'number' && mem <= 4 && cores <= 6) low = true;
+					var q = new URLSearchParams(location.search || '');
+					if (q.get('lowram') === '1' || q.get('lite') === '1') low = true;
+					if (q.get('lowram') === '0') low = false;
+					if (low) {
+						window.C4C_LOW_RAM = true;
+						document.body.classList.add('low-ram', 'reduce-fx');
+						// Give weak tablets the lite shell even without ?kiosk=1
+						if (!window.C4C_KIOSK) {
+							window.C4C_KIOSK = true;
+							window.C4C_KIOSK_LITE = true;
+							document.body.classList.add('kiosk-mode');
+						}
+					}
+				} catch (e) {}
+			})();
+
 			const boot = document.getElementById('crt-boot');
 			const canvas = document.getElementById('intro-canvas');
 			if (!boot) {
@@ -3189,7 +3230,7 @@
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.1.0',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.1.1',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -6673,9 +6714,17 @@
 
 		function startGamepadLoop() {
 			if (gamepadRaf) return;
-			const tick = () => {
-				pollGamepad();
-				try { handleMenuGamepad(); } catch (err) {}
+			var lastGpTick = 0;
+			const tick = (now) => {
+				// On low-RAM devices, throttle menu polling to ~30fps (full speed in-game)
+				var throttle = window.C4C_LOW_RAM &&
+					window.C4C_GP_THROTTLE_MENU &&
+					!document.body.classList.contains('game-open');
+				if (!throttle || (now - lastGpTick) >= 32) {
+					lastGpTick = now || 0;
+					pollGamepad();
+					try { handleMenuGamepad(); } catch (err) {}
+				}
 				gamepadRaf = requestAnimationFrame(tick);
 			};
 			gamepadRaf = requestAnimationFrame(tick);
@@ -6808,6 +6857,11 @@
 			setTimeout(function() { setMenuFocus(0); }, 450);
 			// longer idle before attract = less background canvas work on weak kiosk hardware
 			try { attractIdleMs = 45000; } catch (e) {}
+		}
+		if (window.C4C_LOW_RAM) {
+			// Even longer idle + throttle menu gamepad poll on constrained tablets
+			try { attractIdleMs = 90000; } catch (e) {}
+			window.C4C_GP_THROTTLE_MENU = true;
 		}
 
 
@@ -7186,13 +7240,15 @@
 				});
 			}
 
-			// Pixel Pad only (Jr removed)
+			// Pixel Pad only (Jr removed) — with stroke undo
 			(function initPixelPad() {
 				const c = document.getElementById('pixelPad');
 				if (!c || !c.getContext) return;
 				const ctx = c.getContext('2d');
 				const N = 16;
 				const cells = new Array(N * N).fill(0);
+				const undoStack = []; // snapshots of cells before each stroke
+				const UNDO_MAX = 24;
 				let color = '#00ff9f';
 				const colorMap = { '#00ff9f': 1, '#c44dff': 2, '#ffe566': 3 };
 				const invMap = { 1: '#00ff9f', 2: '#c44dff', 3: '#ffe566' };
@@ -7203,6 +7259,10 @@
 						color = btn.getAttribute('data-col') || '#00ff9f';
 					});
 				});
+				function pushUndo() {
+					undoStack.push(cells.slice());
+					if (undoStack.length > UNDO_MAX) undoStack.shift();
+				}
 				function paint() {
 					const s = c.width / N;
 					ctx.fillStyle = '#02140e';
@@ -7232,6 +7292,7 @@
 				let drawing = false;
 				c.addEventListener('pointerdown', function(e) {
 					e.preventDefault();
+					pushUndo(); // one undo step per stroke
 					drawing = true;
 					c.setPointerCapture(e.pointerId);
 					plot(e.clientX, e.clientY);
@@ -7242,10 +7303,22 @@
 				});
 				c.addEventListener('pointerup', function() { drawing = false; });
 				c.addEventListener('pointercancel', function() { drawing = false; });
+				const undoBtn = document.getElementById('pixelUndo');
 				const clearBtn = document.getElementById('pixelClear');
 				const copyBtn = document.getElementById('pixelCopy');
 				const st = document.getElementById('pixelStatus');
+				if (undoBtn) undoBtn.addEventListener('click', function() {
+					if (!undoStack.length) {
+						if (st) st.textContent = 'Nothing to undo.';
+						return;
+					}
+					const prev = undoStack.pop();
+					for (let i = 0; i < cells.length; i++) cells[i] = prev[i];
+					paint();
+					if (st) st.textContent = 'Undid last stroke.';
+				});
 				if (clearBtn) clearBtn.addEventListener('click', function() {
+					pushUndo();
 					cells.fill(0); paint();
 					if (st) st.textContent = 'Cleared.';
 				});
