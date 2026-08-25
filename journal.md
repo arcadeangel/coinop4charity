@@ -16,7 +16,7 @@ There are just a few tools that multiply what we’re already capable of once we
 
 One of my other favorite game developers once said,
 “Just start making games. Any games. That’s how you learn. DOOM was my 90th game.”
-Didn’t wait for permission or perfect conditions. Programmed, shipped, learned, kept going. His work still echoes in almost every modern action game, and he’s been open about how his roots and indigenous culture quietly shape the worlds he builds along with our culture and society.
+Didn’t wait for permission or perfect conditions. Programmed, shipped, learned, kept going. His work still echoes in almost every modern action game, and he’s been open about how his roots and indigenous culture quietly shape the worlds he builds along with his beautiful digital footprint on our culture and society.
 
 Some food for thought. The machines we’re restoring and placing aren’t just entertainment. They’re invitations. A working joystick. A high-score board that remembers a name. A Raspberry Pi waiting for someone curious enough to open it. The hope is that somewhere between the first coin and the next level, a kid realizes the screen can be rewritten — and that people like them, even from their own neighborhoods, have already done it.
 
