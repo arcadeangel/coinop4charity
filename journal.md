@@ -10,7 +10,7 @@ Our 44th President said it long before CoinOp4Charity:
 
 And one of the most influential programmers of our time, who ironically just so happens to also be the richest guy in the world once said:
 “I probably wouldn’t have started programming if it weren’t for video games… Video games are a very powerful force for getting young kids interested in technology.”
-He even wrote his first commercially successful game as a little kid, after teaching himself BASIC barely a year or so prior to learning. Years later, he hasn't seemed to forget about it and still points out that a lot of the strongest engineers he meets began the same way — chasing high scores until they wanted to understand what made the screen move.
+He even wrote his first successful game as a little kid and sold the source code, after teaching himself BASIC barely a year or so prior to creating the game. Years later, he hasn't seemed to forget about it and still points out that a lot of the strongest engineers he meets began the same way — chasing high scores until they wanted to understand what made the screen move.
 
 There are just a few tools that multiply what we’re already capable of once we learn to use them, and none of them are as good as a computer.
 
