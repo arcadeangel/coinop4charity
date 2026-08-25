@@ -1,5 +1,31 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 08.24.26 19:14 Quotes that keep showing up when the cabinets are quiet.
+Dropped off some games with Street Teens today, the staff there was wonderful and the space was very nice, clean and welcoming. Like I said before it's very nice making friends with the staff on site at these centers because they wake up every day with this ambition to make their communities and our future more comfortable, and moreover, to show the future generations that they unconditionally matter. Those people bring so much zen into everyone's lives because they have meaning and are at peace within.
+
+Been sitting with the machines again tonight. Restoring, testing, thinking about the kids who’ll stand in front of them eventually. Arcade cabinets are joy made physical, but the real spark starts a little before that — in someone's heart, mind and soul... with this quiet yet serious decision to create instead of just consume. 
+
+Our 44th President said it long before CoinOp4Charity:
+“Don’t just buy a new video game. Make one. Don’t just download the latest app. Help design it. Don’t just play on your phone. Program it.”
+
+And one of the most influential programmers of our time, who ironically just so happens to also be the richest guy in the world once said:
+“I probably wouldn’t have started programming if it weren’t for video games… Video games are a very powerful force for getting young kids interested in technology.”
+He even wrote his first commercially successful game as a little kid, after teaching himself BASIC barely a year or so prior to learning. Years later, he hasn't seemed to forget about it and still points out that a lot of the strongest engineers he meets began the same way — chasing high scores until they wanted to understand what made the screen move.
+
+There are just a few tools that multiply what we’re already capable of once we learn to use them, and none of them are as good as a computer.
+
+One of my favorite game developers once said,
+“Just start making games. Any games. That’s how you learn. DOOM was my 90th game.”
+Didn’t wait for permission or perfect conditions. Programmed, shipped, learned, kept going. His work still echoes in almost every modern action game, and he’s been open about how his roots and indigenous culture quietly shape the worlds he builds along with our culture and society.
+
+Some food for thought. The machines we’re restoring and placing aren’t just entertainment. They’re invitations. A working joystick. A high-score board that remembers a name. A Raspberry Pi waiting for someone curious enough to open it. The hope is that somewhere between the first coin and the next level, a kid realizes the screen can be rewritten — and that people like them, even from their own neighborhoods, have already done it.
+
+Keep the cabinets running.
+Keep the code approachable.
+Keep the doors of our youth centers and safe spaces open so that “play” can one day become “build.”
+
+We love you all.
+
 ## 08.24.26 11:11 The simple things we overlook...
 
 When the world looks grey...
