@@ -117,6 +117,33 @@
     "status": "active"
   },
   {
+    "id": "mortal-kombat-1up-02",
+    "name": "Mortal Kombat Deluxe (1UP)",
+    "number": "009",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Donated upright cabinet from our friend Jerry who also served for our country. Beautiful clean cabinet deluxe version light up marquee. Free play. Working great.",
+    "placed": "Donated on 2026-08-25",
+    "status": "active"
+  },
+  {
+    "id": "the-simpsons-1up-01",
+    "name": "The Simpsons (1UP)",
+    "number": "010",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Upright cabinet. Includes Simpsons bowling. Free play. Working great.",
+    "placed": "Donated on 2026-08-25",
+    "status": "active"
+  },
+  {
+    "id": "rampage-1up-01",
+    "name": "Rampage (1UP)",
+    "number": "011",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Upright cabinet. Rampage and Joust, Defender And Gauntlet. Free play. Working great.",
+    "placed": "Donated on 2026-08-25",
+    "status": "active"
+  },
+  {
     "id": "ms-pacman-1up-04",
     "name": "Ms. Pacman (1UP)",
     "number": "019",
