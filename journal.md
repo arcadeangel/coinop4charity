@@ -14,7 +14,7 @@ He even wrote his first commercially successful game as a little kid, after teac
 
 There are just a few tools that multiply what we’re already capable of once we learn to use them, and none of them are as good as a computer.
 
-One of my favorite game developers once said,
+One of my other favorite game developers once said,
 “Just start making games. Any games. That’s how you learn. DOOM was my 90th game.”
 Didn’t wait for permission or perfect conditions. Programmed, shipped, learned, kept going. His work still echoes in almost every modern action game, and he’s been open about how his roots and indigenous culture quietly shape the worlds he builds along with our culture and society.
 
