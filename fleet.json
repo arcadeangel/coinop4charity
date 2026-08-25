@@ -200,6 +200,26 @@
     "location": "shop"
   },
   {
+    "id": "mortal-kombat-1up-03",
+    "name": "Mortal Kombat (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Justin hooked this up at a steep discount, ordered riser today.",
+    "fmv_estimate": 280,
+    "location": "shop"
+  },
+  {
+    "id": "nba-jam-1up-02",
+    "name": "NBA Jam (1UP)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Single player countercade with two versions of NBA Jam plus NBA Hangtime, new in box",
+    "fmv_estimate": 100,
+    "location": "shop"
+  },
+  {
     "id": "the-simpsons-1up-01",
     "name": "The Simpsons (1UP)",
     "type": "video",
