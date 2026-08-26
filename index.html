@@ -2004,6 +2004,98 @@
 			min-height: 1.2em;
 		}
 		#arrcadeFormStatus.err { color: #ff8a8a; }
+		.guide-role {
+			font-size: 0.6rem;
+			letter-spacing: 0.04em;
+			color: #7dffc8;
+			opacity: 0.9;
+			margin: 0 0 6px;
+			line-height: 1.4;
+			text-align: left;
+			max-width: 100%;
+		}
+		#captainDock[data-guide="quarter"] .guide-role {
+			color: #c8d0d8;
+			font-style: italic;
+		}
+		#captainDock[data-guide="maya"] {
+			border-color: #8a96a0;
+			background: linear-gradient(160deg, rgba(40,48,56,0.35), rgba(0,0,0,0.3));
+		}
+		#captainDock[data-guide="maya"] .captain-name { color: #d8dee4; }
+		#captainDock[data-guide="maya"] .captain-face {
+			border-color: #a8b0b8;
+			box-shadow: 0 0 16px rgba(180,190,200,0.28);
+		}
+		#captainDock[data-guide="maya"] .cap-bot { border-left-color: #c8d0d8; }
+		#captainDock[data-guide="quarter"] {
+			border-color: #c9a22788;
+			background: linear-gradient(160deg, rgba(201,162,39,0.1), rgba(20,12,6,0.35));
+		}
+		#captainDock[data-guide="quarter"] .captain-name { color: #e8d48a; }
+		#captainDock[data-guide="quarter"] .captain-face {
+			border-color: #e8d48a;
+			box-shadow: 0 0 18px rgba(201,162,39,0.35);
+		}
+		#captainDock[data-guide="quarter"] .cap-bot { border-left-color: #c9a227; }
+		#cert-panel {
+			display: none;
+			position: fixed;
+			inset: 0;
+			z-index: 400;
+			background: rgba(0,0,0,0.88);
+			align-items: center;
+			justify-content: center;
+			padding: 16px;
+		}
+		#cert-panel.open { display: flex; }
+		.cert-card {
+			width: min(420px, 94vw);
+			background: #06140f;
+			border: 2px solid #00ff9f;
+			box-shadow: 0 0 28px #00ff9f33;
+			padding: 18px 16px 14px;
+			text-align: center;
+			color: #00ff9f;
+			font-family: "Courier New", monospace;
+		}
+		.cert-card h3 {
+			letter-spacing: 0.18em;
+			font-size: 0.78rem;
+			margin-bottom: 8px;
+		}
+		.cert-card .cert-name {
+			font-size: 1.15rem;
+			letter-spacing: 0.06em;
+			color: #ffff99;
+			margin: 8px 0 4px;
+		}
+		.cert-card .cert-title {
+			font-size: 0.95rem;
+			color: #7dffc8;
+			margin-bottom: 10px;
+		}
+		.cert-card p { font-size: 0.72rem; color: #7dffc8; line-height: 1.45; }
+		.cert-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+		.cert-actions button {
+			font-family: inherit;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 10px;
+			cursor: pointer;
+			border: 1px solid #00ff9faa;
+			background: transparent;
+			color: #00ff9f;
+		}
+		.cert-actions button.primary { background: #00ff9f; color: #000; font-weight: bold; }
+		@media print {
+			body * { visibility: hidden !important; }
+			#cert-panel, #cert-panel * { visibility: visible !important; }
+			#cert-panel { position: static; background: #fff; display: block; }
+			.cert-card { border-color: #000; color: #000; box-shadow: none; background: #fff; }
+			.cert-actions { display: none !important; }
+		}
+
 				body.mode-beginner #buildCard { opacity: 0.7; }
 		body.mode-beginner #arrShare .section-lead::after {
 			content: " (best with a mentor)";
@@ -2148,7 +2240,7 @@
 			font-size: 0.7rem;
 			letter-spacing: 0.16em;
 			color: #00ff9f;
-			margin-bottom: 6px;
+			margin-bottom: 2px;
 		}
 		.captain-chat {
 			max-height: 120px;
@@ -2782,30 +2874,32 @@
 				<strong>ARRRCADÉOS</strong>
 				<span class="arrcade-mark" title="ArrrcadeOS" role="img" aria-label="Skull"><span class="arrcade-skull">☠</span></span>
 			</div>
-			<p class="arrcade-tagline-bar">Make a game · Ask Captain · Play free</p>
+			<p class="arrcade-tagline-bar">Make a game · Ask the crew · Play free</p>
 
 			<div class="arrcade-modebar" id="arrModeBar" role="group" aria-label="Help level">
 				<button type="button" class="arr-mode active" data-mode="beginner" id="modeBeginner">LOTS OF HELP</button>
 				<button type="button" class="arr-mode" data-mode="intermediate" id="modeIntermediate">SOME HELP</button>
 				<button type="button" class="arr-mode" data-mode="advanced" id="modeAdvanced">I GOT THIS</button>
 			</div>
-			<p class="arrcade-mode-hint" id="arrModeHint">Lots of help — clear tips and big controls.</p>
+			<p class="arrcade-mode-hint" id="arrModeHint">Lots of help — Captain Code walks you through it.</p>
 
-			<div class="captain-dock" id="captainDock">
+			<div class="captain-dock" id="captainDock" data-guide="captain">
 				<canvas class="captain-face" id="captainPixel" width="64" height="64" aria-hidden="true" title="Captain Code"></canvas>
 				<div class="captain-body">
-					<div class="captain-name">CAPTAIN CODE</div>
+					<div class="captain-name" id="guideName">CAPTAIN CODE</div>
+					<p class="guide-role" id="guideRole">Pirate skipper · lots of help</p>
 					<div class="captain-chat" id="captainChat" aria-live="polite">
-						<div class="cap-msg cap-bot">Ahoy! Welcome aboard ArrrcadeOS sailor. Ask me how to move a player, draw pixels, or get unstuck. Or open MAKE for the real build tools.</div>
+						<div class="cap-msg cap-bot">Ahoy! Welcome aboard ArrrcadeOS, sailor. Ask how to move a player, draw pixels, or get unstuck — or open MAKE for Scratch, MakeCode, Pixel Pad, and Shiprekt Controls.</div>
 					</div>
 					<form class="captain-ask" id="captainAskForm" autocomplete="off">
-						<input type="text" id="captainInput" maxlength="200" placeholder="Ask Captain Code…" aria-label="Ask Captain Code">
+						<input type="text" id="captainInput" maxlength="200" placeholder="Ask Captain Code…" aria-label="Ask your ArrrcadeOS guide">
 						<button type="submit" id="captainSend">ASK</button>
 					</form>
 					<div class="captain-chips" id="captainChips">
 						<button type="button" data-q="Where do I build a real game?">Where to build</button>
 						<button type="button" data-q="How do I make a player move left and right?">Move</button>
-						<button type="button" data-q="How do I draw on Pixel Pad?">Draw</button>
+						<button type="button" data-q="How do I detect when two things touch?">Touch</button>
+						<button type="button" data-q="How do I keep score?">Score</button>
 						<button type="button" data-q="Give me a simple game idea.">Idea</button>
 						<button type="button" data-q="I feel stuck. What should I try?">Stuck</button>
 					</div>
@@ -6914,47 +7008,63 @@
 			const dock = document.getElementById('captainDock');
 			const makeLead = document.getElementById('makeLead');
 
-			const MODE_COPY = {
+			const GUIDES = {
 				beginner: {
-					hint: 'Lots of help — clear tips and big controls.',
-					hello: 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask a question or open MAKE for Scratch, MakeCode, Pixel Pad, and Shiprekt Controls.'
+					id: 'captain',
+					name: 'CAPTAIN CODE',
+					role: 'Pirate skipper · lots of help',
+					hint: 'Lots of help — Captain Code walks you through it.',
+					hello: 'Ahoy! Welcome aboard ArrrcadeOS, sailor. Ask how to move a player, draw pixels, keep score, or get unstuck. Open MAKE for Scratch, MakeCode, Pixel Pad, and Shiprekt Controls.',
+					placeholder: 'Ask Captain Code…',
+					idle: 'Need a tip, matey?',
+					offtopic: 'Captain Code only talks games, building, and arcade stuff. Try movement, touch, score, or where to build.'
 				},
 				intermediate: {
-					hint: 'Some help — tips plus typing when you want detail.',
-					hello: 'Ahoy! Movement, pixels, scores, or where to build — ask anytime. Shiprekt Controls is in MAKE.'
+					id: 'maya',
+					name: 'CIPHER MAYA',
+					role: 'Field agent · some help',
+					hint: 'Some help — Cipher Maya. Short briefings. Next step only.',
+					hello: 'Cipher Maya. Ask one question: movement, collision, score, or where to build. I will give you the next order.',
+					placeholder: 'Brief Cipher Maya…',
+					idle: 'Need the next order?',
+					offtopic: 'Outside the brief. Games and building only — movement, collision, score, or where to build.'
 				},
 				advanced: {
-					hint: 'I got this — shorter answers. SUBMIT when your game runs in a browser.',
-					hello: 'Captain on deck. Quick tips, then SUBMIT a play link for review.'
+					id: 'quarter',
+					name: 'THE QUARTERMASTER',
+					role: 'Gadgets desk · I got this',
+					hint: 'I got this — short answers. Submit when it runs in a browser.',
+					hello: 'Hey, you, you’re finally awake. Walked right into that Imperial ambush, same as us, and Captain Code over there.',
+					placeholder: 'Ask the Quartermaster…',
+					idle: 'You wanted a word.',
+					offtopic: 'Wrong subject. Games and building only.'
 				}
 			};
 
-			
-			// Pixel pirate — skull & bones hat, animated parrot, smile/talk (v3.1.0)
-			(function initCaptainPixel() {
+			let currentMode = 'beginner';
+			let lastTopic = 'help';
+
+			(function initGuidePixel() {
 				const c = document.getElementById('captainPixel');
 				if (!c || !c.getContext) return;
 				const ctx = c.getContext('2d');
 				const S = 4;
-				let blinkT = 0;
-				let talkT = 0;
-				let smileT = 0;
-				let frame = 0;
-
+				let blinkT = 0, talkT = 0, smileT = 0, frame = 0;
+				window.__guideWho = 'captain';
 				function px(x, y, col) {
 					if (x < 0 || x > 15 || y < 0 || y > 15) return;
 					ctx.fillStyle = col;
 					ctx.fillRect(x * S, y * S, S, S);
 				}
-
-				function draw(blink, talk, smile, flap, headTilt) {
-					ctx.fillStyle = '#0a3d30';
+				function fillBg(top, bot) {
+					ctx.fillStyle = top;
 					ctx.fillRect(0, 0, 64, 64);
-					ctx.fillStyle = 'rgba(0,255,159,0.14)';
+					ctx.fillStyle = bot;
 					ctx.fillRect(0, 0, 64, 3);
 					ctx.fillRect(0, 61, 64, 3);
-
-					// ===== BLACK TRICORN + SKULL & CROSSBONES (no red) =====
+				}
+				function drawCaptain(blink, talk, smile, flap, headTilt) {
+					fillBg('#0a3d30', 'rgba(0,255,159,0.14)');
 					const hat = '#0a0a0a';
 					for (let x = 4; x <= 11; x++) px(x, 0, hat);
 					for (let x = 3; x <= 12; x++) px(x, 1, hat);
@@ -6963,120 +7073,151 @@
 					for (let x = 0; x <= 15; x++) px(x, 4, hat);
 					px(1, 1, hat); px(1, 2, hat); px(0, 2, hat);
 					px(14, 1, hat); px(14, 2, hat); px(15, 2, hat);
-
-					// hat mark — classic “A” badge (Arrrcade / Angels)
 					const sk = '#f5f5f5';
-					// peak of A
 					px(7, 1, sk); px(8, 1, sk);
-					// upper sides
 					px(6, 2, sk); px(9, 2, sk);
-					// crossbar of A
 					px(6, 3, sk); px(7, 3, sk); px(8, 3, sk); px(9, 3, sk);
-					// lower legs of A
-					px(5, 4, sk); px(10, 4, sk);
-					px(6, 4, sk); px(9, 4, sk);
-
-					// ===== FACE =====
+					px(5, 4, sk); px(10, 4, sk); px(6, 4, sk); px(9, 4, sk);
 					const skin = '#f0c090';
-					for (let y = 5; y <= 9; y++)
-						for (let x = 4; x <= 11; x++) px(x, y, skin);
-
-					// eyepatch (left) — clean, not into beard
+					for (let y = 5; y <= 9; y++) for (let x = 4; x <= 11; x++) px(x, y, skin);
 					px(4, 6, '#111'); px(5, 6, '#111'); px(6, 6, '#111');
 					px(4, 7, '#111'); px(5, 7, '#222'); px(6, 7, '#111');
 					px(3, 6, '#1a1a1a'); px(7, 6, '#1a1a1a'); px(8, 6, '#1a1a1a');
-
-					if (blink) {
-						px(9, 7, '#5a4030'); px(10, 7, '#5a4030');
-					} else {
-						px(9, 7, '#1a1008');
-						px(10, 7, '#39ff14');
-						px(10, 6, '#c8ffc8');
-						// occasional wink sparkle when smiling
-						if (smile) px(11, 6, '#fff');
-					}
-
+					if (blink) { px(9, 7, '#5a4030'); px(10, 7, '#5a4030'); }
+					else { px(9, 7, '#1a1008'); px(10, 7, '#39ff14'); px(10, 6, '#c8ffc8'); if (smile) px(11, 6, '#fff'); }
 					px(7, 8, '#d4a070'); px(8, 8, '#d4a070');
-
-					if (talk) {
-						px(6, 9, '#8a2030'); px(7, 9, '#c04050'); px(8, 9, '#c04050'); px(9, 9, '#8a2030');
-						px(7, 9, '#ffe080');
-					} else if (smile) {
-						px(5, 9, '#5a3020'); px(6, 9, '#3a2010');
-						px(7, 9, '#3a2010'); px(8, 9, '#3a2010');
-						px(9, 9, '#3a2010'); px(10, 9, '#5a3020');
-					} else {
-						px(6, 9, '#5a4030'); px(7, 9, '#5a4030'); px(8, 9, '#5a4030'); px(9, 9, '#5a4030');
-					}
-
-					// beard from y=10
+					if (talk) { px(6, 9, '#8a2030'); px(7, 9, '#c04050'); px(8, 9, '#c04050'); px(9, 9, '#8a2030'); px(7, 9, '#ffe080'); }
+					else if (smile) { px(5, 9, '#5a3020'); px(6, 9, '#3a2010'); px(7, 9, '#3a2010'); px(8, 9, '#3a2010'); px(9, 9, '#3a2010'); px(10, 9, '#5a3020'); }
+					else { px(6, 9, '#5a4030'); px(7, 9, '#5a4030'); px(8, 9, '#5a4030'); px(9, 9, '#5a4030'); }
 					const beard = '#1c140c';
-					const beardHi = '#2a2018';
 					for (let x = 4; x <= 11; x++) px(x, 10, beard);
 					for (let x = 3; x <= 12; x++) px(x, 11, beard);
 					for (let x = 4; x <= 11; x++) px(x, 12, beard);
 					for (let x = 5; x <= 10; x++) px(x, 13, beard);
-					px(5, 9, beardHi); px(10, 9, beardHi);
-
+					px(5, 9, '#2a2018'); px(10, 9, '#2a2018');
 					px(12, 7, '#ffd700'); px(12, 8, '#e6c200');
-
-					// coat
 					const coat = '#0d3d32';
 					for (let x = 1; x <= 14; x++) px(x, 14, coat);
 					for (let x = 0; x <= 15; x++) px(x, 15, coat);
 					px(6, 14, '#ffd700'); px(9, 14, '#ffd700');
 					px(5, 14, '#00ff9f'); px(10, 14, '#00ff9f');
-
-					// ===== PARROT — flaps + head tilt =====
-					const bodyY = 11;
-					const headY = headTilt ? 8 : 9;
-					// body
+					const bodyY = 11, headY = headTilt ? 8 : 9;
 					px(1, bodyY, '#1f8f1f'); px(2, bodyY, '#2ecc2e');
 					px(1, bodyY + 1, '#176b17'); px(2, bodyY + 1, '#1f8f1f'); px(3, bodyY + 1, '#1f8f1f');
-					// wing flap
-					if (flap) {
-						px(0, bodyY, '#2ecc2e');
-						px(0, bodyY - 1, '#3ddc3d');
-						px(1, bodyY - 1, '#1f8f1f');
-					} else {
-						px(0, bodyY + 1, '#176b17');
-						px(1, bodyY + 2, '#1f8f1f');
-					}
-					// head (red macaw)
+					if (flap) { px(0, bodyY, '#2ecc2e'); px(0, bodyY - 1, '#3ddc3d'); px(1, bodyY - 1, '#1f8f1f'); }
+					else { px(0, bodyY + 1, '#176b17'); px(1, bodyY + 2, '#1f8f1f'); }
 					px(2, headY, '#e01515'); px(3, headY, '#e01515');
 					px(2, headY + 1, '#e01515'); px(3, headY + 1, '#ff4a4a');
-					// beak
 					px(4, headY + 1, '#ffd700');
 					if (headTilt) px(4, headY, '#ffd700');
-					// eye
 					px(3, headY, '#111');
-					// tail
 					px(0, 12, '#c01010'); px(0, 13, '#8b0000');
 				}
-
+				function drawMaya(blink, talk, smile, pulse, scan) {
+					fillBg('#050810', 'rgba(180,190,200,0.12)');
+					if (scan) {
+						ctx.fillStyle = 'rgba(220,230,240,0.08)';
+						ctx.fillRect(0, (frame % 16) * 4, 64, 3);
+					}
+					const hair = '#0c0a09', shine = '#2a2420';
+					for (let x = 4; x <= 11; x++) px(x, 1, hair);
+					for (let x = 3; x <= 12; x++) px(x, 2, hair);
+					for (let x = 3; x <= 12; x++) px(x, 3, hair);
+					px(3, 4, hair); px(12, 4, hair);
+					px(5, 1, shine); px(6, 2, shine);
+					px(12, 5, hair); px(12, 6, hair); px(13, 6, hair); px(13, 7, hair); px(12, 7, shine);
+					const skin = '#6a3d24', skinHi = '#8a5536';
+					for (let y = 4; y <= 11; y++) for (let x = 4; x <= 11; x++) px(x, y, skin);
+					px(5, 4, skinHi); px(6, 4, skinHi);
+					const lens = pulse ? '#3a4450' : '#1a2228';
+					px(4, 6, '#111'); px(5, 6, lens); px(6, 6, lens); px(7, 6, '#111');
+					px(8, 6, '#111'); px(9, 6, lens); px(10, 6, lens); px(11, 6, '#111');
+					px(4, 7, '#111'); px(11, 7, '#111');
+					if (blink) { px(5, 7, '#3a2018'); px(6, 7, '#3a2018'); px(9, 7, '#3a2018'); px(10, 7, '#3a2018'); }
+					else { px(5, 7, lens); px(6, 7, '#8aa0b0'); px(9, 7, lens); px(10, 7, '#8aa0b0'); }
+					px(7, 8, '#5a301c'); px(8, 8, '#5a301c');
+					if (talk) { px(6, 10, '#4a1820'); px(7, 10, '#6a2830'); px(8, 10, '#6a2830'); px(9, 10, '#4a1820'); }
+					else if (smile) { px(6, 10, '#3a2018'); px(7, 10, '#2a140e'); px(8, 10, '#2a140e'); px(9, 10, '#3a2018'); }
+					else { px(7, 10, '#3a2018'); px(8, 10, '#3a2018'); }
+					px(12, 8, pulse ? '#c8d0d8' : '#6a747c'); px(13, 8, '#2a3036');
+					const nk = '#121212', coat = '#1c1c1e';
+					for (let x = 5; x <= 10; x++) px(x, 12, nk);
+					for (let x = 2; x <= 13; x++) px(x, 13, coat);
+					for (let x = 1; x <= 14; x++) px(x, 14, coat);
+					for (let x = 0; x <= 15; x++) px(x, 15, coat);
+					px(7, 13, '#2a2a2e'); px(8, 13, '#2a2a2e');
+					px(3, 14, pulse ? '#b8c0c8' : '#4a5056');
+				}
+				function drawQuarter(blink, talk, smile, wink, cuff) {
+					// Q / Alfred vibe — neat silver hair, glasses, dark suit, calm tech steward
+					fillBg('#0c1018', 'rgba(160,180,210,0.14)');
+					const hair = '#9aa4b0', hairHi = '#c8d0d8';
+					for (let x = 4; x <= 11; x++) px(x, 1, hair);
+					for (let x = 3; x <= 12; x++) px(x, 2, hair);
+					for (let x = 3; x <= 12; x++) px(x, 3, hair);
+					px(5, 1, hairHi); px(6, 1, hairHi); px(8, 2, hairHi);
+					px(4, 3, hair); px(11, 3, hair);
+					const skin = '#e0c4a0', skinHi = '#f0d8b8';
+					for (let y = 4; y <= 11; y++) for (let x = 4; x <= 11; x++) px(x, y, skin);
+					px(5, 4, skinHi); px(6, 4, skinHi); px(9, 4, skinHi);
+					// soft brows
+					px(5, 5, '#6a5a48'); px(6, 5, '#6a5a48');
+					px(9, 5, '#6a5a48'); px(10, 5, '#6a5a48');
+					// thin round glasses
+					const rim = '#2a3038';
+					px(4, 6, rim); px(5, 6, rim); px(6, 6, rim); px(7, 6, rim);
+					px(8, 6, rim); px(9, 6, rim); px(10, 6, rim); px(11, 6, rim);
+					px(4, 7, rim); px(7, 7, rim); px(8, 7, rim); px(11, 7, rim);
+					if (blink) {
+						px(5, 7, '#c0a080'); px(6, 7, '#c0a080');
+						px(9, 7, '#c0a080'); px(10, 7, '#c0a080');
+					} else {
+						px(5, 7, '#1a2030'); px(6, 7, '#5a80c0');
+						px(9, 7, '#1a2030'); px(10, 7, wink ? '#1a2030' : '#5a80c0');
+					}
+					px(7, 8, '#d0b090'); px(8, 8, '#d0b090');
+					// clean-shaven, slight smile lines
+					if (talk) {
+						px(6, 10, '#8a5060'); px(7, 10, '#a06070'); px(8, 10, '#a06070'); px(9, 10, '#8a5060');
+					} else if (smile) {
+						px(6, 10, '#8a6a50'); px(7, 10, '#6a4a38'); px(8, 10, '#6a4a38'); px(9, 10, '#8a6a50');
+					} else {
+						px(7, 10, '#8a6a50'); px(8, 10, '#8a6a50');
+					}
+					// dark charcoal suit + white shirt + subtle gold pin
+					const suit = '#1a1e28', suitHi = '#2a303c', shirt = '#e8ecf0';
+					for (let x = 2; x <= 13; x++) px(x, 12, suit);
+					for (let x = 1; x <= 14; x++) px(x, 13, suit);
+					for (let x = 0; x <= 15; x++) px(x, 14, suit);
+					for (let x = 0; x <= 15; x++) px(x, 15, suit);
+					px(2, 13, suitHi); px(13, 13, suitHi);
+					px(7, 12, shirt); px(8, 12, shirt);
+					px(7, 13, shirt); px(8, 13, shirt);
+					px(6, 12, '#111820'); px(9, 12, '#111820');
+					// lapel pin / cuff glint
+					px(6, 13, cuff ? '#c9a227' : '#3a4450');
+					px(9, 13, cuff ? '#c9a227' : '#3a4450');
+					px(7, 14, '#c9a227'); px(8, 14, cuff ? '#e8c45a' : '#a88820');
+				}
 				function tick() {
 					frame++;
-					if (blinkT > 0) blinkT--;
-					else if (frame % 150 === 0) blinkT = 10;
+					if (blinkT > 0) blinkT--; else if (frame % 150 === 0) blinkT = 10;
 					if (talkT > 0) talkT--;
-					if (smileT > 0) smileT--;
-					else if (frame % 220 === 0 && talkT <= 0) smileT = 60;
-
+					if (smileT > 0) smileT--; else if (frame % 220 === 0 && talkT <= 0) smileT = 60;
 					const talking = talkT > 0 && (frame % 4 < 2);
 					const smiling = smileT > 0 && !talking;
-					// parrot: flap every ~1.2s, head tilt on a slower cycle
-					const flap = (frame % 36) < 10;
-					const headTilt = (frame % 90) < 35;
-					draw(blinkT > 0, talking, smiling, flap, headTilt);
+					const who = window.__guideWho || 'captain';
+					if (who === 'maya') drawMaya(blinkT > 0, talking, smiling, (frame % 40) < 20, (frame % 8) < 3);
+					else if (who === 'quarter') drawQuarter(blinkT > 0, talking, smiling, (frame % 180) > 160, (frame % 70) < 18);
+					else drawCaptain(blinkT > 0, talking, smiling, (frame % 36) < 10, (frame % 90) < 35);
 					requestAnimationFrame(tick);
 				}
 				window.__captainTalk = function () { talkT = 52; smileT = 0; };
-				draw(false, false, false, false, false);
+				drawCaptain(false, false, false, false, false);
 				requestAnimationFrame(tick);
 			})();
 
 			function addCapMsg(text, who) {
-
 				if (!chatEl) return;
 				const div = document.createElement('div');
 				div.className = 'cap-msg ' + (who === 'user' ? 'cap-user' : 'cap-bot');
@@ -7085,57 +7226,128 @@
 				chatEl.scrollTop = chatEl.scrollHeight;
 			}
 
-			function captainReply(q) {
-				const s = (q || '').toLowerCase();
-				const lots = document.body.classList.contains('mode-beginner');
-				if (!s.trim()) return 'Type a question or tap a tip below.';
-				if (/where|build|scratch|makecode|make code|p5|real game|editor/.test(s)) {
-					return 'Open the MAKE tab. Use Scratch, MakeCode Arcade, p5.js, Pixel Pad, or Shiprekt Controls. External tools open in a new tab — free accounts work fine for clubs.';
+			const TOPICS = {
+				build: {
+					re: /where|build|scratch|makecode|make code|p5|real game|editor|tool/,
+					beginner: 'Open the MAKE tab. Start with Scratch if you want blocks only. MakeCode Arcade is great too. Pixel Pad is just for sketches. External tools open in a new tab — free club accounts work.',
+					intermediate: 'Copy. Open MAKE. Pick one tool and stay with it: Scratch for blocks, MakeCode Arcade for blocks or code, p5.js if you already type. Pixel Pad is sketch only.',
+					advanced: 'MAKE. One tool. One playable loop. Then SUBMIT.'
+				},
+				move: {
+					re: /move|left|right|arrow|stick|wasd|player|walk|control/,
+					beginner: 'In Scratch: when left arrow pressed, change x by -10. Right arrow changes x by 10. In MakeCode: move sprite with buttons. Try that, then ask about jumping.',
+					intermediate: 'Every frame: subtract from x on left, add on right. Keep the player inside the screen. Jump is a separate order — ask when ready.',
+					advanced: 'Change x on input. Clamp to screen. Redraw every frame.'
+				},
+				jump: {
+					re: /jump|gravity|fall|air|fly|up key/,
+					beginner: 'Give the player a y speed. When they press up and are on the ground, set y speed upward. Every frame add a little so they fall back down.',
+					intermediate: 'Add a little to vertical speed every frame so they fall. Jump only from the ground. Then let gravity bring them down.',
+					advanced: 'Gravity into vy. Jump impulse only when grounded. Reset on land.'
+				},
+				touch: {
+					re: /touch|collide|collision|hit|overlap|bump|detect/,
+					beginner: 'Two things touch when their boxes overlap. In Scratch use “touching sprite”. In MakeCode use overlap events. Then add a point or end the game.',
+					intermediate: 'Two boxes overlap if they share space on both X and Y. On contact: add a point or end the round. Keep boxes a little smaller than the pictures.',
+					advanced: 'AABB overlap. On hit: score or game over. Tight hitboxes.'
+				},
+				score: {
+					re: /score|point|coin|collect|win|star|counter/,
+					beginner: 'Make a variable called score and start at 0. When the player touches a coin, change score by 1 and show it on screen.',
+					intermediate: 'Start score at zero. On collect, add one, hide the item, update the number. Set a target if you want a win.',
+					advanced: 'Increment on collect. Display it. Optional target score.'
+				},
+				draw: {
+					re: /pixel|draw|canvas|paint|grid|art|color|sprite|costume/,
+					beginner: 'Pixel Pad in MAKE is a quick sketch. For a real game picture, draw a costume in Scratch or a sprite in MakeCode.',
+					intermediate: 'Pixel Pad is a sketch. Rebuild the real sprite in Scratch or MakeCode. Keep it small so it reads on a cabinet.',
+					advanced: 'Pixel Pad = mockup. Final sprite in Scratch or MakeCode.'
+				},
+				loop: {
+					re: /loop|forever|frame|repeat|always|update/,
+					beginner: 'Games keep running with a forever loop: move, check touches, draw, repeat. Scratch has forever. MakeCode already loops.',
+					intermediate: 'Every frame, in this order: read keys, move, check contact, update score, draw.',
+					advanced: 'Input, move, collide, render. Every frame.'
+				},
+				enemy: {
+					re: /enemy|bad|chase|follow|ai|monster|dragon/,
+					beginner: 'Start simple: an enemy that moves left and right. If it touches the player, lose a point or restart.',
+					intermediate: 'Start with a patrol that turns at the edges. Chase later, and slower than the player.',
+					advanced: 'Patrol first. Chase slower than the player.'
+				},
+				sound: {
+					re: /sound|music|beep|noise|audio/,
+					beginner: 'In Scratch add a sound and play it when you collect a coin. Keep it short and friendly.',
+					intermediate: 'One short sound on collect or jump. Save music until the game already works.',
+					advanced: 'Short SFX on events. Music last.'
+				},
+				stuck: {
+					re: /stuck|broken|load|error|work|fix|bug|help|wrong/,
+					beginner: 'Save first. Then refresh, read any red error, undo the last change. Tell me which tool you are in.',
+					intermediate: 'Change one thing. Test. If it still fails, open the project in a private window and confirm the play link loads.',
+					advanced: 'Last change. Console. Private window. One fix.'
+				},
+				idea: {
+					re: /idea|what should|project|beginner game|make a game/,
+					beginner: 'First game: player moves left and right, coins fall, catch them for points.',
+					intermediate: 'One action, one score. Catch coins, dodge blocks, or jump gaps. Add a second rule only after that works.',
+					advanced: 'One verb plus one score. Ship that first.'
+				},
+				share: {
+					re: /share|submit|upload|club|live|machine|review|link/,
+					beginner: 'When the game plays in a browser, open SUBMIT, paste the link, and send it. Staff check it before it can go LIVE. You also get a certificate.',
+					intermediate: 'You need a public play link. Share the Scratch or MakeCode project, then SUBMIT. Staff review first. Print the certificate after you send.',
+					advanced: 'Public play URL. SUBMIT. Certificate prints after send.'
+				},
+				hello: {
+					re: /hello|hi|ahoy|hey|captain|maya|quartermaster|who are you/,
+					beginner: 'Ahoy! I am Captain Code. Ask where to build, how to move, jump, touch, score, or submit.',
+					intermediate: 'Cipher Maya. State the problem. One question.',
+					advanced: 'Hey, you, you’re finally awake. Walked right into that Imperial ambush, same as us, and Captain Code over there.'
+				},
+				help: {
+					re: /.*/,
+					beginner: 'Tap a tip below, or ask about where to build, move, jump, touch, score, or getting unstuck.',
+					intermediate: 'Ask one thing: tool, movement, collision, score, or submit.',
+					advanced: 'Tool, movement, collision, score, or submit.'
 				}
-				if (/move|left|right|arrow|stick|wasd|player/.test(s)) {
-					return lots
-						? 'In Scratch: use arrow keys or “when key pressed” blocks to change x. In MakeCode: move sprite with buttons. Ask me if you get stuck on one tool.'
-						: 'Change player.x on left/right input, redraw each frame, clamp so you stay on screen.';
+			};
+
+			function detectTopic(s) {
+				const order = ['hello', 'build', 'jump', 'move', 'touch', 'score', 'draw', 'loop', 'enemy', 'sound', 'stuck', 'share', 'idea'];
+				for (let i = 0; i < order.length; i++) {
+					if (TOPICS[order[i]].re.test(s)) return order[i];
 				}
-				if (/pixel|draw|canvas|paint|grid|art|color|sprite/.test(s)) {
-					return 'Pixel Pad in MAKE is for quick sketches. For a real game sprite, draw in Scratch costumes or MakeCode’s sprite editor.';
-				}
-				if (/stuck|broken|load|error|work|fix|bug/.test(s)) {
-					return lots
-						? 'Try: save your project, refresh, read any red error, undo the last change. Still stuck? Ask a mentor or tell me which tool you’re in.'
-						: 'Check the browser console, test the play link in a private window, change one thing at a time.';
-				}
-				if (/score|point|coin|collect|win|star/.test(s)) {
-					return 'Start score at 0. When you touch a coin/star, add 1 and show the number on screen. Both Scratch and MakeCode have easy score blocks.';
-				}
-				if (/idea|game|what should|project|beginner/.test(s)) {
-					return 'Try a simple first build: player moves left/right, coins fall, catch them for points. Works in Scratch, MakeCode, or Shiprekt Controls.';
-				}
-				if (/share|submit|upload|club|live|machine|review/.test(s)) {
-					return 'When the game plays in a browser, open SUBMIT, paste the link, and send it. Staff review before anything goes LIVE on machines.';
-				}
-				if (/hello|hi|ahoy|hey|captain/.test(s)) {
-					return 'Ahoy! Welcome aboard ArrrcadeOS sailor. Ask where to build, how to move a player, draw, score, or submit.';
-				}
-				return lots
-					? 'Try a tip: Where to build, Move, Draw, Idea, or Stuck.'
-					: 'Try: where to build, movement, canvas, score, debug, or share.';
+				return lastTopic || 'help';
 			}
 
-			// Lightweight language filter for youth-center safety (v3.1.0)
+			function captainReply(q) {
+				const s = (q || '').toLowerCase();
+				const mode = currentMode || 'beginner';
+				if (!s.trim()) return GUIDES[mode].hint;
+				const topic = detectTopic(s);
+				lastTopic = topic;
+				const pack = TOPICS[topic] || TOPICS.help;
+				return pack[mode] || pack.beginner;
+			}
+
 			const CAPTAIN_BLOCK = /\b(dildo|sex|porn|nude|naked|fuck|shit|bitch|asshole|cock|pussy|penis|vagina|rape|kill yourself|suicide|bomb|terroris|meth|cocaine|heroin|weed|vape|drug|gun|shoot|murder|hate|nazi|slur)\b/i;
 
 			function askCaptain(q) {
 				const query = (q || '').trim();
 				if (!query) return;
 				hideIdle();
+				const g = GUIDES[currentMode] || GUIDES.beginner;
 				if (CAPTAIN_BLOCK.test(query)) {
-					addCapMsg('Captain Code only talks about games, building, and arcade stuff. Try asking about movement, pixels, score, or where to build.', 'bot');
+					addCapMsg(g.offtopic, 'bot');
 					try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {}
 					return;
 				}
 				addCapMsg(query, 'user');
-				setTimeout(function() { addCapMsg(captainReply(query), 'bot'); try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {} }, 150);
+				setTimeout(function() {
+					addCapMsg(captainReply(query), 'bot');
+					try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {}
+				}, 160);
 			}
 
 			if (askForm) {
@@ -7173,26 +7385,52 @@
 					hideIdle();
 					if (dock) dock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 					if (askInput) askInput.focus();
-					addCapMsg('Ask where to build, or how to move, draw, score, or share.', 'bot');
+					addCapMsg(TOPICS.help[currentMode] || GUIDES.beginner.hello, 'bot');
+					try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {}
 				});
 			}
 			setTimeout(scheduleIdle, 4000);
 
-			function setMode(mode) {
-				const m = MODE_COPY[mode] ? mode : 'beginner';
+			function setMode(mode, fromClick) {
+				const m = GUIDES[mode] ? mode : 'beginner';
+				const changed = m !== currentMode;
+				currentMode = m;
 				document.body.classList.remove('mode-beginner', 'mode-intermediate', 'mode-advanced');
 				document.body.classList.add('mode-' + m);
 				document.querySelectorAll('.arr-mode').forEach(btn => {
 					btn.classList.toggle('active', btn.getAttribute('data-mode') === m);
 				});
-				if (modeHint) modeHint.textContent = MODE_COPY[m].hint;
+				const g = GUIDES[m];
+				if (modeHint) modeHint.textContent = g.hint;
+				const nameEl = document.getElementById('guideName');
+				const roleEl = document.getElementById('guideRole');
+				const idleBtnEl = document.getElementById('captainIdleBtn');
+				if (nameEl) nameEl.textContent = g.name;
+				if (roleEl) roleEl.textContent = g.role;
+				if (askInput) {
+					askInput.placeholder = g.placeholder;
+					askInput.setAttribute('aria-label', g.placeholder.replace('…',''));
+				}
+				if (idleBtnEl) idleBtnEl.textContent = g.idle;
+				if (dock) dock.setAttribute('data-guide', g.id);
+				const face = document.getElementById('captainPixel');
+				if (face) face.setAttribute('title', g.name);
+				window.__guideWho = g.id;
 				if (makeLead) {
-					makeLead.textContent = 'Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SUBMIT when it runs in a browser.';
+					makeLead.textContent = m === 'beginner'
+						? 'Sketch here, then build for real in Scratch (easiest), MakeCode, or Shiprekt Controls. SUBMIT when it runs in a browser.'
+						: (m === 'intermediate'
+							? 'Pick one tool and stay with it. SUBMIT when you have a public play link.'
+							: 'Build, test in a browser, SUBMIT the play link.');
+				}
+				if (fromClick && changed && chatEl) {
+					addCapMsg(g.hello, 'bot');
+					try { if (window.__captainTalk) window.__captainTalk(); } catch (e) {}
 				}
 				try { localStorage.setItem('c4c_arr_mode', m); } catch (e) {}
 			}
 			document.querySelectorAll('.arr-mode').forEach(btn => {
-				btn.addEventListener('click', () => setMode(btn.getAttribute('data-mode')));
+				btn.addEventListener('click', () => setMode(btn.getAttribute('data-mode'), true));
 			});
 			let savedMode = 'beginner';
 			try { savedMode = localStorage.getItem('c4c_arr_mode') || 'beginner'; } catch (e) {}
@@ -7205,18 +7443,9 @@
 				if (lab) lab.hidden = !isLab;
 				if (make) make.hidden = !isMake;
 				if (share) share.hidden = !isShare;
-				if (tabLab) {
-					tabLab.classList.toggle('active', isLab);
-					tabLab.setAttribute('aria-selected', isLab ? 'true' : 'false');
-				}
-				if (tabMake) {
-					tabMake.classList.toggle('active', isMake);
-					tabMake.setAttribute('aria-selected', isMake ? 'true' : 'false');
-				}
-				if (tabShare) {
-					tabShare.classList.toggle('active', isShare);
-					tabShare.setAttribute('aria-selected', isShare ? 'true' : 'false');
-				}
+				if (tabLab) { tabLab.classList.toggle('active', isLab); tabLab.setAttribute('aria-selected', isLab ? 'true' : 'false'); }
+				if (tabMake) { tabMake.classList.toggle('active', isMake); tabMake.setAttribute('aria-selected', isMake ? 'true' : 'false'); }
+				if (tabShare) { tabShare.classList.toggle('active', isShare); tabShare.setAttribute('aria-selected', isShare ? 'true' : 'false'); }
 				hideIdle();
 			}
 			if (tabLab) tabLab.addEventListener('click', function() { showTab('lab'); });
@@ -7232,14 +7461,47 @@
 				});
 			});
 
+			function openCertificate(name, title) {
+				const panel = document.getElementById('cert-panel');
+				const n = document.getElementById('certName');
+				const t = document.getElementById('certGame');
+				const d = document.getElementById('certDate');
+				if (n) n.textContent = name || 'A young maker';
+				if (t) t.textContent = title || 'Untitled game';
+				if (d) d.textContent = new Date().toLocaleDateString();
+				if (panel) panel.classList.add('open');
+			}
+			(function bindCert() {
+				const panel = document.getElementById('cert-panel');
+				const pr = document.getElementById('certPrint');
+				const cl = document.getElementById('certClose');
+				if (pr) pr.addEventListener('click', function() { try { window.print(); } catch (e) {} });
+				if (cl && panel) cl.addEventListener('click', function() { panel.classList.remove('open'); });
+				if (panel) panel.addEventListener('click', function(e) { if (e.target === panel) panel.classList.remove('open'); });
+			})();
+
 			if (form) {
-				form.addEventListener('submit', function() {
+				form.addEventListener('submit', function(e) {
+					e.preventDefault();
+					const name = (document.getElementById('arr_creator') || {}).value || '';
+					const title = (document.getElementById('arr_title') || {}).value || '';
 					if (statusEl) {
 						statusEl.classList.remove('err');
-						statusEl.textContent = 'Sending for review… fair winds!';
+						statusEl.textContent = 'Sending for review…';
 					}
+					const fd = new FormData(form);
+					fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+						.then(function(res) {
+							if (statusEl) statusEl.textContent = res.ok ? 'Sent. Print your certificate.' : 'Sent locally. Print your certificate.';
+							openCertificate(name, title);
+						})
+						.catch(function() {
+							if (statusEl) statusEl.textContent = 'Could not reach the inbox — certificate still ready.';
+							openCertificate(name, title);
+						});
 				});
 			}
+
 
 			// Pixel Pad only (Jr removed) — with stroke undo
 			(function initPixelPad() {
@@ -15400,6 +15662,23 @@
 			ctx.fillText(hint, 240, 352);
 		}
 	</script>
+
+		<div id="cert-panel" role="dialog" aria-labelledby="certHead" aria-modal="true">
+			<div class="cert-card" id="certCard">
+				<h3 id="certHead">ARRRCADÉOS CERTIFICATE</h3>
+				<p>This certifies that</p>
+				<div class="cert-name" id="certName">—</div>
+				<p>submitted a game for review</p>
+				<div class="cert-title" id="certGame">—</div>
+				<p>Staff will play it before anything goes LIVE on club machines.<br>Free play stays free.</p>
+				<p id="certDate" style="margin-top:8px;opacity:0.8"></p>
+				<div class="cert-actions">
+					<button type="button" class="primary" id="certPrint">Print / save</button>
+					<button type="button" id="certClose">Close</button>
+				</div>
+			</div>
+		</div>
+
 </body>
 
 </html>
