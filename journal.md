@@ -2,8 +2,9 @@
 
 ## 08.25.26 13:03 When the controller starts talking in code
 
-It is Tuesday and we already have three new arcade cabinets in the fleet this week. Thank you Jason, Nick, Justin, Eve and her son Cruz.
+It is Tuesday and we already have five new arcade cabinets in the fleet this week. Thank you Leon Nick from Henderson, Jason in Enterprise, Nick, Justin, Eve and her son Cruz.
 I watched Justin and his buddy get a final round of Mortal Kombat in before loading it, and Eve brought back some memories talking about how she grew up playing Street Fighter and loved being Chun-Li. She got the cabinet for her son Cruz to share the memories and experience, now he is busy working and grown up so they decided to keep that tradition alive and share Street Fighter with you. Cruz was busy at work but texted me "My mom is pretty great, she gives me the strength I need, she is also my best friend" verbatim when I asked him what to write in the notes.
+Me and Leon spent a half hour playing games and comparing childhood memories like we were young again. He was a pretty cool guy and a serious collector of all sorts of games he had these old Atari consoles in glass museum cases. Pretty chill dude must be a cool dad to have around he has his own children he said he wants to build all these memories for and was on board practically gave us 1/2 of a partner locations arcade cabinets, very cool and generous dude who cared about the cause a lot and is passionate when it comes to classic video games.
 Thanks for sharing the memories with us and the next generation ahead. This is a tradition that is worth keeping alive! 
 
 There’s a quiet moment that happens more often than people realize.
