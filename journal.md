@@ -277,8 +277,8 @@ earliest memories being Asteroids, Galaga, and all the others which I remember p
 As the years went on he stuck around for the improvements up until recently when he passed away. He would always be in awe over graphic development. We both would be.
 Even Nintendo 64 was unbelievable compared to old terminal games like Asteroids. It was very nice having him around and I am grateful that he was fun and onboarded me to the experience.
 From Asteroids at home, to the Nintendo upgrades, the visits to Airport video and the local arcades. He is missed dearly and is a great part of the inspiration for this project. If I can make
-even a couple kids happy the way my father made these memories for me its worth every minute of my time and every penny. My parents worked their asses off and sacrificed everything for their children.
-Anyways the first high score dedication feature after locking it I dedicated in the loving memory of my father. Without him, my mother, my uncles and other loving family members I don't think I would've
+even a couple kids happy the way my father made these memories for me its worth every minute of my time and every penny. My Dad worked his ass off and sacrificed everything for us.
+Anyways the first high score dedication feature after locking it I dedicated in the loving memory of my father. Without him, my uncles and other loving family members I don't think I would've
 learned half if not any of the things that make this organization possible. 
 
 ## 08.15.26 17:38 Hey what's up? Hello Terminal v2.7 + weekly fleet acquisitions
