@@ -70,6 +70,16 @@
   "location": "shop"
 },
   {
+    "id": "the-simpsons-1up-02",
+    "name": "The Simpsons Deluxe (1Up)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Special thanks to Joseph and Juliette for practically giving this away for free. We wish you a great move to the sandy beaches of Florida (kind of jealous). 3 of 4 joysticks needed ball replacements, swapped from shop inventory; now ready and working",
+    "fmv_estimate": 275,
+    "location": "shop"
+  },
+  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
