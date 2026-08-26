@@ -221,16 +221,6 @@
     "location": "shop"
   },
   {
-    "id": "claw-01",
-    "name": "Claw / Prize Machine",
-    "type": "redemption",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Good candidate for high-traffic youth spaces.",
-    "fmv_estimate": 900,
-    "location": "warehouse"
-  },
-  {
     "id": "lighthouse-01",
     "name": "Lighthouse Instant Prize (LAI)",
     "type": "redemption",
