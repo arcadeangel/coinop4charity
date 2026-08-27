@@ -3,11 +3,10 @@
 ## 08.27.26 13:13 🏴‍☠️ DIY Arcade Parts Now Available, Special Thanks
 
 Aside from the staff guides we are now live providing free parts to participating partner locations. Wanted to give a special thanks to some small mom and pop, father and son companies and volunteers that have been around a long time, are busy, have employees on payroll... and still, somehow, find time and resources to give back.
-Enrique and Elvis from Sharp's Image Repair are busy every week helping the cause. Franklin from Franklin's Moving is volunteering and helping us out every week as well, going out of his way and taking time from his busy schedule. 
+Elvis and his son Enrique from Sharp Image Repair are busy every week helping the cause even though they run a busy schedule and are celebrities in the coin op world and the go to guys for CRT repairs. Franklin from Franklin's Movers is volunteering and helping us out every week as well, going out of his way and taking time from his busy schedule. 
 
-I went ahead and removed any other brands from our website particularly those who gave us a flatout refusal when it came time to swap out a $5 joystick, and replaced their brands with a Jolly Roger flag and a big old ship anchor that Captain Code *accidentally* smashed aboard their deck as it made its journey to the bottom of the salty sea.
-Don't worry nobody is hurt, the gadgets and ops team is providing them with a redemption arc and some rubber ducky floaties for their journey back ashore to make right among those they seem
-to have forgotten. Those forgotten are exactly the people this ship is trying to save, sorry your vessel was a casualty to our mission. It shouldn't be that way, lets revisit this discussion maybe a year from today? We will eat some caviar (or better yet Bagel Bites) with you mateys once you find your way back to dry land.
+I went ahead and removed any other brands from our website particularly those who gave us a flatout refusal when it came time to swap out cheap parts or $5 joysticks, and replaced their brands with a Jolly Roger flag and a big old ship anchor that Captain Code *accidentally* smashed aboard their deck as it made its journey to the bottom of the salty sea. In all fairness he did yell, "ahoy" before colliding with your otherwise pristine furniture manufacturing vessel.
+Don't worry nobody is hurt, the gadgets and ops team is providing them with a redemption arc and some rubber ducky floaties for their journey back ashore to make right among those they seem to have forgotten. Aboard this ship, nobody is forgotten, and those who were are exactly the people this ship is trying to onboard, so sorry your vessel was a casualty to our mission. It shouldn't be that way, lets revisit this discussion maybe a year from today? We will eat some caviar (or maybe something faster to prepare, cheaper, ready to ship to kiosks) with you mateys once you find your way back to dry land.
 
 -V
 
