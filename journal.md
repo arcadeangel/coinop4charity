@@ -8,7 +8,7 @@ You write the emails. You wait. You get a packet that was written for a rec room
 
 I am done pretending that chasing someone else’s logo is the mature path.
 
-Sourcing and marketing brands the kids did not invent is a budget leak dressed up as professionalism. You pay for the name. You pay for the freight. You pay for the fear of getting a letter. And at the end of it you still do not own the thing. The art is not theirs. The games are not theirs. The next broken stick is “the charity’s problem,” not “our machine.” That is a terrible trade for a youth center and a worse trade for a nonprofit that is still writing checks out of pocket.
+Sourcing and marketing brands the kids did not invent, if the creator companies don't get involved, is a budget leak dressed up as professionalism. You pay for the name. You pay for the freight. You pay for the fear of getting a letter. And at the end of it you still do not own the thing. The art is not theirs. The games are not theirs. The next broken stick is “the charity’s problem,” not “our machine.” That is a terrible trade for a youth center and a worse trade for a nonprofit that is still writing checks out of pocket.
 
 That being said I'll keep restoring the cabinets we love until the end of time, and I'll keep putting them in front of kids... but the greater goal is creating our own system that shares all the games made in our safe spaces and allows them to get played across the entire network. Makes perfect sense on every level from scalability, engagement, checking off STEM boxes on annual grant requirements and giving someone a little bit of direction that might change their entire life and that of the future generations that follow in their footsteps.
 
