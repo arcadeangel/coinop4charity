@@ -4,7 +4,7 @@
 
 Licensing other people’s cabinets is a polite way to spend a year standing still.
 
-You write the emails. You wait. You get a packet that was written for a rec room, not a Boys and Girls Club. You ask if public free-play is allowed. You get silence, or a “home use only,” or a maybe that never becomes a yes. Meanwhile the room is empty and the kids are already on their phones.
+You write the emails. You wait. You get a packet that was written for a rec room, not a youth center. You ask if public free-play is allowed. You get silence, or a “home use only,” or a maybe that never becomes a yes. Meanwhile the room is empty and the kids are already on their phones.
 
 I am done pretending that chasing someone else’s logo is the mature path.
 
