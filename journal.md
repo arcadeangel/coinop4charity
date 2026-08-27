@@ -7,7 +7,7 @@ Enrique and Elvis from Sharp's Image Repair are busy every week helping the caus
 
 I went ahead and removed any other brands from our website particularly those who gave us a flatout refusal when it came time to swap out a $5 joystick, and replaced their brands with a Jolly Roger flag and a big old ship anchor that Captain Code *accidentally* smashed aboard their deck as it made its journey to the bottom of the salty sea.
 Don't worry nobody is hurt, the gadgets and ops team is providing them with a redemption arc and some rubber ducky floaties for their journey back ashore to make right among the forgotten. We will eat some caviar with you mateys when you find your way back to dry land.
-- V
+-V
 
 ## 08.26.26 21:17 Licenses are slow. Kids are not. Neither is CoinOp4Charity with the liscensing loopholes to get more cabinets infront of kids.
 
