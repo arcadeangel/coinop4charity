@@ -65,7 +65,7 @@
   "type": "video",
   "status": "ready",
   "condition": "working",
-  "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. 60 different retro titles on iCade. It looks a bit bigger than a Arcade1Up. Cleaned, tested, working.",
+  "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than a Arcade1Up. Cleaned, tested, working.",
   "fmv_estimate": 400,
   "location": "shop"
 },
@@ -77,6 +77,16 @@
     "condition": "working",
     "notes": "Special thanks to Joseph and Juliette for practically giving this away for free. We wish you a great move to the sandy beaches of Florida (kind of jealous). 3 of 4 joysticks needed ball replacements, swapped from shop inventory; now ready and working",
     "fmv_estimate": 275,
+    "location": "shop"
+  },
+  {
+    "id": "teenage-mutant-ninja-turtles-1up-01",
+    "name": "Teenage Mutant Ninja Turtles (1Up)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Special thanks to Joshua and his family for helping load it up. ready and working",
+    "fmv_estimate": 375,
     "location": "shop"
   },
   {
