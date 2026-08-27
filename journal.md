@@ -1,5 +1,32 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 08.26.26 21:17 Licenses are slow. Kids are not. Neither is CoinOp4Charity with the legal loopholes to get more cabinets infront of kids.
+
+Licensing other people’s cabinets is a polite way to spend a year standing still.
+
+You write the emails. You wait. You get a packet that was written for a rec room, not a Boys and Girls Club. You ask if public free-play is allowed. You get silence, or a “home use only,” or a maybe that never becomes a yes. Meanwhile the room is empty and the kids are already on their phones.
+
+I am done pretending that chasing someone else’s logo is the mature path.
+
+Sourcing and marketing brands the kids did not invent is a budget leak dressed up as professionalism. You pay for the name. You pay for the freight. You pay for the fear of getting a letter. And at the end of it you still do not own the thing. The art is not theirs. The games are not theirs. The next broken stick is “the charity’s problem,” not “our machine.” That is a terrible trade for a youth center and a worse trade for a nonprofit that is still writing checks out of pocket.
+
+Building our own is cheaper. It is faster. It is the only version that actually teaches anything.
+
+A Raspberry Pi, a donated screen, a ten-dollar stick, and a weekend with markers will beat a licensed home cabinet on cost before lunch. Put the same kids on marquee art and a MAKE → SUBMIT loop and you are no longer delivering entertainment. You are delivering a system they can see, break, fix, and improve. That is STEM without the poster. Functions stop being abstract when the game they drew last Saturday is live on the cabinet by the door.
+
+The staff guides are in `docs/restoration/` now for a reason. Tablet stations. BSP-Y02 sticks. Custom cabinets. Legal sources only — originals the club already owns, homebrew the kids write, titles that survive review on Arrrcadé OS. No gray-market ROM packs. No “just this once.” If a company will not license the cause, we do not need their catalog. We need a room that works on Wednesday afternoon.
+
+Here is the part the industry should hear clearly.
+
+If the manufacturers and licensors will not step up — if they will not acknowledge that a free-play cabinet in a youth center is not a threat to their brand, it is the reason the next generation still cares that the brand exists — they will find themselves left in the wind. Market share does not only leak to the next official cabinet. It leaks to a kid-made DIY arcade that costs under a hundred and fifty dollars, boots to a page the club controls, and has the kid’s name on the glass.
+
+We will keep restoring the vintage machines. Those are history and they belong on the floor. We will keep taking donations of working 1Ups when the terms and the host site allow it. What we will not keep doing is pausing the mission so we can wait on a permission slip for a logo the children in the room never asked for.
+
+Make the games. Paint the cabinets. Put them in the clubs. Let the companies catch up, or watch the kids walk past their products on the way to a machine they built themselves.
+
+That is the work. The rest is waiting.
+
+
 ## 08.25.26 13:03 When the controller starts talking in code
 
 It is Tuesday and we already have five new arcade cabinets in the fleet this week. Thank you Leon Nick from Henderson, Jason in Enterprise, Nick, Justin, Eve and her son Cruz.
