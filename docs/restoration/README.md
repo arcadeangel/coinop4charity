@@ -31,6 +31,7 @@ Guides in this folder focus on reliability, safety, and player experience for yo
 
 | File | Description |
 |------|-------------|
+| [DIY_Arcade_Cabinet_Youth_Center_Build_Guide.pdf](DIY_Arcade_Cabinet_Youth_Center_Build_Guide.pdf) | Staff guide for a legal custom cabinet (Pi / mini PC, cheap controls, kids’ art, original/homebrew games only, daily routine, host-site checklist) |
 | [Tablet_Arcade_Station_Youth_Center_Setup_Guide.pdf](Tablet_Arcade_Station_Youth_Center_Setup_Guide.pdf) | Youth-center tablet + BSP-Y02 station setup (STEM intro, power without obscure combos, kiosk boot, daily staff routine, table card) |
 | [BSP-Y02_Web_Arcade_Controller_Guide.pdf](BSP-Y02_Web_Arcade_Controller_Guide.pdf) | Beginner guide for BSP-Y02 and similar HID arcade sticks with browser-based terminal games (pairing, button roles, deadzones, kiosk mode, pre-placement checklist) |
 
@@ -44,5 +45,6 @@ Guides in this folder focus on reliability, safety, and player experience for yo
 - Note any parts that are scarce or have modern alternatives
 - Include free-play / charity configuration notes when relevant
 - For DIY controller / tablet guides: document button roles, exit behavior, and a host-site checklist
+- For DIY cabinet guides: list legal game sources only (owned originals, homebrew, reviewed Arrrcadé OS titles) — no downloaded commercial ROM packs
 
 More guides will be added as machines are restored and documented.
