@@ -4,6 +4,7 @@
 
 Aside from the staff guides we are now live providing free parts to participating partner locations. Wanted to give a special thanks to some small mom and pop, father and son companies and volunteers that have been around a long time, are busy, have employees on payroll.  and still find time and ways to give back.
 Enrique and Elvis from Sharp's Image Repair are busy every week helping the cause. Franklin from Franklin's Moving is volunteering and helping us out every week as well, going out of his way and taking time from his busy schedule. 
+
 I went ahead and removed any other brands from our website particularly those who gave us a flatout refusal when it came time to swap out a $5 joystick, and replaced their brands with a Jolly Roger flag and a big old ship anchor that Captain Code *accidentally* smashed aboard their deck as it made its journey to the bottom of the salty sea.
 Don't worry nobody is hurt, the gadgets and ops team is providing them with a redemption arc and some rubber ducky floaties for their journey back ashore to make right among the forgotten. We will eat some caviar with you mateys when you find your way back to dry land.
 - V
