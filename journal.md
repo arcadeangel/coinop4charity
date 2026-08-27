@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 08.26.26 21:17 Licenses are slow. Kids are not. Neither is CoinOp4Charity with the legal loopholes to get more cabinets infront of kids.
+## 08.26.26 21:17 Licenses are slow. Kids are not. Neither is CoinOp4Charity with the liscensing loopholes to get more cabinets infront of kids.
 
 Licensing other people’s cabinets is a polite way to spend a year standing still.
 
