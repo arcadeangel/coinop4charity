@@ -1,5 +1,13 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 08.27.26 13:13 DIY Arcade Parts Now Available, Special Thanks
+
+Aside from the staff guides we are now live providing free parts to participating partner locations. Wanted to give a special thanks to some small mom and pop, father and son companies and volunteers that have been around a long time, are busy, have employees on payroll.  and still find time and ways to give back.
+Enrique and Elvis from Sharp's Image Repair are busy every week helping the cause. Franklin from Franklin's Moving is volunteering and helping us out every week as well, going out of his way and taking time from his busy schedule. 
+I went ahead and removed any other brands from our website particularly those who gave us a flatout refusal when it came time to swap out a $5 joystick, and replaced their brands with a Jolly Roger flag and a big old ship anchor that Captain Code *accidentally* smashed aboard their deck as it made its journey to the bottom of the salty sea.
+Don't worry nobody is hurt, the gadgets and ops team is providing them with a redemption arc and some rubber ducky floaties for their journey back ashore to make right among the forgotten. We will eat some caviar with you mateys when you find your way back to dry land.
+- V
+
 ## 08.26.26 21:17 Licenses are slow. Kids are not. Neither is CoinOp4Charity with the liscensing loopholes to get more cabinets infront of kids.
 
 Licensing other people’s cabinets is a polite way to spend a year standing still.
