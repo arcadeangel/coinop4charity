@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 08.27.26 13:13 DIY Arcade Parts Now Available, Special Thanks
+## 08.27.26 13:13 🏴‍☠️ DIY Arcade Parts Now Available, Special Thanks
 
 Aside from the staff guides we are now live providing free parts to participating partner locations. Wanted to give a special thanks to some small mom and pop, father and son companies and volunteers that have been around a long time, are busy, have employees on payroll.  and still find time and ways to give back.
 Enrique and Elvis from Sharp's Image Repair are busy every week helping the cause. Franklin from Franklin's Moving is volunteering and helping us out every week as well, going out of his way and taking time from his busy schedule. 
