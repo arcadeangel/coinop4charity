@@ -4,7 +4,7 @@
 
 It is after midnight in Las Vegas and NYAN CAT IV is live on the terminal.
 
-Not a clone. Not a wink we hoped nobody would notice. A game sitting in the same list as our terminal games, with Chris Torres (PRGuitarman) written under the playfield in yellow, a pink chip that goes to nyan.cat, and an overall bat signal to build from a real one who never got too big headed for the community or kids. Nyan Cat itself is rooted in nonprofit, before the hacker group Anonymous ran off with it Chris made it on an American Red Cross livestream. 
+Not a clone. Not a wink we hoped nobody would notice. A game sitting in the same list as our terminal games, with Chris Torres (PRGuitarman) written under the playfield in yellow, a pink chip that goes to nyan.cat, and an overall bat signal to build from a real one who never got too big headed for the community or kids. Nyan Cat itself is rooted in nonprofit, before one of the most notorious hackers in the world ran off with it Chris made it on an American Red Cross livestream. 
 
 We present you with Nyan Cat IV: Paint The Music.  Hold A and the rainbow is a brush. Respawn and the board keeps the number.
 
