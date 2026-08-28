@@ -18,12 +18,12 @@ Thank you, Chris Torres, PRGuitarman WE LOVE YOU! And thanks for supporting the 
 
 Thank you for making history and then leaving the door unlocked so somebody else’s kids could walk through it. Thank you for nyan.cat. Thank you for @PRGuitarman. Thank you for the permission, the trust, and the reminder that the people who actually built this culture still know what it was for.
 
-Captain Code took his hat off. He does not do that. He stood on the quarterdeck, saluted the rainbow with that beautiful Russian Blue cat (may he always be remembered along with your tremendous generation and treasure you brought aboard, and said if a creator that size can still hear a small ship, then the rest of the fleet has no excuse. Salute to you, Chris. The skipper sees the work. The kids will see the cat. The credit stays on the glass.
-NYAN CAT IV is in TERMINAL GAMES. Vortex and Light Cycles are off the menu for now so the Pi can breathe. 
+Captain Code took his hat off. He does not do that. He stood on the quarterdeck, saluted the rainbow with that beautiful Russian Blue cat (may he always be remembered along with your tremendous generousty and treasure you brought aboard), and said if a creator that size can still hear a small ship, then the rest of the fleet has no excuse. Salute to you, Chris. The skipper sees the work. The kids will see the cat. The credit stays on the glass.
+NYAN CAT IV is in TERMINAL GAMES. Vortex and Light Cycles are off the menu for now so the Pi can breathe, and because this is way freaking cooler. 
 
 Nyan Cat is a character created by Chris Torres. Thank you for sharing your beloved cat with us. nyan.cat · @PRGuitarman
 
-We love you all, especially you 
+We love you all, especially you Chris, man you make things so easy to do and are always a breath of fresh air, my brother.
 
 ## 08.27.26 13:13 🏴‍☠️ DIY Arcade Parts Now Available, Special Thanks
 
