@@ -7955,6 +7955,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				const frame = document.getElementById('nyan-frame');
 				if (frame) { frame.src = 'about:blank'; frame.style.display = 'none'; }
 				if (canvas) canvas.style.display = '';
+				const ui = document.querySelector('#game-overlay .game-ui');
+				if (ui) ui.style.display = '';
 			} catch (e) {}
 			if (animId) cancelAnimationFrame(animId);
 			animId = null;
@@ -8063,12 +8065,17 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				setupTouchControls(['left', 'right', 'up', 'down', 'fire']);
 				initKaiju();
 			} else if (name === 'nyan') {
-				hintEl.textContent = 'NYAN CAT IV  ·  PAINT THE MUSIC  ·  HOLD START EXIT';
+				hintEl.textContent = '';
 				setupTouchControls([]);
-				try { canvas.style.display = 'none'; } catch (e) {}
+				try {
+					canvas.style.display = 'none';
+					const ui = document.querySelector('#game-overlay .game-ui');
+					if (ui) ui.style.display = 'none';
+				} catch (e) {}
 				const frame = document.getElementById('nyan-frame');
 				if (frame) {
 					frame.style.display = 'block';
+					frame.style.height = 'min(560px, 78dvh)';
 					frame.src = 'nyancat-iv.html';
 				}
 			}

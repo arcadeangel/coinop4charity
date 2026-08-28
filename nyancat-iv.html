@@ -12,35 +12,39 @@
     font-family: "Courier New", ui-monospace, monospace;
     overflow: hidden; touch-action: none; user-select: none;
   }
-  #wrap { height: 100%; display: flex; align-items: center; justify-content: center; }
+  #wrap {
+    height: 100%; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+  }
   canvas {
     display: block;
-    width: min(100vw, calc(100dvh * 16 / 9));
-    max-height: 100dvh;
+    width: min(100vw, calc((100dvh - 72px) * 16 / 9));
+    max-height: calc(100dvh - 72px);
     image-rendering: pixelated;
     background: #100018;
     box-shadow: 0 0 60px #ff4da644;
   }
   #hud {
     position: fixed; inset: 0; pointer-events: none;
-    display: flex; flex-direction: column; justify-content: space-between;
+    display: none;
+    flex-direction: column; justify-content: space-between;
     padding: max(8px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
   }
+  #hud.play { display: flex; }
   #top, #bot { display: flex; justify-content: space-between; gap: 12px; font-size: 11px; letter-spacing: .12em; }
   b { color: #ffe566; }
   #iv { color: #ff6ad6; }
   #credit {
-    display: none;
-    position: fixed; left: 8px; right: 8px;
-    bottom: max(8px, env(safe-area-inset-bottom));
+    display: block;
+    flex: 0 0 auto;
+    max-width: 92vw;
     text-align: center; font-size: 11px; line-height: 1.35;
     letter-spacing: .06em;
     color: #ffe14a;
     pointer-events: auto;
-    z-index: 5;
     text-shadow: 0 1px 0 #000;
+    padding: 4px 8px 8px;
   }
-  #credit.show { display: block; }
   #credit a {
     color: #fff;
     background: #ff5ad6;
@@ -51,7 +55,15 @@
 </style>
 </head>
 <body>
-<div id="wrap"><canvas id="c" width="640" height="360"></canvas></div>
+<div id="wrap">
+  <canvas id="c" width="640" height="360"></canvas>
+  <div id="credit">
+    Nyan Cat is a character created by Chris Torres.<br>
+    Thank you for sharing your beloved cat with us.<br>
+    <a id="nyanLink" href="https://www.nyan.cat" target="_blank" rel="noopener">nyan.cat</a>
+    · @PRGuitarman
+  </div>
+</div>
 <div id="hud">
   <div id="top">
     <div>NYAN CAT <span id="iv">IV</span> · PAINT THE MUSIC</div>
@@ -64,12 +76,6 @@
     <div id="frost">FROSTING</div>
     <div id="hp"></div>
   </div>
-</div>
-<div id="credit">
-  Nyan Cat is a character created by Chris Torres.<br>
-  Thank you for sharing your beloved cat with us.<br>
-  <a id="nyanLink" href="https://www.nyan.cat" target="_blank" rel="noopener">nyan.cat</a>
-  · @PRGuitarman
 </div>
 <script>
 (() => {
@@ -142,8 +148,7 @@
     hpEl.textContent = '♥'.repeat(Math.max(0,G.hp)) + '♡'.repeat(Math.max(0,4-G.hp));
     frostEl.textContent = 'FROSTING ' + Math.max(0, G.frost|0);
     secEl.textContent = G.phase === 'play' ? (G.set + ' · ' + TRACKS[trackI].id) : 'ATTRACT';
-    const cred = document.getElementById('credit');
-    if (cred) cred.classList.toggle('show', G.phase !== 'play');
+    document.getElementById('hud').classList.toggle('play', G.phase === 'play');
   }
 
   function acx() {
@@ -761,12 +766,7 @@
         ctx.font = on ? 'bold 13px Courier New' : '12px Courier New';
         ctx.fillText((on?'▶ ':'  ') + tr.id + '  ' + tr.tag, W/2, 246 + i*16);
       });
-      ctx.fillStyle='#ffe14a'; ctx.font='bold 11px Courier New';
-      ctx.fillText('Nyan Cat is a character created by Chris Torres', W/2, 318);
-      ctx.fillStyle='#ffffffcc'; ctx.font='10px Courier New';
-      ctx.fillText('Thank you for sharing your beloved cat with us', W/2, 334);
-      ctx.fillStyle='#ff5ad6'; ctx.font='bold 11px Courier New';
-      ctx.fillText('TAP PINK  nyan.cat  ·  @PRGuitarman', W/2, 350);
+      /* credit lives in the HTML bar under the canvas — don't draw it twice */
     }
 
     if (G.phase==='dead') {
