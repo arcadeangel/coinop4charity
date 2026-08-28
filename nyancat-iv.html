@@ -30,9 +30,23 @@
   b { color: #ffe566; }
   #iv { color: #ff6ad6; }
   #credit {
-    position: fixed; left: 0; right: 0; bottom: 3px;
-    text-align: center; font-size: 9px; letter-spacing: .14em;
-    color: #ffffff50; pointer-events: none;
+    display: none;
+    position: fixed; left: 8px; right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    text-align: center; font-size: 11px; line-height: 1.35;
+    letter-spacing: .06em;
+    color: #ffe14a;
+    pointer-events: auto;
+    z-index: 5;
+    text-shadow: 0 1px 0 #000;
+  }
+  #credit.show { display: block; }
+  #credit a {
+    color: #fff;
+    background: #ff5ad6;
+    padding: 3px 8px;
+    text-decoration: none;
+    font-weight: bold;
   }
 </style>
 </head>
@@ -51,7 +65,12 @@
     <div id="hp"></div>
   </div>
 </div>
-<div id="credit">Nyan Cat is a character created by Chris Torres. Thank you for sharing your beloved cat with us. Credit: nyan.cat · @PRGuitarman</div>
+<div id="credit">
+  Nyan Cat is a character created by Chris Torres.<br>
+  Thank you for sharing your beloved cat with us.<br>
+  <a id="nyanLink" href="https://www.nyan.cat" target="_blank" rel="noopener">nyan.cat</a>
+  · @PRGuitarman
+</div>
 <script>
 (() => {
   const canvas = document.getElementById('c');
@@ -66,7 +85,7 @@
   const frostEl = document.getElementById('frost');
 
   const RB = ['#ff0000','#ff9900','#ffff00','#33cc00','#3399ff','#6633ff','#ff5ad6'];
-  const BEST_KEY = 'c4c_nyancat_iv_best';
+  const BEST_KEY = 'c4c_hs_nyan';
   let best = +localStorage.getItem(BEST_KEY) || 0;
   bsEl.textContent = best;
 
@@ -123,6 +142,8 @@
     hpEl.textContent = '♥'.repeat(Math.max(0,G.hp)) + '♡'.repeat(Math.max(0,4-G.hp));
     frostEl.textContent = 'FROSTING ' + Math.max(0, G.frost|0);
     secEl.textContent = G.phase === 'play' ? (G.set + ' · ' + TRACKS[trackI].id) : 'ATTRACT';
+    const cred = document.getElementById('credit');
+    if (cred) cred.classList.toggle('show', G.phase !== 'play');
   }
 
   function acx() {
@@ -292,6 +313,7 @@
     G.phase='dead';
     G.overLine = OVER[(Math.random()*OVER.length)|0];
     if ((G.score|0)>best) { best=G.score|0; localStorage.setItem(BEST_KEY,String(best)); bsEl.textContent=best; }
+    try { parent.postMessage({ type: 'c4c-score', game: 'nyan', score: G.score|0 }, '*'); } catch (e) {}
     msgEl.textContent = 'A / TAP  ·  ANOTHER ROUND';
     chord([N.A3, N.C4, N.E4], 0.36, 'triangle', 0.08);
   }
@@ -739,12 +761,12 @@
         ctx.font = on ? 'bold 13px Courier New' : '12px Courier New';
         ctx.fillText((on?'▶ ':'  ') + tr.id + '  ' + tr.tag, W/2, 246 + i*16);
       });
-      ctx.fillStyle='#ffe14a'; ctx.font='10px Courier New';
-      ctx.fillText('Nyan Cat is a character created by Chris Torres.', W/2, 314);
-      ctx.fillStyle='#ffffff99'; ctx.font='9px Courier New';
-      ctx.fillText('Thank you for sharing your beloved cat with us.', W/2, 328);
-      ctx.fillStyle='#ffffff66';
-      ctx.fillText('Credit: nyan.cat  ·  @PRGuitarman', W/2, 342);
+      ctx.fillStyle='#ffe14a'; ctx.font='bold 11px Courier New';
+      ctx.fillText('Nyan Cat is a character created by Chris Torres', W/2, 318);
+      ctx.fillStyle='#ffffffcc'; ctx.font='10px Courier New';
+      ctx.fillText('Thank you for sharing your beloved cat with us', W/2, 334);
+      ctx.fillStyle='#ff5ad6'; ctx.font='bold 11px Courier New';
+      ctx.fillText('TAP PINK  nyan.cat  ·  @PRGuitarman', W/2, 350);
     }
 
     if (G.phase==='dead') {
@@ -769,6 +791,7 @@
     draw();
   }
   requestAnimationFrame(loop);
+  hud();
 
   window.addEventListener('keydown', e => {
     KEYS[e.code]=true;
@@ -800,8 +823,12 @@
     const r=canvas.getBoundingClientRect();
     const s=e.touches?e.touches[0]:e;
     const y=((s.clientY-r.top)/r.height)*H;
-    if (y>=232 && y<=312) {
+    if (y>=232 && y<=308) {
       trackI = Math.max(0, Math.min(3, ((y-238)/16)|0));
+      return true;
+    }
+    if (y>318) {
+      window.open('https://www.nyan.cat', '_blank', 'noopener');
       return true;
     }
     return false;
