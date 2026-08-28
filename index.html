@@ -3677,7 +3677,10 @@
 
 		window.addEventListener('message', function(e) {
 			if (!e || !e.data || e.data.type !== 'c4c-score') return;
-			if (e.data.game === 'nyan' && e.data.score > 0) setHigh('nyan', e.data.score|0);
+			if (e.data.game === 'nyan' && e.data.score > 0) {
+				if (typeof showGameOver === 'function') showGameOver('SEE YOU IN ATTRACT MODE', 'nyan', e.data.score|0);
+				else setHigh('nyan', e.data.score|0);
+			}
 		});
 		function setHigh(name, score, playerName) {
 			setLocalHigh(name, score);
