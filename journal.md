@@ -4,22 +4,21 @@
 
 It is after midnight in Las Vegas and NYAN CAT IV is live on the terminal.
 
-Not a clone. Not a wink we hoped nobody would notice. A game sitting in the same list as our terminal games, with Chris Torres (PRGuitarman) written under the playfield in yellow, a pink chip that goes to nyan.cat, and an overall bat signal to build from a real one who never got too big headed for the community or kids. Nyan Cat itself is rooted in nonprofit, before one of the most notorious hackers in the world ran off with it Chris made it on an American Red Cross livestream. 
+Not a clone. Not a wink we hoped nobody would notice. A game sitting in the same list as our terminal games, with Chris Torres (PRGuitarman) written under the playfield in yellow, a pink chip that goes to nyan.cat, and an overall bat signal to build from a real one who never got too big headed for the community or kids. Nyan Cat itself is rooted in nonprofit, before the most notorious hackers in the world ran off with it Chris made it unknowing what would happen on an American Red Cross livestream. 
 
 We present you with Nyan Cat IV: Paint The Music.  Hold A and the rainbow is a brush. Respawn and the board keeps the number.
 
-We asked. He said yes. The other Nyan Cat games are awesome so we kept it sequential.
+We asked. He said yes. We started screaming and going nuts. The other Nyan Cat games are awesome so we kept it sequential and paid our proper respect to those before us. Definitely check those out as well, but this is the first Nyan Cat music runner.
 
-That is the sentence I keep turning over. The man who made the cat that ate the internet — the same cat that ran across The Simpsons , that made the six o’clock news in controversial hacks (not associated with Chris himself who is just a wholesome dude who loves retro games, pop tarts, and cats. People still argue about this cat in comment sections like it happened last week — and he was so kind helet a Nevada youth nonprofit put his character on a free cabinet. The same artwork that has moved at auction for six hundred and eighty-nine thousand dollars. He did not send a licensing packet. He did not send a rate card. He shared his beloved cat.
+That is the sentence I keep turning over. The man who made the cat that ate the internet — the same cat that ran across The Simpsons Treehouse Horror Special, that made the six o’clock news in controversial hacks (not associated with Chris himself who is just a wholesome dude that loves retro games, pop tarts, and cats). People still argue about this cat in comment sections like it happened last week — and he was so kind that he actually let a Nevada youth nonprofit put his character on a free cabinet. The same artwork that has moved at auction for six hundred and eighty-nine thousand dollars. He did not send a licensing packet. He did not send a rate card. He shared his beloved cat.
 
 Rockstars do not have to do that. Most of them do not. The inbox is full of brands that will not even return a letter about a broken stick. Then the guy whose gif taught a generation what a loop looks like just… steps up. When it mattered. When the room needed a character the kids already loved, and we needed to do it clean.
 
-Thank you, Chris Torres.
+Thank you, Chris Torres, PRGuitarman WE LOVE YOU! And thanks for supporting the cause and seeing our vision.
 
 Thank you for making history and then leaving the door unlocked so somebody else’s kids could walk through it. Thank you for nyan.cat. Thank you for @PRGuitarman. Thank you for the permission, the trust, and the reminder that the people who actually built this culture still know what it was for.
 
-Captain Code took his hat off. He does not do that. He stood on the quarterdeck, saluted the rainbow, and said if a creator that size can still hear a small ship, then the rest of the fleet has no excuse. Salute to you, Chris. The skipper sees the work. The kids will see the cat. The credit stays on the glass.
-
+Captain Code took his hat off. He does not do that. He stood on the quarterdeck, saluted the rainbow with that beautiful Russian Blue cat (may he always be remembered , and said if a creator that size can still hear a small ship, then the rest of the fleet has no excuse. Salute to you, Chris. The skipper sees the work. The kids will see the cat. The credit stays on the glass.
 NYAN CAT IV is in TERMINAL GAMES, second after Saucer. Vortex and Light Cycles are off the menu for now so the Pi can breathe. High scores talk to the same worker as Kaiju. The name on the board tonight is a placeholder. The name that matters is already under the playfield.
 
 Nyan Cat is a character created by Chris Torres. Thank you for sharing your beloved cat with us. nyan.cat · @PRGuitarman
