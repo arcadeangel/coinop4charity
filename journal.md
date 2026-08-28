@@ -23,7 +23,7 @@ NYAN CAT IV is in TERMINAL GAMES. Vortex and Light Cycles are off the menu for n
 
 Nyan Cat is a character created by Chris Torres. Thank you for sharing your beloved cat with us. nyan.cat · @PRGuitarman
 
-We love you all, especially you Chris, man you make things so easy to do and are always a breath of fresh air, my brother.
+We love you all, especially you Chris, man you make things so easy to do and are always a breath of fresh air in a smoggy city, my brother.
 
 ## 08.27.26 13:13 🏴‍☠️ DIY Arcade Parts Now Available, Special Thanks
 
