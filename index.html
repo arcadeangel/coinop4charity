@@ -2928,6 +2928,14 @@
 					</div>
 					<div class="arrcade-card">
 						<div>
+							<div class="title">NYAN CAT IV</div>
+							<div class="meta">Paint The Music · live sample</div>
+						</div>
+						<span class="arrcade-badge">LIVE</span>
+						<button type="button" class="play-mini" data-game="nyan">PLAY</button>
+					</div>
+					<div class="arrcade-card">
+						<div>
 							<div class="title">CIRCUIT RUNNER</div>
 							<div class="meta">Coin Op terminal · live sample</div>
 						</div>
@@ -3144,6 +3152,10 @@
 					SAUCER BEAM
 					<span>Beam up cows and the milkman</span>
 				</button>
+				<button class="game-btn" data-game="nyan">
+					NYAN CAT IV
+					<span>Paint The Music • lock to the beat</span>
+				</button>
 				<button class="game-btn" data-game="fish">
 					HAPPY FISHING
 					<span>Cast • Reel • Land the big ones</span>
@@ -3156,10 +3168,6 @@
 					NEON KAIJU
 					<span>Climb • Ride dragons • Mech vs Dr Kaiju</span>
 				</button>
-				<button class="game-btn" data-game="racer">
-					VORTEX STARSHIP
-					<span>Barrel-roll the neon vortex • Survive the tube</span>
-				</button>
 				<button class="game-btn" data-game="yeti">
 					YETI SLOPES
 					<span>Ski the mountain • Full control</span>
@@ -3167,10 +3175,6 @@
 				<button class="game-btn" data-game="paddle">
 					PULSE PADDLE
 					<span>Break the blocks • Drag or arrows</span>
-				</button>
-				<button class="game-btn" data-game="cycles">
-					LIGHT CYCLES
-					<span>Solo neon grid • Survive your own trail</span>
 				</button>
 			</div>
 		</div>
@@ -3186,12 +3190,11 @@
 		<div class="hi-scores" id="hiScoresPanel">
 			<h4>GLOBAL HI-SCORES</h4>
 			<div class="row"><span>SAUCER BEAM</span><span id="hs-ufo">—</span></div>
+			<div class="row"><span>NYAN CAT IV</span><span id="hs-nyan">—</span></div>
 			<div class="row"><span>HAPPY FISHING</span><span id="hs-fish">—</span></div>
 			<div class="row"><span>CIRCUIT RUNNER</span><span id="hs-runner">—</span></div>
 			<div class="row"><span>NEON KAIJU</span><span id="hs-kaiju">—</span></div>
-			<div class="row"><span>VORTEX STARSHIP</span><span id="hs-racer">—</span></div>
 			<div class="row"><span>YETI SLOPES</span><span id="hs-yeti">—</span></div>
-			<div class="row"><span>LIGHT CYCLES</span><span id="hs-cycles">—</span></div>
 			<div class="row"><span>PULSE PADDLE</span><span id="hs-paddle">—</span></div>
 		</div>
 
@@ -3247,6 +3250,7 @@
 
 	<div id="game-overlay">
 		<canvas id="game-canvas" width="480" height="360"></canvas>
+		<iframe id="nyan-frame" title="NYAN CAT IV: Paint The Music" src="about:blank" style="display:none;border:2px solid #00ff9f;background:#000;width:min(720px,96vw);height:min(420px,70dvh);max-width:100%;"></iframe>
 		<div class="game-ui">
 			<span id="score">SCORE: 0</span>
 			<span id="lives"></span>
@@ -3639,16 +3643,15 @@
 
 		// ========== GLOBAL + LOCAL HI-SCORES ==========
 		const SCORES_API = 'https://coinop-scores.samazar213.workers.dev';
-		const GAME_KEYS = ['ufo', 'fish', 'runner', 'kaiju', 'racer', 'yeti', 'cycles', 'paddle'];
+		const GAME_KEYS = ['ufo', 'nyan', 'fish', 'runner', 'kaiju', 'yeti', 'paddle'];
 		const GAME_NAMES = {
 			ufo: 'SAUCER BEAM',
 			fish: 'HAPPY FISHING',
 			runner: 'CIRCUIT RUNNER',
-			racer: 'VORTEX STARSHIP',
 			yeti: 'YETI SLOPES',
-			cycles: 'LIGHT CYCLES',
 			paddle: 'PULSE PADDLE',
-			kaiju: 'NEON KAIJU'
+			kaiju: 'NEON KAIJU',
+			nyan: 'NYAN CAT IV'
 		};
 		window.C4C_GLOBAL = null;
 
@@ -7944,6 +7947,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			if (typeof refreshTopOps === 'function') refreshTopOps();
 
 			currentGame = null;
+			try {
+				const frame = document.getElementById('nyan-frame');
+				if (frame) { frame.src = 'about:blank'; frame.style.display = 'none'; }
+				if (canvas) canvas.style.display = '';
+			} catch (e) {}
 			if (animId) cancelAnimationFrame(animId);
 			animId = null;
 			keys = {};
@@ -8050,6 +8058,15 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				hintEl.textContent = '← → move  •  ↑ climb/ride  •  TAP punch  •  smash keeps for suit pieces';
 				setupTouchControls(['left', 'right', 'up', 'down', 'fire']);
 				initKaiju();
+			} else if (name === 'nyan') {
+				hintEl.textContent = 'NYAN CAT IV  ·  PAINT THE MUSIC  ·  HOLD START EXIT';
+				setupTouchControls([]);
+				try { canvas.style.display = 'none'; } catch (e) {}
+				const frame = document.getElementById('nyan-frame');
+				if (frame) {
+					frame.style.display = 'block';
+					frame.src = 'nyancat-iv.html';
+				}
 			}
 		}
 
