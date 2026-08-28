@@ -10,7 +10,7 @@ We present you with Nyan Cat IV: Paint The Music.  Hold A and the rainbow is a b
 
 We asked. He said yes. The other Nyan Cat games are awesome so we kept it sequential.
 
-That is the sentence I keep turning over. The man who made the cat that ate the internet — the same cat that ran across The Simpsons , that made the six o’clock news in controversial mthat people still argue about in comment sections like it happened last week — let a Nevada youth nonprofit put his character on a free cabinet. The same artwork that has moved at auction for six hundred and eighty-nine thousand dollars. He did not send a licensing packet. He did not send a rate card. He shared his beloved cat.
+That is the sentence I keep turning over. The man who made the cat that ate the internet — the same cat that ran across The Simpsons , that made the six o’clock news in controversial hacks (not associated with Chris himself who is just a wholesome dude who loves retro games, pop tarts, and cats. People still argue about this cat in comment sections like it happened last week — and he was so kind helet a Nevada youth nonprofit put his character on a free cabinet. The same artwork that has moved at auction for six hundred and eighty-nine thousand dollars. He did not send a licensing packet. He did not send a rate card. He shared his beloved cat.
 
 Rockstars do not have to do that. Most of them do not. The inbox is full of brands that will not even return a letter about a broken stick. Then the guy whose gif taught a generation what a loop looks like just… steps up. When it mattered. When the room needed a character the kids already loved, and we needed to do it clean.
 
