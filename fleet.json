@@ -189,7 +189,16 @@
     "fmv_estimate": 200,
     "location": "shop"
   },
-
+{
+    "id": "ms-pacman-05",
+    "name": "Ms. Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "variety of Pacman titles Cleaned, tested, working fine. ",
+    "fmv_estimate": 275,
+    "location": "shop"
+  },
   {
     "id": "street-fighter-03",
     "name": "Street Fighter",
@@ -227,7 +236,17 @@
     "status": "ready",
     "condition": "working",
     "notes": "Jason Landis generously donated this one for free today and delivered it; came by with his son who he is teaching all sorts of intersting math and science to, Jason seemed pretty technical and well versed with coding thank you both for being amazing people, brought back memories of myself and my father, pretty cool guys.",
-    "fmv_estimate": 280,
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "terminator-2-judgement-day-01",
+    "name": "Terminator 2: Judgement Day",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Big thank you again to Jason Landis and his family. Drove across town today hauling arcade cabinets generously donated one for free today and delivered it; thank you guys.",
+    "fmv_estimate": 450,
     "location": "shop"
   },
   {
