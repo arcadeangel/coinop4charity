@@ -80,6 +80,16 @@
     "location": "shop"
   },
   {
+    "id": "the-simpsons-03",
+    "name": "The Simpsons Deluxe",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Special thanks to our friend Leon in Henderson practically giving this away for free along with 5 other cabinets. This man is singlehandedly sponsoring an entire location, by himself. We wish you a great move",
+    "fmv_estimate": 275,
+    "location": "shop"
+  },
+  {
     "id": "teenage-mutant-ninja-turtles-01",
     "name": "Teenage Mutant Ninja Turtles",
     "type": "video",
@@ -197,7 +207,7 @@
     "condition": "working",
     "notes": "variety of Pacman titles Cleaned, tested, working fine. ",
     "fmv_estimate": 275,
-    "location": "shop"
+    "location": "warehouse"
   },
   {
     "id": "street-fighter-03",
@@ -207,6 +217,16 @@
     "condition": "working",
     "notes": "Cabinet solid. From Eve and her son Cruz. Eve grew up on playing Street Fighter arcade style in a local shop. She said she saw a bit of herself in Chun-Li. Bought this cabinet because she wanted to share those memories and the experience with her son. Now after many years and him growing up and barely using it... they have decided to share it with you. Working great, monitor clean and controls are solid.",
     "fmv_estimate": 350,
+    "location": "warehouse"
+  },
+  {
+    "id": "street-fighter-04",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": " Another classic from video game aficionado and arcade final boss Leon from Henderson who singlehandedly hosted one of our locations by himself this guy is a real legend and man of the people",
+    "fmv_estimate": 300,
     "location": "shop"
   },
   {
@@ -227,7 +247,7 @@
     "condition": "working",
     "notes": "Justin hooked this up at a steep discount, ordered riser today.",
     "fmv_estimate": 280,
-    "location": "shop"
+    "location": "warehouse"
   },
   {
     "id": "mortal-kombat-04",
@@ -236,6 +256,16 @@
     "status": "ready",
     "condition": "working",
     "notes": "Jason Landis generously donated this one for free today and delivered it; came by with his son who he is teaching all sorts of intersting math and science to, Jason seemed pretty technical and well versed with coding thank you both for being amazing people, brought back memories of myself and my father, pretty cool guys.",
+    "fmv_estimate": 300,
+    "location": "warehouse"
+  },
+  {
+    "id": "mortal-kombat-05",
+    "name": "Mortal Kombat",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Leon in Henderson generously took a steep loss today and gave it away for practically free; He has a nice family crazy arcade collection a full site is basically games he hooked us up with.",
     "fmv_estimate": 300,
     "location": "shop"
   },
@@ -257,6 +287,16 @@
     "condition": "working",
     "notes": "Single player countercade with two versions of NBA Jam plus NBA Hangtime, new in box",
     "fmv_estimate": 100,
+    "location": "shop"
+  },
+  {
+    "id": "nba-jam-03",
+    "name": "NBA Jam",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "4 player upright with two versions of NBA Jam plus NBA Hangtime, needs new Player one Joystick Leon who donated an entire partner location full of arcade cabinets for nearly free told us his buddy played it for 3 days straight nonstop before breaking the player one stick, so funny",
+    "fmv_estimate": 375,
     "location": "shop"
   },
   {
