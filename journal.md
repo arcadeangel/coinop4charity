@@ -1,5 +1,15 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 08.28.26 21:44 Earliest memories of my father
+
+The earliest memories I have with my father involved sitting on his lap booting PCs that still ran on code just to play Galaga, or Asteroids, even DOOM. Those were his favorite games (although he was crazy for backgammon more than anything). As a kid watching someone type a few lines into a terminal to have it boot up to the legendary John Romero's pixel art of code... I think that leaves any kid in awe and interest. I will never forget it. We did a lot of woodworking, physically building stuff as well, it's was all relevant in the realm of all things that make up this project. He would come up with the craziest logic games for us like how do we build a gazebo in a geometric half dome shape like the Epcot Center, and basically building it out of the most minimalist materials like one shape we'd construct over and over again using three pieces of wood that we'd measure and cut into the same size. Grueling work as a kid, appreciate and miss it a little too late as a grown man.
+Endless journeys, lessons and memories. It was difficult picking up all of the missing pieces after he passed. Today I met Jason Landis who donated an entire working arcade cabinet, and delivered it with his son. He told me they work on pinball together and all sorts of projects seeing them working together especially at such a young age reminded me of my father and how he raised me. There was fun amd games, but also logic games, endless adventures and journeys. I tried to give Jason some sort of a donation slip and he refused he said no need because that's not the point of it for him. Pretty cool guy, was into coding and Raspberry Pi's and it was cool seeing him onboard the next generation in such an early and awesome manner.
+These are the moments we never forget.
+
+Speaking of which, never will I forget Chris Torres and nyan.cat for giving us the greenlight on Nyan Cat IV. Chris is someone I (along with many others given his impact on our culture) idolize and look up to more and more as you get to know him better. His cat was originally made on an American Red Cross livestream with Chris. Almost a quarter century later, this still remains one of the most recognizable and relevant memes in our popular culture. When youth organizers I spoke to today, caught onto the news, I sensed the excitement in their voices and the realization that their kids have some sort of recognizable character to work with, or among, in their STEM programs and also career development programs (considering you can submit a game to be featured right next to it).
+
+And thanks again Lisa from the James Club for inviting me to your retro night. That was the biggest turn out I have seen in my lifetime at a youth center. You’re clearly providing a home and safe space to many in your community. The place was packed full of happy families and even happier volunteers. Thank you for sharing that moment with me.
+
 ## 08.28.26 00:01 🌈 😸 When the real ones still pick up the phone
 
 It is after midnight in Las Vegas and NYAN CAT IV is live on the terminal.
