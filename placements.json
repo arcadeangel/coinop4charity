@@ -130,8 +130,17 @@
     "name": "Mortal Kombat Deluxe",
     "number": "009",
     "location": "Street Teens (Las Vegas)",
-    "notes": "Donated upright cabinet from our friend Jerry who also served for our country. Beautiful clean cabinet deluxe version light up marquee. Free play. Working great.",
+    "notes": "Donated upright cabinet from our friend Jerry P. who also served for our country. Beautiful clean cabinet deluxe version light up marquee. Free play. Working great.",
     "placed": "Donated on 2026-08-25",
+    "status": "active"
+  },
+    {
+    "id": "marvel-superheroes-01",
+    "name": "Marvel Superheroes",
+    "number": "009",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Marvel Superheroes countercade with Punisher and his gritty unsuperhero-like gun violence disabled",
+    "placed": "Donated on 2026-08-28",
     "status": "active"
   },
   {
