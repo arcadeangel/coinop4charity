@@ -61,7 +61,7 @@
     Nyan Cat is a character created by Chris Torres.<br>
     Thank you for sharing your beloved cat with us.<br>
     <a id="nyanLink" href="https://www.nyan.cat" target="_blank" rel="noopener">nyan.cat</a>
-    · @PRGuitarman
+    · @nyancat
   </div>
 </div>
 <div id="hud">
@@ -569,17 +569,26 @@
       px(-10,0,PAL.k,5,3); px(-9,0,PAL.g,3,2);
       px(-12,-1,PAL.k,3,2); px(-11,-1,PAL.g,2,1);
     }
-    // wider head
-    px(4,-6,PAL.k,13,11);
-    px(5,-5,PAL.g,11,9);
-    // pointy ears — 1px tip
-    px(6,-10,PAL.k,1,1);
-    px(5,-9,PAL.k,3,1);
-    px(5,-8,PAL.k,3,2); px(6,-8,PAL.g,1,2);
-    px(15,-10,PAL.k,1,1);
-    px(14,-9,PAL.k,3,1);
-    px(14,-8,PAL.k,3,2); px(15,-8,PAL.g,1,2);
-    // eyes
+    // oval head — rounded crown + fuller grey cheeks
+    px(5,-8,PAL.k,11,1);
+    px(4,-7,PAL.k,13,1);
+    px(3,-6,PAL.k,15,8);
+    px(4,2,PAL.k,13,2);
+    px(5,4,PAL.k,11,1);
+    px(6,-7,PAL.g,9,1);
+    px(5,-6,PAL.g,11,2);
+    px(4,-4,PAL.g,13,6);
+    px(5,2,PAL.g,11,2);
+    // short A-ears, rounded top, gray fused into the face
+    px(4,-11,PAL.k,2,1);
+    px(3,-10,PAL.k,1,2);
+    px(6,-10,PAL.k,1,2);
+    px(4,-10,PAL.g,2,4);
+    px(16,-11,PAL.k,2,1);
+    px(15,-10,PAL.k,1,2);
+    px(18,-10,PAL.k,1,2);
+    px(16,-10,PAL.g,2,4);
+    // eyes sit under the extra forehead
     const blink = (t % 110) < 5;
     if (blink) {
       px(7,-3,PAL.k,2,1);
