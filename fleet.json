@@ -320,16 +320,6 @@
     "location": "warehouse"
   },
   {
-    "id": "marvel-superheroes-01",
-    "name": "Marvel Superheroes",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Solid countercade. Working through monitor and controls. Disabled Punisher game, more youth friendly.",
-    "fmv_estimate": 200,
-    "location": "shop"
-  },
-  {
     "id": "asteroids-01",
     "name": "Asteroids",
     "type": "video",
