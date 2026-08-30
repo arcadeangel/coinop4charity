@@ -10,6 +10,8 @@ Not a bad week, and keep in mind that we barely are a month old.
 
 Brace yourself for impact.
 
+Side note: I bet you anything we can do this same thing in places like New York. Mayor over there is giving away all sorts of free resources someone shout him out and tell him we will supply the whole city of New York with classic arcade games and our own terminal with Nyan Cat IV. Not even joking. I anticipate that we will max out the arcade games we put in youth centers in Nevada by the end of this year, at the very latest. We can handle New York or somewhere crazy full of people next to prove a point and establish ourselves as an authority in getting more free arcade games in the public use. We are ready and up for the job. 
+
 ## 08.28.26 21:44 Earliest memories of my father
 
 The earliest memories I have with my father involved sitting on his lap booting PCs that still ran on code just to play Galaga, or Asteroids, even DOOM. Those were his favorite games (although he was crazy for backgammon more than anything). As a kid watching someone type a few lines into a terminal to have it boot up to the legendary John Romero's pixel art of code... I think that leaves any kid in awe and interest. I will never forget it. We did a lot of woodworking, physically building stuff as well, it's was all relevant in the realm of all things. He would come up with the craziest logic games for us like how do we build a gazebo in a geometric half dome shape like the Epcot Center, and basically building it out of the most minimalist materials like one shape we'd construct over and over again using three pieces of wood that we'd measure and cut into the same size. Grueling work as a kid, appreciate and miss it a little too late as a grown man.
