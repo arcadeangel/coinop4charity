@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 08.29.26 21:44 Can't forget about you
+## 08.29.26 21:13 Can't forget about you
 
 I saw Leon Nick again pulled up to his house with Franklin in the afternoon, after our last time catching up and playing arcade games he was just hearing about our mission. Not even 24 hours later he called me in the most serious manner: "I've been thinking that I want you to take 6 arcade games". Totally unreal, yesterday we had the first person donate something for free and today out of the kindness of his heart, Leon with a newborn baby on his shoulder and all, literally single handedly sponsored an entire youth center site full of arcade games. 6 different arcade games on our friend Leon, absolute legend. Seriously, Leon is what legends are made out of. Without a plaque, any recognition outside of this obscure journal, no cameras on, no social media... he did all that and didn't even want a receipt. Man of the people, he was also very encouraging and motivational, a caring and awesome person. This is only the beginning. All it takes is one person to sponsor an entire youth center site now and guys like Leon Nick from Henderson NV are living proof. Thank you for your support, and congratulations on your newborn baby. 
 
