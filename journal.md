@@ -10,7 +10,7 @@ Not a bad week, and keep in mind that we barely are a month old.
 
 Brace yourself for impact.
 
-Side note: I bet you anything we can do this same thing in places like New York. Mayor over there is giving away all sorts of free resources someone shout him out and tell him we will supply the whole city of New York with classic arcade games and our own terminal with Nyan Cat IV. Not even joking. I anticipate that we will max out the arcade games we put in youth centers in Nevada by the end of this year, at the very latest. We can handle New York or somewhere crazy full of people next to prove a point and establish ourselves as an authority in getting more free arcade games in the public use. We are ready and up for the job. 
+Side note: I bet you anything we can do this same thing in places like New York. Mayor over there is giving away all sorts of free resources someone shout him out and tell him we will supply the whole city of New York with classic arcade games and our own terminal with Nyan Cat IV. Not even joking. I anticipate that we will max out the arcade games we put in youth centers in Nevada by the end of this year, at the very latest. We can handle New York or somewhere crazy full of people next to prove a point and establish ourselves as an authority in getting more free arcade games in the public use. We are ready and up for the job. I actually emailed his  office already lol.
 
 ## 08.28.26 21:44 Earliest memories of my father
 
