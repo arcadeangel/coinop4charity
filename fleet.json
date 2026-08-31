@@ -50,6 +50,16 @@
     "location": "shop"
   },
   {
+    "id": "pacman-06",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "For wall mounting or countertops, large screen. Cleaned, tested, working.",
+    "fmv_estimate": 150,
+    "location": "shop"
+  },
+  {
     "id": "pacman-04",
     "name": "Pac-Man",
     "type": "video",
@@ -200,7 +210,7 @@
   "location": "shop"
   },
   {
-    "id": "mspacman-02",
+    "id": "ms-pacman-02",
     "name": "Ms. Pac-Man",
     "type": "video",
     "status": "ready",
@@ -218,6 +228,16 @@
     "notes": "variety of Pacman titles Cleaned, tested, working fine. ",
     "fmv_estimate": 275,
     "location": "warehouse"
+  },
+  {
+    "id": "ms-pacman-06",
+    "name": "Ms. Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "For wall mounting or countertop. Variety of Pacman titles Cleaned, tested, working fine. ",
+    "fmv_estimate": 150,
+    "location": "shop"
   },
   {
     "id": "street-fighter-03",
@@ -370,6 +390,16 @@
     "location": "shop"
   },
   {
+    "id": "asteroids-02",
+    "name": "Asteroids",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "For wall mounting or countertops. Large screen. Features Asteroids and lots of other games.",
+    "fmv_estimate": 170,
+    "location": "shop"
+  },
+  {
     "id": "marvel-superheroes-02",
     "name": "Marvel Superhero",
     "type": "video",
@@ -450,7 +480,7 @@
     "location": "shop"
   },
   {
-    "id": "mspacman-1981-01",
+    "id": "ms-pacman-1981-01",
     "name": "Ms. Pac-Man (1981)",
     "type": "video",
     "status": "in progress",
