@@ -80,16 +80,6 @@
   "location": "shop"
 },
   {
-    "id": "the-simpsons-02",
-    "name": "The Simpsons Deluxe",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Special thanks to Joseph and Juliette for practically giving this away for free. We wish you a great move to the sandy beaches of Florida (kind of jealous). 3 of 4 joysticks needed ball replacements, swapped from shop inventory; now ready and working",
-    "fmv_estimate": 275,
-    "location": "shop"
-  },
-  {
     "id": "the-simpsons-03",
     "name": "The Simpsons Deluxe",
     "type": "video",
@@ -218,16 +208,6 @@
     "notes": "variety of Pacman titles Cleaned, tested, working fine. ",
     "fmv_estimate": 275,
     "location": "warehouse"
-  },
-  {
-    "id": "ms-pacman-06",
-    "name": "Ms. Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "For wall mounting or countertop. Variety of Pacman titles Cleaned, tested, working fine. ",
-    "fmv_estimate": 150,
-    "location": "shop"
   },
   {
     "id": "street-fighter-03",
@@ -377,16 +357,6 @@
     "condition": "working",
     "notes": "Solid multicade features Asteroids and lots of other games.",
     "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
-    "id": "asteroids-02",
-    "name": "Asteroids",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "For wall mounting or countertops. Large screen. Features Asteroids and lots of other games.",
-    "fmv_estimate": 170,
     "location": "shop"
   },
   {
