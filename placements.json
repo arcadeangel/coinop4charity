@@ -196,5 +196,23 @@
     "notes": "Donated. Full upright cabinet. Free play. Working great.",
     "placed": "Donated on 2026-08-31",
     "status": "active"
+  },
+    {
+    "id": "asteroids-02",
+    "name": "Asteroids",
+    "number": "026",
+    "location": "St. Jude's Ranch For Children – Boulder City, NV",
+    "notes": "Donated. Mounted wall cabinet. Free play. Working great.",
+    "placed": "Donated on 2026-08-31",
+    "status": "active"
+  },
+    {
+    "id": "ms-pacman-06",
+    "name": "The Simpsons",
+    "number": "027",
+    "location": "St. Jude's Ranch For Children – Boulder City, NV",
+    "notes": "Donated. Full upright cabinet. Free play. Working great.",
+    "placed": "Donated on 2026-08-31",
+    "status": "active"
   }
 ]
