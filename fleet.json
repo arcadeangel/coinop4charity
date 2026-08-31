@@ -40,13 +40,23 @@
     "location": "shop"
   },
   {
-    "id": "pacman-03",
+    "id": "pacman-05",
+    "name": "Pac-Man Deluxe",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Deluxe version, light up marquee. Cleaned, tested, working.",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
+    "id": "pacman-05",
     "name": "Pac-Man",
     "type": "video",
     "status": "ready",
     "condition": "working",
     "notes": "Needed paint job. Cleaned, tested, working.",
-    "fmv_estimate": 400,
+    "fmv_estimate": 300,
     "location": "shop"
   },
   {
