@@ -290,16 +290,6 @@
     "location": "shop"
   },
   {
-    "id": "nba-jam-03",
-    "name": "NBA Jam",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "4 player upright with two versions of NBA Jam plus NBA Hangtime, needs new Player one Joystick Leon who donated an entire partner location full of arcade cabinets for nearly free told us his buddy played it for 3 days straight nonstop before breaking the player one stick, so funny",
-    "fmv_estimate": 375,
-    "location": "shop"
-  },
-  {
     "id": "final-fight-01",
     "name": "Capcom's Final Fight",
     "type": "video",
