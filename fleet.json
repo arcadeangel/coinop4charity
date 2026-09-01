@@ -220,16 +220,6 @@
     "location": "warehouse"
   },
   {
-    "id": "street-fighter-04",
-    "name": "Street Fighter",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": " Another classic from video game aficionado and arcade final boss Leon from Henderson who singlehandedly hosted one of our locations by himself this guy is a real legend and man of the people",
-    "fmv_estimate": 300,
-    "location": "shop"
-  },
-  {
     "id": "mortal-kombat-01",
     "name": "Mortal Kombat",
     "type": "video",
