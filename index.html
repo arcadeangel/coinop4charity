@@ -11,6 +11,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="CoinOp4C">
+	<meta name="application-name" content="CoinOp4C">
+	<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23000'/%3E%3Ctext x='90' y='112' text-anchor='middle' font-family='monospace' font-size='72' font-weight='bold' fill='%2300ff9f'%3E4C%3C/text%3E%3C/svg%3E">
 	<link rel="manifest" href="manifest.json">
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-family='monospace' font-size='42' font-weight='bold' fill='%2300ff9f'%3E4C%3C/text%3E%3C/svg%3E">
 	<style>
@@ -3319,7 +3321,10 @@
 			document.body.classList.add('boot-active');
 			if (!canvas) {
 				setTimeout(() => { boot.classList.add('fade-out');
-					setTimeout(() => boot.classList.add('done'), 400); }, 900);
+					setTimeout(() => {
+						boot.classList.add('done');
+						document.body.classList.remove('boot-active');
+					}, 400); }, 900);
 				return;
 			}
 			const ctx = canvas.getContext('2d');
@@ -3382,7 +3387,10 @@
 							if (btn && (btn.pressed || (typeof btn.value === 'number' && btn.value > 0.35))) return true;
 						}
 						for (let a = 0; a < axes.length; a++) {
-							if (typeof axes[a] === 'number' && Math.abs(axes[a]) > 0.35) return true;
+							const av = axes[a];
+							if (typeof av !== 'number' || !isFinite(av)) continue;
+							if (Math.abs(av) > 1.08) continue; // idle POV hats report ~1.28 / 3.28
+							if (Math.abs(av) > 0.45) return true;
 						}
 						// On kiosk/arcade, a connected pad can end boot after warm-up without mashing
 						if (gp.id && buttons.length > 0 && (performance.now() - t0) > 900) {
@@ -3787,6 +3795,34 @@
 		refreshTopOps();
 		loadGlobalScores();
 		setInterval(loadGlobalScores, 45000);
+
+		// Involve form: stay on the terminal (Formspree JSON) instead of navigating away
+		(function wireInvolveForm() {
+			const form = document.getElementById('involveForm');
+			if (!form) return;
+			form.addEventListener('submit', function(e) {
+				e.preventDefault();
+				const hp = form.querySelector('input[name="website"]');
+				if (hp && hp.value) return;
+				const btn = form.querySelector('button[type="submit"]');
+				const prev = btn ? btn.textContent : '';
+				if (btn) { btn.disabled = true; btn.textContent = 'SENDING…'; }
+				const fd = new FormData(form);
+				fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+					.then(function(res) {
+						if (btn) btn.textContent = res.ok ? 'SENT — THANK YOU' : 'SENT';
+						try { form.reset(); } catch (err) {}
+					})
+					.catch(function() {
+						if (btn) btn.textContent = 'COULD NOT SEND — TRY AGAIN';
+					})
+					.then(function() {
+						setTimeout(function() {
+							if (btn) { btn.disabled = false; btn.textContent = prev || 'SEND'; }
+						}, 3200);
+					});
+			});
+		})();
 
 		// ========== FLEET — Available for placement (button + list) ==========
 		async function loadFleet() {
@@ -4226,9 +4262,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const raw = localStorage.getItem('c4c_ops');
 			if (raw) Object.assign(window.C4C_OPS, JSON.parse(raw));
 		} catch (e) {}
+		// Never restore attract from disk — a stale true flag trapped menu/stick input
+		window.C4C_OPS.attract = false;
 
 		function saveOps() {
-			try { localStorage.setItem('c4c_ops', JSON.stringify(window.C4C_OPS)); } catch (e) {}
+			try {
+				const snap = Object.assign({}, window.C4C_OPS, { attract: false });
+				localStorage.setItem('c4c_ops', JSON.stringify(snap));
+			} catch (e) {}
 			if (typeof musicMaster !== 'undefined' && musicMaster) {
 				try { musicMaster.gain.value = 0.095 * (window.C4C_OPS.musicVol || 0.7); } catch (e) {}
 			}
@@ -4333,9 +4374,18 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		// Only allow attract after the home-page typewriter has finished
 		window.C4C_MISSION_DONE = false;
 
-		function bumpActivity() {
+		function bumpActivity(amount) {
 			lastActivity = Date.now();
-			if (window.C4C_OPS.attract) stopAttract();
+			if (typeof lastInteraction !== 'undefined') lastInteraction = Date.now();
+			if (window.C4C_OPS && window.C4C_OPS.attract && typeof stopAttract === 'function') stopAttract();
+			if (typeof activityLevel === 'number') {
+				activityLevel = Math.min(1, activityLevel + (typeof amount === 'number' ? amount : 0.3));
+				if (typeof idleTimer !== 'undefined') idleTimer = 0;
+				document.body.classList.remove('idle-unstable');
+				if (activityLevel > 0.6) {
+					document.body.classList.add('aberration', 'activity-high');
+				}
+			}
 		}
 		['pointerdown', 'keydown', 'touchstart', 'mousemove', 'scroll'].forEach(ev => {
 			window.addEventListener(ev, bumpActivity, { passive: true });
@@ -4377,7 +4427,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		}
 
 		function startAttract() {
+			if (window.C4C_OPS && window.C4C_OPS.attract) return;
 			if (document.body.classList.contains('game-open')) return;
+			if (document.body.classList.contains('boot-active')) return;
 			if (document.getElementById('ops-panel')?.classList.contains('open')) return;
 			if (document.getElementById('share-panel')?.classList.contains('open')) return;
 			// Snap to top before locking so attract is truly centered / full-screen on mobile
@@ -5959,16 +6011,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			}, duration);
 		}
 
-		function bumpActivity(amount = 0.3) {
-			activityLevel = Math.min(1, activityLevel + amount);
-			lastInteraction = Date.now();
-			idleTimer = 0;
-			document.body.classList.remove('idle-unstable');
-
-			if (activityLevel > 0.6) {
-				document.body.classList.add('aberration', 'activity-high');
-			}
-		}
+		// FX activity is handled by the shared bumpActivity() above (also resets attract idle).
 
 		function onInteraction(e) {
 			let x, y;
@@ -6717,12 +6760,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let gamepadState = {
 			left: false, right: false, up: false, down: false,
 			fire: false, jump: false, dash: false, slide: false,
-			start: false, select: false, a: false, b: false, x: false, y: false
+			start: false, select: false, home: false, a: false, b: false, x: false, y: false
 		};
 		let gamepadConnected = false;
 		let gamepadRaf = null;
 		let gpAxisLatch = { x: 0, y: 0 }; // -1, 0, 1 with hysteresis
 		let gpStartHoldMs = 0;
+		let gpStartHoldT0 = 0;
 		let gpLastMenuMove = 0;
 		let gpPrevButtons = {};
 		let gpEdge = {};
@@ -6801,9 +6845,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			take(axes[0], axes[1]);
 			take(axes[2], axes[3]);
 			take(axes[6], axes[7]);
-			for (let a = 0; a < axes.length; a++) {
-				if (a === 0 || a === 1 || a === 2 || a === 3 || a === 6 || a === 7) continue;
-				const hat = hatToXY(axes[a]);
+			// POV hat is almost always axis 9 on Chrome/Linux DirectInput.
+			// Do NOT scan leftover analog axes — triggers rest at 0, and
+			// hatToXY(0) is "down", which falsely woke attract on Firefox.
+			if (axes.length > 9 || typeof axes[9] === 'number') {
+				const hat = hatToXY(axes[9]);
 				if (hat.x && !ax) ax = hat.x;
 				if (hat.y && !ay) ay = hat.y;
 			}
@@ -6818,6 +6864,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				gpAxisLatch.x = 0;
 				gpAxisLatch.y = 0;
 				gpStartHoldMs = 0;
+				gpStartHoldT0 = 0;
 				gpLiveInput = false;
 				return;
 			}
@@ -6851,6 +6898,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			// Select / Start — try common indices without overlapping roles in semantics
 			const btnSelect = gpPressed(buttons, 8);
 			const btnStart = gpPressed(buttons, 9) || gpPressed(buttons, 11);
+			// Guide / Home (standard 16; some HID sticks use 10)
+			const btnHome = gpPressed(buttons, 16) || gpPressed(buttons, 10);
 
 			gamepadState.a = btnA;
 			gamepadState.b = btnB;
@@ -6858,6 +6907,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gamepadState.y = btnY;
 			gamepadState.select = btnSelect;
 			gamepadState.start = btnStart;
+			gamepadState.home = btnHome;
 
 			// PRIMARY fire = A only (plus optional X / RT for multi-button sticks)
 			// B is NEVER fire — it was exiting games and double-firing
@@ -6881,6 +6931,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				y: btnY,
 				start: btnStart,
 				select: btnSelect,
+				home: btnHome,
 				fire: gamepadState.fire
 			};
 			gpEdge = {};
@@ -6895,7 +6946,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			// the screen and never reset the idle timer — BSP sticks failed here.
 			gpLiveInput = !!(
 				gamepadState.left || gamepadState.right || gamepadState.up || gamepadState.down ||
-				btnA || btnB || btnX || btnY || btnStart || btnSelect ||
+				btnA || btnB || btnX || btnY || btnStart || btnSelect || btnHome ||
 				btnLB || btnRB || btnLT || btnRT
 			);
 			if (gpLiveInput && typeof lastActivity !== 'undefined') {
@@ -6903,11 +6954,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (typeof lastInteraction !== 'undefined') lastInteraction = Date.now();
 			}
 
-			// Start hold timer for safe exit
+			// Start hold timer for safe exit (real elapsed time — survives 30fps throttle)
 			if (btnStart) {
-				gpStartHoldMs += 16; // ~1 frame at 60Hz; good enough
+				if (!gpStartHoldT0) gpStartHoldT0 = performance.now();
+				gpStartHoldMs = performance.now() - gpStartHoldT0;
 			} else {
 				gpStartHoldMs = 0;
+				gpStartHoldT0 = 0;
 			}
 		}
 
@@ -6934,6 +6987,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gamepadRaf = null;
 			Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
 			gpStartHoldMs = 0;
+			gpStartHoldT0 = 0;
+			gpLiveInput = false;
 		}
 
 		window.addEventListener('gamepadconnected', (e) => {
@@ -7024,8 +7079,45 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			setMenuFocus(menuFocusIdx + delta);
 		}
 
+		function goTerminalHome() {
+			try {
+				if (typeof stopGame === 'function' && currentGame) stopGame();
+			} catch (e) {}
+			try {
+				if (typeof stopAttract === 'function') stopAttract();
+			} catch (e) {}
+			try {
+				const ops = document.getElementById('ops-panel');
+				if (ops) { ops.classList.remove('open'); ops.setAttribute('aria-hidden', 'true'); }
+				const share = document.getElementById('share-panel');
+				if (share) { share.classList.remove('open'); share.setAttribute('aria-hidden', 'true'); }
+				const cert = document.getElementById('cert-panel');
+				if (cert) cert.classList.remove('open');
+			} catch (e) {}
+			document.body.style.overflow = '';
+			document.body.style.position = '';
+			if (typeof forceScrollTop === 'function') forceScrollTop();
+			else try { window.scrollTo(0, 0); } catch (e2) {}
+			if (typeof bumpActivity === 'function') bumpActivity();
+			if (typeof setMenuFocus === 'function') setMenuFocus(0);
+			// If we are not already on the site root (kiosk query is fine), stay.
+			// Reloading the exact home URL resets stray iframes / Apple handoff.
+			try {
+				const path = (location.pathname || '/') + (location.search || '') + (location.hash || '');
+				const onHome = path === '/' || path === '/index.html' || path.indexOf('/?') === 0 || path === '/index.html?kiosk=1' || /[?&]kiosk=1/.test(location.search);
+				if (!onHome && location.hostname && location.hostname.indexOf('coinop4charity') >= 0) {
+					location.assign(location.origin + '/' + (location.search || ''));
+				}
+			} catch (e) {}
+		}
+
 		function handleMenuGamepad() {
 			if (document.body.classList.contains('boot-active')) return;
+
+			if (gpEdge.home) {
+				goTerminalHome();
+				return;
+			}
 
 			// ATTRACT: wake on stick deflection OR any button.
 			// Must accept *held* joystick (level), not only a rising edge —
@@ -7046,6 +7138,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			if (currentGame) {
 				if (gpEdge.select || gpStartHoldMs >= GP_EXIT_HOLD_MS) {
 					gpStartHoldMs = 0;
+					gpStartHoldT0 = 0;
 					stopGame();
 					setMenuFocus(menuFocusIdx);
 					if (typeof bumpActivity === 'function') bumpActivity();
@@ -8010,6 +8103,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
 			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
 			if (document.body.classList.contains('boot-active')) return;
+			if (e.key === 'Home' || e.key === 'GoHome' || e.key === 'BrowserHome') {
+				e.preventDefault();
+				goTerminalHome();
+				return;
+			}
 			if (currentGame) {
 				if (e.key === 'Escape') {
 					stopGame();
@@ -8053,6 +8151,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (currentGame === 'cycles' && typeof cycles !== 'undefined' && cycles && cycles.score > 0) setHigh('cycles', cycles.score);
 				if (currentGame === 'yeti' && typeof yeti !== 'undefined' && yeti && yeti.score > 0) setHigh('yeti', yeti.score);
 				if (currentGame === 'paddle' && typeof paddle !== 'undefined' && paddle && paddle.score > 0) setHigh('paddle', paddle.score);
+				if (currentGame === 'kaiju' && typeof kaijuG !== 'undefined' && kaijuG && kaijuG.score > 0) setHigh('kaiju', kaijuG.score);
 			} catch (e) {}
 			if (typeof refreshHiScores === 'function') refreshHiScores();
 			if (typeof refreshTopOps === 'function') refreshTopOps();
@@ -8183,8 +8282,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (frame) {
 					frame.style.display = 'block';
 					frame.style.height = 'min(560px, 78dvh)';
-					frame.src = 'nyancat-iv.html';
+					// Live host 307s .html → /nyancat-iv; try the pretty URL first
+					frame.src = 'nyancat-iv';
+					frame.onerror = function() { frame.src = 'nyancat-iv.html'; };
 				}
+			} else {
+				// Unknown title — do not leave a black overlay with no game
+				try { stopGame(); } catch (e) {}
 			}
 		}
 
