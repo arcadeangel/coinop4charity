@@ -1,10 +1,14 @@
 {
   "name": "Coin-Op 4 Charity",
   "short_name": "CoinOp4C",
+  "id": "https://coinop4charity.org/",
   "description": "Arcade machines for Nevada youth centers — free play & fundraising. Terminal games included.",
-  "start_url": "/",
+  "start_url": "https://coinop4charity.org/",
+  "scope": "https://coinop4charity.org/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "any",
+  "prefer_related_applications": false,
   "background_color": "#000000",
   "theme_color": "#00ff9f",
   "icons": [
