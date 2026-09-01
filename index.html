@@ -5628,6 +5628,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			// Wait until typewriter has finished before allowing attract
 			if (!window.C4C_MISSION_DONE) return;
 			if (Date.now() - lastActivity > attractIdleMs && !window.C4C_OPS.attract) {
+				if (typeof gpLiveInput !== 'undefined' && gpLiveInput) {
+					lastActivity = Date.now();
+					return;
+				}
 				startAttract();
 			}
 		}, 2000);
@@ -6722,8 +6726,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let gpLastMenuMove = 0;
 		let gpPrevButtons = {};
 		let gpEdge = {};
-		const GP_DEAD_ON = 0.48;
-		const GP_DEAD_OFF = 0.32;
+		let gpLiveInput = false; // held stick or button — wakes attract even without a new edge
+		const GP_DEAD_ON = 0.38;
+		const GP_DEAD_OFF = 0.22;
 		const GP_MENU_DEBOUNCE = 160;
 		const GP_EXIT_HOLD_MS = 480;
 
@@ -6741,37 +6746,98 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			return currentLatch; // stay in previous state in the dead band
 		}
 
+		// Chrome / Android HID POV hat: -1 up … clockwise … idle reports ~1.28 or 3.28
+		function hatToXY(v) {
+			if (typeof v !== 'number' || !isFinite(v) || v > 1.05 || v < -1.05) return { x: 0, y: 0 };
+			const sectors = [
+				{ x: 0, y: -1 },
+				{ x: 1, y: -1 },
+				{ x: 1, y: 0 },
+				{ x: 1, y: 1 },
+				{ x: 0, y: 1 },
+				{ x: -1, y: 1 },
+				{ x: -1, y: 0 },
+				{ x: -1, y: -1 },
+				{ x: 0, y: -1 }
+			];
+			const i = Math.round((v + 1) * 4);
+			return sectors[Math.max(0, Math.min(8, i))];
+		}
+
+		function pickGamepad(gps) {
+			let best = null, bestScore = -1;
+			for (let i = 0; i < gps.length; i++) {
+				const gp = gps[i];
+				if (!gp || gp.connected === false) continue;
+				const id = String(gp.id || '').toLowerCase();
+				let score = 1;
+				if (/bsp|y02|arcade|fight|joystick|generic|usb gamepad|hid|xbox|xinput|switch|pro controller|8bit|mayflash|brook/.test(id)) score += 6;
+				const axes = gp.axes || [];
+				const buttons = gp.buttons || [];
+				for (let a = 0; a < axes.length; a++) {
+					const v = axes[a];
+					if (typeof v === 'number' && Math.abs(v) >= GP_DEAD_ON && Math.abs(v) <= 1.05) score += 3;
+				}
+				for (let b = 0; b < buttons.length; b++) {
+					if (gpPressed(buttons, b)) score += 4;
+				}
+				if ((buttons.length || 0) >= 8) score += 1;
+				if (score > bestScore) { best = gp; bestScore = score; }
+			}
+			return best;
+		}
+
+		function readStickAxes(gp) {
+			const axes = gp.axes || [];
+			let ax = 0, ay = 0;
+			function take(xRaw, yRaw) {
+				if (typeof xRaw !== 'number' || typeof yRaw !== 'number') return;
+				if (!isFinite(xRaw) || !isFinite(yRaw)) return;
+				const x = (Math.abs(xRaw) <= 1.05) ? xRaw : 0;
+				const y = (Math.abs(yRaw) <= 1.05) ? yRaw : 0;
+				if (Math.abs(x) > Math.abs(ax)) ax = x;
+				if (Math.abs(y) > Math.abs(ay)) ay = y;
+			}
+			take(axes[0], axes[1]);
+			take(axes[2], axes[3]);
+			take(axes[6], axes[7]);
+			for (let a = 0; a < axes.length; a++) {
+				if (a === 0 || a === 1 || a === 2 || a === 3 || a === 6 || a === 7) continue;
+				const hat = hatToXY(axes[a]);
+				if (hat.x && !ax) ax = hat.x;
+				if (hat.y && !ay) ay = hat.y;
+			}
+			return { ax: ax || 0, ay: ay || 0 };
+		}
+
 		function pollGamepad() {
 			const gps = (navigator.getGamepads && navigator.getGamepads()) || [];
-			let gp = null;
-			for (let i = 0; i < gps.length; i++) {
-				if (gps[i] && gps[i].connected !== false) { gp = gps[i]; break; }
-			}
+			const gp = pickGamepad(gps);
 			if (!gp) {
 				Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
 				gpAxisLatch.x = 0;
 				gpAxisLatch.y = 0;
 				gpStartHoldMs = 0;
+				gpLiveInput = false;
 				return;
 			}
 
-			const axes = gp.axes || [];
 			const buttons = gp.buttons || [];
-			const ax = typeof axes[0] === 'number' ? axes[0] : 0;
-			const ay = typeof axes[1] === 'number' ? axes[1] : 0;
-			gpAxisLatch.x = axisLatch(ax, gpAxisLatch.x);
-			gpAxisLatch.y = axisLatch(ay, gpAxisLatch.y);
+			const stick = readStickAxes(gp);
+			gpAxisLatch.x = axisLatch(stick.ax, gpAxisLatch.x);
+			gpAxisLatch.y = axisLatch(stick.ay, gpAxisLatch.y);
 
-			// D-pad (standard) OR latched stick
+			// D-pad buttons (standard 12–15). Also scan a few HID extras used by
+			// cheap Android mappings without treating face buttons as directions.
 			const dLeft = gpPressed(buttons, 14);
 			const dRight = gpPressed(buttons, 15);
 			const dUp = gpPressed(buttons, 12);
 			const dDown = gpPressed(buttons, 13);
 
-			gamepadState.left  = dLeft || gpAxisLatch.x === -1;
-			gamepadState.right = dRight || gpAxisLatch.x === 1;
-			gamepadState.up    = dUp || gpAxisLatch.y === -1;
-			gamepadState.down  = dDown || gpAxisLatch.y === 1;
+			gamepadState.left  = !!(dLeft || gpAxisLatch.x === -1);
+			gamepadState.right = !!(dRight || gpAxisLatch.x === 1);
+			gamepadState.up    = !!(dUp || gpAxisLatch.y === -1);
+			gamepadState.down  = !!(dDown || gpAxisLatch.y === 1);
 
 			// Standard face (A B X Y) + shoulders — BSP-Y02 / generic HID
 			const btnA = gpPressed(buttons, 0);
@@ -6824,6 +6890,19 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gpEdge.any = Object.keys(raw).some(k => gpEdge[k]);
 			gpPrevButtons = raw;
 
+			// Held stick or face/system button counts as real use.
+			// Attract used to require a *new edge*, so a held joystick never woke
+			// the screen and never reset the idle timer — BSP sticks failed here.
+			gpLiveInput = !!(
+				gamepadState.left || gamepadState.right || gamepadState.up || gamepadState.down ||
+				btnA || btnB || btnX || btnY || btnStart || btnSelect ||
+				btnLB || btnRB || btnLT || btnRT
+			);
+			if (gpLiveInput && typeof lastActivity !== 'undefined') {
+				lastActivity = Date.now();
+				if (typeof lastInteraction !== 'undefined') lastInteraction = Date.now();
+			}
+
 			// Start hold timer for safe exit
 			if (btnStart) {
 				gpStartHoldMs += 16; // ~1 frame at 60Hz; good enough
@@ -6839,7 +6918,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				// On low-RAM devices, throttle menu polling to ~30fps (full speed in-game)
 				var throttle = window.C4C_LOW_RAM &&
 					window.C4C_GP_THROTTLE_MENU &&
-					!document.body.classList.contains('game-open');
+					!document.body.classList.contains('game-open') &&
+					!(window.C4C_OPS && window.C4C_OPS.attract);
 				if (!throttle || (now - lastGpTick) >= 32) {
 					lastGpTick = now || 0;
 					pollGamepad();
@@ -6869,6 +6949,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		});
 		window.addEventListener('gamepaddisconnected', () => {
 			gamepadConnected = false;
+			gpLiveInput = false;
 			const badge = document.getElementById('gamepad-badge');
 			if (badge) {
 				badge.textContent = 'ARCADE STICK OFFLINE';
@@ -6876,6 +6957,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				setTimeout(() => badge.classList.remove('on'), 2000);
 			}
 		});
+		document.addEventListener('visibilitychange', function() {
+			if (!document.hidden) startGamepadLoop();
+		});
+		window.addEventListener('pageshow', function() { startGamepadLoop(); });
+		window.addEventListener('focus', function() { startGamepadLoop(); });
 
 		// ========== MENU / ATTRACT / EXIT ==========
 		window.C4C_KIOSK = window.C4C_KIOSK || false;
@@ -6941,11 +7027,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function handleMenuGamepad() {
 			if (document.body.classList.contains('boot-active')) return;
 
-			// ATTRACT: wake on any real edge (not held turbo spam — edges only)
+			// ATTRACT: wake on stick deflection OR any button.
+			// Must accept *held* joystick (level), not only a rising edge —
+			// cheap BSP / HID sticks often already sit off-center, so no edge fires.
 			if (window.C4C_OPS && window.C4C_OPS.attract) {
-				if (gpEdge.any) {
+				if (gpLiveInput || gpEdge.any) {
 					if (typeof stopAttract === 'function') stopAttract();
 					if (typeof bumpActivity === 'function') bumpActivity();
+					else if (typeof lastActivity !== 'undefined') lastActivity = Date.now();
 					setMenuFocus(0);
 				}
 				return;
