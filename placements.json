@@ -139,7 +139,7 @@
     "name": "Mortal Kombat Deluxe",
     "number": "009",
     "location": "Street Teens (Las Vegas)",
-    "notes": "Donated upright cabinet from our friend Jerry P. who also served for our country. Beautiful clean cabinet deluxe version light up marquee. Free play. Working great.",
+    "notes": "Donated upright cabinet from our friend Jerry P. in Henderson who also served for our country. Beautiful clean cabinet deluxe version light up marquee. Free play. Working great.",
     "placed": "Donated on 2026-08-25",
     "status": "active"
   },
@@ -240,6 +240,15 @@
     "location": "YMCA - Centennial Hills",
     "notes": "Donated. Full upright cabinet. Free play. Working great.",
     "placed": "Donated on 2026-09-01. Pending repair and delivery.",
+    "status": "active"
+  },
+    {
+    "id": "the-simpsons-03",
+    "name": "The Simpsons",
+    "number": "031",
+    "location": "YMCA - Centennial Hills",
+    "notes": "Donated. Full upright cabinet. Free play. Working great.",
+    "placed": "Thank you Leon Nick from Henderson NV. 1 of 6 from this legend. Donated on 2026-09-01. Pending delivery.",
     "status": "active"
   }
 ]
