@@ -80,16 +80,6 @@
   "location": "shop"
 },
   {
-    "id": "the-simpsons-03",
-    "name": "The Simpsons Deluxe",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Special thanks to our friend Leon in Henderson practically giving this away for free along with 5 other cabinets. This man is singlehandedly sponsoring an entire location, by himself. We wish you a great move",
-    "fmv_estimate": 275,
-    "location": "shop"
-  },
-  {
     "id": "teenage-mutant-ninja-turtles-01",
     "name": "Teenage Mutant Ninja Turtles",
     "type": "video",
