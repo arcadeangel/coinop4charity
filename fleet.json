@@ -80,16 +80,6 @@
   "location": "shop"
 },
   {
-    "id": "teenage-mutant-ninja-turtles-01",
-    "name": "Teenage Mutant Ninja Turtles",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Special thanks to Joshua and his family for helping load it up. ready and working",
-    "fmv_estimate": 375,
-    "location": "shop"
-  },
-  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
