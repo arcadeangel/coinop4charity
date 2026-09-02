@@ -350,16 +350,6 @@
     "location": "shop"
   },
   {
-    "id": "marvel-superheroes-02",
-    "name": "Marvel Superhero",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Thank you Leon Nick from Henderson NV for donating this one and others from your home arcade for near free. Solid upright cabinet. 4 different titles. Working through monitor and controls.",
-    "fmv_estimate": 300,
-    "location": "shop"
-  },
-  {
     "id": "cube-parallel-01",
     "name": "Cube Parallel Prize Redemption",
     "type": "redemption",
