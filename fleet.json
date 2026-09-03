@@ -119,6 +119,16 @@
   "fmv_estimate": 300,
   "location": "shop"
 },
+{
+  "id": "the-simpsons-04",
+  "name": "The Simpsons",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Needed a new joystick, doh!",
+  "fmv_estimate": 400,
+  "location": "shop"
+},
   {
   "id": "galaga-01",
   "name": "Galaga",
