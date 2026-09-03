@@ -1,5 +1,14 @@
 # Coin-Op 4 Charity — Dev Journal
 
+## 09.03.26 23:03  Look at the sky, the stars look beautiful tonight
+I took a minute to stargaze for the first time in a while. That was something my father would bring me outside to do as a kid and go on these deep talks about the universe from the atom to the unknown. Total mindbender for a 8 year old kid. I think I've been looking at arcade screens a lot lately because I swear for a minute there I was picturing Galaga in the sky and just had a total Lion King moment like we were actually together once again. Probably just my imagination, pitch black in the mountains, I'm sure you can relate. Still the first time I've felt connected that way again in a long time, kind of weird. It's definitely weird when a piece of code becomes your identity... but I know it's like that for many people.
+
+Connected with Kristy the VP of BBBSN who also likes the classic space games and went from playing Defender as a kid to doing it literally in real life for our community. She also enlightened me regarding all sorts of spaces and organizations, which I am hoping to soon announce that we donated our fleet of arcade games. Very resourceful, hopefully we have the opportunity to work with her. 
+
+Met with Branden at the Y - Centennial Hills. The Y brings back tons of memories from my childhood and just a community hub for recreation, resources for so many people and its such a welcoming environment for all. Amazing staff over there felt right at home. Hopefully we will collaborate together on some STEM resources later on.
+
+Fixed a Nba Jam joystick tonight (e-clip had fallen off and acentuator was missing on a newer modernization replica) as well as swapping out a faulty joystick on a original 1981 Donkey Kong. The original DK, funny enough 1980s tech and all was way easier to fix than the modern NBA Jam. The joysticks on the older stuff are all uniform. Some of these newer companies make parts slightly smaller than the originals so you have to either pay online for it or 3d print it yourself. The fix itself was easy but getting the parts (or real support from them) isn't. You either have to order their funny shaped parts that are slightly smaller than traditional arcade games or you have to 3d print it from my experience which is relatively cheap and fast... especially for an acentuator that takes under a hour to print so if you can't find support from them that is your alternative.
+
 ## 09.02.26 02:22 That one win after suffering losses
 
 A job lost, a parent lost, an arrest made, a medical emergency... these are all losses that some of the staff at our participating locations are far too experienced in seeing displace kids on a regular basis. These are many of the common reasons people become forgotten, even snubbed, left behind and without a home. Even worse, without a family. 
