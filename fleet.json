@@ -70,6 +70,56 @@
   "location": "shop"
   },
   {
+  "id": "defender-01",
+  "name": "Defender",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+  "fmv_estimate": 300,
+  "location": "shop"
+},
+{
+  "id": "joust-01",
+  "name": "Joust",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+  "fmv_estimate": 300,
+  "location": "shop"
+},
+{
+  "id": "golden-axe-01",
+  "name": "Golden Axe",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Includes different games including Shinobi. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+  "fmv_estimate": 300,
+  "location": "shop"
+},
+{
+  "id": "tempest-01",
+  "name": "Tempest",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+  "fmv_estimate": 300,
+  "location": "shop"
+},
+{
+  "id": "asteroids-03",
+  "name": "Asteroids",
+  "type": "video",
+  "status": "ready",
+  "condition": "working",
+  "notes": "Countercade, several games. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+  "fmv_estimate": 300,
+  "location": "shop"
+},
+  {
   "id": "galaga-01",
   "name": "Galaga",
   "type": "video",
