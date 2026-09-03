@@ -35,7 +35,7 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Countercade Pacman, 8 games including Galaga. Cleaned, tested, working. ",
+    "notes": "Countercade Pacman, 8 games including Galaga. Cleaned, tested, working.",
     "fmv_estimate": 200,
     "location": "shop"
   },
@@ -60,85 +60,85 @@
     "location": "shop"
   },
   {
-  "id": "superpacman-01",
-  "name": "Super Pac-Man",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Super Pac-Man Countercade. Cleaned, tested, working. Includes Super Pac-Man, Pac-Man, Dig Dug, Rally-X.",
-  "fmv_estimate": 200,
-  "location": "shop"
+    "id": "superpacman-01",
+    "name": "Super Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Super Pac-Man Countercade. Cleaned, tested, working. Includes Super Pac-Man, Pac-Man, Dig Dug, Rally-X.",
+    "fmv_estimate": 200,
+    "location": "shop"
   },
   {
-  "id": "defender-01",
-  "name": "Defender",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-  "fmv_estimate": 300,
-  "location": "shop"
-},
-{
-  "id": "joust-01",
-  "name": "Joust",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He was an awesome guy who started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-  "fmv_estimate": 300,
-  "location": "shop"
-},
-{
-  "id": "golden-axe-01",
-  "name": "Golden Axe",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Includes different games including Shinobi. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-  "fmv_estimate": 300,
-  "location": "shop"
-},
-{
-  "id": "tempest-01",
-  "name": "Tempest",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-  "fmv_estimate": 300,
-  "location": "shop"
-},
-{
-  "id": "asteroids-03",
-  "name": "Asteroids",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Countercade, several games. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-  "fmv_estimate": 300,
-  "location": "shop"
-},
-{
-  "id": "the-simpsons-04",
-  "name": "The Simpsons",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Needed a new joystick, doh!",
-  "fmv_estimate": 400,
-  "location": "shop"
-},
+    "id": "defender-01",
+    "name": "Defender",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
   {
-  "id": "galaga-01",
-  "name": "Galaga",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than other countercades. Cleaned, tested, working.",
-  "fmv_estimate": 400,
-  "location": "shop"
-},
+    "id": "joust-01",
+    "name": "Joust",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He was an awesome guy who started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "golden-axe-01",
+    "name": "Golden Axe",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Includes different games including Shinobi. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "tempest-01",
+    "name": "Tempest",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "asteroids-03",
+    "name": "Asteroids",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Countercade, several games. Donated by our friend's brother Michael. His brother passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "the-simpsons-04",
+    "name": "The Simpsons",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Needed a new joystick, doh!",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "galaga-01",
+    "name": "Galaga",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than other countercades. Cleaned, tested, working.",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
   {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
@@ -150,24 +150,24 @@
     "location": "shop"
   },
   {
-  "id": "donkeykong-coleco-1982-01",
-  "name": "Donkey Kong Coleco Tabletop (1982)",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
-  "fmv_estimate": 175,
-  "location": "shop"
-},
+    "id": "donkeykong-coleco-1982-01",
+    "name": "Donkey Kong Coleco Tabletop (1982)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
+    "fmv_estimate": 175,
+    "location": "shop"
+  },
   {
-  "id": "sega-jetrocket-1970-01",
-  "name": "Sega Jet Rocket (1970)",
-  "type": "electro-mechanical",
-  "status": "limited",
-  "condition": "ready",
-  "notes": "Limited temporary availability only. Historic 1970 Sega EM flight simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
-  "fmv_estimate": null,
-  "location": "shop"
+    "id": "sega-jetrocket-1970-01",
+    "name": "Sega Jet Rocket (1970)",
+    "type": "electro-mechanical",
+    "status": "limited",
+    "condition": "ready",
+    "notes": "Limited temporary availability only. Historic 1970 Sega EM flight simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+    "fmv_estimate": null,
+    "location": "shop"
   },
   {
     "id": "spaceinvaders-1978-01",
@@ -186,7 +186,7 @@
     "status": "ready",
     "condition": "working",
     "notes": "Cleaned, tested, working. New decal. CRT cleaned and restored by Sharp Image. Ready for placement.",
-    "fmv_estimate":2100,
+    "fmv_estimate": 2100,
     "location": "shop"
   },
   {
@@ -210,24 +210,24 @@
     "location": "warehouse"
   },
   {
-  "id": "hanaho-capcom-arcadepc-01",
-  "name": "Hanaho Capcom ArcadePC Multicade",
-  "type": "video",
-  "status": "ready",
-  "condition": "working",
-  "notes": "Powered on but initially had  no activity on screen. Needed some work. Needed locks drilled and replaced, keyboard, and power supply. Works now even when running on Windows 98 with all original parts, can be upgraded and converted per request. Hanaho ArcadePC cabinet with Capcom licensed pack (Street Fighter series + other Capcom titles via MAME). HotRod controls, track ball, authentic cabinet. Cleaned, tested, working. Strong multicade option for youth spaces — lots of classic Capcom content in one unit.",
-  "fmv_estimate": 850,
-  "location": "shop"
-},
+    "id": "hanaho-capcom-arcadepc-01",
+    "name": "Hanaho Capcom ArcadePC Multicade",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Powered on but initially had  no activity on screen. Needed some work. Needed locks drilled and replaced, keyboard, and power supply. Works now even when running on Windows 98 with all original parts, can be upgraded and converted per request. Hanaho ArcadePC cabinet with Capcom licensed pack (Street Fighter series + other Capcom titles via MAME). HotRod controls, track ball, authentic cabinet. Cleaned, tested, working. Strong multicade option for youth spaces — lots of classic Capcom content in one unit.",
+    "fmv_estimate": 850,
+    "location": "shop"
+  },
   {
-  "id": "atari-stun-runner-1989-01",
-  "name": "Atari Stun Runner (1989)",
-  "type": "video",
-  "status": "limited",
-  "condition": "ready",
-  "notes": "Limited temporary availability only. Historic 1989 sit down racing simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
-  "fmv_estimate": null,
-  "location": "shop"
+    "id": "atari-stun-runner-1989-01",
+    "name": "Atari Stun Runner (1989)",
+    "type": "video",
+    "status": "limited",
+    "condition": "ready",
+    "notes": "Limited temporary availability only. Historic 1989 sit down racing simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+    "fmv_estimate": null,
+    "location": "shop"
   },
   {
     "id": "ms-pacman-02",
@@ -235,17 +235,17 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Countercade with variety of Pacman titles Cleaned, tested, working. ",
+    "notes": "Countercade with variety of Pacman titles Cleaned, tested, working.",
     "fmv_estimate": 200,
     "location": "shop"
   },
-{
+  {
     "id": "ms-pacman-05",
     "name": "Ms. Pac-Man",
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "variety of Pacman titles Cleaned, tested, working fine. ",
+    "notes": "variety of Pacman titles Cleaned, tested, working fine.",
     "fmv_estimate": 275,
     "location": "warehouse"
   },
