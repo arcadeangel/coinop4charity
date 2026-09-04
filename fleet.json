@@ -80,6 +80,16 @@
     "location": "shop"
   },
   {
+    "id": "teenage-mutant-ninja-turtles-02",
+    "name": "Teenage Mutant Ninja Turtles",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Working great, upright cabinet",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
     "id": "defender-01",
     "name": "Defender",
     "type": "video",
