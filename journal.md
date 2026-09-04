@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 09.04.26 23:23  No more looking the other way 
+## 09.04.26 14:54  No more looking the other way 
 In my personal experience, the same "advocates" and orgs that claim to be helping people and "look the other way" when I call them to schedule a time to drop off thousands of dollars worth of arcade games are typically hiding for a reason. When you research their history you find they have a pattern of looking the other way for some pretty repulsive things that made headlines. Bad actors are everywhere, not just in coin op restoration. With that sort of press I'd find a new job before doing nothing and sticking my head in the sand for a paycheck, expecting it to not catch up with me or go unnoticed (especially in 2026). Next week we start calling them out publicly. 
 
 ## 09.03.26 23:23  In loving memory of Bryan Ward, Co-Founder of my favorite store Friendly Hobbies
