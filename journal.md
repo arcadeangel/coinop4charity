@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 09.04.26 14:54  No more looking the other way 
+## 09.04.26 14:54  No more looking the other way 🏴‍☠️
 In my personal experience, the same "advocates" and orgs that claim to be helping people and "look the other way" when I call them to schedule a time to drop off thousands of dollars worth of arcade games are typically hiding for a reason. When you research their history you find they have a pattern of looking the other way for some pretty repulsive things that made headlines. Bad actors are everywhere, not just in coin op restoration. With that sort of press I'd find a new job before doing nothing and sticking my head in the sand for a paycheck, expecting it to not catch up with me or go unnoticed (especially in 2026). Next week we start calling them out publicly. 
 
 Now let me tell you something... we had a lot of firsts the last couple weeks. Another first today, we had a volunteer go directly to a site to make a drop off and (supervised) assembly at the Y. Chris B, thank you for being the first guy to deliver a cabinet that is working from your living room to the center. He had this gigantic smile on his face gave me several hugs and was like "this was the best move, ever". He was busy all day too dropping his mom at the airport and juggling all of these things on a Friday aside from his work and grind. Respect. 
