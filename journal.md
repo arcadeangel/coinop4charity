@@ -5,7 +5,7 @@ Our Buddy Matty  overheard us talking last night about the site and builder boun
 
 I've never done this before but I actually had to upload a image of this thing so you can see for yourself that this is real life happening to us right now:
 https://ibb.co/N6t9fDgG
-Matty is a real guy, with a real agenda and he isn't funny or cute or fictional like the pirate on our site. Oh no, this is a real person... who really acts this way... in real life. Matthew actually eavesdrops on other people's meetings he thinks are pertaining prizes so he can get a head start and try to beat everyone else. I will say this though he is a sharp guy and when he focuses on something he surprises everyone by getting it done, but yeah, change of subject. 
+Matty is a real guy, with a real agenda and he isn't funny or cute or fictional like the pirate on our site. Oh no, this is a real person... who really acts this way... in real life. Matthew actually eavesdrops on other people's meetings he thinks are pertaining prizes so he can get a head start and try to beat everyone else. I will say this though he is a sharp guy and when he focuses on something he surprises everyone by getting it done, but yeah, just for the record I am totally trolling Matt is the funniest guy and I am sure he us rolling on the floor laughing at this journal post he would never sue anyone he is a wholesome dude who loves building stuff and figuring out low cost overnight alternatives to everyday overpriced items maybe he was eavesdropping though a little on our plans. 
 
 Its almost Friday this Unofficial Home Depot Matty Homebrew is on the fleet even though it was really a rollercoaster and tug of war full of ups and downs.
 
