@@ -190,13 +190,23 @@
     "location": "shop"
   },
   {
-    "id": "spaceinvaders-1978-01",
+    "id": "space-invaders-01",
     "name": "Space Invaders (1978)",
     "type": "video",
     "status": "ready",
     "condition": "working",
     "notes": "Solid cabinet, good monitor, reliable board. Speaker, lighting, and power switch replaced.",
     "fmv_estimate": 1700,
+    "location": "shop"
+  },
+  {
+    "id": "space-invaders-02",
+    "name": "Space Invaders",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Solid countercade. Works well, power cord replaced.",
+    "fmv_estimate": 175,
     "location": "shop"
   },
   {
