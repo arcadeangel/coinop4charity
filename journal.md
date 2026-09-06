@@ -3,7 +3,7 @@
 ## 09.04.26 14:54  No more looking the other way 🏴‍☠️
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
-- First direct to partner site from owner facilitated donation.
+- First successful direct to partner site facilitated donation from private owner.
 - Builder bounties coming this week & much more.
 
 ## 09.04.26 14:54  No more looking the other way 🏴‍☠️
