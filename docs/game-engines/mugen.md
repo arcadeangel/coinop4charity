@@ -1,6 +1,6 @@
 # M.U.G.E.N — credit and license
 
-Coin Op 4 Charity does **not** ship Elecbyte’s `mugen.exe` to youth-center staff.
+Coin Op 4 Charity does **not** ship Elecbyte’s `mugen.exe` to youth-center staff. Big thanks to Ahron Turk for getting us hip to Mugen.
 
 We document M.U.G.E.N here because:
 
