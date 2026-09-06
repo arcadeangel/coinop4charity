@@ -42,6 +42,9 @@ Make the games. Source the parts. Keep it legal. Put it in the clubs. Let the co
 
 That is the work. The rest is waiting.
 
+Added engine credits and guidelines in docs/engines/ so we credit the right people without turning staff guides into a fighter-engine wiki.
+Terminal stays the default runtime. M.U.G.E.N is credit-only: Elecbyte, © 1999–2013, official docs at elecbyte.com/mugendocs-11b1/mugen.html, non-commercial license. If we ever stand up a fighter cabinet, runtime is Ikemen GO — still credit Elecbyte for the formats. No ripped commercial packs. Staff-coding and restoration guides unchanged.
+
 ## 09.05.26 20:06  Weekly recap
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
