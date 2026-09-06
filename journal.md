@@ -4,6 +4,8 @@
 
 STEM Build Lab is live on the homepage now.
 
+I worked in liscensing for a while representing artists rights for the likes of titles like NBA 2K and popular film soundtracks. I have been on the opposite end of demanding ridiculous sums of money for a game liscense and that is part of the inspiration for this going postal, liscensing to creative lunacy redemption arc.
+
 Not inside MAKE. MAKE is still Scratch, MakeCode, Pixel Pad, Shiprekt, submit a title. That tab is software. Sticks and coin doors do not belong next to “how do I move a sprite.” So the locker sits where the hardware already lives — above FLEET AVAILABLE and ACTIVE PLACEMENTS — closed by default, same glow button as the rest of the terminal. Kiosk cabinets hide it. A kid on a club machine still just plays.
 
 MAKE gets one card: BUILD LAB → OPEN PARTS LIST. That card jumps down the page and opens the locker. Two jobs, one site.
