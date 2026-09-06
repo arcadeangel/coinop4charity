@@ -20,6 +20,6 @@ The default is the **web terminal** (Arrrcadé OS) at [coinop4charity.org](https
 3. **Staff guides stay in `docs/staff-coding/` and `docs/restoration/`.** This folder is not an on-site how-to.
 4. **Credit the people who made the tools.** See each page. M.U.G.E.N credit lives in [`mugen.md`](mugen.md).
 
-## Do not add here (yet)
+## New cabinets liscensing protocols
 
-MAME / RetroArch catalogs, FightCade, or any “full game” pack built from commercial sprites. If a future cabinet needs one of those, write a new page and a license review first.
+MAME / RetroArch catalogs, FightCade, or any “full game” pack built from commercial sprites. If a future cabinet needs one of those, write a new page and a license review first. We recommend to feature and build your own STEM program games and use public domain to enhance productivity and time constraints.
