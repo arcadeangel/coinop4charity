@@ -1,0 +1,202 @@
+{
+  "updated": "2026-09-06",
+  "title": "STEM BUILD LAB",
+  "tagline": "Parts kids can actually build with — not a shopping mall",
+  "note": "Start with controls and a Pi. Cabinets and coin doors come after a game works on a table.",
+  "categories": [
+    {
+      "id": "controls",
+      "name": "CONTROLS",
+      "blurb": "Hands on the game. Best first buy for a club lab.",
+      "items": [
+        {
+          "name": "Arcade joystick (8-way)",
+          "level": "beginner",
+          "why": "One stick + six buttons is a whole fighting or maze game.",
+          "tip": "Sanwa / Seimitsu style or a solid clone. Mount in a control panel or a wooden box first."
+        },
+        {
+          "name": "Arcade buttons (30mm / 24mm)",
+          "level": "beginner",
+          "why": "Color-code lives, jump, and fire so kids can read the panel.",
+          "tip": "Buy a mixed pack. Keep spares — buttons die from enthusiasm."
+        },
+        {
+          "name": "USB encoder (Zero Delay / GP2040)",
+          "level": "beginner",
+          "why": "Turns sticks and buttons into a gamepad the Pi or PC understands.",
+          "tip": "GP2040-CE boards are worth it if you want clean mapping later."
+        },
+        {
+          "name": "Spinner / trackball",
+          "level": "shop",
+          "why": "Arkanoid, Tempest, Centipede — games that need analog feel.",
+          "tip": "Add after the standard stick panel works. One shared spinner is enough for a site."
+        }
+      ]
+    },
+    {
+      "id": "pads",
+      "name": "DANCE / RHYTHM",
+      "blurb": "Full-body input. Loud, obvious, and great for events.",
+      "items": [
+        {
+          "name": "Dance pad (USB or arcade tray)",
+          "level": "beginner",
+          "why": "Rhythm games pull kids who will not sit at a stick.",
+          "tip": "Home USB pads are fine for testing. Arcade trays survive a Friday night."
+        },
+        {
+          "name": "Soft pad + foam underlay",
+          "level": "beginner",
+          "why": "Quiet practice pad for classrooms and after-school rooms.",
+          "tip": "Tape edges. Floors eat cheap pads."
+        }
+      ]
+    },
+    {
+      "id": "racing",
+      "name": "RACING",
+      "blurb": "Wheels and pedals turn a table into a sit-down cab.",
+      "items": [
+        {
+          "name": "USB wheel + pedals",
+          "level": "beginner",
+          "why": "Outrun-style games and driving lessons without a full cabinet.",
+          "tip": "Clamp to a table first. A fold-up racing seat is optional, not required."
+        },
+        {
+          "name": "Sit-down racing shell",
+          "level": "shop",
+          "why": "Event piece. Looks like a real arcade, holds a wheel and a screen.",
+          "tip": "Heavy. Plan transport and floor load before you buy a shell."
+        }
+      ]
+    },
+    {
+      "id": "coin",
+      "name": "COIN / TICKET",
+      "blurb": "How a machine takes money or tickets — or stays free-play.",
+      "items": [
+        {
+          "name": "Coin door + coin mech",
+          "level": "shop",
+          "why": "Real arcade loop. Also the part most donated cabs are missing or jammed.",
+          "tip": "Youth sites should default to free play. Use a mech only if the host wants fundraising credits."
+        },
+        {
+          "name": "Pulse / credit harness",
+          "level": "shop",
+          "why": "Ties the door to the board or Pi so one coin = one credit.",
+          "tip": "Label every wire. Future-you will not remember which pin is coin 1."
+        },
+        {
+          "name": "Ticket dispenser",
+          "level": "shop",
+          "why": "Prize nights and carnival events.",
+          "tip": "Only if the site can staff tickets. Otherwise it becomes a paper jam machine."
+        }
+      ]
+    },
+    {
+      "id": "boards",
+      "name": "BOARDS / HARNESS",
+      "blurb": "The original arcade brain — or the adapter that talks to one.",
+      "items": [
+        {
+          "name": "JAMMA harness",
+          "level": "shop",
+          "why": "Standard plug for a huge pile of 80s/90s PCBs.",
+          "tip": "Get a quality harness once. Cheap ones flake and take cabinets down."
+        },
+        {
+          "name": "Working PCB (donor board)",
+          "level": "shop",
+          "why": "Repair class: trace a video issue, swap a RAM, learn the edge connector.",
+          "tip": "Buy known-working first. Dead boards are a different class."
+        },
+        {
+          "name": "Isolation / switcher PSU",
+          "level": "shop",
+          "why": "Arcade boards want +5 / +12. Wall warts do not.",
+          "tip": "Measure voltages before you plug a rare board in."
+        }
+      ]
+    },
+    {
+      "id": "brains",
+      "name": "BRAINS (PI + KIOSK)",
+      "blurb": "Modern lab path. Same stack this site already runs on cabinets.",
+      "items": [
+        {
+          "name": "Raspberry Pi 4 / 5 (4GB+)",
+          "level": "beginner",
+          "why": "Emulation, kiosk browser, kid-made web games, attract mode.",
+          "tip": "Official power supply. Cheap cables brown-out under a stick + screen."
+        },
+        {
+          "name": "Orange Pi / spare SBC",
+          "level": "beginner",
+          "why": "Cheaper second station so two kids can build at once.",
+          "tip": "Match the image to the board. Not every Pi image boots on a clone."
+        },
+        {
+          "name": "Batocera / RetroPie image",
+          "level": "beginner",
+          "why": "Gets a stick talking to games in one evening.",
+          "tip": "Legal dumps and homebrew only on charity floors."
+        },
+        {
+          "name": "Kiosk tablet (Onn / Galaxy Tab class)",
+          "level": "beginner",
+          "why": "Low-RAM terminals, sign-up, high scores, ArrrcadeOS in a cabinet bezel.",
+          "tip": "Lock to the site. Kids will open YouTube if you leave a launcher."
+        }
+      ]
+    },
+    {
+      "id": "cabinets",
+      "name": "CABINET / SAFETY",
+      "blurb": "Wood, glass, power. Last — after the game runs on a bench.",
+      "items": [
+        {
+          "name": "Control panel blank + T-molding",
+          "level": "shop",
+          "why": "Kids layout buttons on paper, then cut a real panel.",
+          "tip": "Measure twice. A wrong 30mm hole is a very honest lesson."
+        },
+        {
+          "name": "Tempered glass / plexi bezel",
+          "level": "shop",
+          "why": "Protects the screen on a live floor.",
+          "tip": "Plexi for labs. Glass only if the cab is built for it."
+        },
+        {
+          "name": "Surge strip + metal ground",
+          "level": "beginner",
+          "why": "Wet floors and 40-year-old cabs do not mix.",
+          "tip": "One fire extinguisher in the room. No daisy-chained power strips."
+        }
+      ]
+    },
+    {
+      "id": "print",
+      "name": "PRINT / MAKE",
+      "blurb": "Custom parts the lab can iterate in an afternoon.",
+      "items": [
+        {
+          "name": "3D-printed stick collar / button spacer",
+          "level": "beginner",
+          "why": "First useful print that goes on a real machine.",
+          "tip": "PETG for shop parts. PLA is fine for prototypes."
+        },
+        {
+          "name": "Claw / ticket toy masters",
+          "level": "beginner",
+          "why": "Prize machines and event merch the kids designed.",
+          "tip": "Keep wall thickness chunky. Tiny toys snap in a hopper."
+        }
+      ]
+    }
+  ]
+}
