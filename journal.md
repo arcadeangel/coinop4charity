@@ -1,6 +1,6 @@
 # Coin-Op 4 Charity — Dev Journal
 
-## 09.04.26 14:54  No more looking the other way 🏴‍☠️
+## 09.04.26 20:06  Weekly Recap
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
 - First successful direct to partner site facilitated donation from private owner
