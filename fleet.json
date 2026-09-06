@@ -90,13 +90,13 @@
     "location": "shop"
   },
   {
-    "id": "paw-patrol-02",
-    "name": "Paw Patrol",
+    "id": "wwe-supreme-series-01",
+    "name": "WWE Supreme Series",
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "3 ft tall Jr arcade featuring a number of Paw Patrol themed games",
-    "fmv_estimate": 175,
+    "notes": "5 different classic WWE games",
+    "fmv_estimate": 400,
     "location": "shop"
   },
     {
