@@ -1,4 +1,4 @@
-t# Coin-Op 4 Charity — Dev Journal
+## Coin-Op 4 Charity — Dev Journal
 
 ## 09.05.26 20:06  Weekly recap
 - 17 New machines added to the fleet, several new titles
