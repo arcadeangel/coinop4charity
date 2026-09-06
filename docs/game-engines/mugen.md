@@ -12,7 +12,7 @@ If we load MUGEN-format characters or stages, this page is the credit.
 
 ## Credit
 
-**M.U.G.E.N** (also written MUGEN) is a 2D fighting-game engine created by **Elecbyte**.
+**M.U.G.E.N** (also written MUGEN) is a 2D fighting-game engine created by  a group of hobbyists in 1999 called **Elecbyte**.
 
 - Engine and original tools © 1999–2013 **Elecbyte**
 - Official overview and documentation index: [https://elecbyte.com/mugendocs-11b1/mugen.html](https://elecbyte.com/mugendocs-11b1/mugen.html)
