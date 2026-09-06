@@ -2691,6 +2691,7 @@
 		body.kiosk-mode .trust-strip,
 		body.kiosk-mode #involveDetails,
 		body.kiosk-mode form,
+		body.kiosk-mode #stemPanel,
 		body.kiosk-mode #fleetPanel,
 		body.kiosk-mode #updatesPanel,
 		body.kiosk-mode .status,
@@ -2892,6 +2893,122 @@
 			pointer-events: none;
 		}
 		.gamepad-badge.on { display: block; }
+	
+/* STEM Build Lab — drop next to existing .fleet-panel rules */
+
+.stem-sub {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: #7dffc8;
+  text-align: center;
+  margin: 0.35rem 0 0.15rem;
+  opacity: 0.9;
+}
+
+.stem-list {
+  margin-top: 0.45rem;
+  border: 1px solid #00ff9f44;
+  background: rgba(0, 12, 10, 0.92);
+  max-height: 420px;
+  overflow-y: auto;
+  text-align: left;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stem-bay {
+  border-bottom: 1px solid #00ff9f18;
+  padding: 0;
+}
+
+.stem-bay:last-child { border-bottom: none; }
+
+.stem-bay-sum {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #00ff9f;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.stem-bay-sum::-webkit-details-marker { display: none; }
+.stem-bay-sum::before { content: "▸ "; opacity: 0.65; }
+.stem-bay[open] > .stem-bay-sum::before { content: "▾ "; }
+
+.stem-bay-n {
+  color: #ffff99;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.stem-bay-blurb {
+  padding: 0 0.7rem 0.4rem;
+  font-size: 0.68rem;
+  color: #7dffc8;
+  line-height: 1.4;
+}
+
+.stem-row {
+  padding: 0.45rem 0.7rem 0.65rem;
+  border-top: 1px solid #00ff9f12;
+}
+
+.stem-row-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.stem-row .fname {
+  color: #00ff9f;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+.stem-lvl {
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  border: 1px solid #00ff9f44;
+  padding: 2px 6px;
+  color: #7dffc8;
+}
+
+.stem-lvl.shop {
+  color: #ffaa66;
+  border-color: #ffaa6644;
+}
+
+.stem-lvl.beginner {
+  color: #ffff99;
+  border-color: #ffff9944;
+}
+
+.stem-why {
+  font-size: 0.68rem;
+  color: #7dffc8;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.stem-tip {
+  font-size: 0.64rem;
+  color: #5a9a78;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.make-card-stem .make-title { color: #ffff99; }
+
+body.kiosk-mode #stemPanel { display: none !important; }
+
 	</style>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -3056,6 +3173,14 @@
 				<p class="section-lead" id="makeLead">Sketch here, then build for real in Scratch, MakeCode, or Shiprekt Controls. SUBMIT when it runs in a browser.</p>
 
 				<div class="make-tools">
+					<article class="make-card make-card-featured make-card-stem" id="buildLabCard">
+						<div class="make-title">BUILD LAB</div>
+						<p class="make-desc">Sticks, pads, Pis, coin doors — the physical kit that sits next to ArrrcadeOS. Same page as the fleet.</p>
+						<div class="make-actions">
+							<button type="button" data-open-stem>OPEN PARTS LIST</button>
+						</div>
+					</article>
+
 					<div class="make-card make-card-featured">
 						<div class="make-title">BUILD FOR REAL</div>
 						<p class="make-desc">These open free tools in a new tab. Start with Scratch if you want blocks only.</p>
@@ -3215,6 +3340,15 @@
 			</form>
 			</div>
 		</details>
+
+		
+		<div class="fleet-panel" id="stemPanel">
+			<button type="button" class="fleet-btn" id="stemBtn" aria-expanded="false" aria-controls="stemList">
+				STEM BUILD LAB <span id="stemCount">(—)</span>
+			</button>
+			<p class="stem-sub" id="stemNote">Controls first. Cabinets last. Free play stays free.</p>
+			<div class="stem-list" id="stemList" hidden></div>
+		</div>
 
 		<div class="fleet-panel" id="fleetPanel">
 			<button type="button" class="fleet-btn" id="fleetBtn" aria-expanded="false">
@@ -17623,6 +17757,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			</div>
 		</div>
 
+	<script src="/stem-lab.js" defer></script>
 </body>
 
 </html>
