@@ -95,8 +95,18 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "5 different classic WWE games",
+    "notes": "Uprighy cabiney 5 different classic WWE games",
     "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "wwe-supreme-series-02",
+    "name": "WWE Supreme Series",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Countercade with 5 different classic WWE games",
+    "fmv_estimate": 175,
     "location": "shop"
   },
     {
