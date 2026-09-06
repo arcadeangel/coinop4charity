@@ -22,4 +22,4 @@ The default is the **web terminal** (Arrrcadé OS) at [coinop4charity.org](https
 
 ## New cabinets liscensing protocols
 
-MAME / RetroArch catalogs, FightCade, or any “full game” pack built from commercial sprites. If a future cabinet needs one of those, write a new page and a license review first. We recommend to feature and build your own STEM program games and use public domain to enhance productivity and time constraints.
+MAME / RetroArch catalogs, FightCade, or any “full game” pack built from commercial sprites. If a future cabinet needs one of those, check the license review first, same as everything else both hardware and software. If a company cannot be reached or is no longer in business and you attempt to contact them, there might be leeway but check with your own team first. We always recommend to feature and build your own STEM program games and use public domain to enhance productivity and time constraints.
