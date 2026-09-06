@@ -1,5 +1,47 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+## 09.06.26 12:40  Stem Build Lab LIVE! Public domain on the floor. Parts list on the terminal. Still no permission slip.
+
+STEM Build Lab is live on the homepage now.
+
+Not inside MAKE. MAKE is still Scratch, MakeCode, Pixel Pad, Shiprekt, submit a title. That tab is software. Sticks and coin doors do not belong next to “how do I move a sprite.” So the locker sits where the hardware already lives — above FLEET AVAILABLE and ACTIVE PLACEMENTS — closed by default, same glow button as the rest of the terminal. Kiosk cabinets hide it. A kid on a club machine still just plays.
+
+MAKE gets one card: BUILD LAB → OPEN PARTS LIST. That card jumps down the page and opens the locker. Two jobs, one site.
+
+The list is `stem-resources.json`, same pattern as `fleet.json` and `placements.json`. Bays: controls, dance pads, racing, coin / ticket, boards / harness, brains (Pi and kiosk tablets), cabinet / safety, print / make. Each row is a part, beginner or shop, why a youth site would want it, and one shop tip. No store links. No prices that rot into an affiliate wall. Controls first. Cabinets last. Free play stays free.
+
+That is the physical half of what we already said on 08.26. A Raspberry Pi, a donated screen, a ten-dollar stick, and a weekend with markers still beats a licensed home cabinet on cost before lunch. Now the partner can tap the page and see what “ten-dollar stick” actually means without emailing us for a shopping list.
+
+{Terminal / site updates}
+• STEM BUILD LAB accordion above fleet. Starts shut.
+• `stem-resources.json` + `stem-lab.js` at the site root.
+• MAKE card only. Does not dump forty SKUs on a first-time visitor.
+• Hidden in kiosk mode with fleet and placements.
+
+The other half is the titles.
+
+Licenses are still slow. Kids are still not. We are still not parking the mission in someone’s legal inbox.
+
+We are exploring, on purpose and in the open, the legal lanes that already exist for an educational nonprofit that puts free-play machines in youth rooms:
+
+Public domain. Not “it is old so it is fine.” Actual public domain. Book Alice. Book Oz Dorothy in silver shoes, not a studio dress. 1928 steamboat-mouse *look*, not a modern mascot. Early toon timing that aged out of protection. Fight Palace in Wonderland is that experiment on the terminal — a fever fighter built so a club machine can have characters without waiting a year for a packet written for a rec room. The joke in the boot crawl is the point. If you paid money for this cartridge you got scammed. It was free.
+
+Creator permission. Nyan Cat IV is live because Chris Torres said yes. That is the gold standard. Ask. Get a yes. Put the name on the glass. Do not “just this once” a ROM pack and call it STEM.
+
+Kid-made. Arrrcadé OS MAKE → SUBMIT → staff play it → maybe LIVE on the club machines. The art is theirs. The code is theirs. The next broken stick is a shop class, not a brand letter.
+
+What we already own. Vintage cabinets we restore. Donated 1Ups when the terms and the host site allow it. Original boards the club can put a legal JAMMA harness on. History belongs on the floor. Waiting on a logo the children never asked for does not.
+
+What we will not do is the thing people hear when they hear “loophole.” No gray-market packs. No burned DVD of someone else’s 1981 catalog dressed up as education. No “nonprofit so the rules are different” speech. The rules are the same. The difference is we are allowed to use what the law already released, what a living artist handed us, and what a kid in the room wrote this afternoon.
+
+If a manufacturer wants their name in the club they know how to email. Until then the room still has to work on Wednesday. Public domain titles, permissioned cameos, and homebrew from the same kids who will break the stick next month — that is how you keep cabinets in front of people without spending a year standing still.
+
+STEM Build Lab is the parts. Public domain and permission are the software. Arrrcadé OS is the hallway between them.
+
+Make the games. Source the parts. Keep it legal. Put it in the clubs. Let the companies catch up, or watch the kids walk past their products on the way to a machine they built themselves.
+
+That is the work. The rest is waiting.
+
 ## 09.05.26 20:06  Weekly recap
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
