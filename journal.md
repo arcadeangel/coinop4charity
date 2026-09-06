@@ -1,9 +1,10 @@
-# Coin-Op 4 Charity — Dev Journal
+t# Coin-Op 4 Charity — Dev Journal
 
 ## 09.05.26 20:06  Weekly recap
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
 - First successful direct to partner site facilitated donation from private owner
+- First time a partner location kindly offered to order parts (we reached out to the company to see if we could get it donated)
 - STEM partnerships and resources live
 - Builder bounties coming this week & much more
 
