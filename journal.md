@@ -4,7 +4,7 @@ t# Coin-Op 4 Charity — Dev Journal
 - 17 New machines added to the fleet, several new titles
 - 2 New sites, 5 total sites live with machines
 - First successful direct to partner site facilitated donation from private owner
-- First time a partner location kindly offered to order parts, some real state of the art ones at that (we reached out to the company to see if we could get it donated instead )
+- First time a partner location kindly offered to order parts, some real state of the art ones at that (we reached out to the company to see if we could get it donated instead so they can use their budget towards helping more people)
 - STEM partnerships and resources live
 - Builder bounties coming this week & much more
 
