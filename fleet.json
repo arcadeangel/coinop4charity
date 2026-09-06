@@ -109,6 +109,16 @@
     "fmv_estimate": 175,
     "location": "shop"
   },
+  {
+    "id": "wwe-supreme-series-03",
+    "name": "WWE Supreme Series",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Countercade with 5 different classic WWE games",
+    "fmv_estimate": 175,
+    "location": "shop"
+  },
     {
     "id": "AtGames-Legends-Gamer-Pro-01",
     "name": "AtGames Legends Gamer Pro",
