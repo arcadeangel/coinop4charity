@@ -2,7 +2,7 @@
   "updated": "2026-09-06",
   "title": "STEM BUILD LAB",
   "tagline": "Parts kids can actually build with — not a shopping mall",
-  "note": "Start with controls and a Pi. Cabinets and coin doors come after a game works on a table. Digital pinball is the software table — flippers first, plywood later.",
+  "note": "Start with controls and a Pi. Cabinets & coin doors come after a game works on a table.",
   "categories": [
     {
       "id": "controls",
