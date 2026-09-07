@@ -1,5 +1,25 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+## 09.06.26 22:55  Game engines folder is policy. Staff guide is the hour. Terminal stays HTML5.
+
+Updated staff guides in `docs/staff-coding/on-site-guide.md`. What may boot on a club machine lives in `docs/game-engines/`. Three folders. Three jobs. 
+
+The runtime on the floor is still a browser page. HTML5 / JS. Tablets, Pi kiosks, Preview Lab, kid submit. That is `html5.md`. Scratch, MakeCode Arcade, GDevelop, TIC-80, Bitsy, PuzzleScript are not competing engines. They are how a kid *makes* a page. Export HTML. No account wall on the cabinet. No “open the social editor and hope cloud variables behave.”
+
+Staff guide updated to match. First visit: Scratch or MakeCode. Finished early: Bitsy or PuzzleScript. Returning older kid: GDevelop or an original TIC-80 cart, and you test the export on the same cheap tablet that will host it. p5 and Shiprekt stay in MAKE. Wall card does not mention MoonScript. Use AI augmented tools if you have to just make sure they understand the core of it.
+
+MoonScript is a nod, not an on-ramp. Leaf Corcoran wrote the language and founded itch.io (3 March 2013). We credit that in `CREDITS.md` and `docs/game-engines/moonscript.md`. We are not affiliated. itch.ioc as glorious and inspiring as it is, is files on the internet. We put the wood on the glass in Nevada youth rooms. Their contact is support@itch.io. Did not put his name on the homepage like we have a handshake we do not have, but if you're reading this, Leaf, we LÖVE you.
+
+LÖVE + MoonScript / Lua = dedicated cabinet only. Compiled `main.lua` on the box so the site does not depend on `moonc`. Kid submit form does not offer it.
+
+MUGEN / Ikemen same cabinet shelf, tighter lock. Engine mention and Elecbyte credit only. If a fighter cabinet ever stands up, Ikemen GO, original or licensed characters, one sentence you can say to a club director: we have the rights to every face on this machine. If that sentence is shaky the cabinet stays dark or it runs an HTML5 title. No screenpack tourism.
+
+Still no: RetroArch plus a commercial ROM folder. Unity WebGL that cooks a Tab A9+. Roblox. Chat. “Nonprofit so the rules are different.” The rules are the same as this morning.
+
+Credits page lists the kid tools and Leaf and Ikemen and Elecbyte and stops there. Partners and donated cabinets stay in `placements.json` / `fleet.json` / the terminal updates. CREDITS.md kept it short instead of a yearbook.
+
+Same legal lanes as the 12:40 entry. Public domain. Creator permission. Kid-made. What we already own. Preview Lab → review → LIVE. If a company wants their catalog in the club they know how to email. Until then the room still has to work on Wednesday.
+
 ## 09.06.26 12:40  Stem Build Lab LIVE! Public domain on the floor. Parts list on the terminal. Still no permission slip.
 
 STEM Build Lab is live on the homepage now.
