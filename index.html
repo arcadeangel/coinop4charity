@@ -3963,12 +3963,127 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			try { return parseInt(localStorage.getItem('c4c_hs_' + name) || '0', 10); } catch (e) { return 0; }
 		}
 
-		function setLocalHigh(name, score) {
-			if (score > localHigh(name)) {
-				try { localStorage.setItem('c4c_hs_' + name, String(score)); } catch (e) {}
+		function localHighName(name) {
+			try { return (localStorage.getItem('c4c_hsn_' + name) || '').toString(); } catch (e) { return ''; }
+		}
+
+		function setLocalHigh(name, score, playerName) {
+			if (score >= localHigh(name)) {
+				try {
+					localStorage.setItem('c4c_hs_' + name, String(score));
+					if (playerName) {
+						const n = String(playerName).trim().toUpperCase().slice(0, 6);
+						if (n && n !== 'ANON') localStorage.setItem('c4c_hsn_' + name, n);
+					}
+				} catch (e) {}
 				return true;
 			}
 			return false;
+		}
+
+		const C4C_BLOCKED_NAMES = [
+			'FUCK', 'SHIT', 'ASS', 'ASSHOLE', 'BITCH', 'CUNT', 'DICK', 'COCK', 'PUSSY',
+			'NIGGER', 'NIGGA', 'FAGGOT', 'FAG', 'RETARD', 'WHORE', 'SLUT', 'BASTARD',
+			'DAMN', 'HELL', 'PISS', 'CRAP', 'POOP', 'FART', 'TITS', 'BOOBS', 'SEX',
+			'PORN', 'RAPE', 'KILL', 'DIE', 'SUCK', 'CUM', 'JIZZ', 'ANAL', 'GAY'
+		];
+
+		function cleanPlayerName(raw) {
+			if (!raw) return '';
+			let n = String(raw).trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 6);
+			if (!n) return '';
+			const compact = n.replace(/\s+/g, '');
+			for (const bad of C4C_BLOCKED_NAMES) {
+				if (compact === bad || compact.indexOf(bad) !== -1) return '';
+			}
+			return n;
+		}
+
+		window.C4C_NAME_ENTRY = null;
+
+		function startNameEntry(gameKey, score) {
+			window.C4C_NAME_ENTRY = {
+				game: gameKey,
+				score: score | 0,
+				slots: ['A', 'A', 'A', '', '', ''],
+				idx: 0,
+				done: false
+			};
+			try { setLocalHigh(gameKey, score | 0); } catch (e) {}
+		}
+
+		function nameEntryValue() {
+			const ent = window.C4C_NAME_ENTRY;
+			if (!ent) return '';
+			return cleanPlayerName(ent.slots.join(''));
+		}
+
+		function finishNameEntry(forceAnon) {
+			const ent = window.C4C_NAME_ENTRY;
+			if (!ent || ent.done) return nameEntryValue();
+			ent.done = true;
+			let n = forceAnon ? '' : nameEntryValue();
+			if (!n) n = '';
+			setHigh(ent.game, ent.score, n || null);
+			window.C4C_NAME_ENTRY = Object.assign({}, ent, { done: true, submitted: n || '' });
+			if (typeof refreshHiScores === 'function') refreshHiScores();
+			if (typeof refreshTopOps === 'function') refreshTopOps();
+			return n;
+		}
+
+		function drawNameEntry(ctx) {
+			const ent = window.C4C_NAME_ENTRY;
+			if (!ent || !ctx) return;
+			ctx.save();
+			ctx.fillStyle = 'rgba(0,0,0,0.82)';
+			ctx.fillRect(40, 168, 400, 150);
+			ctx.strokeStyle = '#00ff9f';
+			ctx.strokeRect(40, 168, 400, 150);
+			ctx.fillStyle = '#ffff66';
+			ctx.font = 'bold 13px Courier New';
+			ctx.textAlign = 'center';
+			ctx.fillText(ent.done ? ('SAVED  ' + (ent.submitted || 'LOCAL')) : 'ENTER INITIALS', 240, 188);
+			ctx.fillStyle = '#7dffc8';
+			ctx.font = '10px Courier New';
+			ctx.fillText(ent.done ? 'NAME IS ON THE BOARD' : '← → SLOT   ↑↓ LETTER   A/START SAVE', 240, 204);
+			for (let i = 0; i < 6; i++) {
+				const x = 78 + i * 54;
+				const ch = ent.slots[i] || '_';
+				ctx.fillStyle = (i === ent.idx && !ent.done) ? '#00ff9f' : '#003322';
+				ctx.fillRect(x, 214, 46, 46);
+				ctx.strokeStyle = (i === ent.idx && !ent.done) ? '#ffff66' : '#00ff9f88';
+				ctx.strokeRect(x, 214, 46, 46);
+				ctx.fillStyle = '#fff';
+				ctx.font = 'bold 26px Courier New';
+				ctx.fillText(ch, x + 23, 246);
+			}
+			ctx.fillStyle = ent.done ? '#7dffc8' : '#00ff9f';
+			ctx.fillRect(150, 272, 180, 36);
+			ctx.fillStyle = '#000';
+			ctx.font = 'bold 14px Courier New';
+			ctx.fillText(ent.done ? 'PLAY AGAIN' : 'SAVE ' + (nameEntryValue() || 'NAME'), 240, 296);
+			ctx.restore();
+		}
+
+		function nameEntryInput(action) {
+			const ent = window.C4C_NAME_ENTRY;
+			if (!ent || ent.done) return false;
+			const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ';
+			if (action === 'left') ent.idx = (ent.idx + 5) % 6;
+			else if (action === 'right') ent.idx = (ent.idx + 1) % 6;
+			else if (action === 'up' || action === 'down') {
+				const cur = ent.slots[ent.idx] || ' ';
+				let i = letters.indexOf(cur);
+				if (i < 0) i = 0;
+				i = (i + (action === 'up' ? 1 : letters.length - 1)) % letters.length;
+				ent.slots[ent.idx] = letters[i] === ' ' ? '' : letters[i];
+			} else if (action === 'ok') {
+				finishNameEntry(false);
+			} else if (action === 'back') {
+				ent.slots[ent.idx] = '';
+			} else return false;
+			try { if (typeof sfx === 'function') sfx('select'); } catch (e) {}
+			return true;
 		}
 
 		function getHigh(name) {
@@ -3997,23 +4112,34 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			}
 		});
 		function setHigh(name, score, playerName, dedication) {
-			setLocalHigh(name, score);
+			const clean = cleanPlayerName(playerName);
+			setLocalHigh(name, score, clean);
 			const globalScore = (window.C4C_GLOBAL && window.C4C_GLOBAL[name]) ?
 				(parseInt(window.C4C_GLOBAL[name].score, 10) || 0) : 0;
 			if (score > globalScore) {
+				if (!clean) {
+					// Keep the number locally; do not POST ANON over a real name.
+					refreshHiScores();
+					refreshTopOps();
+					return false;
+				}
 				const payload = {
 					game: name,
 					score: score,
-					name: (playerName || 'ANON').toString().slice(0, 12).toUpperCase() || 'ANON'
+					name: clean.slice(0, 6)
 				};
 				if (dedication) payload.dedication = String(dedication).slice(0, 12);
+				window.C4C_GLOBAL = window.C4C_GLOBAL || {};
+				window.C4C_GLOBAL[name] = { score: score, name: payload.name, ts: Date.now() };
+				refreshHiScores();
+				refreshTopOps();
 				fetch(SCORES_API + '/scores', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(payload)
 				}).then(r => r.json()).then(data => {
 					if (data && data.scores) window.C4C_GLOBAL = data.scores;
-					else if (data && data.updated && window.C4C_GLOBAL) {
+					else if (data && data.updated) {
 						window.C4C_GLOBAL[name] = { score: score, name: payload.name, ts: Date.now() };
 					}
 					refreshHiScores();
@@ -4038,41 +4164,48 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			} catch (e) {}
 		}
 
+		function scoreNameFor(g, gv, gn, lv) {
+			var ln = localHighName(g);
+			var who = '';
+			if (gv > lv) who = gn;
+			else if (lv > gv) who = ln || gn;
+			else who = gn || ln;
+			who = (who || '').toString().replace(/â./g, '').trim();
+			if (!who || who === '—' || who === 'ANON') return '';
+			return who;
+		}
+
 		function refreshHiScores() {
 			GAME_KEYS.forEach(function(g) {
 				const el = document.getElementById('hs-' + g);
 				if (!el) return;
-				var label = '—';
-				var gv = 0,
-					gn = null;
+				var gv = 0, gn = '';
 				if (window.C4C_GLOBAL && window.C4C_GLOBAL[g]) {
 					gv = parseInt(window.C4C_GLOBAL[g].score, 10) || 0;
-					gn = window.C4C_GLOBAL[g].name;
+					gn = window.C4C_GLOBAL[g].name || '';
 				}
 				var lv = localHigh(g);
 				var v = Math.max(gv, lv);
-				if (v > 0) {
-					if (gv >= lv && gn && gn !== '—' && String(gn).indexOf('â') < 0) {
-						label = v + ' · ' + gn;
-					} else {
-						label = String(v);
-					}
+				if (v <= 0) {
+					el.textContent = '—';
+					return;
 				}
-				el.textContent = label;
+				var who = scoreNameFor(g, gv, gn, lv);
+				el.textContent = who ? (v + ' · ' + who) : String(v);
 			});
 		}
 
 		function refreshTopOps() {
 			var best = { score: 0, name: null, player: null };
 			GAME_KEYS.forEach(function(k) {
-				var v = 0,
-					player = null;
+				var gv = 0, gn = '';
 				if (window.C4C_GLOBAL && window.C4C_GLOBAL[k]) {
-					v = parseInt(window.C4C_GLOBAL[k].score, 10) || 0;
-					player = window.C4C_GLOBAL[k].name;
-				} else {
-					v = localHigh(k);
+					gv = parseInt(window.C4C_GLOBAL[k].score, 10) || 0;
+					gn = window.C4C_GLOBAL[k].name || '';
 				}
+				var lv = localHigh(k);
+				var v = Math.max(gv, lv);
+				var player = scoreNameFor(k, gv, gn, lv);
 				if (v > best.score) best = { score: v, name: GAME_NAMES[k] || k, player: player };
 			});
 			var line = document.getElementById('topOpsLine');
@@ -4082,7 +4215,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				line.textContent = 'NO SCORES YET — BE THE FIRST';
 				if (sub) sub.textContent = 'Global arcade records';
 			} else {
-				var who = (best.player && best.player !== '—' && String(best.player).indexOf('â') < 0) ? (' · ' + best.player) : '';
+				var who = best.player ? (' · ' + best.player) : '';
 				line.textContent = best.name + '  ·  ' + best.score + who;
 				if (sub) sub.textContent = 'Global high score';
 			}
@@ -8579,6 +8712,28 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			// Never steal keys from the contact form or other fields — fixes missing letters (t, etc.)
 			if (tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button') return;
 			keys[e.key] = true;
+			if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) {
+				let act = null;
+				if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') act = 'left';
+				else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') act = 'right';
+				else if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') act = 'up';
+				else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') act = 'down';
+				else if (e.key === 'Enter' || e.key === ' ' || e.key === 'f' || e.key === 'F') act = 'ok';
+				else if (e.key === 'Backspace') act = 'back';
+				else if (/^[a-zA-Z0-9]$/.test(e.key)) {
+					window.C4C_NAME_ENTRY.slots[window.C4C_NAME_ENTRY.idx] = e.key.toUpperCase();
+					window.C4C_NAME_ENTRY.idx = Math.min(5, window.C4C_NAME_ENTRY.idx + 1);
+					act = 'typed';
+				}
+				if (act) {
+					if (act !== 'typed') nameEntryInput(act);
+					e.preventDefault();
+					try {
+						if (lastGameKey && window.C4C_NAME_ENTRY) showGameOver('NEW RECORD', lastGameKey, window.C4C_NAME_ENTRY.score);
+					} catch (err) {}
+					return;
+				}
+			}
 			if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' ', 'a', 'A', 'd', 'D', 'w', 'W', 's', 'S', 'f', 'F'].includes(e.key)) e.preventDefault();
 		});
 		window.addEventListener('keyup', e => {
@@ -8588,18 +8743,25 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		});
 
 		function stopGame() {
-			// Persist high scores for games that don't always hit showGameOver
-			// (endless like fishing, or player closes before death)
+			// Local snapshot only — never POST without initials (hold-START was wiping names to ANON)
 			try {
-				if (currentGame === 'fish' && typeof fishG !== 'undefined' && fishG && fishG.score > 0) setHigh('fish', fishG.score);
-				if (currentGame === 'ufo' && typeof ufoG !== 'undefined' && ufoG && ufoG.score > 0) setHigh('ufo', ufoG.score);
-				if (currentGame === 'runner' && typeof runner !== 'undefined' && runner && runner.score > 0) setHigh('runner', runner.score);
-				if (currentGame === 'racer' && typeof racer !== 'undefined' && racer && racer.score > 0) setHigh('racer', racer.score);
-				if (currentGame === 'cycles' && typeof cycles !== 'undefined' && cycles && cycles.score > 0) setHigh('cycles', cycles.score);
-				if (currentGame === 'yeti' && typeof yeti !== 'undefined' && yeti && yeti.score > 0) setHigh('yeti', yeti.score);
-				if (currentGame === 'paddle' && typeof paddle !== 'undefined' && paddle && paddle.score > 0) setHigh('paddle', paddle.score);
-				if (currentGame === 'kaiju' && typeof kaijuG !== 'undefined' && kaijuG && kaijuG.score > 0) setHigh('kaiju', kaijuG.score);
-				if (currentGame === 'fight' && typeof fightG !== 'undefined' && fightG && fightG.score > 0) setHigh('fight', fightG.score);
+				if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) finishNameEntry(false);
+				const snap = [
+					['fish', typeof fishG !== 'undefined' && fishG && fishG.score],
+					['ufo', typeof ufoG !== 'undefined' && ufoG && ufoG.score],
+					['runner', typeof runner !== 'undefined' && runner && runner.score],
+					['racer', typeof racer !== 'undefined' && racer && racer.score],
+					['cycles', typeof cycles !== 'undefined' && cycles && cycles.score],
+					['yeti', typeof yeti !== 'undefined' && yeti && yeti.score],
+					['paddle', typeof paddle !== 'undefined' && paddle && paddle.score],
+					['kaiju', typeof kaijuG !== 'undefined' && kaijuG && kaijuG.score],
+					['fight', typeof fightG !== 'undefined' && fightG && fightG.score]
+				];
+				if (currentGame) {
+					snap.forEach(function(pair) {
+						if (currentGame === pair[0] && pair[1] > 0) setLocalHigh(pair[0], pair[1] | 0);
+					});
+				}
 			} catch (e) {}
 			if (typeof refreshHiScores === 'function') refreshHiScores();
 			if (typeof refreshTopOps === 'function') refreshTopOps();
@@ -8848,41 +9010,16 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				localStorage.setItem('c4c_streak', String(streak));
 			} catch (e) {}
 
-			let playerName = 'ANON';
+			let playerName = '';
 			let dedication = '';
 			if (gameKey && score !== undefined) {
 				const currentHigh = getHigh(gameKey);
 				if (score > currentHigh) {
-					// Youth-safe name filter: max 6 chars + blocklist
-					const BLOCKED = [
-						'FUCK', 'SHIT', 'ASS', 'ASSHOLE', 'BITCH', 'CUNT', 'DICK', 'COCK', 'PUSSY',
-						'NIGGER', 'NIGGA', 'FAGGOT', 'FAG', 'RETARD', 'WHORE', 'SLUT', 'BASTARD',
-						'DAMN', 'HELL', 'PISS', 'CRAP', 'POOP', 'FART', 'TITS', 'BOOBS', 'SEX',
-						'PORN', 'RAPE', 'KILL', 'DIE', 'SUCK', 'CUM', 'JIZZ', 'ANAL', 'GAY'
-					];
-
-					function cleanName(raw) {
-						if (!raw) return 'ANON';
-						let n = raw.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 6);
-						if (!n) return 'ANON';
-						const compact = n.replace(/\s+/g, '');
-						for (const bad of BLOCKED) {
-							if (compact === bad || compact.indexOf(bad) !== -1) return 'ANON';
-						}
-						return n;
-					}
-					let name = prompt('NEW HIGH SCORE! Enter your initials (max 6):', '');
-					playerName = cleanName(name);
-					// Optional short message / dedication
-					try {
-						const note = prompt('Optional short note or dedication (max 12 chars, or blank):', '');
-						if (note && note.trim()) {
-							dedication = note.trim().toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 12);
-						}
-					} catch (e) {}
-					setHigh(gameKey, score, playerName, dedication);
+					startNameEntry(gameKey, score);
+					playerName = nameEntryValue();
+					// Do not POST yet — canvas initials UI confirms the name.
 				} else {
-					setHigh(gameKey, score);
+					setLocalHigh(gameKey, score);
 				}
 			}
 			lastGameKey = gameKey || currentGame;
@@ -8957,17 +9094,48 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			ctx.font = '12px Courier New';
 			ctx.fillText('or tap CLOSE', 240, 330);
 
+			if (window.C4C_NAME_ENTRY && window.C4C_NAME_ENTRY.game === gameKey) {
+				drawNameEntry(ctx);
+			}
+
 			// Store last score for share / challenge
 			window.C4C_LAST = {
 				game: gameKey,
 				score: score,
-				name: playerName,
+				name: playerName || nameEntryValue(),
 				dedication: dedication,
 				streak: streak
 			};
 		}
 
 		// Click/tap on canvas for Play Again
+		function handleNameEntryPointer(x, y) {
+			const ent = window.C4C_NAME_ENTRY;
+			if (!ent) return false;
+			if (!ent.done) {
+				for (let i = 0; i < 6; i++) {
+					const sx = 78 + i * 54;
+					if (x >= sx && x <= sx + 46 && y >= 214 && y <= 260) {
+						if (ent.idx === i) nameEntryInput('up');
+						else { ent.idx = i; try { sfx('select'); } catch (err) {} }
+						if (lastGameKey) showGameOver('NEW RECORD', lastGameKey, ent.score);
+						return true;
+					}
+				}
+				if (x >= 150 && x <= 330 && y >= 272 && y <= 308) {
+					finishNameEntry(false);
+					if (lastGameKey) showGameOver('NEW RECORD', lastGameKey, ent.score);
+					return true;
+				}
+			} else if (x >= 150 && x <= 330 && y >= 272 && y <= 308 && lastGameKey) {
+				const g = lastGameKey;
+				stopGame();
+				startGame(g);
+				return true;
+			}
+			return false;
+		}
+
 		canvas.addEventListener('click', (e) => {
 			if (!currentGame) return;
 			const rect = canvas.getBoundingClientRect();
@@ -8975,8 +9143,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const scaleY = 360 / rect.height;
 			const x = (e.clientX - rect.left) * scaleX;
 			const y = (e.clientY - rect.top) * scaleY;
+			if (handleNameEntryPointer(x, y)) return;
 			// Play Again button area
 			if (x >= 150 && x <= 330 && y >= 268 && y <= 310 && lastGameKey) {
+				if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) finishNameEntry(false);
 				const g = lastGameKey;
 				stopGame();
 				startGame(g);
@@ -8990,8 +9160,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const t = e.changedTouches[0];
 			const x = (t.clientX - rect.left) * scaleX;
 			const y = (t.clientY - rect.top) * scaleY;
+			if (handleNameEntryPointer(x, y)) { e.preventDefault(); return; }
 			if (x >= 150 && x <= 330 && y >= 268 && y <= 310 && lastGameKey) {
 				e.preventDefault();
+				if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) finishNameEntry(false);
 				const g = lastGameKey;
 				stopGame();
 				startGame(g);
