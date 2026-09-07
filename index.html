@@ -3175,7 +3175,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				<div class="make-tools">
 					<article class="make-card make-card-featured make-card-stem" id="buildLabCard">
 						<div class="make-title">BUILD LAB</div>
-						<p class="make-desc">Sticks, pads, Pis, coin doors — the physical kit that sits next to ArrrcadeOS. Same page as the fleet.</p>
+						<p class="make-desc">Sticks, pads, Pis, coin doors — the physical kit that sits next to ArrrcadeOS. Same page as the fleet. Digital pinball is the software table: flippers, nudge, and a score reel you can ship to a club cabinet.</p>
 						<div class="make-actions">
 							<button type="button" data-open-stem>OPEN PARTS LIST</button>
 						</div>
@@ -3323,6 +3323,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 					<option value="">Select one</option>
 					<option value="host">Hosting a machine</option>
 					<option value="donate">Giving away a machine</option>
+					<option value="pinball">Digital pinball table (builder lab)</option>
 					<option value="partner">Partnership / sponsorship</option>
 					<option value="volunteer">Volunteering</option>
 					<option value="other">Other / general inquiry</option>
@@ -3347,7 +3348,20 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				STEM BUILD LAB <span id="stemCount">(—)</span>
 			</button>
 			<p class="stem-sub" id="stemNote">Controls first. Cabinets last. Free play stays free.</p>
-			<div class="stem-list" id="stemList" hidden></div>
+			<div class="stem-list" id="stemList" hidden>
+				<details class="stem-bay" open>
+					<summary class="stem-bay-sum">SOFTWARE TABLES <span class="stem-bay-n">1</span></summary>
+					<p class="stem-bay-blurb">Browser tables that run on the same kiosk as the rest of ArrrcadeOS. No plywood yet — just flippers and a reel.</p>
+					<div class="stem-row">
+						<div class="stem-row-top">
+							<span class="fname">Digital Pinball</span>
+							<span class="stem-lvl beginner">BUILDER</span>
+						</div>
+						<p class="stem-why">A software pin table: flippers, nudge, drain, and a score reel. Kids learn timing and physics without waiting on a cabinet.</p>
+						<p class="stem-tip">Start in MakeCode Arcade or p5.js. Flipper = hold key. Ball = circle + gravity. Drain = lose a ball. SUBMIT a playable link when it holds a ball for 30 seconds.</p>
+					</div>
+				</details>
+			</div>
 		</div>
 
 		<div class="fleet-panel" id="fleetPanel">
@@ -3879,7 +3893,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 
 		// ========== GLOBAL + LOCAL HI-SCORES ==========
 		const SCORES_API = 'https://coinop-scores.samazar213.workers.dev';
-		const GAME_KEYS = ['ufo', 'nyan', 'fish', 'runner', 'kaiju', 'yeti', 'paddle'];
+		const GAME_KEYS = ['ufo', 'nyan', 'fish', 'runner', 'kaiju', 'yeti', 'paddle', 'fight', 'racer', 'cycles'];
 		const GAME_NAMES = {
 			ufo: 'SAUCER BEAM',
 			fish: 'HAPPY FISHING',
@@ -16575,9 +16589,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 
 			if (g.phase === 'over') {
 				drawFight();
-				if (g.frame % 90 === 20) {
-					try { showGameOver(g.msg || 'PALACE CLOSED', 'fight', g.score); } catch (e) {}
-					return;
+				if (!g._overPosted) {
+					g._overPosted = true;
+					try { showGameOver(g.msg || 'PALACE CLOSED', 'fight', g.score || 0); } catch (e) {}
 				}
 				animId = requestAnimationFrame(loopFight);
 				return;
