@@ -270,6 +270,16 @@
     "location": "shop"
   },
   {
+    "id": "marvel-pinball-01",
+    "name": "Marvel Pinball",
+    "type": "video",
+    "status": "in progress",
+    "condition": "in progress",
+    "notes": "Digital pinball screen will not power on diagnostic in progress, great STEM project with pi as last resort but will likely be fixed for cheap",
+    "fmv_estimate": 150,
+    "location": "shop"
+  },
+  {
     "id": "golden-tee-2005-01",
     "name": "Golden Tee (2005)",
     "type": "video",
