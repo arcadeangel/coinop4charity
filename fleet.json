@@ -130,6 +130,16 @@
     "location": "shop"
   },
   {
+    "id": "AtGames-Legends-Gamer-Pro-02",
+    "name": "AtGames Legends Gamer Pro",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Joystick Controller Only, 2 player with trackball but also comes pre-loaded with 150 liscensed games from Disney titles to Taito classics and more. Good for DIY Stem project or computer lab",
+    "fmv_estimate": 99,
+    "location": "shop"
+  },
+  {
     "id": "teenage-mutant-ninja-turtles-02",
     "name": "Teenage Mutant Ninja Turtles",
     "type": "video",
