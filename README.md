@@ -1,5 +1,4 @@
 # Coin-Op 4 Charity
->
 
 **Placing restored arcade and coin-op machines in Nevada youth spaces — free play for kids, new ways to fundraise.**
 
@@ -33,8 +32,11 @@ Use the form on [coinop4charity.org](https://coinop4charity.org) or open an issu
 |------|---------|
 | `index.html` | The live neon terminal (games + intake form) |
 | `fleet.json` | Available machine inventory & restoration status |
-| `placement.json` | Placed machine inventory & active location |
+| `placements.json` | Placed machine inventory & active location |
 | `docs/restoration/` | Practical restoration notes and DIY / staff guides |
+| `docs/game-engines/` | What software may run on stations (HTML5 default; kid tools; LÖVE / MUGEN optional) |
+| `docs/staff-coding/` | On-site / staff coding notes |
+| `CREDITS.md` | Credits (HTML5 tools, MoonScript / itch.io — Leaf Corcoran) |
 | `manifest.json` / `sw.js` | PWA support for the terminal |
 
 Staff-facing DIY guides live in `docs/restoration/`:
@@ -43,6 +45,8 @@ Staff-facing DIY guides live in `docs/restoration/`:
 - [BSP-Y02 Web Arcade Controller Guide](docs/restoration/BSP-Y02_Web_Arcade_Controller_Guide.pdf)
 
 Full machine restoration library is listed in [`docs/restoration/README.md`](docs/restoration/README.md).
+
+Software / engine policy is listed in [`docs/game-engines/README.md`](docs/game-engines/README.md). HTML5 is the default runtime. Kid tools (Scratch, MakeCode Arcade, GDevelop, TIC-80, Bitsy) export to that. MoonScript and MUGEN are cabinet-only.
 
 ### Status
 Early public build. Fleet inventory and restoration docs are just getting started. Everything here is meant to be useful in the real world, not just look cool online.
