@@ -1,6 +1,6 @@
 # Credits
 
-Coin Op 4 Charity is an independent Nevada nonprofit project. Names below are credited for tools or ideas we use or point to. **None of these people or companies run this charity unless listed as a partner on coinop4charity.org.**
+Coin Op 4 Charity is an independent Nevada nonprofit project. Names below are credited for tools or ideas we use or point to. **None of these people or companies run this charity**
 
 ## Languages and platforms we point to
 
