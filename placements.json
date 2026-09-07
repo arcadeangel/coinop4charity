@@ -277,5 +277,23 @@
     "notes": "Donated and dropped off at the Y by Chris B. Full upright cabinet, lots of classic Atari games. Free play. Working great.",
     "placed": "Donated on 2026-09-04.",
     "status": "active"
+  },
+  {
+    "id": "c4c-custom-arcade-01",
+    "name": "C4C Custom Arcade",
+    "number": "034",
+    "location": "YMCA - Centennial Hills",
+    "notes": "Custom arcade cabinet in the works.",
+    "placed": "Project active on 2026-09-01.",
+    "status": "active"
+    "stem": true,
+"activities": [
+  {
+    "title": "C4C Custom Arcade",
+    "badge": "STEM",
+    "status": "in progress",
+    "summary": "Members and staff working on custom arcade cabinet."
+  }
+]
   }
 ]
