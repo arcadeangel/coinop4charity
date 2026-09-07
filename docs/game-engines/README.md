@@ -1,25 +1,57 @@
-# Engines
+# Coin-Op 4 Charity
 
-Runtimes that can appear on Coin Op 4 Charity stations.
+**Placing restored arcade and coin-op machines in Nevada youth spaces — free play for kids, new ways to fundraise.**
 
-The default is the **web terminal** (Arrrcadé OS) at [coinop4charity.org](https://coinop4charity.org). Extra engines are optional, volunteer-facing, and must follow the same legal-sources rule as the rest of the fleet.
+Live terminal → [coinop4charity.org](https://coinop4charity.org)
 
-## What belongs here
+---
 
-| Runtime | Role | Staff need this? |
-|---|---|---|
-| [Arrrcadé OS / web terminal](terminal.md) | Default games, hi-scores, Make → submit → LIVE | Yes — see also `docs/staff-coding/` |
-| [Submit runtime](submit-runtime.md) | How a kid-made game must boot, exit, and use the stick | Reviewers only |
-| [Ikemen GO](ikemen-go.md) | Optional 2D fighter runtime (MUGEN-compatible) | No |
-| [M.U.G.E.N / Elecbyte](mugen.md) | Original engine + file format — **credit only** | No |
+### What this is
+We restore vintage arcade machines, and other coin-op equipment, then place them with youth organizations and community partners across Nevada. Kids get free play. The organizations get a fun way to raise money and draw people in.
 
-## Rules
+We are a non-profit organization in the state of Nevada. This is the early stage of a Nevada 501(c)(3). The public-facing site and these tools are open source.
 
-1. **Terminal first.** Cabinets and tablets boot the browser terminal unless a placement is explicitly built as a fighter cabinet.
-2. **Legal assets only.** Owned originals the site already has, public-domain work, homebrew, or titles that passed Arrrcadé OS review. No gray-market ROM packs. No ripped commercial sprites.
-3. **Staff guides stay in `docs/staff-coding/` and `docs/restoration/`.** This folder is not an on-site how-to.
-4. **Credit the people who made the tools.** See each page. M.U.G.E.N credit lives in [`mugen.md`](mugen.md).
+### Current focus
+- Restoring a growing fleet (~100 machines acquired)
+- Building relationships with youth centers
+- Documenting restoration work so others can learn from it
+- Publishing DIY station guides so youth-center staff can stand up legal, low-cost cabinets and tablet terminals
+- Keeping the process transparent
 
-## New cabinets liscensing protocols
+### How you can help
+- **Host a machine** — youth center, community space, or partner location in Nevada
+- **Donate a machine** — working or not, we’re set up for restoration
+- **Volunteer / parts / expertise** — restoration help, transport, appraisal knowledge
+- **Sponsor or partner** — businesses that want visibility + tax benefits while supporting youth spaces
+- **Build a station** — follow the DIY cabinet and tablet guides under `docs/restoration/`
 
-MAME / RetroArch catalogs, FightCade, or any “full game” pack built from commercial sprites. If a future cabinet needs one of those, check the license review first, same as everything else both hardware and software. If a company cannot be reached or is no longer in business and you attempt to contact them, there might be leeway but check with your own team first. We always recommend to feature and build your own STEM program games and use public domain to enhance productivity,  time constraints, and fulfilling STEM requirements.
+Use the form on [coinop4charity.org](https://coinop4charity.org) or open an issue here.
+
+### Repo contents
+| Path | Purpose |
+|------|---------|
+| `index.html` | The live neon terminal (games + intake form) |
+| `fleet.json` | Available machine inventory & restoration status |
+| `placements.json` | Placed machine inventory & active location |
+| `docs/restoration/` | Practical restoration notes and DIY / staff guides |
+| `docs/game-engines/` | What software may run on stations (HTML5 default; kid tools; LÖVE / MUGEN optional) |
+| `docs/staff-coding/` | On-site / staff coding notes |
+| `CREDITS.md` | Credits (HTML5 tools, MoonScript / itch.io — Leaf Corcoran) |
+| `manifest.json` / `sw.js` | PWA support for the terminal |
+
+Staff-facing DIY guides live in `docs/restoration/`:
+- [DIY Arcade Cabinet Youth Center Build Guide](docs/restoration/DIY_Arcade_Cabinet_Youth_Center_Build_Guide.pdf)
+- [Tablet + Arcade Stick Station Setup](docs/restoration/Tablet_Arcade_Station_Youth_Center_Setup_Guide.pdf)
+- [BSP-Y02 Web Arcade Controller Guide](docs/restoration/BSP-Y02_Web_Arcade_Controller_Guide.pdf)
+
+Full machine restoration library is listed in [`docs/restoration/README.md`](docs/restoration/README.md).
+
+Software / engine policy is listed in [`docs/game-engines/README.md`](docs/game-engines/README.md). HTML5 is the default runtime. Kid tools (Scratch, MakeCode Arcade, GDevelop, TIC-80, Bitsy) export to that. MoonScript and MUGEN are cabinet-only.
+
+### Status
+Early public build. Fleet inventory and restoration docs are just getting started. Everything here is meant to be useful in the real world, not just look cool online.
+
+---
+
+coinop4charity.org · We love you all.  
+Open source · Built in Nevada
