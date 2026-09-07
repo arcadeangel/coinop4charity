@@ -310,7 +310,25 @@
     "title": "C4C Custom Arcade",
     "badge": "STEM",
     "status": "in progress",
-    "summary": "Members and staff working on custom arcade cabinet."
+    "summary": "Members and staff working on custom arcade cabinet with dance component."
+  }
+]
+  },
+  {
+    "id": "c4c-custom-arcade-03",
+    "name": "C4C Custom Arcade",
+    "number": "036",
+    "location": "Boys & Girls Clubs of Southern NV – Southern Highlands",
+    "notes": "Custom arcade cabinet in the works.",
+    "placed": "Project active on 2026-09-01.",
+    "status": "active",
+    "stem": true,
+"activities": [
+  {
+    "title": "C4C Custom Arcade",
+    "badge": "STEM",
+    "status": "in progress",
+    "summary": "Members and staff working on custom arcade cabinet with dance component."
   }
 ]
   }
