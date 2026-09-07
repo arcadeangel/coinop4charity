@@ -226,7 +226,7 @@ A session worked if **most** kids in the room can point at the screen and say:
 
 A session failed if one kid has a perfect engine and twelve kids have a blank editor.
 
-High scores, certificates, and LIVE slots are bonuses. The floor is a playable link and a sentence of how-to-play.
+High scores, certificates, and the rest are bonuses. The floor is a playable link and a sentence of how-to-play.
 
 ---
 
