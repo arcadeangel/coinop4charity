@@ -205,8 +205,18 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Missing base otherwise works great this looks like a custom made cabinet or re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than other countercades. Cleaned, tested, working.",
+    "notes": "Missing base otherwise works great this looks like a possible re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than other countercades. Cleaned, tested, working.",
     "fmv_estimate": 400,
+    "location": "shop"
+  },
+    {
+    "id": "galaga-88-01",
+    "name": "Galaga 88",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Works great, a countercade, Different Galaga titles. Cleaned, tested, working.",
+    "fmv_estimate": 140,
     "location": "shop"
   },
   {
