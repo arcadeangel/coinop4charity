@@ -1287,7 +1287,9 @@
 
 		.fleet-row {
 			display: flex;
+			flex-wrap: wrap;
 			justify-content: space-between;
+			align-items: baseline;
 			gap: 10px;
 			padding: 0.45rem 0.7rem;
 			font-size: 0.72rem;
@@ -1858,7 +1860,7 @@
 			transform: scale(1.02);
 		}
 
-		/* ========== ARRRCADÉOS (3.1.0) ========== */
+		/* ========== ARRRCADÉOS (3.1.1) ========== */
 
 		/* Progressive layout: one job at a glance */
 		.action-bar {
@@ -2219,7 +2221,7 @@
 		body.kiosk-mode #arrcadePanel { display: none !important; }
 
 
-		/* ArrrcadeOS 3.1.0 — clean youth maker terminal */
+		/* ArrrcadeOS 3.1.1 — site STEM badges on placements */
 		.arrcade-panel {
 			border: 1px solid #00ff9f44;
 			background: rgba(0, 12, 8, 0.72);
@@ -2875,6 +2877,56 @@
 			border-radius: 50%;
 			box-shadow: 0 0 6px currentColor;
 		}
+
+		.stem-pill {
+			display: inline-block;
+			margin-left: 6px;
+			padding: 1px 6px;
+			border: 1px solid #ffff99aa;
+			color: #ffff99;
+			font-size: 0.55rem;
+			letter-spacing: 0.12em;
+			vertical-align: middle;
+			box-shadow: 0 0 8px #ffff9944;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+		.fleet-row.has-stem .fname { color: #ffff99; }
+		.site-stem-note {
+			display: block;
+			width: 100%;
+			font-size: 0.62rem;
+			color: #ffff99;
+			letter-spacing: 0.06em;
+			margin-top: 3px;
+			line-height: 1.35;
+		}
+		.leaflet-popup-content .stem-block {
+			margin-top: 8px;
+			padding-top: 8px;
+			border-top: 1px solid #00ff9f33;
+		}
+		.leaflet-popup-content .stem-block b {
+			color: #ffff99;
+			letter-spacing: 0.1em;
+			font-size: 10px;
+		}
+		.leaflet-popup-content .stem-item {
+			margin: 6px 0 0;
+			color: #7dffc8;
+			font-size: 11px;
+			line-height: 1.4;
+		}
+		.leaflet-popup-content .stem-item .stem-pill {
+			margin-left: 0;
+			margin-right: 6px;
+		}
+		.leaflet-popup-content .stem-machine {
+			opacity: 0.85;
+			font-size: 10px;
+			color: #00ff9f;
+		}
+
 		.gamepad-badge {
 			display: none;
 			position: fixed;
@@ -3300,6 +3352,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<h4>UPDATES</h4>
 			<div id="updatesList">
 				<div class="upd-row"><b>08.23</b> Kiosk low-RAM profile + Pixel Pad undo · smoother on older tablets</div>
+				<div class="upd-row"><b>09.06</b> Site cards show STEM labs run with the machines — James Club claw first</div>
 				<div class="upd-row"><b>08.21</b> Southern Highlands live — more machines on the floor</div>
 				<div class="upd-row"><b>08.20</b> First placements at James Club, North Las Vegas</div>
 			</div>
@@ -4188,6 +4241,103 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			return { label: label || 'Site', short: short.slice(0, 8) };
 		}
 
+		// STEM labs completed with a machine on the floor.
+		// JSON can also carry stem:true and activities:[{title,summary,badge}].
+		// James Club claw is the first documented lab — more sites can drop in later.
+		const SITE_STEM_LABS = {
+			'james club': [
+				{
+					id: 'claw-3d-prizes',
+					machineId: 'claw-01',
+					machineMatch: 'claw',
+					machine: 'Claw Machine (Catcher Voice C-UTE 2)',
+					number: '021',
+					badge: 'STEM',
+					status: 'completed',
+					title: '3D Prize Lab',
+					summary: 'Members designed and 3D-printed prizes for the claw — CAD, print, load the hopper, playtest grip and drop.'
+				}
+			]
+		};
+
+		function escapeHtml(s) {
+			return String(s == null ? '' : s)
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+				.replace(/"/g, '&quot;');
+		}
+
+		function siteStemKey(location, name) {
+			const hay = (String(location || '') + ' ' + String(name || '')).toLowerCase();
+			for (const key of Object.keys(SITE_STEM_LABS)) {
+				if (hay.includes(key)) return key;
+			}
+			return '';
+		}
+
+		function activitiesForPlacement(p) {
+			const out = [];
+			const seen = {};
+			function push(a, machineName) {
+				if (!a) return;
+				const title = String(a.title || a.name || '').trim();
+				if (!title) return;
+				const key = title.toLowerCase() + '|' + String(machineName || a.machine || '');
+				if (seen[key]) return;
+				seen[key] = true;
+				out.push({
+					title: title,
+					summary: String(a.summary || a.notes || a.blurb || '').trim(),
+					badge: String(a.badge || 'STEM').toUpperCase(),
+					status: String(a.status || 'completed'),
+					machine: String(a.machine || machineName || p.name || ''),
+					number: String(a.number || p.number || ''),
+					machineId: String(a.machineId || p.id || '')
+				});
+			}
+			if (Array.isArray(p && p.activities)) p.activities.forEach(function(a) { push(a, p.name); });
+			else if (p && p.activities && typeof p.activities === 'object') push(p.activities, p.name);
+			const catalog = SITE_STEM_LABS[siteStemKey(p && p.location, p && p.name)] || [];
+			catalog.forEach(function(a) {
+				const mid = String(a.machineId || '').toLowerCase();
+				const mm = String(a.machineMatch || '').toLowerCase();
+				const pname = String((p && p.name) || '').toLowerCase();
+				const pid = String((p && p.id) || '').toLowerCase();
+				if ((mid && (pid === mid || pname.indexOf(mid) >= 0)) ||
+					(mm && (pid.indexOf(mm) >= 0 || pname.indexOf(mm) >= 0)) ||
+					(!mid && !mm)) {
+					push(a, p.name);
+				}
+			});
+			if (!out.length && p && (p.stem === true || String(p.stem).toLowerCase() === 'true')) {
+				const notes = String(p.notes || '');
+				const m = notes.match(/STEM[^.]*\./i);
+				push({
+					title: 'STEM lab',
+					summary: (m ? m[0] : notes).trim(),
+					badge: 'STEM',
+					machine: p.name,
+					number: p.number
+				}, p.name);
+			}
+			return out;
+		}
+
+		function activitiesForSite(machines) {
+			const out = [];
+			const seen = {};
+			(machines || []).forEach(function(p) {
+				activitiesForPlacement(p).forEach(function(a) {
+					const key = a.title.toLowerCase() + '|' + a.machine;
+					if (seen[key]) return;
+					seen[key] = true;
+					out.push(a);
+				});
+			});
+			return out;
+		}
+
 		function resolvePlacementCoord(p) {
 			// 1) Explicit coordinates on the placement win
 			const lat = Number(p && p.lat);
@@ -4242,8 +4392,9 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				const c = resolvePlacementCoord(p);
 				if (!c) return;
 				const key = c.short + '|' + c.lat.toFixed(3) + '|' + c.lng.toFixed(3);
-				if (!sites[key]) sites[key] = { coord: c, machines: [], location: p.location || '' };
+				if (!sites[key]) sites[key] = { coord: c, machines: [], records: [], location: p.location || '' };
 				sites[key].machines.push(p.name || p.id || 'machine');
+				sites[key].records.push(p);
 			});
 			const siteList = Object.values(sites);
 			if (!siteList.length) {
@@ -4289,12 +4440,40 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					popupAnchor: [0, -24]
 				});
 				const marker = L.marker([site.coord.lat, site.coord.lng], { icon: icon });
-				const machineList = site.machines.slice(0, 8).map(m => '· ' + m).join('<br>');
+				const stemActs = activitiesForSite(site.records || []);
+				const stemIds = {};
+				stemActs.forEach(function(a) {
+					if (a.machineId) stemIds[String(a.machineId).toLowerCase()] = true;
+					if (a.machine) stemIds[String(a.machine).toLowerCase()] = true;
+				});
+				const machineList = (site.records && site.records.length ? site.records : site.machines.map(function(n){ return { name: n }; }))
+					.slice(0, 8).map(function(rec) {
+						const label = typeof rec === 'string' ? rec : (rec.name || rec.id || 'machine');
+						const hid = String((rec && rec.id) || '').toLowerCase();
+						const hname = String(label).toLowerCase();
+						const flagged = !!(stemIds[hid] || stemIds[hname] || (rec && activitiesForPlacement(rec).length));
+						return '· ' + escapeHtml(label) + (flagged ? ' <span class="stem-pill">STEM</span>' : '');
+					}).join('<br>');
 				const more = site.machines.length > 8 ? '<br>· +' + (site.machines.length - 8) + ' more' : '';
+				let stemHtml = '';
+				if (stemActs.length) {
+					stemHtml = '<div class="stem-block"><b>STEM WITH THE MACHINES</b>' +
+						stemActs.map(function(a) {
+							const meta = [a.machine, a.number ? '#' + a.number : ''].filter(Boolean).join(' ');
+							return '<div class="stem-item"><span class="stem-pill">' + escapeHtml(a.badge) + '</span>' +
+								escapeHtml(a.title) +
+								(meta ? '<div class="stem-machine">' + escapeHtml(meta) + '</div>' : '') +
+								(a.summary ? '<div>' + escapeHtml(a.summary) + '</div>' : '') +
+								'</div>';
+						}).join('') + '</div>';
+				}
 				marker.bindPopup(
-					'<strong>' + (site.coord.label || site.coord.short) + '</strong><br>' +
-					n + ' machine' + (n === 1 ? '' : 's') + ' · free play<br>' +
-					'<span style="opacity:0.85">' + machineList + more + '</span>'
+					'<strong>' + escapeHtml(site.coord.label || site.coord.short) + '</strong><br>' +
+					n + ' machine' + (n === 1 ? '' : 's') + ' · free play' +
+					(stemActs.length ? ' · <span class="stem-pill">STEM LAB</span>' : '') + '<br>' +
+					'<span style="opacity:0.85">' + machineList + more + '</span>' +
+					stemHtml,
+					{ maxWidth: 280, className: 'c4c-site-popup' }
 				);
 				placementsLeafletLayer.addLayer(marker);
 				bounds.push([site.coord.lat, site.coord.lng]);
@@ -4316,8 +4495,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				legend.innerHTML = siteList.map((s, i) => {
 					const col = colors[i % colors.length];
 					const name = s.coord.label || s.coord.short;
+					const labs = activitiesForSite(s.records || []);
 					return '<span><i style="background:' + col + ';color:' + col + '"></i>' +
-						name + ' · ' + s.machines.length + '</span>';
+						name + ' · ' + s.machines.length +
+						(labs.length ? ' · STEM' : '') + '</span>';
 				}).join('');
 			}
 		}
@@ -4356,10 +4537,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					if (k) siteSet[k] = true;
 				});
 				var siteCount = Object.keys(siteSet).length;
+				var stemCount = list.reduce(function(n, p) { return n + (activitiesForPlacement(p).length ? 1 : 0); }, 0);
 				if (statsEl) {
 					if (!list.length) statsEl.textContent = 'No active placements yet';
 					else statsEl.textContent = list.length + ' machine' + (list.length === 1 ? '' : 's') +
-						' · ' + siteCount + ' site' + (siteCount === 1 ? '' : 's') + ' · free play for kids';
+						' · ' + siteCount + ' site' + (siteCount === 1 ? '' : 's') +
+						(stemCount ? ' · ' + stemCount + ' STEM lab' + (stemCount === 1 ? '' : 's') : '') +
+						' · free play for kids';
 				}
 
 				if (!list.length) {
@@ -4370,10 +4554,19 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					list.forEach(function(p) {
 						var row = document.createElement('div');
 						row.className = 'fleet-row';
+						var labs = activitiesForPlacement(p);
+						if (labs.length) row.classList.add('has-stem');
 
 						var name = document.createElement('span');
 						name.className = 'fname';
 						name.textContent = p.name;
+						if (labs.length) {
+							var pill = document.createElement('span');
+							pill.className = 'stem-pill';
+							pill.textContent = 'STEM';
+							name.appendChild(document.createTextNode(' '));
+							name.appendChild(pill);
+						}
 
 						var loc = document.createElement('span');
 						loc.className = 'fstat';
@@ -4383,6 +4576,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 
 						row.appendChild(name);
 						row.appendChild(loc);
+						if (labs.length) {
+							var note = document.createElement('span');
+							note.className = 'site-stem-note';
+							note.textContent = labs.map(function(a) {
+								return a.badge + ' · ' + a.title + (a.summary ? ' — ' + a.summary : '');
+							}).join(' · ');
+							row.appendChild(note);
+						}
 						listEl.appendChild(row);
 					});
 					try { drawPlacementsMap(list); } catch (err) { console.warn('map', err); }
@@ -7442,7 +7643,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		})();
 
 		// ========== ARRRCADÉOS UI ==========
-		// ========== ARRRCADÉOS UI (3.1.0) — Shiprekt Controls + filters + Captain upgrade ==========
+		// ========== ARRRCADÉOS UI (3.1.1) — Shiprekt Controls + filters + Captain upgrade ==========
 		(function initArrcade() {
 			const lab = document.getElementById('arrLab');
 			const make = document.getElementById('arrMake');
