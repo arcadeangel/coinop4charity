@@ -2,7 +2,7 @@
   "updated": "2026-09-06",
   "title": "STEM BUILD LAB",
   "tagline": "Parts kids can actually build with — not a shopping mall",
-  "note": "Start with controls and a Pi. Cabinets and coin doors come after a game works on a table.",
+  "note": "Start with controls and a Pi. Cabinets and coin doors come after a game works on a table. Digital pinball is the software table — flippers first, plywood later.",
   "categories": [
     {
       "id": "controls",
@@ -32,6 +32,25 @@
           "level": "shop",
           "why": "Arkanoid, Tempest, Centipede — games that need analog feel.",
           "tip": "Add after the standard stick panel works. One shared spinner is enough for a site."
+        }
+      ]
+    },
+    {
+      "id": "pinball",
+      "name": "PIN / TABLES",
+      "blurb": "A pin table you can ship to a kiosk before anyone cuts wood.",
+      "items": [
+        {
+          "name": "Digital pinball table",
+          "level": "beginner",
+          "why": "Software table: flippers, nudge, drain, and a score reel. Kids learn timing and gravity without waiting on a cabinet.",
+          "tip": "Build in MakeCode Arcade or p5.js. Left/right = flippers. Ball = circle + gravity. Drain = lose a ball. SUBMIT a playable link when it holds a ball for 30 seconds."
+        },
+        {
+          "name": "Flipper buttons (left / right)",
+          "level": "beginner",
+          "why": "Side buttons turn a stick panel into a pin table. Same encoder as the rest of the lab.",
+          "tip": "Map two 30mm buttons to Left Shift / Right Shift or L1 / R1. Mount on the sides, not the top row."
         }
       ]
     },
