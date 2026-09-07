@@ -18,7 +18,7 @@ Kiosk-style boots use `?kiosk=1` (also `?arcade=1` / `#kiosk`). Staff setup live
 
 ## Credit
 
-- Terminal software and custom games: **Coin Op 4 Charity / Arcade Angels** (open source in this repo)
+- Terminal software and custom games: **Coin Op 4 Charity** (open source in this repo)
 - Individual live titles that are not ours must keep their own author credit on the game card and in the site footer or journal when permission was granted (example: Nyan Cat IV — creator permission)
 
 Do not list Elecbyte or Ikemen GO on terminal-only cabinets. Those credits belong on fighter cabinets that load MUGEN-format content.
