@@ -1,7 +1,7 @@
 # Youth Center Staff Guide  
 ## Helping Kids Create & Submit Games on Coin Op 4 Charity / ArrrcadeOS
 
-**Coin Op 4 Charity · Arcade Angels · ArrrcadeOS**  
+**Coin Op 4 Charity · Hello, Arcade Angels · ArrrcadeOS**  
 Practical staff notes for free-play terminal sessions, STEM maker time, and game submissions that may land on club machines.
 
 ---
@@ -16,16 +16,18 @@ This guide helps **youth center staff and volunteers** support kids who want to:
 
 You do **not** need to be a programmer. Your job is to keep the session moving, point kids to the right tool, and use a short checklist before anything is submitted.
 
+What may actually go **LIVE** on club machines is listed in [`docs/game-engines/README.md`](../game-engines/README.md). This page is how to run the session. That page is the floor policy.
+
 ---
 
 ## Quick Map of the Site
 
 | Area | What it is | Staff use |
 |------|------------|-----------|
-| **Terminal games** (main page) | Free browser games (Saucer Beam, Circuit Runner, Neon Kaiju, etc.) | Warm-up / play time |
+| **Terminal games** (main page) | Free browser games (Saucer Beam, Circuit Runner, Neon Kaiju, Nyan Cat IV, etc.) | Warm-up / play time |
 | **ArrrcadeOS** panel | Maker hub on the same page | Creation time |
 | **Captain Code** | Friendly help character with tips | “Ask here first when stuck” |
-| **MAKE** tab | Build tools: Scratch, MakeCode Arcade, p5.js, Pixel Pad, Shiprekt Controls | Actual building |
+| **MAKE** tab | Build tools: Scratch, MakeCode Arcade, p5.js, Pixel Pad, Shiprekt Controls, plus Bitsy / PuzzleScript / GDevelop / TIC-80 when you have time | Actual building |
 | **SHARE** tab | Submit name, email, title, play link, short how-to-play | End of session |
 | **`?kiosk=1`** | Lightweight mode (games + short mission only) | Dedicated arcade tablets |
 
@@ -53,13 +55,19 @@ Use this order with most first-timers. Keep sessions short: **play → one idea 
 
 | Kid situation | Start here | Why |
 |---------------|------------|-----|
-| Never coded, wants blocks | **Scratch** | Drag-and-drop; huge kid community |
+| Never coded, wants blocks | **Scratch** (export with TurboWarp when you package) | Drag-and-drop; huge kid community |
 | Wants a “real arcade” feel with blocks or light code | **MakeCode Arcade** | Built for game sprites, scores, buttons |
 | Curious about typed code, still simple | **p5.js Editor** | Draw + animate with short JavaScript |
 | Just learning “what is a control system?” | **Shiprekt Controls** | In-terminal lessons: move, jump, collide, score, win |
 | Only needs a small sprite sketch | **Pixel Pad** | Quick pixel art, copy pattern out |
+| Wants a tiny story map | **Bitsy** | Short exploration game, exports HTML |
+| Wants a block-push puzzle | **PuzzleScript** | One readable script, exports HTML |
+| Older kid, no-code, “real game” look | **GDevelop** | HTML5 export — test on a weak tablet first |
+| Tiny retro cart in one file | **TIC-80** | Original carts only |
 
 **Staff rule:** One tool per session for first-timers. Switching tools mid-session usually stalls progress.
+
+**Default two buttons for a first visit:** Scratch or MakeCode Arcade. Bitsy / PuzzleScript if they finish early or hate shooters. GDevelop / TIC-80 for returning older kids. Do not start anyone on MoonScript, LÖVE, or MUGEN.
 
 ### Step 4 — Build the smallest possible game
 Good first goals (pick one):
@@ -72,8 +80,9 @@ Good first goals (pick one):
 If it does those things in a browser, it is a **real game** for this program.
 
 ### Step 5 — Save a play link
-- Scratch / MakeCode / p5: use **Share** or **Publish** in that tool and copy the public link.
+- Scratch / MakeCode / p5 / Bitsy / PuzzleScript / GDevelop / TIC-80: use **Share**, **Publish**, or **Export HTML** in that tool and copy a public play link or file.
 - The link must open in a browser **without** requiring staff to log into the kid’s account.
+- Prefer a packaged HTML page over “open the editor social site on the cabinet.”
 
 ### Step 6 — SHARE on coinop4charity.org
 Open **SHARE** and fill:
@@ -85,7 +94,7 @@ Open **SHARE** and fill:
 5. How do you play? (one or two sentences)  
 6. Check the safety box (friendly for a youth club · original or credited · no personal data collected)
 
-Staff review happens before anything is marked for **LIVE** on machines.
+Staff review happens before anything is marked for **LIVE** on machines. Preview Lab first. Then review. Then live. Same rule as [`docs/game-engines/README.md`](../game-engines/README.md).
 
 ---
 
@@ -103,17 +112,20 @@ Kids will hear words that sound scary. Translate them:
 | **Event** | “When this happens, do that” (key pressed → move) | Controls |
 | **JavaScript** | A common language for websites and browser games | p5.js, parts of MakeCode, this terminal |
 | **HTML / CSS** | Page structure and look | The coinop4charity site chrome |
+| **HTML5 game** | A game that is just a web page | What we actually run on tablets |
 
 ### Site games vs “big kid” engines later
 
 - **What kids use here:** browser tools, blocks, short scripts. Games run in Chrome/Safari on a tablet or laptop. Fast to try, free, good for clubs.
-- **What this terminal is written in:** mostly **HTML + CSS + JavaScript** in one page so it can run offline-ish in a kiosk browser without installing Steam or a game engine.
+- **What this terminal is written in:** mostly **HTML + CSS + JavaScript** in one page so it can run in a kiosk browser without installing Steam or a game engine. That is the default runtime. See [`docs/game-engines/html5.md`](../game-engines/html5.md).
+- **Kid tools that export to that page:** Scratch / TurboWarp, MakeCode Arcade, GDevelop, TIC-80, Bitsy, PuzzleScript.
+- **Not for this session:** MoonScript, LÖVE, MUGEN / Ikemen. Those are optional cabinet-only paths. They are not kid-submit tools. See [`docs/game-engines/README.md`](../game-engines/README.md).
 - **What they can learn later (not required now):**  
   - **Python** — great for tools, data, robots, simple games with extra libraries  
   - **Godot** — free game engine, friendlier step up  
   - **Unity / Unreal Engine** — “big production” engines used in studios; heavy installs, longer projects  
 
-**Staff line:** “Today we build something that runs in the browser. Later, if you love this, engines like Godot or Unreal are a next mountain—not today’s homework.”
+**Staff line:** “Today we build something that runs in the browser. Later, if you love this, engines like Godot are a next mountain—not today’s homework.”
 
 ---
 
@@ -141,6 +153,10 @@ Use this when a kid asks “how does moving even work?”
 | Scratch | [scratch.mit.edu/ideas](https://scratch.mit.edu/ideas) — “Getting Started” and animation/game cards |
 | MakeCode Arcade | Built-in tutorials on the MakeCode Arcade home screen |
 | p5.js | [p5js.org/examples](https://p5js.org/examples/) — start with “Hello” and “Animation” |
+| Bitsy | [bitsy.org](https://bitsy.org) — editor + examples |
+| PuzzleScript | [puzzlescript.net](https://www.puzzlescript.net) — “You are looking at PuzzleScript” demo |
+| GDevelop | Built-in examples inside the editor |
+| TIC-80 | [tic80.com](https://tic80.com) — start a blank cart, not a random download pack |
 
 ### 4. AI helpers (optional, supervised)
 
@@ -160,7 +176,7 @@ AI can **speed up fixes** and explain errors. It should not replace the kid thin
 **Staff prompt pattern kids can copy:**
 
 ```text
-I am a beginner using [Scratch / MakeCode Arcade / p5.js].
+I am a beginner using [Scratch / MakeCode Arcade / p5.js / Bitsy / PuzzleScript].
 My goal: player moves left and right and collects coins for score.
 What I tried: [one sentence].
 What went wrong: [error message or “coin doesn’t disappear”].
@@ -176,10 +192,10 @@ Please explain in simple steps and give me the smallest fix only.
 
 ## Staff Assist Script (When They’re Stuck)
 
-1. **What tool are you in?** (Scratch / MakeCode / p5 / Shiprekt)  
+1. **What tool are you in?** (Scratch / MakeCode / p5 / Bitsy / PuzzleScript / Shiprekt)  
 2. **What should happen?** (one sentence)  
 3. **What happens instead?**  
-4. **Did you save / remix / share so the link still works?**  
+4. **Did you save / remix / share so the link still works without a login?**  
 5. Try one change only, then test again  
 
 If still stuck: open Captain Code, or use the AI prompt pattern above with the kid watching.
@@ -191,11 +207,15 @@ If still stuck: open Captain Code, or use the AI prompt pattern above with the k
 Before clicking **SEND FOR REVIEW**:
 
 - [ ] Game opens in a private/incognito window without extra login  
-- [ ] Controls work on a keyboard or on-screen buttons as described  
+- [ ] Controls work on a keyboard, on-screen buttons, or HID stick as described  
 - [ ] No mean, adult, or personal-data collection behavior  
 - [ ] Title and “how do you play?” match the actual game  
-- [ ] Link is the **play** link, not an edit-only project URL  
+- [ ] Link is the **play** link or packaged HTML, not an edit-only project URL  
+- [ ] Assets look original or clearly credited — no commercial ROM pack in a web wrapper  
 - [ ] Kid knows staff may request changes before LIVE  
+- [ ] If GDevelop / heavy export: you tried it on a low-RAM tablet and it did not melt  
+
+Rejected or “needs changes” is normal. That is how titles get onto machines.
 
 ---
 
@@ -215,6 +235,7 @@ Before clicking **SEND FOR REVIEW**:
 - Games for this program should be **friendly for a youth club**  
 - Prefer original work or clearly credited remixes  
 - No collecting names, locations, or photos inside the game  
+- No gray-market ROM packs, even if they “run in the browser”  
 - Staff may reject or request edits; that is normal quality control before machines  
 
 ---
@@ -226,8 +247,9 @@ Before clicking **SEND FOR REVIEW**:
 1. Play a terminal game — notice what you like  
 2. Open **ArrrcadeOS → MAKE**  
 3. Choose **Scratch** (blocks) or **MakeCode Arcade**  
+   (Finished early? Bitsy or PuzzleScript.)  
 4. Make: move + collect + score  
-5. Share / publish → copy play link  
+5. Share / publish / export HTML → copy play link  
 6. Open **SHARE** on coinop4charity.org → send for review  
 
 **Stuck?** Ask **Captain Code**.  
@@ -238,6 +260,9 @@ Before clicking **SEND FOR REVIEW**:
 
 ## Related Docs
 
+- Engine / floor policy: [`docs/game-engines/README.md`](../game-engines/README.md)  
+  HTML5 is what we run. Scratch, MakeCode, GDevelop, TIC-80, Bitsy, PuzzleScript export to that. MoonScript and MUGEN are not kid-submit tools.  
+- Default runtime: [`docs/game-engines/html5.md`](../game-engines/html5.md)  
 - Tablet / kiosk setup guides in `docs/restoration/` (tablet station + BSP-Y02 controller)  
 - Field notes: project `journal.md` on GitHub  
 - Site: [coinop4charity.org](https://coinop4charity.org)  
