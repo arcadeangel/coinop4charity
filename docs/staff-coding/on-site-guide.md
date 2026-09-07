@@ -1,7 +1,7 @@
 # Youth Center Staff Guide  
 ## Helping Kids Create & Submit Games on Coin Op 4 Charity / ArrrcadeOS
 
-**Coin Op 4 Charity · Hello, Arcade Angels · ArrrcadeOS**  
+**Coin Op 4 Charity · ArrrcadeOS**  
 Practical staff notes for free-play terminal sessions, STEM maker time, and game submissions that may land on club machines.
 
 ---
