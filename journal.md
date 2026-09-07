@@ -2,13 +2,13 @@
 
 ## 09.06.26 22:55  Game engines folder is policy. Staff guide is the hour. Terminal stays HTML5.
 
-Updated staff guides in `docs/staff-coding/on-site-guide.md`. What may boot on a club machine lives in `docs/game-engines/`. Three folders. Three jobs. 
+Updated staff guides in `docs/staff-coding/on-site-guide.md`. What may boot on a club machine lives in `docs/game-engines/`. 
 
-The runtime on the floor is still a browser page. HTML5 / JS. Tablets, Pi kiosks, Preview Lab, kid submit. That is `html5.md`. Scratch, MakeCode Arcade, GDevelop, TIC-80, Bitsy, PuzzleScript are not competing engines. They are how a kid *makes* a page. Export HTML. No account wall on the cabinet. No “open the social editor and hope cloud variables behave.”
+The runtime on the floor is still a browser page. Easiest onboarding ramp is HTML5 / JS. Tablets pointing to the game terminal is easiesr, next is Pi kiosks. Option A is found under `html5.md`. Scratch, MakeCode Arcade, GDevelop, TIC-80, Bitsy, PuzzleScript are not competing engines. They are how a kid *makes* a page. Export HTML. No account wall on the cabinet. No “open the social editor and hope cloud variables behave.”
 
-Staff guide updated to match. First visit: Scratch or MakeCode. Finished early: Bitsy or PuzzleScript. Returning older kid: GDevelop or an original TIC-80 cart, and you test the export on the same cheap tablet that will host it. p5 and Shiprekt stay in MAKE. Wall card does not mention MoonScript. Use AI augmented tools if you have to just make sure they understand the core of it.
+Staff guide updated to match. First visit: Scratch or MakeCode. Finished early: Bitsy or PuzzleScript. Returning older kid: GDevelop or an original TIC-80 cart, and you test the export on the same cheap tablet that will host it. p5 and Shiprekt stay in MAKE. Felt like with the whole open source game engine thing I had to mention MoonScript. Use AI augmented tools if you have to just make sure they understand the core of it.
 
-MoonScript is a nod, not an on-ramp. Leaf Corcoran wrote the language and founded itch.io (3 March 2013). We credit that in `CREDITS.md` and `docs/game-engines/moonscript.md`. We are not affiliated. itch.ioc as glorious and inspiring as it is, is files on the internet. We put the wood on the glass in Nevada youth rooms. Their contact is support@itch.io. Did not put his name on the homepage like we have a handshake we do not have, but if you're reading this, Leaf, we LÖVE you.
+MoonScript is a nod, not an on-ramp. Leaf Corcoran wrote the language and founded itch.io (in 2013). We credit that in `CREDITS.md` and `docs/game-engines/moonscript.md`. We are not affiliated. itch.ioc as glorious and inspiring to us as it is, is files on the internet. We put the wood on the glass in Nevada youth rooms. Their contact is support@itch.io. Did not put his name on the homepage like we have a handshake we do not have... but if you're reading this, Leaf, we LÖVE you.
 
 LÖVE + MoonScript / Lua = dedicated cabinet only. Compiled `main.lua` on the box so the site does not depend on `moonc`. Kid submit form does not offer it.
 
