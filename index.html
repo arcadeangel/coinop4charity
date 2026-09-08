@@ -7358,9 +7358,15 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			fire: false, jump: false, dash: false, slide: false, special: false,
 			start: false, select: false, home: false, a: false, b: false, x: false, y: false
 		};
+		let gamepadState2 = {
+			left: false, right: false, up: false, down: false,
+			fire: false, jump: false, dash: false, slide: false, special: false,
+			start: false, select: false, home: false, a: false, b: false, x: false, y: false
+		};
 		let gamepadConnected = false;
 		let gamepadRaf = null;
 		let gpAxisLatch = { x: 0, y: 0 }; // -1, 0, 1 with hysteresis
+		let gpAxisLatch2 = { x: 0, y: 0 };
 		let gpStartHoldMs = 0;
 		let gpStartHoldT0 = 0;
 		let gpLastMenuMove = 0;
@@ -7776,6 +7782,49 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gamepadState.special = btnY || btnLB;
 			gamepadState.slide = gamepadState.down;
 
+			// Clear P2 each tick; fill only when a second live pad exists
+			Object.keys(gamepadState2).forEach(function(k) { gamepadState2[k] = false; });
+			if (typeof currentGame !== 'undefined' && currentGame === 'fight' && liveCount >= 2) {
+				const pads = [];
+				for (let pi = 0; pi < gps.length; pi++) {
+					if (gps[pi] && gps[pi].connected !== false) pads.push(gps[pi]);
+				}
+				pads.sort(function(a, b) { return (a.index || 0) - (b.index || 0); });
+				if (pads.length >= 2) {
+					const p2 = pads[1];
+					const s2 = readStickAxes(p2);
+					gpAxisLatch2.x = axisLatch(s2.ax, gpAxisLatch2.x);
+					gpAxisLatch2.y = axisLatch(s2.ay, gpAxisLatch2.y);
+					gamepadState2.left = gpAxisLatch2.x === -1;
+					gamepadState2.right = gpAxisLatch2.x === 1;
+					gamepadState2.up = gpAxisLatch2.y === -1;
+					gamepadState2.down = gpAxisLatch2.y === 1;
+					const face2 = mergePadButtons([p2]);
+					gamepadState2.a = face2.a; gamepadState2.b = face2.b;
+					gamepadState2.x = face2.x; gamepadState2.y = face2.y;
+					gamepadState2.select = face2.select; gamepadState2.start = face2.start;
+					gamepadState2.fire = !!(face2.a || face2.x || face2.rt || face2.y);
+					gamepadState2.jump = !!face2.a;
+					gamepadState2.dash = !!(face2.b || face2.rb || face2.lb);
+					gamepadState2.special = !!(face2.y || face2.lb);
+					gamepadState2.slide = gamepadState2.down;
+					// During 2P fight, P1 should not inherit P2 stick
+					const s1 = readStickAxes(pads[0]);
+					gpAxisLatch.x = axisLatch(s1.ax, gpAxisLatch.x);
+					gpAxisLatch.y = axisLatch(s1.ay, gpAxisLatch.y);
+					gamepadState.left = gpAxisLatch.x === -1;
+					gamepadState.right = gpAxisLatch.x === 1;
+					gamepadState.up = gpAxisLatch.y === -1;
+					gamepadState.down = gpAxisLatch.y === 1;
+					const face1 = mergePadButtons([pads[0]]);
+					gamepadState.fire = !!(face1.a || face1.x || face1.rt || face1.y);
+					gamepadState.jump = !!face1.a;
+					gamepadState.dash = !!(face1.b || face1.rb || face1.lb);
+					gamepadState.special = !!(face1.y || face1.lb);
+					gamepadState.a = face1.a; gamepadState.b = face1.b;
+					gamepadState.x = face1.x; gamepadState.y = face1.y;
+				}
+			}
 			try { updateGpDebug(gp, profile, 'src=' + (stick.source || '?') + ' pads=' + liveCount); } catch (e) {}
 			try {
 				const badge = document.getElementById('gamepad-badge');
@@ -9158,6 +9207,12 @@ function startGamepadLoop() {
 			if (typeof refreshHiScores === 'function') refreshHiScores();
 			if (typeof refreshTopOps === 'function') refreshTopOps();
 
+			window.C4C_GAMEOVER = false;
+			try { fightG = null; } catch (e) {}
+			try { if (typeof ufoG !== 'undefined' && ufoG) ufoG.over = true; } catch (e) {}
+			try { if (typeof fishG !== 'undefined' && fishG) fishG.over = true; } catch (e) {}
+			try { if (typeof kaijuG !== 'undefined' && kaijuG) kaijuG.over = true; } catch (e) {}
+			try { if (typeof runner !== 'undefined' && runner) runner.gameOver = true; } catch (e) {}
 			currentGame = null;
 			try {
 				const frame = document.getElementById('nyan-frame');
@@ -9201,6 +9256,8 @@ function startGamepadLoop() {
 
 		function startGame(name) {
 			stopGame();
+			window.C4C_GAMEOVER = false;
+			lastGameKey = name;
 			overlay.classList.add('active');
 			document.body.classList.add('game-open');
 			window.scrollTo(0, 0);
@@ -9273,7 +9330,7 @@ function startGamepadLoop() {
 				setupTouchControls(['left', 'right', 'up', 'down', 'fire']);
 				initKaiju();
 			} else if (name === 'fight') {
-				hintEl.textContent = 'F punch  G kick  ↓+F knee  air↓ bop  F+G throw  H super';
+				hintEl.textContent = 'P1 stick + A/B   P2 other stick or arrows+1/2/3   A rematch after KO';
 				setupTouchControls(['left', 'right', 'up', 'down', 'fire', 'kick']);
 				initFight();
 			} else if (name === 'nyan') {
@@ -9393,6 +9450,10 @@ function startGamepadLoop() {
 		let flashAlpha = 0;
 
 		function flash(n = 0.45) { flashAlpha = Math.max(flashAlpha, n); }
+
+		function gameOverFrozen() {
+			return !!window.C4C_GAMEOVER;
+		}
 
 		function showGameOver(text, gameKey, score) {
 			window.C4C_GAMEOVER = true;
@@ -13097,6 +13158,7 @@ function startGamepadLoop() {
 				g.frame++;
 
 				if (g.over) {
+					if (gameOverFrozen()) return;
 					drawUfo();
 					animId = requestAnimationFrame(loopUfo);
 					return;
@@ -13958,6 +14020,7 @@ function startGamepadLoop() {
 
 				// Timed session — ends so player can enter name for hi-score
 				if (g.over) {
+					if (gameOverFrozen()) return;
 					drawFish();
 					animId = requestAnimationFrame(loopFish);
 					return;
@@ -15057,7 +15120,9 @@ function startGamepadLoop() {
 				return;
 			}
 
-			if (g.over && g.phase !== 'credits') { drawKaiju();
+			if (g.over && g.phase !== 'credits') {
+				if (gameOverFrozen()) return;
+				drawKaiju();
 				animId = requestAnimationFrame(loopKaiju); return; }
 
 			g.timeLeft--;
@@ -16949,13 +17014,14 @@ function startGamepadLoop() {
 				if (action === 'kick') return !!(k['g'] || k['G'] || k['k'] || k['K'] || ts.kick || ts.dash || gp.dash || gp.slide);
 				if (action === 'special') return !!(k['h'] || k['H'] || k[' '] || gp.special);
 			} else {
-				if (action === 'left') return !!(k['ArrowLeft']);
-				if (action === 'right') return !!(k['ArrowRight']);
-				if (action === 'up') return !!(k['ArrowUp']);
-				if (action === 'down') return !!(k['ArrowDown']);
-				if (action === 'punch') return !!(k['1'] || k['Numpad1']);
-				if (action === 'kick') return !!(k['2'] || k['Numpad2']);
-				if (action === 'special') return !!(k['3'] || k['Numpad3']);
+				const gp2 = (typeof gamepadState2 !== 'undefined') ? gamepadState2 : {};
+				if (action === 'left') return !!(k['ArrowLeft'] || gp2.left);
+				if (action === 'right') return !!(k['ArrowRight'] || gp2.right);
+				if (action === 'up') return !!(k['ArrowUp'] || gp2.up || gp2.jump);
+				if (action === 'down') return !!(k['ArrowDown'] || gp2.down);
+				if (action === 'punch') return !!(k['1'] || k['Numpad1'] || gp2.fire || gp2.a);
+				if (action === 'kick') return !!(k['2'] || k['Numpad2'] || gp2.dash || gp2.b);
+				if (action === 'special') return !!(k['3'] || k['Numpad3'] || gp2.special || gp2.y);
 			}
 			return false;
 		}
@@ -17342,6 +17408,7 @@ function startGamepadLoop() {
 				const p2l = fightKey(1, 'left'), p2r = fightKey(1, 'right'), p2p = fightKey(1, 'punch');
 				if (p1l && !g._held[0].left) { g.sel[0] = (g.sel[0] + FIGHT_N - 1) % FIGHT_N; try { sfx('select'); } catch (e) {} }
 				if (p1r && !g._held[0].right) { g.sel[0] = (g.sel[0] + 1) % FIGHT_N; try { sfx('select'); } catch (e) {} }
+				if (p2l || p2r || p2p || fightKey(1, 'up') || fightKey(1, 'kick') || fightKey(1, 'special')) g.cpu = false;
 				if (p2l && !g._held[1].left) { g.sel[1] = (g.sel[1] + FIGHT_N - 1) % FIGHT_N; g.cpu = false; try { sfx('select'); } catch (e) {} }
 				if (p2r && !g._held[1].right) { g.sel[1] = (g.sel[1] + 1) % FIGHT_N; g.cpu = false; try { sfx('select'); } catch (e) {} }
 				if ((p1p && !g._held[0].punch) || (p2p && !g._held[1].punch) || (g.frame > 8 && fightKey(0, 'special'))) {
@@ -17356,6 +17423,28 @@ function startGamepadLoop() {
 			}
 
 			if (g.phase === 'over') {
+				const p1p = fightKey(0, 'punch') || fightKey(0, 'special');
+				const p2p = fightKey(1, 'punch') || fightKey(1, 'special');
+				const gp = (typeof gamepadState !== 'undefined') ? gamepadState : {};
+				const wantRematch = (p1p && !g._held[0].punch) || (p2p && !g._held[1].punch) || !!(gp.start && !g._held[0].start);
+				if (wantRematch) {
+					window.C4C_GAMEOVER = false;
+					g.phase = 'select';
+					g.round = 1;
+					g.wins = [0, 0];
+					g.score = 0;
+					g._overPosted = false;
+					g.msg = 'PICK A FIGHTER';
+					g.msgT = 50;
+					g.fighters = [null, null];
+					g._held = [{}, {}];
+					try { if (typeof sfx === 'function') sfx('select'); } catch (e) {}
+					drawFight();
+					animId = requestAnimationFrame(loopFight);
+					return;
+				}
+				g._held[0] = { punch: p1p, start: !!gp.start };
+				g._held[1] = { punch: p2p };
 				drawFight();
 				if (!g._overPosted) {
 					g._overPosted = true;
@@ -18335,7 +18424,7 @@ function startGamepadLoop() {
 				ctx.fillRect(0, 304, 480, 56);
 				ctx.fillStyle = '#e8fff0';
 				ctx.font = '10px Courier New';
-				ctx.fillText('P1 A/D + F START    P2 ARROWS + 1', 240, 318);
+				ctx.fillText('P1 STICK + A     P2 OTHER STICK / ARROWS + 1     A TO LOCK', 240, 318);
 				ctx.fillStyle = '#7dffc8';
 				ctx.font = '8px Courier New';
 				ctx.fillText('Book Oz tin + lion  •  1928 Mick  •  Betty Oops (not a trademark)', 240, 336);
@@ -18517,7 +18606,20 @@ function startGamepadLoop() {
 			ctx.fillStyle = 'rgba(0,255,159,0.55)';
 			ctx.font = '8px Courier New';
 			ctx.textAlign = 'center';
-			ctx.fillText('F PUNCH  G KICK  DOWN+F KNEE  AIR+DOWN BOP  F+G THROW  H SUPER  TAP-TAP DASH', 240, 352);
+			ctx.fillText(g.cpu ? 'P1 STICK  F/G/H   VS CPU' : 'P1 LEFT STICK   P2 RIGHT STICK   A PUNCH  B KICK', 240, 352);
+			if (g.phase === 'over') {
+				ctx.fillStyle = 'rgba(0,0,0,0.62)';
+				ctx.fillRect(70, 200, 340, 78);
+				ctx.strokeStyle = '#00ff9f';
+				ctx.strokeRect(70, 200, 340, 78);
+				ctx.fillStyle = '#00ff9f';
+				ctx.font = 'bold 16px Courier New';
+				ctx.textAlign = 'center';
+				ctx.fillText('A / START  =  NEXT MATCH', 240, 232);
+				ctx.fillStyle = '#7dffc8';
+				ctx.font = '11px Courier New';
+				ctx.fillText('SELECT  =  BACK TO TERMINAL', 240, 256);
+			}
 			if (g.hitStop > 0 && g.phase === 'fight') ctx.restore();
 		}
 
