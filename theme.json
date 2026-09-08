@@ -1,0 +1,50 @@
+{
+  "active": "mint",
+  "presets": {
+    "mint": {
+      "name": "mint",
+      "neon": "#00ff9f",
+      "neonDim": "#7dffc8",
+      "gold": "#ffe08a",
+      "bg": "#000000",
+      "scanlines": 0.1,
+      "glow": 0.35
+    },
+    "ice": {
+      "name": "ice",
+      "neon": "#7ad7ff",
+      "neonDim": "#b8ecff",
+      "gold": "#e8f4ff",
+      "bg": "#02040a",
+      "scanlines": 0.08,
+      "glow": 0.28
+    },
+    "violet": {
+      "name": "violet",
+      "neon": "#c89cff",
+      "neonDim": "#e2c8ff",
+      "gold": "#ffe08a",
+      "bg": "#07040c",
+      "scanlines": 0.1,
+      "glow": 0.32
+    },
+    "rose": {
+      "name": "rose",
+      "neon": "#ff7ab6",
+      "neonDim": "#ffb3d4",
+      "gold": "#ffd0a8",
+      "bg": "#0a0306",
+      "scanlines": 0.1,
+      "glow": 0.3
+    },
+    "amber": {
+      "name": "amber",
+      "neon": "#ffb347",
+      "neonDim": "#ffd08a",
+      "gold": "#fff0c8",
+      "bg": "#080601",
+      "scanlines": 0.12,
+      "glow": 0.3
+    }
+  }
+}
