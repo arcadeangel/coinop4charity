@@ -1,6 +1,6 @@
-# Retired game codes
+# CC0 game codes
 
-These still exist inside `index.html` but have **no tile** on the live terminal. Staff test only.
+These still exist inside `index.html` but have **no tile** on the live terminal. Staff can test, students can build using these as well these are CC0..
 
 | Code | What it was | Start it? |
 |---|---|---|
