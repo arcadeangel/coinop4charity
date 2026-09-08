@@ -28,11 +28,15 @@
 			width: 100%;
 			overflow-x: hidden;
 			max-width: 100vw;
+			--c4c-neon: #00ff9f;
+			--c4c-neon-dim: #7dffc8;
+			--c4c-gold: #ffe08a;
+			--c4c-bg: #000;
 		}
 
 		body {
-			background: #000;
-			color: #00ff9f;
+			background: var(--c4c-bg, #000);
+			color: var(--c4c-neon, #00ff9f);
 			font-family: "Courier New", monospace;
 			min-height: 100%;
 			min-height: 100dvh;
@@ -4877,6 +4881,104 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		// Never restore attract from disk — a stale true flag trapped menu/stick input
 		window.C4C_OPS.attract = false;
 
+		window.C4C_THEME = window.C4C_THEME || {};
+		window.C4C_GAMES = window.C4C_GAMES || {};
+		window.C4C_CABINET = window.C4C_CABINET || {};
+		window.C4C_ATTRACT = window.C4C_ATTRACT || {};
+		window.C4C_SFX = window.C4C_SFX || {};
+
+		function applyTerminalTheme(theme) {
+			if (!theme) return;
+			window.C4C_THEME = theme;
+			try {
+				const root = document.documentElement;
+				if (theme.neon) root.style.setProperty('--c4c-neon', theme.neon);
+				if (theme.neonDim) root.style.setProperty('--c4c-neon-dim', theme.neonDim);
+				if (theme.gold) root.style.setProperty('--c4c-gold', theme.gold);
+				if (theme.bg) root.style.setProperty('--c4c-bg', theme.bg);
+				if (theme.neon) document.body.style.color = theme.neon;
+				if (theme.bg) document.body.style.background = theme.bg;
+				const meta = document.querySelector('meta[name="theme-color"]');
+				if (meta && theme.neon) meta.setAttribute('content', theme.neon);
+			} catch (e) {}
+		}
+
+		function applyGamesJson(data) {
+			if (!data) return;
+			window.C4C_GAMES = data;
+			try {
+				const lite = !!(window.C4C_KIOSK_LITE || (window.C4C_CABINET && window.C4C_CABINET.lite) || /lite=1|lowram=1/.test(location.search || ''));
+				const retired = (data.retired || []).map(g => g.id);
+				const wrap = document.querySelector('.game-buttons');
+				const live = Array.isArray(data.live) ? data.live : [];
+				document.querySelectorAll('.game-btn[data-game]').forEach(btn => {
+					const id = btn.dataset.game;
+					if (retired.indexOf(id) !== -1) btn.style.display = 'none';
+				});
+				live.forEach(g => {
+					const btn = document.querySelector('.game-btn[data-game="' + g.id + '"]');
+					if (!btn) return;
+					if (g.minRam === 'normal' && lite) {
+						btn.style.display = 'none';
+						return;
+					}
+					btn.style.display = '';
+					const span = btn.querySelector('span');
+					if (g.title) {
+						btn.childNodes.forEach(n => {
+							if (n.nodeType === 3 && n.textContent.trim()) n.textContent = '\n\t\t\t\t\t' + g.title + '\n\t\t\t\t\t';
+						});
+					}
+					if (span && g.blurb) span.textContent = g.blurb;
+					if (wrap) wrap.appendChild(btn);
+				});
+			} catch (e) {}
+		}
+
+		function pickThemeRecord(pack, cabinet) {
+			const presets = (pack && pack.presets) || {};
+			let name = 'mint';
+			try {
+				const q = new URLSearchParams(location.search || '');
+				name = (q.get('theme') || (cabinet && cabinet.theme) || pack.active || 'mint').toLowerCase();
+			} catch (e) {}
+			return presets[name] || pack || { neon: '#00ff9f' };
+		}
+
+		(function loadTerminalJson() {
+			const grab = (url) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+			Promise.all([
+				grab('theme.json'),
+				grab('games.json'),
+				grab('cabinet.json'),
+				grab('attract.json'),
+				grab('sfx-theme.json')
+			]).then(([theme, games, cabinet, attract, sfx]) => {
+				if (cabinet) {
+					window.C4C_CABINET = cabinet;
+					try {
+						if (cabinet.name) document.body.setAttribute('data-cabinet', cabinet.name);
+					} catch (e) {}
+				}
+				if (theme) applyTerminalTheme(pickThemeRecord(theme, cabinet));
+				if (games) applyGamesJson(games);
+				if (attract) {
+					window.C4C_ATTRACT = attract;
+					try {
+						if (window.C4C_KIOSK && attract.kioskIdleMs) attractIdleMs = attract.kioskIdleMs;
+						else if (window.C4C_KIOSK_LITE && attract.liteIdleMs) attractIdleMs = attract.liteIdleMs;
+						else if (attract.idleMs) attractIdleMs = attract.idleMs;
+					} catch (e) {}
+				}
+				if (sfx) {
+					window.C4C_SFX = sfx;
+					if (typeof sfx.musicVol === 'number' && !localStorage.getItem('c4c_ops')) {
+						window.C4C_OPS.musicVol = sfx.musicVol;
+					}
+				}
+			});
+		})();
+
 		function saveOps() {
 			try {
 				const snap = Object.assign({}, window.C4C_OPS, { attract: false });
@@ -7349,13 +7451,16 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			else if (name === 'attract') musicTrack = TRACK_ATTRACT;
 			else musicTrack = null;
 			if (!musicTrack) return;
+			const sfx = window.C4C_SFX || {};
+			if (name === 'attract' && sfx.muteAttractOnLite && window.C4C_KIOSK_LITE) return;
 
 			musicStep = 0;
 			musicPlaying = true;
 			ensureMusicMaster();
-			// Make sure volume is restored
 			if (musicMaster) {
-				musicMaster.gain.value = 0.095 * ((window.C4C_OPS && window.C4C_OPS.musicVol) || 0.7);
+				let vol = (window.C4C_OPS && window.C4C_OPS.musicVol) || 0.7;
+				if (sfx.gameVol && typeof sfx.gameVol[name] === 'number') vol = sfx.gameVol[name];
+				musicMaster.gain.value = 0.095 * vol;
 			}
 
 			const intervalMs = (60 / musicTrack.bpm) * 1000 / 4;
@@ -9287,6 +9392,13 @@ function startGamepadLoop() {
 			if (typeof forceScrollTop === 'function') forceScrollTop();
 			else try { window.scrollTo(0, 0); } catch (e) {}
 			if (typeof bumpActivity === 'function') bumpActivity();
+			try {
+				const ag = window.C4C_ATTRACT || {};
+				const after = ag.afterGameMs;
+				if (typeof lastActivity !== 'undefined' && typeof attractIdleMs !== 'undefined' && after > 0) {
+					lastActivity = Date.now() - Math.max(0, attractIdleMs - after);
+				}
+			} catch (e) {}
 		}
 
 		(function wireCloseBack() {
