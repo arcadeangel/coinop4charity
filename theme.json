@@ -37,14 +37,14 @@
       "scanlines": 0.1,
       "glow": 0.3
     },
-    "amber": {
-      "name": "amber",
-      "neon": "#ffb347",
-      "neonDim": "#ffd08a",
-      "gold": "#fff0c8",
-      "bg": "#080601",
-      "scanlines": 0.12,
-      "glow": 0.3
+    "diablo": {
+      "name": "diablo",
+      "neon": "#ff3b1f",
+      "neonDim": "#ff9a4a",
+      "gold": "#ffe08a",
+      "bg": "#0a0000",
+      "scanlines": 0.14,
+      "glow": 0.45
     }
   }
 }
