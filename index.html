@@ -7331,6 +7331,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		const touchContainer = document.getElementById('touch-controls');
 
 		let currentGame = null;
+			window.C4C_GAMEOVER = false;
 		let animId = null;
 		let keys = {};
 		let touchState = { left: false, right: false, up: false, down: false, fire: false };
@@ -7406,6 +7407,31 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			return sectors[Math.max(0, Math.min(8, i))];
 		}
 
+		function setInvertY(on) {
+			window.C4C_INVERT_Y = !!on;
+			try { localStorage.setItem('c4c_gp_invertY', on ? '1' : '0'); } catch (e) {}
+			try {
+				const badge = document.getElementById('gamepad-badge');
+				if (badge) badge.textContent = (window.C4C_INVERT_Y ? 'GAMER PRO · Y FLIPPED' : 'GAMER PRO DECK ONLINE');
+			} catch (e) {}
+		}
+
+		function updateGpDebug(gp, profile) {
+			if (!window.C4C_GPDEBUG && profile !== 'gamerpro') return;
+			let el = document.getElementById('gp-debug');
+			if (!el) {
+				el = document.createElement('div');
+				el.id = 'gp-debug';
+				el.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;font:11px Courier New,monospace;color:#00ff9f;background:#000c;border:1px solid #00ff9f55;padding:6px 8px;pointer-events:none;max-width:92vw;white-space:pre;';
+				document.body.appendChild(el);
+			}
+			const axes = (gp.axes || []).slice(0, 4).map(function(v){ return (typeof v === 'number' ? v.toFixed(2) : '?'); }).join(' ');
+			const dirs = (gamepadState.up?'U':'')+(gamepadState.down?'D':'')+(gamepadState.left?'L':'')+(gamepadState.right?'R':'') || '-';
+			const btns = [];
+			(gp.buttons || []).forEach(function(b,i){ if (b && (b.pressed || b.value>0.5)) btns.push(i); });
+			el.textContent = (gp.id||'').slice(0,42) + '\nmap=' + (gp.mapping||'(raw)') + ' invY=' + (!!window.C4C_INVERT_Y) + '\naxes ' + axes + '  dir ' + dirs + '\nbtn ' + (btns.join(',')||'-') + '  A=' + gamepadState.a + ' S=' + gamepadState.start + '\nSELECT+UP flips vertical';
+		}
+
 		function pickGamepad(gps) {
 			let best = null, bestScore = -1;
 			for (let i = 0; i < gps.length; i++) {
@@ -7434,7 +7460,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function readStickAxes(gp) {
 			const axes = gp.axes || [];
 			const profile = activePadProfile(gp);
-			const invertY = profile === 'gamerpro' || !!window.C4C_INVERT_Y;
+			const invertY = !!window.C4C_INVERT_Y;
 			const invertX = !!window.C4C_INVERT_X;
 			let ax = 0, ay = 0;
 			function take(xRaw, yRaw) {
@@ -7448,12 +7474,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (Math.abs(y) > Math.abs(ay)) ay = y;
 			}
 			take(axes[0], axes[1]);
-			// Gamer Pro P2 stick sometimes lands on axes 2/3 of the same pad
-			if (profile === 'gamerpro') take(axes[2], axes[3]);
-			else take(axes[2], axes[3]);
-			take(axes[6], axes[7]);
-			// POV hat is almost always axis 9 on Chrome/Linux DirectInput.
-			if (axes.length > 9 || typeof axes[9] === 'number') {
+			if (profile !== 'gamerpro') {
+				take(axes[2], axes[3]);
+				take(axes[6], axes[7]);
+			}
+			if (profile !== 'gamerpro' && typeof axes[9] === 'number' && Math.abs(axes[9]) <= 1.05 && Math.abs(axes[9]) > 0.02) {
 				const hat = hatToXY(axes[9]);
 				if (hat.x && !ax) ax = invertX ? -hat.x : hat.x;
 				if (hat.y && !ay) ay = invertY ? -hat.y : hat.y;
@@ -7485,21 +7510,24 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const dRight = gpPressed(buttons, 15);
 			const dUp = gpPressed(buttons, 12);
 			const dDown = gpPressed(buttons, 13);
-			const anyDpad = !!(dLeft || dRight || dUp || dDown);
 			const profile = activePadProfile(gp);
-			// Gamer Pro: digital 8-way + analog often report at once with opposite Y.
-			// If a hat/dpad direction is live, trust that and ignore analog.
-			if (profile === 'gamerpro' && anyDpad) {
-				gamepadState.left  = dLeft;
-				gamepadState.right = dRight;
-				gamepadState.up    = dUp;
-				gamepadState.down  = dDown;
+			// Gamer Pro: use analog axes 0/1 ONLY.
+			// Chrome often also exposes the same 8-way as buttons 12-15 with opposite Y.
+			// ORing those made menu up=down and cancelled down. BSP still uses both.
+			if (profile === 'gamerpro') {
+				gamepadState.left  = gpAxisLatch.x === -1;
+				gamepadState.right = gpAxisLatch.x === 1;
+				gamepadState.up    = gpAxisLatch.y === -1;
+				gamepadState.down  = gpAxisLatch.y === 1;
 			} else {
 				gamepadState.left  = !!(dLeft || gpAxisLatch.x === -1);
 				gamepadState.right = !!(dRight || gpAxisLatch.x === 1);
 				gamepadState.up    = !!(dUp || gpAxisLatch.y === -1);
 				gamepadState.down  = !!(dDown || gpAxisLatch.y === 1);
 			}
+			if (gamepadState.up && gamepadState.down) { gamepadState.up = false; gamepadState.down = false; }
+			if (gamepadState.left && gamepadState.right) { gamepadState.left = false; gamepadState.right = false; }
+			try { updateGpDebug(gp, profile); } catch (e) {}
 			try {
 				const badge = document.getElementById('gamepad-badge');
 				if (badge && gamepadConnected) {
@@ -7676,6 +7704,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		// ========== MENU / ATTRACT / EXIT ==========
 		window.C4C_KIOSK = window.C4C_KIOSK || false;
 		try {
+			const storedInv = localStorage.getItem('c4c_gp_invertY');
+			if (storedInv === '1') window.C4C_INVERT_Y = true;
+			if (storedInv === '0') window.C4C_INVERT_Y = false;
+		} catch (e) {}
+		try {
 			if (window.C4C_GAMERPRO) {
 				const hint = document.getElementById('kioskHint');
 				if (hint) hint.textContent = 'GAMER PRO · STICK MOVE · A/START PLAY · SELECT BACK · HOLD START EXIT';
@@ -7686,13 +7719,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const deckQ = (q.get('kiosk') || q.get('deck') || q.get('cabinet') || '').toLowerCase();
 			if (deckQ === 'gamerpro' || deckQ === 'atgames' || deckQ === 'legends' || q.get('gamerpro') === '1') {
 				window.C4C_GAMERPRO = true;
-				window.C4C_INVERT_Y = q.get('invertY') !== '0';
+				window.C4C_INVERT_Y = q.get('invertY') === '1';
 				window.C4C_KIOSK = true;
 				document.body.classList.add('kiosk-mode', 'reduce-fx', 'gamerpro-kiosk');
 			}
 			if (q.get('invertY') === '1') window.C4C_INVERT_Y = true;
 			if (q.get('invertY') === '0') window.C4C_INVERT_Y = false;
 			if (q.get('invertX') === '1') window.C4C_INVERT_X = true;
+			if (q.get('gpdebug') === '1') window.C4C_GPDEBUG = true;
 			if (q.get('kiosk') === '1' || q.get('arcade') === '1' || location.hash === '#kiosk') {
 				window.C4C_KIOSK = true;
 				document.body.classList.add('kiosk-mode', 'reduce-fx');
@@ -7803,6 +7837,42 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				return;
 			}
 
+			// GAME OVER / NAME ENTRY overlay (currentGame still set)
+			if (currentGame && window.C4C_GAMEOVER) {
+				const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+				const ent = window.C4C_NAME_ENTRY;
+				if (ent && !ent.done) {
+					const canRepeat = (now - (gpLastMenuMove || 0)) >= GP_MENU_DEBOUNCE;
+					if (gpEdge.left || (canRepeat && gamepadState.left)) { nameEntryInput('left'); gpLastMenuMove = now; }
+					else if (gpEdge.right || (canRepeat && gamepadState.right)) { nameEntryInput('right'); gpLastMenuMove = now; }
+					else if (gpEdge.up || (canRepeat && gamepadState.up)) { nameEntryInput('up'); gpLastMenuMove = now; }
+					else if (gpEdge.down || (canRepeat && gamepadState.down)) { nameEntryInput('down'); gpLastMenuMove = now; }
+					if (gpEdge.a || gpEdge.start || gpEdge.x || gpEdge.fire) {
+						finishNameEntry(false);
+						if (lastGameKey) showGameOver('NEW RECORD', lastGameKey, ent.score);
+					}
+					if (gpEdge.select) {
+						stopGame();
+						setMenuFocus(menuFocusIdx);
+					}
+					return;
+				}
+				if (gpEdge.a || gpEdge.start || gpEdge.x || gpEdge.fire) {
+					const g = lastGameKey || currentGame;
+					stopGame();
+					if (g) startGame(g);
+					return;
+				}
+				if (gpEdge.select || gpStartHoldMs >= GP_EXIT_HOLD_MS) {
+					gpStartHoldMs = 0;
+					gpStartHoldT0 = 0;
+					stopGame();
+					setMenuFocus(menuFocusIdx);
+					if (typeof bumpActivity === 'function') bumpActivity();
+				}
+				return;
+			}
+
 			// IN-GAME: safe exit only
 			// Select = instant back | Start held ~0.5s = exit
 			// B is gameplay (dash/secondary) — never exits mid-match
@@ -7824,6 +7894,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
 			else if (canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
 			else if (canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
+			if (gpEdge.select && gamepadState.up) {
+				setInvertY(!window.C4C_INVERT_Y);
+				return;
+			}
 			if (gpEdge.select) menuMove(1);
 			if (gpEdge.a || gpEdge.start || gpEdge.x) activateMenuFocus();
 		}
@@ -9098,6 +9172,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function flash(n = 0.45) { flashAlpha = Math.max(flashAlpha, n); }
 
 		function showGameOver(text, gameKey, score) {
+			window.C4C_GAMEOVER = true;
 			// --- Session streak (local only) ---
 			let streak = 0;
 			try {
