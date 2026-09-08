@@ -331,6 +331,24 @@
     "summary": "Members and staff working on custom arcade cabinet with dance component."
   }
 ]
+  },
+  {
+    "id": "c4c-custom-arcade-04",
+    "name": "C4C Custom Arcade",
+    "number": "037",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Custom arcade cabinet running terminal games + 150 other liscensed games.",
+    "placed": "Project active on 2026-09-07.",
+    "status": "active",
+    "stem": true,
+"activities": [
+  {
+    "title": "C4C Custom Arcade",
+    "badge": "STEM",
+    "status": "Active",
+    "summary": "Custom arcade active as of 9/7. Cabinet featuring terminal games + interchangeable with 150 other liscensed games."
+  }
+]
   }
   
 ]
