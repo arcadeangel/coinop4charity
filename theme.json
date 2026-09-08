@@ -10,31 +10,13 @@
       "scanlines": 0.1,
       "glow": 0.35
     },
-    "ice": {
-      "name": "ice",
-      "neon": "#7ad7ff",
+    "water": {
+      "name": "water",
+      "neon": "#5ad0ff",
       "neonDim": "#b8ecff",
       "gold": "#e8f4ff",
-      "bg": "#02040a",
+      "bg": "#001018",
       "scanlines": 0.08,
-      "glow": 0.28
-    },
-    "violet": {
-      "name": "violet",
-      "neon": "#c89cff",
-      "neonDim": "#e2c8ff",
-      "gold": "#ffe08a",
-      "bg": "#07040c",
-      "scanlines": 0.1,
-      "glow": 0.32
-    },
-    "rose": {
-      "name": "rose",
-      "neon": "#ff7ab6",
-      "neonDim": "#ffb3d4",
-      "gold": "#ffd0a8",
-      "bg": "#0a0306",
-      "scanlines": 0.1,
       "glow": 0.3
     },
     "diablo": {
@@ -45,6 +27,33 @@
       "bg": "#0a0000",
       "scanlines": 0.14,
       "glow": 0.45
+    },
+    "violet": {
+      "name": "violet",
+      "neon": "#c89cff",
+      "neonDim": "#e2c8ff",
+      "gold": "#ffe08a",
+      "bg": "#07040c",
+      "scanlines": 0.1,
+      "glow": 0.32
+    },
+    "void": {
+      "name": "void",
+      "neon": "#c8d4ff",
+      "neonDim": "#8a96c8",
+      "gold": "#ffe08a",
+      "bg": "#000008",
+      "scanlines": 0.06,
+      "glow": 0.2
+    },
+    "storm": {
+      "name": "storm",
+      "neon": "#9ab8ff",
+      "neonDim": "#d0dcff",
+      "gold": "#ffe08a",
+      "bg": "#05070c",
+      "scanlines": 0.12,
+      "glow": 0.28
     }
   }
 }
