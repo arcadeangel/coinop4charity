@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "note": "Field override for Coin-Op 4 Charity cabinets. Baked-in defaults still work if this file fails to load. Edit button arrays after reading the on-screen overlay (?g=1&d=1).",
+  "profiles": {
+    "gamerpro": {
+      "label": "AT Games Legends Gamer Pro",
+      "idIncludes": [
+        "control deck",
+        "atgames",
+        "gamer pro",
+        "legends gamer",
+        "algp",
+        "ha2802",
+        "ha2810",
+        "ha8800",
+        "ha8801",
+        "0838",
+        "2amtq"
+      ],
+      "idRegex": "hat switch",
+      "idAlso": "24 button",
+      "hatAxes": [9],
+      "analogAxes": [0, 1],
+      "buttons": {
+        "a": [0],
+        "b": [1],
+        "x": [2],
+        "y": [3],
+        "lb": [4],
+        "rb": [5],
+        "lt": [6],
+        "rt": [7],
+        "select": [8, 17, 18, 20],
+        "start": [9, 11, 19, 21],
+        "home": [16, 22, 23]
+      },
+      "invertY": false,
+      "invertX": false,
+      "deadOn": 0.32,
+      "deadOff": 0.18
+    },
+    "bsp": {
+      "label": "BSP-Y02 / generic HID arcade stick",
+      "idIncludes": ["bsp", "y02"],
+      "hatAxes": [],
+      "analogAxes": [0, 1],
+      "buttons": {
+        "a": [0],
+        "b": [1],
+        "x": [2],
+        "y": [3],
+        "lb": [4],
+        "rb": [5],
+        "lt": [6],
+        "rt": [7],
+        "select": [8, 17],
+        "start": [9, 11],
+        "home": [16]
+      },
+      "invertY": false
+    }
+  }
+}
