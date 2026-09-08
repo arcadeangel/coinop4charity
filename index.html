@@ -7369,6 +7369,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let gpLiveInput = false; // held stick or button — wakes attract even without a new edge
 		let gpLearnedHats = {}; // gp.index -> hat axis indices
 		let gpLastPadId = '';
+		let gpPadMap = null; // optional /gamepads.json override
 		const GP_DEAD_ON = 0.32;
 		const GP_DEAD_OFF = 0.18;
 		const GP_MENU_DEBOUNCE = 160;
@@ -7394,9 +7395,46 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function gpIdOf(gp) {
 			return String((gp && gp.id) || '').toLowerCase();
 		}
+		function gpProfileCfg(name) {
+			try {
+				const p = gpPadMap && gpPadMap.profiles && gpPadMap.profiles[name];
+				return p || null;
+			} catch (e) { return null; }
+		}
+		function gpIdHitsProfile(id, cfg) {
+			if (!cfg || !id) return false;
+			const list = cfg.idIncludes || [];
+			for (let i = 0; i < list.length; i++) {
+				if (list[i] && id.indexOf(String(list[i]).toLowerCase()) !== -1) return true;
+			}
+			if (cfg.idRegex && new RegExp(cfg.idRegex, 'i').test(id)) {
+				if (!cfg.idAlso || id.indexOf(String(cfg.idAlso).toLowerCase()) !== -1) return true;
+			}
+			return false;
+		}
+		function loadGamepadMap() {
+			if (window._c4cPadMapLoading) return window._c4cPadMapLoading;
+			window._c4cPadMapLoading = fetch('gamepads.json', { cache: 'no-store' })
+				.then(function(r) { return r.ok ? r.json() : null; })
+				.then(function(j) {
+					if (j && j.profiles) {
+						gpPadMap = j;
+						window.C4C_PADMAP = j;
+						if (j.profiles.gamerpro && j.profiles.gamerpro.invertY && window.C4C_INVERT_Y == null) {
+							window.C4C_INVERT_Y = true;
+						}
+					}
+					return j;
+				})
+				.catch(function() { return null; });
+			return window._c4cPadMapLoading;
+		}
+		try { loadGamepadMap(); } catch (e) {}
 		function isGamerProPad(gp) {
 			if (window.C4C_GAMERPRO) return true;
 			const id = gpIdOf(gp);
+			const cfg = gpProfileCfg('gamerpro');
+			if (cfg && gpIdHitsProfile(id, cfg)) return true;
 			if (/control\s*deck|atgames|gamer\s*pro|legends\s*gamer|algp|ha2802|ha2810|ha8800|ha8801/.test(id)) return true;
 			if (/0838|2am tq|2amtq/.test(id)) return true;
 			if (/hat switch/.test(id) && /24 button|2 axis/.test(id)) return true;
@@ -7406,6 +7444,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function activePadProfile(gp) {
 			if (isGamerProPad(gp)) return 'gamerpro';
 			const id = gpIdOf(gp);
+			const bsp = gpProfileCfg('bsp');
+			if (bsp && gpIdHitsProfile(id, bsp)) return 'bsp';
 			if (/bsp|y02/.test(id)) return 'bsp';
 			return 'generic';
 		}
@@ -7554,7 +7594,12 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			for (let i = 0; i < axes.length; i++) {
 				if (isHatIdleValue(axes[i]) && known.indexOf(i) === -1) known.push(i);
 			}
-			// Common POV slots when idle was never sampled
+			// JSON + common POV slots when idle was never sampled
+			const hatPref = ((gpProfileCfg(activePadProfile(gp)) || {}).hatAxes) || [9];
+			for (let h = 0; h < hatPref.length; h++) {
+				const hi = hatPref[h];
+				if (typeof axes[hi] === 'number' && known.indexOf(hi) === -1) known.push(hi);
+			}
 			if (typeof axes[9] === 'number' && known.indexOf(9) === -1) known.push(9);
 			if (axes.length >= 3 && axes.length <= 6) {
 				const last = axes.length - 1;
@@ -7639,24 +7684,29 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (!gp || gp.connected === false) continue;
 				const buttons = gp.buttons || [];
 				const profile = activePadProfile(gp);
-				acc.a = acc.a || gpPressed(buttons, 0);
-				acc.b = acc.b || gpPressed(buttons, 1);
-				acc.x = acc.x || gpPressed(buttons, 2);
-				acc.y = acc.y || gpPressed(buttons, 3);
-				acc.lb = acc.lb || gpPressed(buttons, 4);
-				acc.rb = acc.rb || gpPressed(buttons, 5);
-				acc.lt = acc.lt || gpPressed(buttons, 6);
-				acc.rt = acc.rt || gpPressed(buttons, 7);
+				const cfg = gpProfileCfg(profile) || {};
+				const bmap = cfg.buttons || {};
+				function role(name, fallback) {
+					const arr = bmap[name];
+					if (arr && arr.length) return gpAnyBtn(buttons, arr);
+					return gpAnyBtn(buttons, fallback);
+				}
+				acc.a = acc.a || role('a', [0]);
+				acc.b = acc.b || role('b', [1]);
+				acc.x = acc.x || role('x', [2]);
+				acc.y = acc.y || role('y', [3]);
+				acc.lb = acc.lb || role('lb', [4]);
+				acc.rb = acc.rb || role('rb', [5]);
+				acc.lt = acc.lt || role('lt', [6]);
+				acc.rt = acc.rt || role('rt', [7]);
 				if (profile === 'gamerpro' || window.C4C_GAMERPRO) {
-					// Raw 24-button DInput: Start/Select/Rewind/Home live past 7.
-					// Do NOT use button 10 as Home (that is L3 on standard pads).
-					acc.select = acc.select || gpAnyBtn(buttons, [8, 17, 18, 20]);
-					acc.start = acc.start || gpAnyBtn(buttons, [9, 11, 19, 21]);
-					acc.home = acc.home || gpAnyBtn(buttons, [16, 22, 23]);
+					acc.select = acc.select || role('select', [8, 17, 18, 20]);
+					acc.start = acc.start || role('start', [9, 11, 19, 21]);
+					acc.home = acc.home || role('home', [16, 22, 23]);
 				} else {
-					acc.select = acc.select || gpPressed(buttons, 8) || gpPressed(buttons, 17);
-					acc.start = acc.start || gpPressed(buttons, 9) || gpPressed(buttons, 11);
-					acc.home = acc.home || gpPressed(buttons, 16);
+					acc.select = acc.select || role('select', [8, 17]);
+					acc.start = acc.start || role('start', [9, 11]);
+					acc.home = acc.home || role('home', [16]);
 				}
 			}
 			return acc;
