@@ -191,6 +191,29 @@
 			z-index: 5;
 		}
 
+
+		.theme-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+			margin: 10px 0 14px;
+			align-items: center;
+		}
+		.theme-row label { font-size: 0.72rem; letter-spacing: 0.12em; opacity: 0.8; margin-right: 4px; }
+		.theme-swatch {
+			border: 1px solid var(--c4c-neon, #00ff9f);
+			background: #000;
+			color: var(--c4c-neon, #00ff9f);
+			font-family: inherit;
+			font-size: 0.68rem;
+			letter-spacing: 0.08em;
+			padding: 5px 8px;
+			cursor: pointer;
+		}
+		.theme-swatch.on { background: color-mix(in srgb, var(--c4c-neon, #00ff9f) 22%, #000); }
+		body.theme-diablo #matrix { opacity: 0.62; }
+		h3, .footer, .fleet-btn, .share-btn, .fx-toggle { color: var(--c4c-neon, #00ff9f); }
+
 		#matrix {
 			position: fixed;
 			inset: 0;
@@ -616,9 +639,9 @@
 			display: block;
 			width: 100%;
 			padding: 0.75rem 1rem;
-			border: 1px solid #00ff9f66;
-			background: rgba(0, 255, 159, 0.06);
-			color: #00ff9f;
+			border: 1px solid color-mix(in srgb, var(--c4c-neon, #00ff9f) 40%, transparent);
+			background: color-mix(in srgb, var(--c4c-neon, #00ff9f) 8%, transparent);
+			color: var(--c4c-neon, #00ff9f);
 			font-family: inherit;
 			font-size: 0.9rem;
 			letter-spacing: 0.08em;
@@ -629,15 +652,15 @@
 
 		.game-btn:hover,
 		.game-btn:active {
-			background: rgba(0, 255, 159, 0.18);
-			border-color: #00ff9f;
-			box-shadow: 0 0 16px #00ff9f44;
+			background: color-mix(in srgb, var(--c4c-neon, #00ff9f) 20%, transparent);
+			border-color: var(--c4c-neon, #00ff9f);
+			box-shadow: 0 0 16px color-mix(in srgb, var(--c4c-neon, #00ff9f) 28%, transparent);
 		}
 
 		.game-btn span {
 			display: block;
 			font-size: 0.72rem;
-			color: #7dffc8;
+			color: var(--c4c-neon-dim, #7dffc8);
 			margin-top: 3px;
 			letter-spacing: 0.04em;
 		}
@@ -3470,6 +3493,14 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		</div>
 
 		<div class="free-games">
+			<div class="theme-row" id="themeRow">
+				<label>THEME</label>
+				<button type="button" class="theme-swatch" data-theme="mint">MINT</button>
+				<button type="button" class="theme-swatch" data-theme="ice">ICE</button>
+				<button type="button" class="theme-swatch" data-theme="violet">VIOLET</button>
+				<button type="button" class="theme-swatch" data-theme="rose">ROSE</button>
+				<button type="button" class="theme-swatch" data-theme="diablo">DIABLO</button>
+			</div>
 			<h3>TERMINAL GAMES</h3>
 			<div class="game-buttons">
 				<button class="game-btn" data-game="fight">
@@ -3539,7 +3570,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.1.1 • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.0 • We love you all. <span class="heart">♥</span></div>
 			<div class="footer-legal">
 				<a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a></div>
 				<div> 732 S 6th St Ste N, Las Vegas, NV 89101
@@ -4898,8 +4929,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (theme.bg) root.style.setProperty('--c4c-bg', theme.bg);
 				if (theme.neon) document.body.style.color = theme.neon;
 				if (theme.bg) document.body.style.background = theme.bg;
+				document.body.classList.toggle('theme-diablo', theme.name === 'diablo');
+				document.body.setAttribute('data-theme', theme.name || 'mint');
 				const meta = document.querySelector('meta[name="theme-color"]');
 				if (meta && theme.neon) meta.setAttribute('content', theme.neon);
+				document.querySelectorAll('.theme-swatch').forEach(b => {
+					b.classList.toggle('on', b.dataset.theme === theme.name);
+				});
 			} catch (e) {}
 		}
 
@@ -4940,9 +4976,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			let name = 'mint';
 			try {
 				const q = new URLSearchParams(location.search || '');
-				name = (q.get('theme') || (cabinet && cabinet.theme) || pack.active || 'mint').toLowerCase();
+				name = (q.get('theme') || localStorage.getItem('c4c_theme') || (cabinet && cabinet.theme) || pack.active || 'mint').toLowerCase();
+				if (name === 'amber') name = 'diablo';
 			} catch (e) {}
-			return presets[name] || pack || { neon: '#00ff9f' };
+			return presets[name] || presets.mint || pack || { neon: '#00ff9f', name: 'mint' };
 		}
 
 		(function loadTerminalJson() {
@@ -4960,7 +4997,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 						if (cabinet.name) document.body.setAttribute('data-cabinet', cabinet.name);
 					} catch (e) {}
 				}
-				if (theme) applyTerminalTheme(pickThemeRecord(theme, cabinet));
+				if (theme) {
+					window.C4C_THEME_PACK = theme;
+					applyTerminalTheme(pickThemeRecord(theme, cabinet));
+				}
 				if (games) applyGamesJson(games);
 				if (attract) {
 					window.C4C_ATTRACT = attract;
@@ -4978,6 +5018,17 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				}
 			});
 		})();
+
+		window.C4C_THEME_PACK = window.C4C_THEME_PACK || null;
+		document.addEventListener('click', function(ev) {
+			const btn = ev.target && ev.target.closest && ev.target.closest('.theme-swatch');
+			if (!btn) return;
+			const pack = window.C4C_THEME_PACK;
+			const name = btn.dataset.theme;
+			if (!pack || !pack.presets || !pack.presets[name]) return;
+			try { localStorage.setItem('c4c_theme', name); } catch (e) {}
+			applyTerminalTheme(pack.presets[name]);
+		});
 
 		function saveOps() {
 			try {
@@ -6637,7 +6688,41 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			mFrame++;
 			if (mFrame % 2 !== 0) return;
 
+			const themeName = (window.C4C_THEME && window.C4C_THEME.name) || '';
+			if (themeName === 'diablo') {
+				mCtx.fillStyle = 'rgba(8, 0, 0, 0.22)';
+				mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+				if (!window._c4cFlames || window._c4cFlames.length !== 48) {
+					window._c4cFlames = Array.from({ length: 48 }, () => ({
+						x: Math.random() * mCanvas.width,
+						y: mCanvas.height * (0.45 + Math.random() * 0.55),
+						w: 8 + Math.random() * 22,
+						h: 30 + Math.random() * 70,
+						vy: 1.2 + Math.random() * 2.4,
+						hue: 10 + Math.random() * 28
+					}));
+				}
+				window._c4cFlames.forEach(f => {
+					const g = mCtx.createRadialGradient(f.x, f.y, 2, f.x, f.y, f.h);
+					g.addColorStop(0, 'rgba(255, 240, 140, 0.55)');
+					g.addColorStop(0.35, 'rgba(255, 90, 20, 0.4)');
+					g.addColorStop(1, 'rgba(80, 0, 0, 0)');
+					mCtx.fillStyle = g;
+					mCtx.beginPath();
+					mCtx.ellipse(f.x, f.y, f.w * 0.45, f.h * 0.55, 0, 0, Math.PI * 2);
+					mCtx.fill();
+					f.y -= f.vy;
+					f.x += Math.sin((mFrame + f.x) * 0.02) * 0.8;
+					if (f.y < mCanvas.height * 0.15) {
+						f.y = mCanvas.height + 20;
+						f.x = Math.random() * mCanvas.width;
+					}
+				});
+				return;
+			}
+
 			// Fade
+			const neon = (window.C4C_THEME && window.C4C_THEME.neon) || '#00ff9f';
 			mCtx.fillStyle = 'rgba(0, 0, 0, 0.13)';
 			mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
 
@@ -6656,7 +6741,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (localBoost > 0.15) {
 					mCtx.fillStyle = `rgba(0, 255, 200, ${0.7 + localBoost * 0.3})`;
 				} else {
-					mCtx.fillStyle = '#00ff9f';
+					mCtx.fillStyle = neon;
 				}
 
 				mCtx.fillText(chars[Math.floor(Math.random() * chars.length)], x, drops[i] * fontSize);
