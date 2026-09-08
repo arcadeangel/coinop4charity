@@ -2756,6 +2756,7 @@
 		body.kiosk-mode #opsOpenBtn,
 		body.kiosk-mode #installBtn,
 		body.kiosk-mode #fxToggle,
+		body.kiosk-mode #themeBtn,
 		body.kiosk-mode .oss-line,
 		body.kiosk-mode .hi-scores,
 		body.kiosk-mode #topOps,
@@ -3493,14 +3494,6 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		</div>
 
 		<div class="free-games">
-			<div class="theme-row" id="themeRow">
-				<label>THEME</label>
-				<button type="button" class="theme-swatch" data-theme="mint">MINT</button>
-				<button type="button" class="theme-swatch" data-theme="ice">ICE</button>
-				<button type="button" class="theme-swatch" data-theme="violet">VIOLET</button>
-				<button type="button" class="theme-swatch" data-theme="rose">ROSE</button>
-				<button type="button" class="theme-swatch" data-theme="diablo">DIABLO</button>
-			</div>
 			<h3>TERMINAL GAMES</h3>
 			<div class="game-buttons">
 				<button class="game-btn" data-game="fight">
@@ -3569,8 +3562,9 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="share-btn" id="shareBtn" title="Share this site">SHARE THIS TERMINAL</button>
 			<button type="button" class="install-btn hidden" id="installBtn" title="Add to Home Screen">ADD TO HOME SCREEN</button>
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
+			<button type="button" class="fx-toggle" id="themeBtn" title="Cycle terminal theme">THEME: MINT</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.2.0 • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.1 • We love you all. <span class="heart">♥</span></div>
 			<div class="footer-legal">
 				<a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a></div>
 				<div> 732 S 6th St Ste N, Las Vegas, NV 89101
@@ -4933,9 +4927,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				document.body.setAttribute('data-theme', theme.name || 'mint');
 				const meta = document.querySelector('meta[name="theme-color"]');
 				if (meta && theme.neon) meta.setAttribute('content', theme.neon);
-				document.querySelectorAll('.theme-swatch').forEach(b => {
-					b.classList.toggle('on', b.dataset.theme === theme.name);
-				});
+				const tb = document.getElementById('themeBtn');
+				if (tb) tb.textContent = 'THEME: ' + String(theme.name || 'mint').toUpperCase();
+				document.body.className = document.body.className.replace(/\btheme-\w+/g, '').trim();
+				document.body.classList.add('theme-' + (theme.name || 'mint'));
 			} catch (e) {}
 		}
 
@@ -4977,7 +4972,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			try {
 				const q = new URLSearchParams(location.search || '');
 				name = (q.get('theme') || localStorage.getItem('c4c_theme') || (cabinet && cabinet.theme) || pack.active || 'mint').toLowerCase();
-				if (name === 'amber') name = 'diablo';
+				if (name === 'amber' || name === 'rose') name = 'diablo';
+				if (name === 'ice') name = 'water';
 			} catch (e) {}
 			return presets[name] || presets.mint || pack || { neon: '#00ff9f', name: 'mint' };
 		}
@@ -5020,14 +5016,18 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		})();
 
 		window.C4C_THEME_PACK = window.C4C_THEME_PACK || null;
+		window.C4C_THEME_ORDER = ['mint', 'water', 'diablo', 'violet', 'void', 'storm'];
 		document.addEventListener('click', function(ev) {
-			const btn = ev.target && ev.target.closest && ev.target.closest('.theme-swatch');
+			const btn = ev.target && ev.target.closest && ev.target.closest('#themeBtn');
 			if (!btn) return;
 			const pack = window.C4C_THEME_PACK;
-			const name = btn.dataset.theme;
-			if (!pack || !pack.presets || !pack.presets[name]) return;
-			try { localStorage.setItem('c4c_theme', name); } catch (e) {}
-			applyTerminalTheme(pack.presets[name]);
+			if (!pack || !pack.presets) return;
+			const order = window.C4C_THEME_ORDER.filter(n => pack.presets[n]);
+			const cur = (window.C4C_THEME && window.C4C_THEME.name) || 'mint';
+			const i = order.indexOf(cur);
+			const next = order[(i + 1) % order.length] || 'mint';
+			try { localStorage.setItem('c4c_theme', next); } catch (e) {}
+			applyTerminalTheme(pack.presets[next]);
 		});
 
 		function saveOps() {
@@ -6683,48 +6683,135 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			drops = new Array(columns).fill(0).map(() => Math.random() * -50);
 		}
 
+		function seedThemeFx(kind, n, factory) {
+			if (!window._c4cFx || window._c4cFx._kind !== kind || window._c4cFx.length !== n) {
+				window._c4cFx = Array.from({ length: n }, factory);
+				window._c4cFx._kind = kind;
+			}
+			return window._c4cFx;
+		}
+
 		function drawMatrix() {
 			requestAnimationFrame(drawMatrix);
 			mFrame++;
 			if (mFrame % 2 !== 0) return;
+			const W = mCanvas.width, H = mCanvas.height;
+			const themeName = (window.C4C_THEME && window.C4C_THEME.name) || 'mint';
+			const neon = (window.C4C_THEME && window.C4C_THEME.neon) || '#00ff9f';
 
-			const themeName = (window.C4C_THEME && window.C4C_THEME.name) || '';
 			if (themeName === 'diablo') {
-				mCtx.fillStyle = 'rgba(8, 0, 0, 0.22)';
-				mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-				if (!window._c4cFlames || window._c4cFlames.length !== 48) {
-					window._c4cFlames = Array.from({ length: 48 }, () => ({
-						x: Math.random() * mCanvas.width,
-						y: mCanvas.height * (0.45 + Math.random() * 0.55),
-						w: 8 + Math.random() * 22,
-						h: 30 + Math.random() * 70,
-						vy: 1.2 + Math.random() * 2.4,
-						hue: 10 + Math.random() * 28
-					}));
-				}
-				window._c4cFlames.forEach(f => {
-					const g = mCtx.createRadialGradient(f.x, f.y, 2, f.x, f.y, f.h);
-					g.addColorStop(0, 'rgba(255, 240, 140, 0.55)');
-					g.addColorStop(0.35, 'rgba(255, 90, 20, 0.4)');
-					g.addColorStop(1, 'rgba(80, 0, 0, 0)');
+				mCtx.fillStyle = 'rgba(12, 0, 0, 0.28)';
+				mCtx.fillRect(0, 0, W, H);
+				const fire = seedThemeFx('diablo', 56, () => ({
+					x: Math.random() * W, y: H * (0.4 + Math.random() * 0.6),
+					w: 10 + Math.random() * 28, h: 40 + Math.random() * 90,
+					vy: 1.4 + Math.random() * 2.8
+				}));
+				fire.forEach(f => {
+					const g = mCtx.createRadialGradient(f.x, f.y, 1, f.x, f.y, f.h);
+					g.addColorStop(0, 'rgba(255,246,170,0.7)');
+					g.addColorStop(0.25, 'rgba(255,120,20,0.5)');
+					g.addColorStop(0.7, 'rgba(180,10,0,0.2)');
+					g.addColorStop(1, 'rgba(40,0,0,0)');
 					mCtx.fillStyle = g;
 					mCtx.beginPath();
-					mCtx.ellipse(f.x, f.y, f.w * 0.45, f.h * 0.55, 0, 0, Math.PI * 2);
+					mCtx.ellipse(f.x, f.y, f.w * 0.4, f.h * 0.55, 0, 0, Math.PI * 2);
 					mCtx.fill();
 					f.y -= f.vy;
-					f.x += Math.sin((mFrame + f.x) * 0.02) * 0.8;
-					if (f.y < mCanvas.height * 0.15) {
-						f.y = mCanvas.height + 20;
-						f.x = Math.random() * mCanvas.width;
-					}
+					f.x += Math.sin((mFrame + f.x) * 0.03) * 1.1;
+					if (f.y < H * 0.12) { f.y = H + 30; f.x = Math.random() * W; }
 				});
 				return;
 			}
 
-			// Fade
-			const neon = (window.C4C_THEME && window.C4C_THEME.neon) || '#00ff9f';
+			if (themeName === 'water') {
+				mCtx.fillStyle = 'rgba(0, 8, 18, 0.2)';
+				mCtx.fillRect(0, 0, W, H);
+				for (let i = 0; i < 4; i++) {
+					mCtx.beginPath();
+					const y0 = H * 0.55 + i * 28 + Math.sin(mFrame * 0.03 + i) * 10;
+					mCtx.moveTo(0, y0);
+					for (let x = 0; x <= W; x += 16) {
+						mCtx.lineTo(x, y0 + Math.sin(x * 0.02 + mFrame * 0.04 + i) * (8 + i * 3));
+					}
+					mCtx.strokeStyle = 'rgba(90,200,255,' + (0.12 + i * 0.05) + ')';
+					mCtx.lineWidth = 1.2;
+					mCtx.stroke();
+				}
+				const bubbles = seedThemeFx('water', 36, () => ({
+					x: Math.random() * W, y: Math.random() * H, r: 1.5 + Math.random() * 4, vy: 0.4 + Math.random() * 1.2
+				}));
+				bubbles.forEach(b => {
+					mCtx.beginPath();
+					mCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+					mCtx.strokeStyle = 'rgba(170,230,255,0.45)';
+					mCtx.stroke();
+					b.y -= b.vy;
+					b.x += Math.sin(mFrame * 0.05 + b.x) * 0.3;
+					if (b.y < -8) { b.y = H + 8; b.x = Math.random() * W; }
+				});
+				return;
+			}
+
+			if (themeName === 'void') {
+				mCtx.fillStyle = 'rgba(0, 0, 4, 0.35)';
+				mCtx.fillRect(0, 0, W, H);
+				const stars = seedThemeFx('void', 80, () => ({
+					x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.6, tw: Math.random() * 6.28
+				}));
+				stars.forEach(s => {
+					const a = 0.25 + Math.abs(Math.sin(mFrame * 0.04 + s.tw)) * 0.7;
+					mCtx.fillStyle = 'rgba(220,230,255,' + a + ')';
+					mCtx.fillRect(s.x, s.y, s.r + 0.4, s.r + 0.4);
+				});
+				return;
+			}
+
+			if (themeName === 'storm') {
+				mCtx.fillStyle = 'rgba(4, 6, 12, 0.22)';
+				mCtx.fillRect(0, 0, W, H);
+				if (Math.random() > 0.97) {
+					mCtx.fillStyle = 'rgba(180,210,255,0.18)';
+					mCtx.fillRect(0, 0, W, H);
+				}
+				const rain = seedThemeFx('storm', 70, () => ({
+					x: Math.random() * W, y: Math.random() * H, l: 8 + Math.random() * 16, vy: 8 + Math.random() * 10
+				}));
+				mCtx.strokeStyle = 'rgba(160,190,255,0.35)';
+				mCtx.lineWidth = 1;
+				rain.forEach(r => {
+					mCtx.beginPath();
+					mCtx.moveTo(r.x, r.y);
+					mCtx.lineTo(r.x - 3, r.y + r.l);
+					mCtx.stroke();
+					r.y += r.vy; r.x -= 1.4;
+					if (r.y > H) { r.y = -10; r.x = Math.random() * W; }
+				});
+				return;
+			}
+
+			if (themeName === 'violet') {
+				mCtx.fillStyle = 'rgba(6, 0, 12, 0.22)';
+				mCtx.fillRect(0, 0, W, H);
+				const orbs = seedThemeFx('violet', 18, () => ({
+					x: Math.random() * W, y: Math.random() * H, r: 20 + Math.random() * 50,
+					vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.3
+				}));
+				orbs.forEach(o => {
+					const g = mCtx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+					g.addColorStop(0, 'rgba(200,140,255,0.28)');
+					g.addColorStop(1, 'rgba(40,0,60,0)');
+					mCtx.fillStyle = g;
+					mCtx.beginPath(); mCtx.arc(o.x, o.y, o.r, 0, Math.PI * 2); mCtx.fill();
+					o.x += o.vx; o.y += o.vy;
+					if (o.x < -60) o.x = W + 60; if (o.x > W + 60) o.x = -60;
+					if (o.y < -60) o.y = H + 60; if (o.y > H + 60) o.y = -60;
+				});
+				return;
+			}
+
 			mCtx.fillStyle = 'rgba(0, 0, 0, 0.13)';
-			mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+			mCtx.fillRect(0, 0, W, H);
 
 			// Boost decays
 			matrixBoost *= 0.96;
