@@ -1,0 +1,7 @@
+{
+  "idleMs": 26000,
+  "kioskIdleMs": 45000,
+  "liteIdleMs": 90000,
+  "afterGameMs": 8000,
+  "music": "attract"
+}
