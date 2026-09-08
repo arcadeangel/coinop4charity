@@ -1,41 +1,23 @@
 ## Coin-Op 4 Charity — Dev Journal
 
-## 09.07.26 23:19  Gamer Pro is not the BSP stick. Same terminal. Different HID. 
+## 09.08.26 00:44  Legend Gamer Pro finally talks to the terminal. BSP still works. Staff URL stays `?kiosk=1`.
 
-Field test: AtGames Legends Gamer Pro control deck on the Razer laptop and also a common youth center standard Dell Optiplex 3050 Aio computer, windows 11 pro. Windows “Add a device” does not say AtGames. It says **Control deck-P1** and **Control deck-P2**. Pair P1. That is the stick.
+Spent the night on the AT Games Legends Gamer Pro after the BSP-Y02 notes in the journal did not move that deck. Different HID family. USB shows two raw pads (`Control deck-P1` / `P2`), often `2 axis 24 button gamepad with hat switch`. The stick is a POV hat. Analog 0/1 sit at 0. Chrome will not even expose the pad until someone presses a face button. If the Legends Core puck is still paired over Bluetooth, USB into the kiosk PC or tablet is dead — power the puck off.
 
-The terminal already had a hardened BSP-Y02 / generic HID path: hysteresis on axes, A = fire, B = secondary, Select = back, hold Start = exit. That path assumed standard Gamepad Y (negative = up) and assumed the game canvas was the thing reading `gamepadState`.
+What was wrong: the Gamer Pro profile only read analog 0/1 and then ORed an inverted d-pad. Up and down were both true, so the code zeroed both. Joystick did nothing. Buttons looked “online.” Kids thought the cabinet was broken.
 
-The Gamer Pro breaks both assumptions.
+What went live:
 
-**What was wrong**
-- Digital 8-way + analog report at the same time. Analog Y on this deck is inverted in the browser Gamepad API. Code ORed d-pad and analog, so physical up arrived as up *and* down. Menu walked the wrong way. Down looked dead.
-- Menu only moved on a rising edge. Hats that are already held never fire that edge.
-- Nyan Cat IV is an iframe (`nyancat-iv`). Parent `gamepadState` never reaches it. Stick works on UFO and still does nothing on Nyan unless you synthesize keys into the frame.
+* Hat first, then analog, then d-pad — one source only. No more opposite-cancel.
+* P1 and P2 pads merge. P2 stick still drives the terminal.
+* Start / Select / Rewind / Home use the raw 24-button indices, not Xbox-only 8/9.
+* BSP-Y02 path unchanged. A = fire, B = secondary (never exits), Select = back, hold Start ~0.5s = exit.
+* Staff / tablet cabinets stay on the documented URL: `https://coinop4charity.org/?kiosk=1`
+* Gamer Pro kiosk: `https://coinop4charity.org/?g=1` (`?g=1` already turns kiosk on)
+* Debug overlay: `?g=1&d=1` or `?kiosk=1&d=1` — shows pad id, `src=hat9` / `axis0/1` / `dpad`, live button numbers
+* Flip Y: SELECT+UP, or `?y=1`
 
-Not mutually exclusive with the BSP cabinets. One page. Two profiles.
-
-**What changed in `index.html`**
-- Auto-detect pad id: `Control deck`, AtGames, Gamer Pro, Legends Gamer. Prefer P1.
-- Profile `gamerpro`: invert Y by default. If a digital hat/dpad direction is live, trust that and ignore analog so the two maps cannot fight.
-- Held-stick repeat on the game list (same 160ms debounce). Down actually moves.
-- Parent injects Arrow / Space / Enter into the Nyan iframe from the stick. Focus the frame on load.
-- Badge reads GAMER PRO DECK ONLINE when that pad is the active device.
-- Dedicated kiosk URL so staff do not have to guess.
-
-**Floor URLs**
-- BSP / cheap tablet stick (unchanged): `coinop4charity.org/?kiosk=1`
-- Gamer Pro deck: `coinop4charity.org/?kiosk=gamerpro`
-- If Y is still backwards on that box: `?kiosk=gamerpro&invertY=0`
-
-Same roles as the tablet cabinets. A / Start play. Select back. Hold Start to leave a game. USB into the laptop or Pi is cleaner than Bluetooth. Pair P1 only for one-player stations or P2 steals the poll.
-
-**What did not change**
-- BSP hysteresis, fire/dash/select contract, attract wake-on-held-stick.
-- Canvas games still read `gamepadState` the same way.
-- Look of the terminal. High scores. Arrrcadé OS submit path.
-
-HTML5 Gamepad API on a browser page is still the floor runtime. The deck is just another HID that Windows already knows how to list. We map it. Kids should not have to.
+`gamepads.json` sits next to `index.html`. Same pattern as `fleet.json` and `placements.json`. Optional override only. If the fetch fails the baked-in maps still run. After a real deck session, change button arrays in JSON instead of opening the 577K terminal file.
 
 ## 09.06.26 22:55  Game engines folder is policy. Staff guide is the hour. Terminal stays HTML5.
 
