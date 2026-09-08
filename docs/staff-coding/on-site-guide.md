@@ -29,9 +29,43 @@ What may actually go **LIVE** on club machines is listed in [`docs/game-engines/
 | **Captain Code** | Friendly help character with tips | “Ask here first when stuck” |
 | **MAKE** tab | Build tools: Scratch, MakeCode Arcade, p5.js, Pixel Pad, Shiprekt Controls, plus Bitsy / PuzzleScript / GDevelop / TIC-80 when you have time | Actual building |
 | **SHARE** tab | Submit name, email, title, play link, short how-to-play | End of session |
-| **`?kiosk=1`** | Lightweight mode (games + short mission only) | Dedicated arcade tablets |
+| **`?kiosk=1`** | Lightweight mode (games + short mission only) | Dedicated arcade tablets and BSP sticks |
+| **`?g=1`** | Same kiosk mode, tuned for AT Games Legends Gamer Pro decks | Two-stick cabinets |
 
 **Kiosk tip:** For play-only stations, open `https://coinop4charity.org/?kiosk=1` so the heavy maker UI stays off and games run smoother.
+
+---
+
+## Cabinet stick check (do this before kids arrive)
+
+Two different sticks talk to the same website. Use the matching URL.
+
+| What is plugged in | Open this |
+|--------------------|-----------|
+| BSP-Y02 / cheap USB arcade stick / tablet | `https://coinop4charity.org/?kiosk=1` |
+| AT Games Legends Gamer Pro control deck | `https://coinop4charity.org/?g=1` |
+
+**Buttons on the floor**
+
+- **A** = primary (jump, shoot, punch, rematch)
+- **B** = secondary (dash, kick) — never exits the game
+- **SELECT** = back to the terminal
+- **Hold START ~ half a second** = exit
+- Fight Palace: left stick = Player 1, right stick = Player 2. One stick still fights the CPU.
+
+**Five-step field check** (parking lot or back room, before the director is watching)
+
+1. If the Gamer Pro is on **USB**, power the Legends **puck off**. Bluetooth + USB at the same time = dead stick.
+2. Open the matching URL above in Chrome.
+3. Press **A once**. The browser will not listen to the stick until a button is pressed.
+4. Move the stick. The ship / runner / kaiju should move. Badge may say `ARCADE STICK ONLINE` or `GAMER PRO DECK ONLINE`.
+5. Click through a couple of LIVE games for ten seconds each: Saucer Beam, Circuit Runner, Happy Fishing, Neon Kaiju, Fight Palace, Nyan Cat IV. After a match in Fight Palace, **A** starts another match. **SELECT** leaves. Then open Neon Kaiju — it should *not* bounce back to Fight Palace.
+
+If up/down is backwards on that one box: press **SELECT + UP**, or add `&y=1` to the URL.
+
+If a button number is wrong on a Gamer Pro, staff with repo access can edit `gamepads.json` next to `index.html`. Do not open the giant terminal file for a button swap.
+
+**Do not** install JoyToKey as the production path. The page reads the stick directly.
 
 ---
 
@@ -181,93 +215,3 @@ My goal: player moves left and right and collects coins for score.
 What I tried: [one sentence].
 What went wrong: [error message or “coin doesn’t disappear”].
 Please explain in simple steps and give me the smallest fix only.
-```
-
-**Youth-center norms**
-- Prefer staff-approved AI tools on center devices  
-- Keep prompts about **code and game behavior**, not personal stories  
-- Kid should still be able to explain what their game does  
-
----
-
-## Staff Assist Script (When They’re Stuck)
-
-1. **What tool are you in?** (Scratch / MakeCode / p5 / Bitsy / PuzzleScript / Shiprekt)  
-2. **What should happen?** (one sentence)  
-3. **What happens instead?**  
-4. **Did you save / remix / share so the link still works without a login?**  
-5. Try one change only, then test again  
-
-If still stuck: open Captain Code, or use the AI prompt pattern above with the kid watching.
-
----
-
-## Submission Checklist (Staff)
-
-Before clicking **SEND FOR REVIEW**:
-
-- [ ] Game opens in a private/incognito window without extra login  
-- [ ] Controls work on a keyboard, on-screen buttons, or HID stick as described  
-- [ ] No mean, adult, or personal-data collection behavior  
-- [ ] Title and “how do you play?” match the actual game  
-- [ ] Link is the **play** link or packaged HTML, not an edit-only project URL  
-- [ ] Assets look original or clearly credited — no commercial ROM pack in a web wrapper  
-- [ ] Kid knows staff may request changes before LIVE  
-- [ ] If GDevelop / heavy export: you tried it on a low-RAM tablet and it did not melt  
-
-Rejected or “needs changes” is normal. That is how titles get onto machines.
-
----
-
-## Suggested Session Lengths
-
-| Block | Time | Focus |
-|-------|------|--------|
-| Play | 10 min | Terminal games, pick a mechanic |
-| Make | 25–40 min | One tool, one small game |
-| Share | 10 min | Link + form + checklist |
-| Optional | 5 min | Show Shiprekt or Captain tip for next time |
-
----
-
-## Safety & Club Fit
-
-- Games for this program should be **friendly for a youth club**  
-- Prefer original work or clearly credited remixes  
-- No collecting names, locations, or photos inside the game  
-- No gray-market ROM packs, even if they “run in the browser”  
-- Staff may reject or request edits; that is normal quality control before machines  
-
----
-
-## One-Page Wall Card (Copy / Print)
-
-**CREATE A GAME — COIN OP 4 CHARITY**
-
-1. Play a terminal game — notice what you like  
-2. Open **ArrrcadeOS → MAKE**  
-3. Choose **Scratch** (blocks) or **MakeCode Arcade**  
-   (Finished early? Bitsy or PuzzleScript.)  
-4. Make: move + collect + score  
-5. Share / publish / export HTML → copy play link  
-6. Open **SHARE** on coinop4charity.org → send for review  
-
-**Stuck?** Ask **Captain Code**.  
-**Curious how controls work?** Open **Shiprekt Controls**.  
-**Play-only tablet?** Use `coinop4charity.org/?kiosk=1`.
-
----
-
-## Related Docs
-
-- Engine / floor policy: [`docs/game-engines/README.md`](../game-engines/README.md)  
-  HTML5 is what we run. Scratch, MakeCode, GDevelop, TIC-80, Bitsy, PuzzleScript export to that. MoonScript and MUGEN are not kid-submit tools.  
-- Default runtime: [`docs/game-engines/html5.md`](../game-engines/html5.md)  
-- Tablet / kiosk setup guides in `docs/restoration/` (tablet station + BSP-Y02 controller)  
-- Field notes: project `journal.md` on GitHub  
-- Site: [coinop4charity.org](https://coinop4charity.org)  
-- Source: [github.com/arcadeangel/coinop4charity](https://github.com/arcadeangel/coinop4charity)
-
----
-
-*Guide version aligned with ArrrcadeOS terminal v3.1.x · For youth center staff & volunteers · Keep language simple, sessions short, and links playable.*
