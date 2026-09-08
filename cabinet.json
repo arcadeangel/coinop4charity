@@ -1,0 +1,10 @@
+{
+  "name": "default-web",
+  "site": "coinop4charity.org",
+  "theme": "mint",
+  "kiosk": false,
+  "lite": false,
+  "gamerpro": false,
+  "invertY": false,
+  "invertX": false
+}
