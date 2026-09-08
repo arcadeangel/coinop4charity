@@ -1,0 +1,20 @@
+{
+  "live": [
+    { "id": "fight", "title": "FIGHT PALACE IN WONDERLAND", "blurb": "The public domain fighting fever dream", "minRam": "any" },
+    { "id": "ufo", "title": "SAUCER BEAM", "blurb": "Beam up cows and the milkman", "minRam": "any" },
+    { "id": "nyan", "title": "NYAN CAT IV", "blurb": "Paint the music • lock the beat", "minRam": "any" },
+    { "id": "fish", "title": "HAPPY FISHING", "blurb": "Cast • Reel • Land the big ones", "minRam": "any" },
+    { "id": "runner", "title": "CIRCUIT RUNNER", "blurb": "Race the neon grid • Jump & dash", "minRam": "any" },
+    { "id": "kaiju", "title": "NEON KAIJU", "blurb": "Climb • Ride dragons • Mech vs Dr Kaiju", "minRam": "normal" },
+    { "id": "yeti", "title": "YETI SLOPES", "blurb": "Ski the mountain • Full control", "minRam": "normal" },
+    { "id": "paddle", "title": "PULSE PADDLE", "blurb": "Break the blocks", "minRam": "any" },
+    { "id": "racer", "title": "NEON RACER", "blurb": "Steer • roll • tunnel", "minRam": "any" },
+    { "id": "cycles", "title": "LIGHT CYCLES", "blurb": "Don't hit the wall", "minRam": "any" }
+  ],
+  "retired": [
+    { "id": "swarm", "title": "NEON SWARM", "code": "startGame('swarm')", "doc": "staff-guides/retired-games/swarm/swarm.js" },
+    { "id": "worm", "title": "GLOW WORM", "code": "startGame('worm')", "doc": "staff-guides/retired-games/worm/worm.js" },
+    { "id": "rocks", "title": "SPACE ROCK SWARM", "code": "startGame('rocks')", "doc": "staff-guides/retired-games/rocks/rocks.js" },
+    { "id": "shiprekt", "title": "SHIPREKT LESSON", "code": "homepage widget only", "doc": "staff-guides/retired-games/shiprekt/shiprekt.js" }
+  ]
+}
