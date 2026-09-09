@@ -50,6 +50,16 @@
     "location": "shop"
   },
   {
+    "id": "pacman-07",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Amy Boissoneau. Upright cabinet rerelease with LED. Cleaned, tested, working.",
+    "fmv_estimate": 250,
+    "location": "shop"
+  },
+  {
     "id": "pacman-04",
     "name": "Pac-Man",
     "type": "video",
