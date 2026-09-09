@@ -1,4 +1,4 @@
-const CACHE_NAME = 'coinop4c-v3-stick-attract';
+const CACHE_NAME = 'coinop4c-v4-hs-name';
 const ASSETS = [
   '/',
   '/index.html',
@@ -28,7 +28,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Network-first for navigation, cache-first for other assets
+  // Network-first for navigation so cabinets pick up index.html the same night
   const dest = event.request.destination;
   const url = new URL(event.request.url);
   const isHtml = event.request.mode === 'navigate' || dest === 'document' || url.pathname.endsWith('.html') || url.pathname === '/' || url.pathname === '/index.html';
@@ -42,7 +42,6 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request).then((response) => {
-        // Optionally cache new responses
         return response;
       }).catch(() => cached);
     })
