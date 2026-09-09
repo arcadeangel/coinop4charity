@@ -4029,13 +4029,25 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		}
 
 		function setLocalHigh(name, score, playerName) {
-			if (score >= localHigh(name)) {
+			const prev = localHigh(name);
+			if (score > prev) {
 				try {
 					localStorage.setItem('c4c_hs_' + name, String(score));
 					if (playerName) {
 						const n = String(playerName).trim().toUpperCase().slice(0, 6);
 						if (n && n !== 'ANON') localStorage.setItem('c4c_hsn_' + name, n);
+						else localStorage.removeItem('c4c_hsn_' + name);
+					} else {
+						// New record before initials — do not keep the last player's name
+						localStorage.removeItem('c4c_hsn_' + name);
 					}
+				} catch (e) {}
+				return true;
+			}
+			if (score === prev && playerName) {
+				try {
+					const n = String(playerName).trim().toUpperCase().slice(0, 6);
+					if (n && n !== 'ANON') localStorage.setItem('c4c_hsn_' + name, n);
 				} catch (e) {}
 				return true;
 			}
@@ -4229,7 +4241,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			var ln = localHighName(g);
 			var who = '';
 			if (gv > lv) who = gn;
-			else if (lv > gv) who = ln || gn;
+			else if (lv > gv) who = ln; // never attach the previous global name to a newer local score
 			else who = gn || ln;
 			who = (who || '').toString().replace(/â./g, '').trim();
 			if (!who || who === '—' || who === 'ANON') return '';
@@ -9513,7 +9525,14 @@ function startGamepadLoop() {
 		function stopGame() {
 			// Local snapshot only — never POST without initials (hold-START was wiping names to ANON)
 			try {
-				if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) finishNameEntry(false);
+				// Only confirm a name if the player actually edited a slot or hit SAVE.
+				// Default AAA + hold-START used to stamp the wrong initials (or ANON) over a real record.
+				if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) {
+					const typed = nameEntryValue();
+					const defaulted = (window.C4C_NAME_ENTRY.slots || []).join('') === 'AAA';
+					if (typed && !defaulted) finishNameEntry(false);
+					else window.C4C_NAME_ENTRY = null;
+				}
 				const snap = [
 					['fish', typeof fishG !== 'undefined' && fishG && fishG.score],
 					['ufo', typeof ufoG !== 'undefined' && ufoG && ufoG.score],
