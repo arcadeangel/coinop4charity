@@ -4246,8 +4246,9 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				const r = await fetch(SCORES_API + '/scores', { cache: 'no-store' });
 				if (!r.ok) throw new Error('bad');
 				const data = await r.json();
-				if (data && typeof data === 'object') {
-					window.C4C_GLOBAL = data;
+				const table = (data && data.scores && typeof data.scores === 'object') ? data.scores : data;
+				if (table && typeof table === 'object') {
+					window.C4C_GLOBAL = table;
 					refreshHiScores();
 					refreshTopOps();
 				}
@@ -4256,9 +4257,10 @@ body.kiosk-mode #stemPanel { display: none !important; }
 
 		function scoreNameFor(g, gv, gn, lv) {
 			var ln = localHighName(g);
+			// Global board is the Worker record. Local name only if this cabinet
+			// beat the world and already SAVED initials.
 			var who = '';
-			if (gv > lv) who = gn;
-			else if (lv > gv) who = ln; // never attach the previous global name to a newer local score
+			if (lv > gv && ln) who = ln;
 			else who = gn || ln;
 			who = (who || '').toString().replace(/â./g, '').trim();
 			if (!who || who === '—' || who === 'ANON') return '';
@@ -4275,12 +4277,17 @@ body.kiosk-mode #stemPanel { display: none !important; }
 					gn = window.C4C_GLOBAL[g].name || '';
 				}
 				var lv = localHigh(g);
-				var v = Math.max(gv, lv);
+				var ln = localHighName(g);
+				// Prefer official global score+name so the list never strips initials.
+				var v = gv > 0 ? gv : lv;
+				var who = (gv > 0 ? gn : ln) || gn || ln;
+				if (lv > gv && ln) { v = lv; who = ln; }
 				if (v <= 0) {
 					el.textContent = '—';
 					return;
 				}
-				var who = scoreNameFor(g, gv, gn, lv);
+				who = (who || '').toString().replace(/â./g, '').trim();
+				if (!who || who === '—' || who === 'ANON') who = '';
 				el.textContent = who ? (v + ' · ' + who) : String(v);
 			});
 		}
@@ -9883,7 +9890,9 @@ function startGamepadLoop() {
 			if (gameKey) {
 				ctx.fillText(`SCORE  ${score}`, 240, 138);
 				ctx.fillStyle = '#7dffc8';
-				ctx.fillText(`HIGH   ${hs}`, 240, 160);
+				var hsName = '';
+				try { hsName = scoreNameFor(gameKey, (window.C4C_GLOBAL && window.C4C_GLOBAL[gameKey] && parseInt(window.C4C_GLOBAL[gameKey].score,10))||0, (window.C4C_GLOBAL && window.C4C_GLOBAL[gameKey] && window.C4C_GLOBAL[gameKey].name)||'', localHigh(gameKey)); } catch (e2) {}
+				ctx.fillText(hsName ? (`HIGH   ${hs} · ${hsName}`) : (`HIGH   ${hs}`), 240, 160);
 				if (streak > 1) {
 					ctx.fillStyle = '#ffff66';
 					ctx.font = '12px Courier New';
@@ -18173,11 +18182,14 @@ function startGamepadLoop() {
 
 			if (g.fighters[0] && g.fighters[1] && (g.fighters[0].ko || g.fighters[1].ko) && g.msgT <= 1) {
 				if (g.wins[0] >= g.need || g.wins[1] >= g.need) {
-					g.phase = 'over';
-					const w = g.wins[0] > g.wins[1] ? g.fighters[0] : g.fighters[1];
-					g.msg = w.char.name + ' TAKES THE PALACE';
-					g.score += 500 + g.wins[w.i] * 200;
-					if (typeof updateUI === 'function') updateUI(g.score, null);
+					if (g.phase !== 'over') {
+						g.phase = 'over';
+						const w = g.wins[0] > g.wins[1] ? g.fighters[0] : g.fighters[1];
+						g.msg = w.char.name + ' TAKES THE PALACE';
+						g.score += 500 + g.wins[w.i] * 200;
+						if (typeof updateUI === 'function') updateUI(g.score, null);
+						if (typeof showGameOver === 'function') showGameOver('PALACE CLAIMED', 'fight', g.score|0);
+					}
 				} else {
 					fightSaveProgress(g);
 					g.round++;
