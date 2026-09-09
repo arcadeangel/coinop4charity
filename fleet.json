@@ -150,6 +150,36 @@
     "location": "shop"
   },
   {
+    "id": "AtGames-Legends-Gamer-Pro-03",
+    "name": "AtGames Legends Gamer Pro",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Joystick Controller Only, 2 player with trackball but also comes pre-loaded with 150 liscensed games from Disney titles to Taito classics and more. Good for DIY Stem project or computer lab",
+    "fmv_estimate": 160,
+    "location": "shop"
+  },
+    {
+    "id": "AtGames-Legends-Gamer-Pro-04",
+    "name": "AtGames Legends Gamer Pro",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Joystick Controller Only, 2 player with trackball but also comes pre-loaded with 150 liscensed games from Disney titles to Taito classics and more. Good for DIY Stem project or computer lab",
+    "fmv_estimate": 160,
+    "location": "shop"
+  },
+  {
+    "id": "AtGames-Legends-Ultimate-Arcade-HD-01",
+    "name": "AtGames Legends Ultimate Arcade HD",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
     "id": "teenage-mutant-ninja-turtles-02",
     "name": "Teenage Mutant Ninja Turtles",
     "type": "video",
@@ -210,6 +240,16 @@
     "location": "shop"
   },
   {
+    "id": "asteroids-04",
+    "name": "Asteroids",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
     "id": "the-simpsons-04",
     "name": "The Simpsons",
     "type": "video",
@@ -227,6 +267,16 @@
     "condition": "working",
     "notes": "Missing base otherwise works great this looks like a possible re-release, noticed its on a Dell computer. Different titles. It looks a bit bigger than other countercades. Cleaned, tested, working.",
     "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
+    "id": "galaga-02",
+    "name": "Galaga",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Countercade with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
+    "fmv_estimate": 250,
     "location": "shop"
   },
     {
@@ -287,6 +337,26 @@
     "condition": "working",
     "notes": "Solid countercade. Works well, power cord replaced.",
     "fmv_estimate": 175,
+    "location": "shop"
+  },
+  {
+    "id": "space-invaders-03",
+    "name": "Space Invaders",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
+    "fmv_estimate": 350,
+    "location": "shop"
+  },
+  {
+    "id": "atari-50th-anniversary-01",
+    "name": "Atari 50th Anniversary",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
+    "fmv_estimate": 350,
     "location": "shop"
   },
   {
