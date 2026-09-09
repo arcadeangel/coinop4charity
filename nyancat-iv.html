@@ -319,7 +319,7 @@
     G.overLine = OVER[(Math.random()*OVER.length)|0];
     if ((G.score|0)>best) { best=G.score|0; localStorage.setItem(BEST_KEY,String(best)); bsEl.textContent=best; }
     try { parent.postMessage({ type: 'c4c-score', game: 'nyan', score: G.score|0 }, '*'); } catch (e) {}
-    msgEl.textContent = 'A / TAP  ·  ANOTHER ROUND';
+    msgEl.textContent = (window.parent !== window) ? 'RECORD SENT TO TERMINAL' : 'A / TAP  ·  ANOTHER ROUND';
     chord([N.A3, N.C4, N.E4], 0.36, 'triangle', 0.08);
   }
 
@@ -815,7 +815,8 @@
     }
     if (e.code==='KeyA'||e.code==='Space'||e.code==='Enter') {
       actionHeld=true;
-      if (G.phase!=='play') reset();
+      // Embedded in the terminal: parent owns game-over / initials. Don't eat A.
+      if (G.phase!=='play' && !(G.phase==='dead' && window.parent !== window)) reset();
     }
   });
   window.addEventListener('keyup', e => {
@@ -846,7 +847,7 @@
     pointerDown=true; mapY(e); acx();
     if (tapTrack(e)) return;
     actionHeld=true;
-    if (G.phase!=='play') reset();
+    if (G.phase!=='play' && !(G.phase==='dead' && window.parent !== window)) reset();
   });
   canvas.addEventListener('pointermove', e => { if (pointerDown) mapY(e); });
   window.addEventListener('pointerup', () => { pointerDown=false; actionHeld=false; pointerY=null; });
