@@ -4170,18 +4170,35 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		window.addEventListener('message', function(e) {
 			if (!e || !e.data || e.data.type !== 'c4c-score') return;
 			if (e.data.game === 'nyan' && e.data.score > 0) {
-				// Nyan runs in an iframe. Hide it and show the terminal canvas
-				// so the same name / dedication overlay as Kaiju is visible.
+				// Kill the iframe so A / TAP cannot start another round
+				// before initials are saved on the terminal canvas.
 				try {
 					const frame = document.getElementById('nyan-frame');
-					if (frame) frame.style.display = 'none';
+					if (frame) {
+						frame.style.display = 'none';
+						frame.src = 'about:blank';
+					}
 					const cv = document.getElementById('game-canvas');
 					if (cv) cv.style.display = '';
 					const ui = document.querySelector('#game-overlay .game-ui');
 					if (ui) ui.style.display = '';
+					currentGame = 'nyan';
 				} catch (err) {}
-				if (typeof showGameOver === 'function') showGameOver('SEE YOU IN ATTRACT MODE', 'nyan', e.data.score|0);
-				else setHigh('nyan', e.data.score|0);
+				const nyanScore = e.data.score|0;
+				if (typeof showGameOver === 'function') showGameOver('NYAN CAT IV', 'nyan', nyanScore);
+				else setHigh('nyan', nyanScore);
+				try {
+					if (window._nyanOverLoop) cancelAnimationFrame(window._nyanOverLoop);
+					const paint = function() {
+						if (!window.C4C_GAMEOVER && !(window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done)) {
+							window._nyanOverLoop = null;
+							return;
+						}
+						if (typeof showGameOver === 'function') showGameOver('NYAN CAT IV', 'nyan', nyanScore);
+						window._nyanOverLoop = requestAnimationFrame(paint);
+					};
+					window._nyanOverLoop = requestAnimationFrame(paint);
+				} catch (err) {}
 			}
 		});
 		function setHigh(name, score, playerName, dedication) {
@@ -8220,7 +8237,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 
 		var nyanKeyHeld = { ArrowUp:false, ArrowDown:false, ArrowLeft:false, ArrowRight:false, ' ':false, Enter:false };
 		function feedNyanGamepadKeys() {
-			if (currentGame !== 'nyan') {
+			if (currentGame !== 'nyan' || window.C4C_GAMEOVER || (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done)) {
 				Object.keys(nyanKeyHeld).forEach(function(k){ nyanKeyHeld[k] = false; });
 				return;
 			}
