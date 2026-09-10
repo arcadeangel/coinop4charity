@@ -20,7 +20,7 @@
     "location": "shop"
   },
   {
-    "id": "pacman-1980-01",
+    "id": "pac-man-1980-01",
     "name": "Pac-Man (1980)",
     "type": "video",
     "status": "ready",
@@ -30,7 +30,7 @@
     "location": "shop"
   },
   {
-    "id": "pacman-02",
+    "id": "pac-man-02",
     "name": "Pac-Man",
     "type": "video",
     "status": "ready",
@@ -40,7 +40,7 @@
     "location": "shop"
   },
   {
-    "id": "pacman-06",
+    "id": "pac-man-06",
     "name": "Pac-Man",
     "type": "video",
     "status": "ready",
@@ -50,17 +50,7 @@
     "location": "shop"
   },
   {
-    "id": "pacman-07",
-    "name": "Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Thank you Amy Boissoneau. Upright cabinet rerelease with LED. Cleaned, tested, working.",
-    "fmv_estimate": 250,
-    "location": "shop"
-  },
-  {
-    "id": "pacman-04",
+    "id": "pac-man-04",
     "name": "Pac-Man",
     "type": "video",
     "status": "ready",
@@ -70,7 +60,7 @@
     "location": "shop"
   },
   {
-    "id": "superpacman-01",
+    "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
     "status": "ready",
@@ -206,16 +196,6 @@
     "status": "ready",
     "condition": "working",
     "notes": "Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
-    "fmv_estimate": 300,
-    "location": "shop"
-  },
-  {
-    "id": "asteroids-03",
-    "name": "Asteroids",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Countercade, several games. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets.",
     "fmv_estimate": 300,
     "location": "shop"
   },
@@ -400,7 +380,7 @@
     "location": "shop"
   },
   {
-    "id": "ms-pacman-02",
+    "id": "ms-pac-man-02",
     "name": "Ms. Pac-Man",
     "type": "video",
     "status": "ready",
@@ -410,7 +390,7 @@
     "location": "shop"
   },
   {
-    "id": "ms-pacman-05",
+    "id": "ms-pac-man-05",
     "name": "Ms. Pac-Man",
     "type": "video",
     "status": "ready",
@@ -630,7 +610,7 @@
     "location": "shop"
   },
   {
-    "id": "ms-pacman-1981-01",
+    "id": "ms-pac-man-1981-01",
     "name": "Ms. Pac-Man (1981)",
     "type": "video",
     "status": "in progress",
