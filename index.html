@@ -2911,23 +2911,34 @@
 		}
 
 		.map-legend {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 6px 12px;
-			padding: 6px 10px 8px;
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 7px 12px;
+			padding: 8px 10px 10px;
 			font-size: 0.62rem;
 			letter-spacing: 0.06em;
 			color: #7dffc8;
 			border-top: 1px solid #00ff9f22;
-			justify-content: center;
+			text-align: left;
+		}
+		@media (min-width: 380px) {
+			.map-legend {
+				grid-template-columns: 1fr 1fr;
+			}
 		}
 		.map-legend span {
-			display: inline-flex;
+			display: flex;
 			align-items: center;
-			gap: 5px;
+			gap: 6px;
+			min-width: 0;
+			line-height: 1.3;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		.map-legend i {
 			display: inline-block;
+			flex-shrink: 0;
 			width: 8px;
 			height: 8px;
 			border-radius: 50%;
@@ -4453,9 +4464,12 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			'real talk youth': { lat: 36.1522, lng: -115.2243, label: 'Real Talk YIP', short: 'R.TALK' },
 			'las vegas': { lat: 36.1699, lng: -115.1398, label: 'Las Vegas', short: 'LV' },
 			'st. jude': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
-   'st jude': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
-   "st. jude's": { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
-   'boulder city': { lat: 35.98515, lng: -114.84126, label: 'Boulder City', short: 'BOULD' },
+			'st jude': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
+			"st. jude's": { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
+			"st jude's ranch": { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
+			'st.judes': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
+			/* Same campus as St. Jude's Ranch — do not split into a second stacked pin */
+			'boulder city': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
 			'centennial hills ymca': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
    'centennial hills': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
    'ymca of southern nevada': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' }
@@ -4572,7 +4586,22 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		}
 
 		function resolvePlacementCoord(p) {
-			// 1) Explicit coordinates on the placement win
+			const hay = String((p && p.location) || '') + ' ' + String((p && p.name) || '') + ' ' + String((p && p.site) || '');
+			const loc = hay.toLowerCase();
+			// Longest key first so "st. jude" / "centennial hills" beat generic city matches
+			const keys = Object.keys(PLACEMENT_COORDS).sort(function(a, b) { return b.length - a.length; });
+			for (const key of keys) {
+				if (loc.includes(key)) {
+					const base = PLACEMENT_COORDS[key];
+					return {
+						lat: base.lat,
+						lng: base.lng,
+						label: base.label,
+						short: base.short
+					};
+				}
+			}
+			// Explicit coordinates on the placement (unknown site)
 			const lat = Number(p && p.lat);
 			const lng = Number(p && p.lng);
 			if (Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
@@ -4583,22 +4612,6 @@ body.kiosk-mode #stemPanel { display: none !important; }
 					label: (p.site || derived.label),
 					short: (p.short || derived.short)
 				};
-			}
-			// 2) Keyword match against known partners (location title first, then name)
-			const hay = String((p && p.location) || '') + ' ' + String((p && p.name) || '');
-			const loc = hay.toLowerCase();
-			for (const key of Object.keys(PLACEMENT_COORDS)) {
-				if (loc.includes(key)) {
-					const base = PLACEMENT_COORDS[key];
-					const derived = shortLabelFromLocation(p.location || p.name);
-					// Prefer the more specific label from the title when available
-					return {
-						lat: base.lat,
-						lng: base.lng,
-						label: derived.label && derived.label.length > 2 ? derived.label : base.label,
-						short: base.short
-					};
-				}
 			}
 			return null;
 		}
@@ -4660,6 +4673,21 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 
 			placementsLeafletLayer.clearLayers();
 			const bounds = [];
+
+			// Nudge pins that share the exact same lat/lng so labels don't stack
+			const seenLL = {};
+			siteList.forEach((site) => {
+				const lk = site.coord.lat.toFixed(5) + ',' + site.coord.lng.toFixed(5);
+				const n = seenLL[lk] || 0;
+				seenLL[lk] = n + 1;
+				if (n > 0) {
+					const ang = (n * 70) * Math.PI / 180;
+					site.coord = Object.assign({}, site.coord, {
+						lat: site.coord.lat + Math.cos(ang) * 0.012,
+						lng: site.coord.lng + Math.sin(ang) * 0.012
+					});
+				}
+			});
 
 			siteList.forEach((site, i) => {
 				const col = colors[i % colors.length];
