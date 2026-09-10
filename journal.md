@@ -1,6 +1,6 @@
 ## Coin-Op 4 Charity — Dev Journal
 
-## 09.09.26 23:45  Maybe a glitch in the simulation, but The Ruler still reigns. 
+## 09.09.26 23:45  Maybe a glitch in the simulation, but The Ruler still reigns. We know the truth. 
 
 Had an unexpected family reunion this evening with a complete stranger I felt like I've known my whole lifetime. The force was strong today. I felt like I was meeting with the last Jedi. "The force was with me, like Obi-Wan Kenobi". It was like meeting the wisest Samurai from one of the most renowned clans of our time. Today I had to stop and think a lot because I kept seeing the face of my old friend and colleague whose life was unfairly taken backstage as he was preparing to perform at the stadium at Exposition Park all because he was the number one guy and certain losers/haters could not stand that kind of competition. I saw his face today again, in his aunt (she took a different route and worked in law enforcement, then became a youth advocate and activist) and I felt his soul, the leadership, the total dedication to the people, saw how it runs rampant in his bloodline. I am still shocked by the cosmic connection, and not entirely sure how to really explain it in my own words. Quoting someone else who was better than me, and everyone else, with words. Today felt like falling into a den with Yoda or Obi-Wan, and I forgot how much I missed, and absolutely loved seeing "Luke Skywalker with his glock playing laser tag..."
 Go check out and support Real Talk Youth Impact Program and you will see what I am talking about.
