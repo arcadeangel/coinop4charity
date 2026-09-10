@@ -90,16 +90,6 @@
     "location": "shop"
   },
   {
-    "id": "paw-patrol-02",
-    "name": "Paw Patrol",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "",
-    "fmv_estimate": 175,
-    "location": "shop"
-  },
-  {
     "id": "wwe-supreme-series-01",
     "name": "WWE Supreme Series",
     "type": "video",
@@ -177,16 +167,6 @@
     "condition": "working",
     "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
     "fmv_estimate": 350,
-    "location": "shop"
-  },
-  {
-    "id": "teenage-mutant-ninja-turtles-02",
-    "name": "Teenage Mutant Ninja Turtles",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Working great, upright cabinet",
-    "fmv_estimate": 400,
     "location": "shop"
   },
   {
