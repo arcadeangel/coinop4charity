@@ -3173,7 +3173,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		<p class="kiosk-hint" id="kioskHint">ARCADE STICK · ↑↓ MOVE · A/START PLAY · SELECT BACK · HOLD START EXIT</p>
 
 		<div class="status">
-			SYSTEM ONLINE // v3.2.3-BSP STICK FIX
+			SYSTEM ONLINE // v3.2.4-BSP STICK FIX
 		</div>
 
 		<p class="mission" id="mission"></p>
@@ -3575,7 +3575,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="themeBtn" title="Cycle terminal theme">THEME: MINT</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.2.3-BSP • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.4-BSP • We love you all. <span class="heart">♥</span></div>
 			<div class="footer-legal">
 				<a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a></div>
 				<div> 732 S 6th St Ste N, Las Vegas, NV 89101
@@ -3700,7 +3700,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.3-BSP',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.4-BSP',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -8023,7 +8023,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const idx = (gp.index != null) ? gp.index : 0;
 			const known = gpLearnedHats[idx] ? gpLearnedHats[idx].slice() : [];
 			for (let i = 0; i < axes.length; i++) {
-				if (isHatIdleValue(axes[i]) && known.indexOf(i) === -1) known.push(i);
+				// BSP-Y02 analog lives on 0/1. Never promote those to POV hats.
+				if (!(i < 2 && /bsp|y02|shanwan|shan wan|wireless controller/.test(gpIdOf(gp)))) {
+					if (isHatIdleValue(axes[i]) && known.indexOf(i) === -1) known.push(i);
+				}
 			}
 			// JSON + common POV slots when idle was never sampled
 			const hatPref = ((gpProfileCfg(activePadProfile(gp)) || {}).hatAxes) || [9];
@@ -8072,8 +8075,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			const axes = gp.axes || [];
 			const buttons = gp.buttons || [];
 			const profile = activePadProfile(gp);
-			const invertY = !!window.C4C_INVERT_Y;
-			const invertX = !!window.C4C_INVERT_X;
+			const invertY = (profile === 'gamerpro' || window.C4C_GAMERPRO) && !!window.C4C_INVERT_Y;
+			const invertX = (profile === 'gamerpro' || window.C4C_GAMERPRO) && !!window.C4C_INVERT_X;
 			const hats = learnHatAxes(gp);
 			let ax = 0, ay = 0, source = 'none';
 
@@ -8107,13 +8110,18 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					const xr = axes[xi], yr = axes[yi];
 					if (typeof xr !== 'number' || typeof yr !== 'number') return false;
 					if (isHatIdleValue(xr) || isHatIdleValue(yr)) return false;
-					const x = (Math.abs(xr) <= 1.05) ? xr : 0;
-					const y = (Math.abs(yr) <= 1.05) ? yr : 0;
+					let x = (Math.abs(xr) <= 1.05) ? xr : 0;
+					let y = (Math.abs(yr) <= 1.05) ? yr : 0;
 					const analogOff = (profile === 'gamerpro' || window.C4C_GAMERPRO) ? GP_DEAD_OFF : GP_DEAD_OFF_BSP;
 					if (xi === 0 && yi === 1 && !(profile === 'gamerpro' || window.C4C_GAMERPRO)) {
-						if (!gpRest.ready) return false; // wait for idle sample — no phantom up
-						const c = genericCentered(x, y);
-						x = c.x; y = c.y;
+						// Do not block the stick while rest samples. Use raw deflection
+						// immediately so a wiggling BSP-Y02 is playable in the first second.
+						if (gpRest.ready) {
+							const c = genericCentered(x, y);
+							x = c.x; y = c.y;
+						} else if (Math.abs(x) < 0.55 && Math.abs(y) < 0.55) {
+							return false;
+						}
 					}
 					if (Math.abs(x) < analogOff && Math.abs(y) < analogOff) return false;
 					applyXY(x, y, 'axis' + xi + '/' + yi);
