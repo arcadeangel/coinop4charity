@@ -130,16 +130,6 @@
     "location": "shop"
   },
   {
-    "id": "AtGames-Legends-Ultimate-Arcade-HD-01",
-    "name": "AtGames Legends Ultimate Arcade HD",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright with LED. Donated by our friend Bryan Ward's brother Michael. Bryan passed away too soon last November, and is missed. He started Friendly Hobbies which is a staple in 3D printing and a first and one of a kind place as well that makes it easy and possible for us to print parts at home and fix more cabinets..",
-    "fmv_estimate": 350,
-    "location": "shop"
-  },
-  {
     "id": "defender-01",
     "name": "Defender",
     "type": "video",
