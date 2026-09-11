@@ -3173,7 +3173,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		<p class="kiosk-hint" id="kioskHint">ARCADE STICK · ↑↓ MOVE · A/START PLAY · SELECT BACK · HOLD START EXIT</p>
 
 		<div class="status">
-			SYSTEM ONLINE // ACCEPTING APPLICANTS
+			SYSTEM ONLINE // v3.2.3-BSP STICK FIX
 		</div>
 
 		<p class="mission" id="mission"></p>
@@ -3575,7 +3575,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="themeBtn" title="Cycle terminal theme">THEME: MINT</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.2.1 • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.3-BSP • We love you all. <span class="heart">♥</span></div>
 			<div class="footer-legal">
 				<a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a></div>
 				<div> 732 S 6th St Ste N, Las Vegas, NV 89101
@@ -3700,7 +3700,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.1',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.3-BSP',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -7854,8 +7854,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		}
 		try { loadGamepadMap(); } catch (e) {}
 		function isGamerProPad(gp) {
-			if (window.C4C_GAMERPRO) return true;
 			const id = gpIdOf(gp);
+			if (/bsp|y02|shanwan|shan wan/.test(id)) return false;
+			if (window.C4C_GAMERPRO && !/bsp|y02/.test(id)) {
+				// URL-forced deck mode only applies to the deck, not a BSP
+				if (!gp) return true;
+			}
+			if (window.C4C_GAMERPRO && /control\s*deck|atgames|gamer\s*pro|legends/.test(id)) return true;
 			const cfg = gpProfileCfg('gamerpro');
 			if (cfg && gpIdHitsProfile(id, cfg)) return true;
 			if (/control\s*deck|atgames|gamer\s*pro|legends\s*gamer|algp|ha2802|ha2810|ha8800|ha8801/.test(id)) return true;
@@ -8052,7 +8057,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			if (gpRest.n >= 18) {
 				gpRest.cx = gpRest.sx0 / gpRest.n;
 				gpRest.cy = gpRest.sy0 / gpRest.n;
-				gpRest.dead0 = (gpRest.sx1 / gpRest.n > 0.85) || (gpRest.sy1 / gpRest.n > 0.85);
+				gpRest.dead0 = false;
 				gpRest.ready = true;
 			}
 		}
@@ -8194,7 +8199,11 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			}
 
 			gamepadConnected = true;
-			if (isGamerProPad(gp) || liveCount >= 2) window.C4C_GAMERPRO = true;
+			// Never infer Gamer Pro from "two HID slots" — tablets report extras
+			// and that stole the BSP map. Only URL ?g=1 or a real deck id.
+			if (isGamerProPad(gp) && !/bsp|y02|shanwan|shan wan|wireless controller/.test(gpIdOf(gp))) {
+				window.C4C_GAMERPRO = true;
+			}
 
 			const buttons = gp.buttons || [];
 			calibrateGenericRest(gp);
@@ -8239,6 +8248,32 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gamepadState.dash = btnB || btnRB || btnLB;
 			gamepadState.special = btnY || btnLB;
 			gamepadState.slide = gamepadState.down;
+
+			// RAW BSP overlay (games only): OR every common stick source so a
+			// missed latch/hat cannot leave Saucer Beam deaf. Not used for menu.
+			if (!isGamerProPad(gp)) {
+				const rawA = gp.axes || [];
+				const rawB = buttons;
+				function rawDir(x, y) {
+					if (typeof x === 'number' && Math.abs(x) >= 0.42 && Math.abs(x) <= 1.05) {
+						if (x < 0) gamepadState.left = true; else gamepadState.right = true;
+					}
+					if (typeof y === 'number' && Math.abs(y) >= 0.42 && Math.abs(y) <= 1.05) {
+						if (y < 0) gamepadState.up = true; else gamepadState.down = true;
+					}
+				}
+				rawDir(rawA[0], rawA[1]);
+				rawDir(rawA[2], rawA[3]);
+				if (gpPressed(rawB, 14) || gpPressed(rawB, 6)) gamepadState.left = true;
+				if (gpPressed(rawB, 15) || gpPressed(rawB, 7)) gamepadState.right = true;
+				if (gpPressed(rawB, 12) || gpPressed(rawB, 4)) gamepadState.up = true;
+				if (gpPressed(rawB, 13) || gpPressed(rawB, 5)) gamepadState.down = true;
+				if (gpPressed(rawB, 0) || gpPressed(rawB, 2)) {
+					gamepadState.a = true;
+					gamepadState.fire = true;
+					gamepadState.jump = true;
+				}
+			}
 
 			// Clear P2 each tick; fill only when a second live pad exists
 			Object.keys(gamepadState2).forEach(function(k) { gamepadState2[k] = false; });
@@ -8477,6 +8512,13 @@ function startGamepadLoop() {
 			gpLiveInput = false;
 		}
 
+		function c4cUnlockPads() {
+			try { navigator.getGamepads && navigator.getGamepads(); } catch (e) {}
+			startGamepadLoop();
+		}
+		window.addEventListener('pointerdown', c4cUnlockPads, { passive: true });
+		window.addEventListener('touchstart', c4cUnlockPads, { passive: true });
+		window.addEventListener('keydown', c4cUnlockPads);
 		window.addEventListener('gamepadconnected', (e) => {
 			gamepadConnected = true;
 			const badge = document.getElementById('gamepad-badge');
