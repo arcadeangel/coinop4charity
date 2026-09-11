@@ -2,7 +2,7 @@
 
 ## 09.10.26 22:15  Gamer Pro went live. Then the BSP-Y02 stations needed debugging.
 
-Here is a recap of what we did to fix it tonight (wish I caught this before the demos earlier lol). It was worth the hiccups the 2 player on the Legends Gamer Pro running the terminal is a flex.
+Here is a recap of what we did to fix it tonight (wish I caught this before the demos earlier lol). Thank you to our partners for immediately reporting the bug and your patience. It was worth the hiccups the 2 player on the Legends Gamer Pro running the terminal is a flex.
 
 Last night’s ?g=1 path for the AT Games Legends Gamer Pro is in index.html. Staff URL is still ?kiosk=1. gamepads.json is next to the terminal so button maps do not live only inside a 577K file. That part held.
 What did not hold was the cheap stick we actually put in youth rooms.
