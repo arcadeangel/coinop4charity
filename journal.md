@@ -1,5 +1,27 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+09.10.26 22:15  Gamer Pro went live. Then the BSP-Y02 stations needed debugging.
+
+Here is a recap of what we did to fix it tonight (wish I caught this before the demos earlier lol).
+
+Last night’s ?g=1 path for the AT Games Legends Gamer Pro is in index.html. Staff URL is still ?kiosk=1. gamepads.json is next to the terminal so button maps do not live only inside a 577K file. That part held.
+What did not hold was the cheap stick we actually put in youth rooms.
+After the Gamer Pro maps landed, a BSP-Y02 on the same page started acting like two controllers were fighting. Menu would jump, fire would double-tap, hold-Start exit got flaky, and one tablet would not show the pad at all until you mashed A. Kids thought the cabinet was dead. Same HID poll that finally woke the Gamer Pro hat was also reading the Y02.
+What broke
+Gamer Pro is a different HID family: two raw pads (Control deck-P1 / P2), POV hat, analog 0/1 parked at 0, 24-button indices, Chrome silent until a face button is pressed. BSP-Y02 is the $9–$17 Bluetooth stick. One pad. Real axes. A / B / Select / Start the way the 08.23 and 09.08 notes already documented.
+The Gamer Pro “hat first, then analog, then d-pad — one source only” rule is correct for that deck. On the Y02 it was not. Hat and analog were both live. Opposite directions cancelled. B started looking like an exit on one Android build. Select+UP Y-flip from the Gamer Pro debug path leaked onto a tablet that did not need it.
+Bluetooth pairing on the cheap sticks is still the other landmine. If a phone or a Legends Core puck is still bonded, the kiosk tablet sees a ghost pad or nothing. Power the puck off. Forget the stick from every phone in the room. Pair to the station only.
+Kiosks — pick one URL and leave it
+These are not the same machine. Do not run both profiles on one device.
+•  Staff / tablet cabinets (Onn 8.1”, Galaxy Tab A9+, BSP-Y02 Bluetooth stick, most club terminals) https://coinop4charity.org/?kiosk=1 A = fire. B = secondary, never exits. Select = back. Hold Start ~0.5s = exit. Old / 2–3 GB units: ?kiosk=1&lowram=1 (08.23 low-RAM profile — attract 90s, poll throttled, matrix off). Debug only when you are standing there: ?kiosk=1&d=1
+•  Legends Gamer Pro control deck https://coinop4charity.org/?g=1 (?g=1 already turns kiosk on.) Hat first. P1/P2 merge. Raw 24-button Start / Select / Rewind / Home. Debug: ?g=1&d=1 Flip Y: SELECT+UP or ?y=1 USB only. Core puck off.
+•  Pi / Orange Pi experiments Still not the floor path for the cheap stick. 08.23 already said Zero 2W and similar choke on a living terminal + HID poll + attract. Tablets stay the default kiosk brain. Pi is a dedicated cabinet later, not a Y02 host tonight.
+•  Preview / phone No kiosk flag. Do not debug production mapping on a personal device that still has the stick in Bluetooth history.
+What to change without opening the whole terminal
+gamepads.json is the override. If fetch fails, baked-in maps still run. After a real floor session, edit the Y02 button arrays there. Do not OR Gamer Pro hat logic onto the Y02 profile. Do not assume Xbox 8/9 for Start/Select on either deck.
+Field check before a site goes live: overlay on, press every face button, confirm src= is one source, confirm B does not exit, confirm hold-Start does. Then drop &d=1 so kids never see pad ids.
+Gamer Pro talks. BSP-Y02 has to talk separately. Same terminal. Different kiosk. Different URL. That is the fix.
+
 ## 09.09.26 23:45  Fear and loathing in the simulation, but The Ruler still reigns. We know the truth. 
 
 Had an unexpected family reunion this evening with a complete stranger I felt like I've known my whole lifetime. The force was strong today. I felt like I was meeting with the last Jedi. It was like meeting the wisest Samurai from one of the most renowned clans of our time. Today I had to stop my mind from racing a lot because I kept seeing the face of my old friend and colleague whose life was unfairly taken backstage as he was preparing to perform at the stadium at Exposition Park; all because he was the number one guy and certain people could not stand that kind of competition. I saw his face today again, in his aunt (she took a different route and worked in law enforcement, then became a youth advocate and activist) and I felt his soul, the leadership, the total dedication to the people, saw how it runs rampant in his bloodline. I am still shocked by the random connection, and not entirely sure how to really explain it in my own words. Quoting someone else who was better than me, and everyone else, with words. Today felt like "The force was with me, like Obi-Wan Kenobi", and I forgot how much I missed, and absolutely loved, seeing the mythical "Luke Skywalker with his glock playing laser tag..."
