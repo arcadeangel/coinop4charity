@@ -3,6 +3,8 @@
 ## 09.10.26 22:15  Gamer Pro integration went live. Then the BSP-Y02 stations needed debugging.
 
 Here is a recap of what we did to fix it tonight (wish I caught this before the demos earlier lol). Thank you to our partners for immediately reporting the bug and your patience. It was worth the hiccups the 2 player on the Legends Gamer Pro running the terminal, the track ball mapping and all is a solid flex. Paid a visit to my favorite maker lab of all time today hopefully the big dogs didn't test the terminal with the BSP until after dinner. Yikes.
+I hope they get involved, I would rather a public entity that is educating the next generation help carry the torch here as you can see I am debugging things while eating dinner. It takes a village. Ask anyone in coin op, sometimes you strip away your ego, your pride and even your initial plans... until all that is left is real. There could have been an entirely different component that needed fixing. Just because the multimeter gives a bad read on a speaker, doesn't mean that the board itself isn't fried and needs changing all together. 
+For this to truly succeed it needs to be easily replicable, and that takes a lot more than a handful of volunteers.
 
 Last night’s ?g=1 path for the AT Games Legends Gamer Pro is in index.html. Staff URL is still ?kiosk=1. gamepads.json is next to the terminal so button maps do not live only inside a 577K file. That part held.
 What did not hold was the cheap stick we actually put in youth rooms.
