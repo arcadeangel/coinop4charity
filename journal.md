@@ -1,6 +1,6 @@
 ## Coin-Op 4 Charity — Dev Journal
 
-## 09.10.26 22:15  Gamer Pro went live. Then the BSP-Y02 stations needed debugging.
+## 09.10.26 22:15  Gamer Pro integration went live. Then the BSP-Y02 stations needed debugging.
 
 Here is a recap of what we did to fix it tonight (wish I caught this before the demos earlier lol). Thank you to our partners for immediately reporting the bug and your patience. It was worth the hiccups the 2 player on the Legends Gamer Pro running the terminal, the track ball mapping and all is a solid flex. Paid a visit to my favorite maker lab of all time today hopefully the big dogs didn't test the terminal with the BSP until after dinner. Yikes.
 
