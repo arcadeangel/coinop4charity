@@ -189,6 +189,15 @@
     "status": "active"
   },
   {
+    "id": "space-invaders-02",
+    "name": "Space Invaders",
+    "number": "043",
+    "location": "Street Teens (Las Vegas)",
+    "notes": "Countercade. Free play. Working great.",
+    "placed": "Donated on 2026-09-11",
+    "status": "active"
+  },
+  {
     "id": "ms-pac-man-04",
     "name": "Ms. Pac-man",
     "number": "019",
