@@ -3173,7 +3173,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		<p class="kiosk-hint" id="kioskHint">ARCADE STICK · ↑↓ MOVE · A/START PLAY · SELECT BACK · HOLD START EXIT</p>
 
 		<div class="status">
-			SYSTEM ONLINE // v3.2.4-BSP STICK FIX
+			SYSTEM ONLINE // v3.2.5-BSP STICK FIX
 		</div>
 
 		<p class="mission" id="mission"></p>
@@ -3575,7 +3575,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="themeBtn" title="Cycle terminal theme">THEME: MINT</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.2.4-BSP • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.5-BSP • We love you all. <span class="heart">♥</span></div>
 			<div class="footer-legal">
 				<a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a></div>
 				<div> 732 S 6th St Ste N, Las Vegas, NV 89101
@@ -3700,7 +3700,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.4-BSP',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.5-BSP',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -7793,8 +7793,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		const GP_DEAD_OFF = 0.18;
 		// Cheap BSP-Y02 / generic HID sticks rest off-center. Tighter latch
 		// only for non-GamerPro pads so the Legends deck stays as-tuned.
-		const GP_DEAD_ON_BSP = 0.46;
-		const GP_DEAD_OFF_BSP = 0.28;
+		const GP_DEAD_ON_BSP = 0.34;
+		const GP_DEAD_OFF_BSP = 0.18;
 		const GP_MENU_DEBOUNCE = 160;
 		const GP_EXIT_HOLD_MS = 480;
 		const GP_HAT_IDLE = [1.285714, 1.28, 3.285714, 3.28, 8, 15, -1.285714];
@@ -7878,9 +7878,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			return 'generic';
 		}
 
-		function axisLatch(axisVal, currentLatch) {
+		function axisLatch(axisVal, currentLatch, profile) {
 			// Hysteresis: must push past DEAD_ON to engage, release below DEAD_OFF to clear
-			const gamer = !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk'));
+			// Profile-aware: URL gamerpro-kiosk must NOT change BSP deadzones.
+			const gamer = (profile === 'gamerpro') || (!profile && !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk')));
 			const on = gamer ? GP_DEAD_ON : GP_DEAD_ON_BSP;
 			const off = gamer ? GP_DEAD_OFF : GP_DEAD_OFF_BSP;
 			if (axisVal <= -on) return -1;
@@ -8068,15 +8069,27 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		function genericCentered(x, y) {
 			if (!gpRest.ready || window.C4C_GAMERPRO) return { x: x, y: y };
 			if (gpRest.dead0) return { x: 0, y: 0 };
-			return { x: x - gpRest.cx, y: y - gpRest.cy };
+			// Snap to idle when the stick is still at the sampled rest.
+			// Do NOT subtract a large rest (cheap BSP parks at ±0.7..1) —
+			// that used to erase UP and leave only DOWN on the homepage.
+			const rx = gpRest.cx || 0;
+			const ry = gpRest.cy || 0;
+			const idle = 0.22;
+			if (Math.abs(x - rx) < idle) x = 0;
+			else if (Math.abs(rx) < 0.38) x = x - rx;
+			if (Math.abs(y - ry) < idle) y = 0;
+			else if (Math.abs(ry) < 0.38) y = y - ry;
+			return { x: x, y: y };
 		}
 
 		function readStickAxes(gp) {
 			const axes = gp.axes || [];
 			const buttons = gp.buttons || [];
 			const profile = activePadProfile(gp);
-			const invertY = (profile === 'gamerpro' || window.C4C_GAMERPRO) && !!window.C4C_INVERT_Y;
-			const invertX = (profile === 'gamerpro' || window.C4C_GAMERPRO) && !!window.C4C_INVERT_X;
+			// Invert is stored per-browser. Apply to BSP too so a flipped
+			// tablet stick can be corrected without touching Gamer Pro paths.
+			const invertY = !!window.C4C_INVERT_Y && (profile === 'gamerpro' || profile === 'bsp' || profile === 'generic' || window.C4C_GAMERPRO);
+			const invertX = !!window.C4C_INVERT_X && (profile === 'gamerpro' || window.C4C_GAMERPRO);
 			const hats = learnHatAxes(gp);
 			let ax = 0, ay = 0, source = 'none';
 
@@ -8114,13 +8127,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					let y = (Math.abs(yr) <= 1.05) ? yr : 0;
 					const analogOff = (profile === 'gamerpro' || window.C4C_GAMERPRO) ? GP_DEAD_OFF : GP_DEAD_OFF_BSP;
 					if (xi === 0 && yi === 1 && !(profile === 'gamerpro' || window.C4C_GAMERPRO)) {
-						// Do not block the stick while rest samples. Use raw deflection
-						// immediately so a wiggling BSP-Y02 is playable in the first second.
+						// Playable on frame 1. Snap rest-idle; keep both polarities.
 						if (gpRest.ready) {
 							const c = genericCentered(x, y);
 							x = c.x; y = c.y;
-						} else if (Math.abs(x) < 0.55 && Math.abs(y) < 0.55) {
-							return false;
+						} else {
+							if (Math.abs(x) < 0.28) x = 0;
+							if (Math.abs(y) < 0.28) y = 0;
+							if (!x && !y) return false;
 						}
 					}
 					if (Math.abs(x) < analogOff && Math.abs(y) < analogOff) return false;
@@ -8225,17 +8239,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					if (s2.ax || s2.ay) { stick = s2; break; }
 				}
 			}
-			gpAxisLatch.x = axisLatch(stick.ax, gpAxisLatch.x);
-			gpAxisLatch.y = axisLatch(stick.ay, gpAxisLatch.y);
-
 			const profile = activePadProfile(gp);
+			gpAxisLatch.x = axisLatch(stick.ax, gpAxisLatch.x, profile);
+			gpAxisLatch.y = axisLatch(stick.ay, gpAxisLatch.y, profile);
 			gamepadState.left  = gpAxisLatch.x === -1;
 			gamepadState.right = gpAxisLatch.x === 1;
 			gamepadState.up    = gpAxisLatch.y === -1;
 			gamepadState.down  = gpAxisLatch.y === 1;
-			// Safety: only clear opposites if they truly conflict from one source
-			if (gamepadState.up && gamepadState.down) { gamepadState.up = false; gamepadState.down = false; }
-			if (gamepadState.left && gamepadState.right) { gamepadState.left = false; gamepadState.right = false; }
 
 			const face = mergePadButtons(gps);
 			const btnA = face.a, btnB = face.b, btnX = face.x, btnY = face.y;
@@ -8257,25 +8267,32 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			gamepadState.special = btnY || btnLB;
 			gamepadState.slide = gamepadState.down;
 
-			// RAW BSP overlay (games only): OR every common stick source so a
-			// missed latch/hat cannot leave Saucer Beam deaf. Not used for menu.
-			if (!isGamerProPad(gp)) {
+			// RAW BSP overlay (games + menu): analog 0/1 after rest-snap only.
+			// Do not OR shoulder buttons 4/5 as D-pad — that pinned DOWN/UP.
+			if (!isGamerProPad(gp) && currentGame) {
 				const rawA = gp.axes || [];
 				const rawB = buttons;
 				function rawDir(x, y) {
-					if (typeof x === 'number' && Math.abs(x) >= 0.42 && Math.abs(x) <= 1.05) {
+					if (gpRest.ready) {
+						const c = genericCentered(
+							(typeof x === 'number' ? x : 0),
+							(typeof y === 'number' ? y : 0)
+						);
+						x = c.x; y = c.y;
+					}
+					if (!!window.C4C_INVERT_Y) y = -y;
+					if (typeof x === 'number' && Math.abs(x) >= 0.38 && Math.abs(x) <= 1.05) {
 						if (x < 0) gamepadState.left = true; else gamepadState.right = true;
 					}
-					if (typeof y === 'number' && Math.abs(y) >= 0.42 && Math.abs(y) <= 1.05) {
+					if (typeof y === 'number' && Math.abs(y) >= 0.38 && Math.abs(y) <= 1.05) {
 						if (y < 0) gamepadState.up = true; else gamepadState.down = true;
 					}
 				}
 				rawDir(rawA[0], rawA[1]);
-				rawDir(rawA[2], rawA[3]);
-				if (gpPressed(rawB, 14) || gpPressed(rawB, 6)) gamepadState.left = true;
-				if (gpPressed(rawB, 15) || gpPressed(rawB, 7)) gamepadState.right = true;
-				if (gpPressed(rawB, 12) || gpPressed(rawB, 4)) gamepadState.up = true;
-				if (gpPressed(rawB, 13) || gpPressed(rawB, 5)) gamepadState.down = true;
+				if (gpPressed(rawB, 14)) gamepadState.left = true;
+				if (gpPressed(rawB, 15)) gamepadState.right = true;
+				if (gpPressed(rawB, 12)) gamepadState.up = true;
+				if (gpPressed(rawB, 13)) gamepadState.down = true;
 				if (gpPressed(rawB, 0) || gpPressed(rawB, 2)) {
 					gamepadState.a = true;
 					gamepadState.fire = true;
@@ -8294,8 +8311,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (pads.length >= 2) {
 					const p2 = pads[1];
 					const s2 = readStickAxes(p2);
-					gpAxisLatch2.x = axisLatch(s2.ax, gpAxisLatch2.x);
-					gpAxisLatch2.y = axisLatch(s2.ay, gpAxisLatch2.y);
+					gpAxisLatch2.x = axisLatch(s2.ax, gpAxisLatch2.x, activePadProfile(p2));
+					gpAxisLatch2.y = axisLatch(s2.ay, gpAxisLatch2.y, activePadProfile(p2));
 					gamepadState2.left = gpAxisLatch2.x === -1;
 					gamepadState2.right = gpAxisLatch2.x === 1;
 					gamepadState2.up = gpAxisLatch2.y === -1;
@@ -8772,10 +8789,19 @@ function startGamepadLoop() {
 					setInvertY(!window.C4C_INVERT_Y);
 					return;
 				}
-			} else if (gpRest.ready || gpRest.n > 12) {
-				// BSP homepage: one step per flick only. No held-repeat. No Select.
+			} else {
+				// BSP homepage: edges immediately (do not wait for rest samples).
+				// Held-repeat after debounce so a held stick can walk the list.
 				if (gpEdge.up || gpEdge.left) { menuMove(-1); gpLastMenuMove = now; }
 				else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
+				else if (canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
+				else if (canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
+				if (gpEdge.select && gamepadState.up) {
+					setInvertY(!window.C4C_INVERT_Y);
+					const badge = document.getElementById('gamepad-badge');
+					if (badge) badge.textContent = window.C4C_INVERT_Y ? 'ARCADE STICK · Y FLIPPED' : 'ARCADE STICK ONLINE';
+					return;
+				}
 			}
 			if (gamerMenu && gpEdge.select) menuMove(1);
 			if (gpEdge.a || gpEdge.start || gpEdge.x) activateMenuFocus();
