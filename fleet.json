@@ -390,6 +390,16 @@
     "location": "warehouse"
   },
   {
+    "id": "street-fighter-05",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Like new.",
+    "fmv_estimate": 250,
+    "location": "shop"
+  },
+  {
     "id": "mortal-kombat-01",
     "name": "Mortal Kombat",
     "type": "video",
