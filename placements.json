@@ -395,7 +395,7 @@
     "placed": "Free play. Donated on 2026-09-09",
     "status": "active"
   },
-    {
+  {
     "id": "asteroids-03",
     "name": "Asteroids",
     "number": "041",
@@ -409,16 +409,16 @@
     "name": "Legends Ultimate Arcade",
     "number": "044",
     "location": "Real Talk Youth Impact Program (Las Vegas)",
-    "notes": "In loving memory of Bryan Ward. Alsp remembering Darrell Wayne Caldwell Jr. Donated by the Ward family as of 2026-09-09. This Legend has actual art of Luke Skywalker playing laser tag",
+    "notes": "In loving memory of Bryan Ward. Also remembering Darrell Wayne Caldwell Jr. Donated by the Ward family as of 2026-09-09. This Legend has actual art of Luke Skywalker playing laser tag",
     "placed": "Free play. Donated on 2026-09-10",
-    "status": "active"
-        "stem": true,
+    "status": "active",
+    "stem": true,
     "activities": [
       {
         "title": "C4C Custom Arcade Ready. Build. Test your games. Plug and play.",
         "badge": "STEM",
-        "status": "Active",
-        "summary": "Custom arcade active as of 9/10. Cabinet featuring terminal games + interchangeable with 150 other liscensed games."
+        "status": "active",
+        "summary": "Custom arcade active as of 9/10. Cabinet featuring terminal games + interchangeable with 150 other licensed games."
       }
     ]
   }
