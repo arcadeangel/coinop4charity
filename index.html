@@ -7772,6 +7772,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let gpPadMap = null; // optional /gamepads.json override
 		const GP_DEAD_ON = 0.32;
 		const GP_DEAD_OFF = 0.18;
+		// Cheap BSP-Y02 / generic HID sticks rest off-center. Tighter latch
+		// only for non-GamerPro pads so the Legends deck stays as-tuned.
+		const GP_DEAD_ON_BSP = 0.46;
+		const GP_DEAD_OFF_BSP = 0.28;
 		const GP_MENU_DEBOUNCE = 160;
 		const GP_EXIT_HOLD_MS = 480;
 		const GP_HAT_IDLE = [1.285714, 1.28, 3.285714, 3.28, 8, 15, -1.285714];
@@ -7852,9 +7856,12 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 
 		function axisLatch(axisVal, currentLatch) {
 			// Hysteresis: must push past DEAD_ON to engage, release below DEAD_OFF to clear
-			if (axisVal <= -GP_DEAD_ON) return -1;
-			if (axisVal >= GP_DEAD_ON) return 1;
-			if (Math.abs(axisVal) < GP_DEAD_OFF) return 0;
+			const gamer = !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk'));
+			const on = gamer ? GP_DEAD_ON : GP_DEAD_ON_BSP;
+			const off = gamer ? GP_DEAD_OFF : GP_DEAD_OFF_BSP;
+			if (axisVal <= -on) return -1;
+			if (axisVal >= on) return 1;
+			if (Math.abs(axisVal) < off) return 0;
 			return currentLatch; // stay in previous state in the dead band
 		}
 
@@ -8422,7 +8429,13 @@ function startGamepadLoop() {
 			if (!targets.length) return;
 			menuFocusIdx = ((idx % targets.length) + targets.length) % targets.length;
 			targets.forEach((el, i) => el.classList.toggle('gp-focus', i === menuFocusIdx));
-			try { targets[menuFocusIdx].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+			// Regular public page is long. scrollIntoView on a drifting BSP stick
+			// yanks the whole document up and looks like a broken joystick.
+			// Kiosk / Gamer Pro shells are short — keep nearest-scroll there only.
+			const kiosk = !!(window.C4C_KIOSK || document.body.classList.contains('kiosk-mode'));
+			if (kiosk) {
+				try { targets[menuFocusIdx].scrollIntoView({ block: 'nearest', behavior: 'auto' }); } catch (e) {}
+			}
 		}
 
 		function clearMenuFocus() {
@@ -9513,6 +9526,19 @@ function startGamepadLoop() {
 		})();
 
 
+		// BSP-Y02 often enumerates as a USB keyboard. Arrow/space then scroll the
+		// long public terminal. Capture-phase block except inside real text fields.
+		// Gamer Pro path is HID gamepad — this does not change its mapping.
+		window.addEventListener('keydown', function(e) {
+			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+			const nav = e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'PageUp' || e.key === 'PageDown' || e.key === 'Home' || e.key === 'End';
+			const playing = !!(currentGame || document.body.classList.contains('game-open') || window.C4C_GAMEOVER);
+			if (nav && (playing || gamepadConnected || document.querySelector('.gp-focus'))) {
+				try { e.preventDefault(); } catch (err) {}
+			}
+		}, true);
+
 		// Keyboard mirror for menu (does not fight form fields)
 		window.addEventListener('keydown', function(e) {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
@@ -9544,8 +9570,13 @@ function startGamepadLoop() {
 
 		window.addEventListener('keydown', e => {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
-			// Never steal keys from the contact form or other fields — fixes missing letters (t, etc.)
-			if (tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button') return;
+			const typing = (tag === 'input' || tag === 'textarea' || tag === 'select');
+			const playing = !!(currentGame || document.body.classList.contains('game-open'));
+			// Never steal keys from real form fields. Buttons (game tiles) must NOT
+			// swallow BSP keyboard-mode arrows — that scrolled the public page
+			// and starved in-game input after opening the regular site.
+			if (typing) return;
+			if (tag === 'button' && !playing && !gamepadConnected) return;
 			keys[e.key] = true;
 			if (window.C4C_NAME_ENTRY && !window.C4C_NAME_ENTRY.done) {
 				let act = null;
@@ -9573,7 +9604,10 @@ function startGamepadLoop() {
 		});
 		window.addEventListener('keyup', e => {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
-			if (tag === 'input' || tag === 'textarea' || tag === 'select' || tag === 'button') return;
+			const typing = (tag === 'input' || tag === 'textarea' || tag === 'select');
+			const playing = !!(currentGame || document.body.classList.contains('game-open'));
+			if (typing) return;
+			if (tag === 'button' && !playing && !gamepadConnected) return;
 			keys[e.key] = false;
 		});
 
@@ -9668,7 +9702,11 @@ function startGamepadLoop() {
 			lastGameKey = name;
 			overlay.classList.add('active');
 			document.body.classList.add('game-open');
-			window.scrollTo(0, 0);
+			try {
+				const ae = document.activeElement;
+				if (ae && ae !== document.body && ae.blur) ae.blur();
+				if (overlay && overlay.focus) { overlay.setAttribute('tabindex', '-1'); overlay.focus({ preventScroll: true }); }
+			} catch (e) {}
 			currentGame = name;
 			startGamepadLoop();
 			// Keep BACK label correct if kiosk was toggled late
