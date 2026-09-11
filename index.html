@@ -7761,6 +7761,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let gamepadRaf = null;
 		let gpAxisLatch = { x: 0, y: 0 }; // -1, 0, 1 with hysteresis
 		let gpAxisLatch2 = { x: 0, y: 0 };
+		// BSP / generic rest calibration. Parked analog often sits at -1 and
+		// looks like "held up" with no hand on the stick.
+		let gpRest = { n: 0, sx0: 0, sy0: 0, sx1: 0, sy1: 0, cx: 0, cy: 0, ready: false, dead0: false, id: '' };
 		let gpStartHoldMs = 0;
 		let gpStartHoldT0 = 0;
 		let gpLastMenuMove = 0;
@@ -8016,6 +8019,34 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			return known;
 		}
 
+		function calibrateGenericRest(gp) {
+			if (!gp || window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk')) return;
+			const id = String(gp.id || '') + '#' + String(gp.index);
+			if (gpRest.id !== id) {
+				gpRest = { n: 0, sx0: 0, sy0: 0, sx1: 0, sy1: 0, cx: 0, cy: 0, ready: false, dead0: false, id: id };
+			}
+			if (gpRest.ready) return;
+			const ax = gp.axes || [];
+			const x0 = typeof ax[0] === 'number' ? ax[0] : 0;
+			const y0 = typeof ax[1] === 'number' ? ax[1] : 0;
+			gpRest.n += 1;
+			gpRest.sx0 += x0; gpRest.sy0 += y0;
+			if (Math.abs(Math.abs(x0) - 1) < 0.02) gpRest.sx1 += 1;
+			if (Math.abs(Math.abs(y0) - 1) < 0.02) gpRest.sy1 += 1;
+			if (gpRest.n >= 18) {
+				gpRest.cx = gpRest.sx0 / gpRest.n;
+				gpRest.cy = gpRest.sy0 / gpRest.n;
+				gpRest.dead0 = (gpRest.sx1 / gpRest.n > 0.85) || (gpRest.sy1 / gpRest.n > 0.85);
+				gpRest.ready = true;
+			}
+		}
+
+		function genericCentered(x, y) {
+			if (!gpRest.ready || window.C4C_GAMERPRO) return { x: x, y: y };
+			if (gpRest.dead0) return { x: 0, y: 0 };
+			return { x: x - gpRest.cx, y: y - gpRest.cy };
+		}
+
 		function readStickAxes(gp) {
 			const axes = gp.axes || [];
 			const buttons = gp.buttons || [];
@@ -8057,7 +8088,13 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					if (isHatIdleValue(xr) || isHatIdleValue(yr)) return false;
 					const x = (Math.abs(xr) <= 1.05) ? xr : 0;
 					const y = (Math.abs(yr) <= 1.05) ? yr : 0;
-					if (Math.abs(x) < GP_DEAD_OFF && Math.abs(y) < GP_DEAD_OFF) return false;
+					const analogOff = (profile === 'gamerpro' || window.C4C_GAMERPRO) ? GP_DEAD_OFF : GP_DEAD_OFF_BSP;
+					if (xi === 0 && yi === 1 && !(profile === 'gamerpro' || window.C4C_GAMERPRO)) {
+						if (!gpRest.ready) return false; // wait for idle sample — no phantom up
+						const c = genericCentered(x, y);
+						x = c.x; y = c.y;
+					}
+					if (Math.abs(x) < analogOff && Math.abs(y) < analogOff) return false;
 					applyXY(x, y, 'axis' + xi + '/' + yi);
 					return true;
 				}
@@ -8075,6 +8112,25 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				let x = (dLeft ? -1 : 0) + (dRight ? 1 : 0);
 				let y = (dUp ? -1 : 0) + (dDown ? 1 : 0);
 				if (x || y) applyXY(x, y, 'dpad');
+			}
+
+			// 4) Cheap BSP / USB arcade encoders: d-pad on 4-7, not 12-15.
+			// Skip when Gamer Pro is live so we do not remap that deck.
+			if (!ax && !ay && profile !== 'gamerpro' && !window.C4C_GAMERPRO) {
+				const alt = [
+					[7, 5, 4, 6],
+					[3, 1, 0, 2],
+					[2, 3, 0, 1]
+				];
+				for (let sidx = 0; sidx < alt.length; sidx++) {
+					const L = gpPressed(buttons, alt[sidx][0]);
+					const R = gpPressed(buttons, alt[sidx][1]);
+					const U = gpPressed(buttons, alt[sidx][2]);
+					const D = gpPressed(buttons, alt[sidx][3]);
+					const x = (L ? -1 : 0) + (R ? 1 : 0);
+					const y = (U ? -1 : 0) + (D ? 1 : 0);
+					if (x || y) { applyXY(x, y, 'dpad-alt' + sidx); break; }
+				}
 			}
 
 			return { ax: ax || 0, ay: ay || 0, profile: profile, invertY: invertY, source: source };
@@ -8130,6 +8186,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				Object.keys(gamepadState).forEach(k => gamepadState[k] = false);
 				gpAxisLatch.x = 0;
 				gpAxisLatch.y = 0;
+				gpRest = { n: 0, sx0: 0, sy0: 0, sx1: 0, sy1: 0, cx: 0, cy: 0, ready: false, dead0: false, id: '' };
 				gpStartHoldMs = 0;
 				gpStartHoldT0 = 0;
 				gpLiveInput = false;
@@ -8141,6 +8198,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			if (isGamerProPad(gp) || liveCount >= 2) window.C4C_GAMERPRO = true;
 
 			const buttons = gp.buttons || [];
+			calibrateGenericRest(gp);
 			// Prefer the pad that currently has stick travel; still OR P2 buttons below
 			let stick = readStickAxes(gp);
 			if (!stick.ax && !stick.ay) {
@@ -8268,6 +8326,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				lastActivity = Date.now();
 				if (typeof lastInteraction !== 'undefined') lastInteraction = Date.now();
 			}
+			try { syncGamepadToKeys(); } catch (e) {}
 			try { feedNyanGamepadKeys(); } catch (e) {}
 
 			if (btnStart) {
@@ -8279,6 +8338,50 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			}
 		}
 
+
+		var gpKeyMirror = {};
+		function syncGamepadToKeys() {
+			if (typeof keys === 'undefined' || !keys) return;
+			if (!currentGame && !document.body.classList.contains('game-open')) {
+				Object.keys(gpKeyMirror).forEach(function(k) {
+					if (gpKeyMirror[k]) keys[k] = false;
+					gpKeyMirror[k] = false;
+				});
+				return;
+			}
+			if (gpRest && !gpRest.ready && !window.C4C_GAMERPRO) return;
+			const want = {
+				ArrowUp: !!(gamepadState.up),
+				ArrowDown: !!(gamepadState.down),
+				ArrowLeft: !!(gamepadState.left),
+				ArrowRight: !!(gamepadState.right),
+				w: !!(gamepadState.up),
+				W: !!(gamepadState.up),
+				s: !!(gamepadState.down),
+				S: !!(gamepadState.down),
+				a: !!(gamepadState.left),
+				A: !!(gamepadState.left),
+				d: !!(gamepadState.right),
+				D: !!(gamepadState.right),
+				' ': !!(gamepadState.fire || gamepadState.a || gamepadState.jump),
+				Enter: !!(gamepadState.start || gamepadState.a),
+				f: !!(gamepadState.fire || gamepadState.a),
+				F: !!(gamepadState.fire || gamepadState.a),
+				g: !!(gamepadState.dash || gamepadState.b),
+				G: !!(gamepadState.dash || gamepadState.b),
+				h: !!(gamepadState.special || gamepadState.y),
+				H: !!(gamepadState.special || gamepadState.y)
+			};
+			Object.keys(want).forEach(function(k) {
+				if (want[k]) {
+					keys[k] = true;
+					gpKeyMirror[k] = true;
+				} else if (gpKeyMirror[k]) {
+					keys[k] = false;
+					gpKeyMirror[k] = false;
+				}
+			});
+		}
 
 		var nyanKeyHeld = { ArrowUp:false, ArrowDown:false, ArrowLeft:false, ArrowRight:false, ' ':false, Enter:false };
 		function feedNyanGamepadKeys() {
@@ -8569,10 +8672,11 @@ function startGamepadLoop() {
 			// MENU NAV — edge first, then held-stick repeat (Gamer Pro hats often skip edges)
 			const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
 			const canRepeat = (now - (gpLastMenuMove || 0)) >= GP_MENU_DEBOUNCE;
+			const gamerMenu = !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk'));
 			if (gpEdge.up || gpEdge.left) { menuMove(-1); gpLastMenuMove = now; }
 			else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
-			else if (canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
-			else if (canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
+			else if (gamerMenu && canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
+			else if (gamerMenu && canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
 			if (gpEdge.select && gamepadState.up) {
 				setInvertY(!window.C4C_INVERT_Y);
 				return;
@@ -17464,13 +17568,13 @@ function startGamepadLoop() {
 			const gp = (typeof gamepadState !== 'undefined') ? gamepadState : {};
 			const ts = (typeof touchState !== 'undefined') ? touchState : {};
 			if (p === 0) {
-				if (action === 'left') return !!(k['a'] || k['A'] || ts.left || gp.left);
-				if (action === 'right') return !!(k['d'] || k['D'] || ts.right || gp.right);
-				if (action === 'up') return !!(k['w'] || k['W'] || ts.up || gp.up || gp.jump);
-				if (action === 'down') return !!(k['s'] || k['S'] || ts.down || gp.down);
-				if (action === 'punch') return !!(k['f'] || k['F'] || ts.fire || gp.fire);
-				if (action === 'kick') return !!(k['g'] || k['G'] || k['k'] || k['K'] || ts.kick || ts.dash || gp.dash || gp.slide);
-				if (action === 'special') return !!(k['h'] || k['H'] || k[' '] || ts.special || gp.special);
+				if (action === 'left') return !!(k['a'] || k['A'] || k['ArrowLeft'] || ts.left || gp.left);
+				if (action === 'right') return !!(k['d'] || k['D'] || k['ArrowRight'] || ts.right || gp.right);
+				if (action === 'up') return !!(k['w'] || k['W'] || k['ArrowUp'] || ts.up || gp.up || gp.jump);
+				if (action === 'down') return !!(k['s'] || k['S'] || k['ArrowDown'] || ts.down || gp.down);
+				if (action === 'punch') return !!(k['f'] || k['F'] || ts.fire || gp.fire || gp.a);
+				if (action === 'kick') return !!(k['g'] || k['G'] || k['k'] || k['K'] || ts.kick || ts.dash || gp.dash || gp.b);
+				if (action === 'special') return !!(k['h'] || k['H'] || k[' '] || ts.special || gp.special || gp.y);
 			} else {
 				const gp2 = (typeof gamepadState2 !== 'undefined') ? gamepadState2 : {};
 				if (action === 'left') return !!(k['ArrowLeft'] || gp2.left);
