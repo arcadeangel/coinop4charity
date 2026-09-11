@@ -8114,24 +8114,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (x || y) applyXY(x, y, 'dpad');
 			}
 
-			// 4) Cheap BSP / USB arcade encoders: d-pad on 4-7, not 12-15.
-			// Skip when Gamer Pro is live so we do not remap that deck.
-			if (!ax && !ay && profile !== 'gamerpro' && !window.C4C_GAMERPRO) {
-				const alt = [
-					[7, 5, 4, 6],
-					[3, 1, 0, 2],
-					[2, 3, 0, 1]
-				];
-				for (let sidx = 0; sidx < alt.length; sidx++) {
-					const L = gpPressed(buttons, alt[sidx][0]);
-					const R = gpPressed(buttons, alt[sidx][1]);
-					const U = gpPressed(buttons, alt[sidx][2]);
-					const D = gpPressed(buttons, alt[sidx][3]);
-					const x = (L ? -1 : 0) + (R ? 1 : 0);
-					const y = (U ? -1 : 0) + (D ? 1 : 0);
-					if (x || y) { applyXY(x, y, 'dpad-alt' + sidx); break; }
-				}
-			}
+
 
 			return { ax: ax || 0, ay: ay || 0, profile: profile, invertY: invertY, source: source };
 		}
@@ -8673,15 +8656,17 @@ function startGamepadLoop() {
 			const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
 			const canRepeat = (now - (gpLastMenuMove || 0)) >= GP_MENU_DEBOUNCE;
 			const gamerMenu = !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk'));
-			if (gpEdge.up || gpEdge.left) { menuMove(-1); gpLastMenuMove = now; }
-			else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
-			else if (gamerMenu && canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
-			else if (gamerMenu && canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
-			if (gpEdge.select && gamepadState.up) {
-				setInvertY(!window.C4C_INVERT_Y);
-				return;
+			if (gamerMenu) {
+				if (gpEdge.up || gpEdge.left) { menuMove(-1); gpLastMenuMove = now; }
+				else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
+				else if (canRepeat && (gamepadState.up || gamepadState.left)) { menuMove(-1); gpLastMenuMove = now; }
+				else if (canRepeat && (gamepadState.down || gamepadState.right)) { menuMove(1); gpLastMenuMove = now; }
+				if (gpEdge.select && gamepadState.up) {
+					setInvertY(!window.C4C_INVERT_Y);
+					return;
+				}
 			}
-			if (gpEdge.select) menuMove(1);
+			// BSP: Select is often a floating button. Never use it to walk the game list.
 			if (gpEdge.a || gpEdge.start || gpEdge.x) activateMenuFocus();
 		}
 
@@ -9630,17 +9615,22 @@ function startGamepadLoop() {
 		})();
 
 
-		// BSP-Y02 often enumerates as a USB keyboard. Arrow/space then scroll the
-		// long public terminal. Capture-phase block except inside real text fields.
-		// Gamer Pro path is HID gamepad — this does not change its mapping.
+		// BSP-Y02 often enumerates as a USB keyboard. Record keys at capture
+		// so canvas games see the same events Nyan Cat gets inside its iframe.
 		window.addEventListener('keydown', function(e) {
 			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
 			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+			try { keys[e.key] = true; } catch (err) {}
 			const nav = e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'PageUp' || e.key === 'PageDown' || e.key === 'Home' || e.key === 'End';
 			const playing = !!(currentGame || document.body.classList.contains('game-open') || window.C4C_GAMEOVER);
-			if (nav && (playing || gamepadConnected || document.querySelector('.gp-focus'))) {
+			if (nav) {
 				try { e.preventDefault(); } catch (err) {}
 			}
+		}, true);
+		window.addEventListener('keyup', function(e) {
+			const tag = ((e.target && e.target.tagName) || '').toLowerCase();
+			if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+			try { keys[e.key] = false; } catch (err) {}
 		}, true);
 
 		// Keyboard mirror for menu (does not fight form fields)
@@ -9663,6 +9653,10 @@ function startGamepadLoop() {
 			if (window.C4C_OPS && window.C4C_OPS.attract) return;
 			const targets = getMenuTargets();
 			if (!targets.length) return;
+			if (e.repeat) {
+				if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Tab') e.preventDefault();
+				return;
+			}
 			if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); menuMove(-1); }
 			if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); menuMove(1); }
 			if (e.key === 'Tab') { e.preventDefault(); menuMove(e.shiftKey ? -1 : 1); }
