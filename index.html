@@ -7742,6 +7742,22 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 		let animId = null;
 		let keys = {};
 		let touchState = { left: false, right: false, up: false, down: false, fire: false };
+		function c4cPad() {
+			const k = keys || {};
+			const t = touchState || {};
+			const g = gamepadState || {};
+			return {
+				left: !!(k['ArrowLeft'] || k['a'] || k['A'] || t.left || g.left),
+				right: !!(k['ArrowRight'] || k['d'] || k['D'] || t.right || g.right),
+				up: !!(k['ArrowUp'] || k['w'] || k['W'] || t.up || g.up || g.jump),
+				down: !!(k['ArrowDown'] || k['s'] || k['S'] || t.down || g.down || g.slide),
+				fire: !!(k[' '] || k['Enter'] || t.fire || g.fire || g.a || g.x),
+				jump: !!(k['ArrowUp'] || k['w'] || k['W'] || k[' '] || t.up || g.up || g.jump || g.a),
+				dash: !!(k['Shift'] || k['f'] || k['F'] || t.fire || t.dash || g.dash || g.b),
+				special: !!(k['h'] || k['H'] || k[' '] || t.special || g.special || g.y),
+				kick: !!(k['g'] || k['G'] || k['k'] || k['K'] || t.kick || t.dash || g.dash || g.b)
+			};
+		}
 		// ========== BSP-Y02 / ARCADE STICK INPUT (v3 Gamer Pro + generic HID) ==========
 		// Clean roles: A=primary, B=secondary, Start=hold-to-exit, Select=menu/back
 		// Legend Gamer Pro (USB/BT) is usually TWO raw HID pads + a POV hat, not a
@@ -8310,6 +8326,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 				if (typeof lastInteraction !== 'undefined') lastInteraction = Date.now();
 			}
 			try { syncGamepadToKeys(); } catch (e) {}
+			try { feedMainGamepadKeys(); } catch (e) {}
 			try { feedNyanGamepadKeys(); } catch (e) {}
 
 			if (btnStart) {
@@ -8363,6 +8380,40 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 					keys[k] = false;
 					gpKeyMirror[k] = false;
 				}
+			});
+		}
+
+		var mainKeyHeld = { ArrowUp:false, ArrowDown:false, ArrowLeft:false, ArrowRight:false, ' ':false, Enter:false, a:false, d:false, w:false, s:false };
+		function feedMainGamepadKeys() {
+			if (!currentGame && !document.body.classList.contains('game-open')) {
+				Object.keys(mainKeyHeld).forEach(function(k) {
+					if (mainKeyHeld[k]) {
+						mainKeyHeld[k] = false;
+						try { keys[k] = false; } catch (e) {}
+					}
+				});
+				return;
+			}
+			const map = {
+				ArrowUp: !!(gamepadState.up),
+				ArrowDown: !!(gamepadState.down),
+				ArrowLeft: !!(gamepadState.left),
+				ArrowRight: !!(gamepadState.right),
+				w: !!(gamepadState.up),
+				s: !!(gamepadState.down),
+				a: !!(gamepadState.left),
+				d: !!(gamepadState.right),
+				' ': !!(gamepadState.fire || gamepadState.a),
+				Enter: !!(gamepadState.a || gamepadState.start)
+			};
+			Object.keys(map).forEach(function(key) {
+				const want = map[key];
+				if (want === mainKeyHeld[key]) {
+					if (want) keys[key] = true;
+					return;
+				}
+				mainKeyHeld[key] = want;
+				keys[key] = want;
 			});
 		}
 
@@ -8642,7 +8693,13 @@ function startGamepadLoop() {
 			// Select = instant back | Start held ~0.5s = exit
 			// B is gameplay (dash/secondary) — never exits mid-match
 			if (currentGame) {
-				if (gpEdge.select || gpStartHoldMs >= GP_EXIT_HOLD_MS) {
+				const gamer = !!(window.C4C_GAMERPRO || document.body.classList.contains('gamerpro-kiosk'));
+				const startedAt = window.C4C_GAME_STARTED_AT || 0;
+				const grace = (Date.now() - startedAt) < 700;
+				const wantExit = gamer
+					? (gpEdge.select || gpStartHoldMs >= GP_EXIT_HOLD_MS)
+					: (!grace && gpStartHoldMs >= GP_EXIT_HOLD_MS);
+				if (wantExit) {
 					gpStartHoldMs = 0;
 					gpStartHoldT0 = 0;
 					stopGame();
@@ -8665,8 +8722,12 @@ function startGamepadLoop() {
 					setInvertY(!window.C4C_INVERT_Y);
 					return;
 				}
+			} else if (gpRest.ready || gpRest.n > 12) {
+				// BSP homepage: one step per flick only. No held-repeat. No Select.
+				if (gpEdge.up || gpEdge.left) { menuMove(-1); gpLastMenuMove = now; }
+				else if (gpEdge.down || gpEdge.right) { menuMove(1); gpLastMenuMove = now; }
 			}
-			// BSP: Select is often a floating button. Never use it to walk the game list.
+			if (gamerMenu && gpEdge.select) menuMove(1);
 			if (gpEdge.a || gpEdge.start || gpEdge.x) activateMenuFocus();
 		}
 
@@ -9806,6 +9867,7 @@ function startGamepadLoop() {
 				if (overlay && overlay.focus) { overlay.setAttribute('tabindex', '-1'); overlay.focus({ preventScroll: true }); }
 			} catch (e) {}
 			currentGame = name;
+			window.C4C_GAME_STARTED_AT = Date.now();
 			startGamepadLoop();
 			// Keep BACK label correct if kiosk was toggled late
 			try {
@@ -10304,9 +10366,9 @@ function startGamepadLoop() {
 			r.shakeX *= 0.86;
 			r.shakeY *= 0.86;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-			const fire = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up || gamepadState.fire || gamepadState.up || gamepadState.jump;
+			const left = c4cPad().left;
+			const right = c4cPad().right;
+			const fire = c4cPad().fire || c4cPad().up;
 
 			if (r.mode === 'highway' && r.distance > 1380) {
 				r.mode = 'tunnel';
@@ -11133,9 +11195,9 @@ function startGamepadLoop() {
 		function loopSwarm() {
 			if (currentGame !== 'swarm') return;
 			const s = swarm;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-			const fire = keys[' '] || touchState.fire || gamepadState.fire;
+			const left = c4cPad().left;
+			const right = c4cPad().right;
+			const fire = c4cPad().fire;
 			if (left) s.player.x -= 5.5;
 			if (right) s.player.x += 5.5;
 			s.player.x = Math.max(4, Math.min(434, s.player.x));
@@ -11236,10 +11298,10 @@ function startGamepadLoop() {
 
 		function loopWorm() {
 			if (currentGame !== 'worm') return;
-			if ((keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump) && worm.dir.y === 0) worm.nextDir = { x: 0, y: -1 };
-			if ((keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide) && worm.dir.y === 0) worm.nextDir = { x: 0, y: 1 };
-			if ((keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left) && worm.dir.x === 0) worm.nextDir = { x: -1, y: 0 };
-			if ((keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right) && worm.dir.x === 0) worm.nextDir = { x: 1, y: 0 };
+			if (c4cPad().up && worm.dir.y === 0) worm.nextDir = { x: 0, y: -1 };
+			if (c4cPad().down && worm.dir.y === 0) worm.nextDir = { x: 0, y: 1 };
+			if (c4cPad().left && worm.dir.x === 0) worm.nextDir = { x: -1, y: 0 };
+			if (c4cPad().right && worm.dir.x === 0) worm.nextDir = { x: 1, y: 0 };
 			const now = Date.now();
 			if (now - worm.lastMove >= worm.moveDelay && !worm.gameOver) {
 				worm.lastMove = now;
@@ -11299,8 +11361,8 @@ function startGamepadLoop() {
 		function loopPaddle() {
 			if (currentGame !== 'paddle') return;
 			const p = paddle;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+			const left = c4cPad().left;
+			const right = c4cPad().right;
 			if (left) p.paddle.x -= 6.8;
 			if (right) p.paddle.x += 6.8;
 			p.paddle.x = Math.max(0, Math.min(480 - p.paddle.w, p.paddle.x));
@@ -11429,10 +11491,10 @@ function startGamepadLoop() {
 			if (currentGame !== 'yeti') return;
 			if (yeti.gameOver) return;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
-			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
+			const left = c4cPad().left;
+			const right = c4cPad().right;
+			const up = c4cPad().up;
+			const down = c4cPad().down;
 
 			if (left) yeti.skier.x -= 5.5;
 			if (right) yeti.skier.x += 5.5;
@@ -11631,8 +11693,8 @@ function startGamepadLoop() {
 			const sk = yeti.skier;
 			ctx.save();
 			ctx.translate(sk.x, sk.y);
-			const leanX = (keys['ArrowLeft'] || keys['a'] || touchState.left || gamepadState.left) ? -0.28 :
-				(keys['ArrowRight'] || keys['d'] || touchState.right || gamepadState.right) ? 0.28 : 0;
+			const leanX = (c4cPad().left) ? -0.28 :
+				(c4cPad().right) ? 0.28 : 0;
 			ctx.rotate(leanX);
 			ctx.shadowColor = '#00ff9f';
 			ctx.shadowBlur = 10;
@@ -11878,10 +11940,10 @@ function startGamepadLoop() {
 		function loopRocks() {
 			if (currentGame !== 'rocks') return;
 			const r = rocks;
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-			const thrust = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
-			const fire = keys[' '] || touchState.fire || gamepadState.fire;
+			const left = c4cPad().left;
+			const right = c4cPad().right;
+			const thrust = c4cPad().up;
+			const fire = c4cPad().fire;
 			if (left) r.ship.angle -= 0.085;
 			if (right) r.ship.angle += 0.085;
 			if (thrust) { r.ship.vx += Math.cos(r.ship.angle) * 0.18;
@@ -12266,9 +12328,9 @@ function startGamepadLoop() {
 
 			if (r.frame % 5 === 0) updateUI(r.score, null);
 
-			const jumpPressed = !!(keys['ArrowUp'] || keys['w'] || keys['W'] || keys[' '] || touchState.up || gamepadState.up || gamepadState.jump || gamepadState.a);
-			const dashPressed = !!(keys['Shift'] || keys['f'] || keys['F'] || touchState.fire || gamepadState.dash);
-			const slidePressed = !!(keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide);
+			const jumpPressed = c4cPad().jump;
+			const dashPressed = c4cPad().dash;
+			const slidePressed = c4cPad().down;
 
 			// Variable jump + double jump
 			if (jumpPressed && !r.wasJump) {
@@ -13231,9 +13293,9 @@ function startGamepadLoop() {
 					c.speed = c.baseSpeed + Math.min(2.8, c.survival / 1400);
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-				const boost = keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.fire || touchState.up || gamepadState.fire || gamepadState.up || gamepadState.jump;
+				const left = c4cPad().left;
+				const right = c4cPad().right;
+				const boost = c4cPad().fire || c4cPad().up;
 
 				if (b.alive) {
 					// Queue turns (applied on grid step — prevents mid-cell glitches)
@@ -13741,11 +13803,11 @@ function startGamepadLoop() {
 					return;
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-				const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
-				const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
-				const beam = !!(keys[' '] || touchState.fire || gamepadState.fire);
+				const left = c4cPad().left;
+				const right = c4cPad().right;
+				const up = c4cPad().up;
+				const down = c4cPad().down;
+				const beam = c4cPad().fire;
 
 				const u = g.ufo;
 				const prevX = u.x;
@@ -14594,8 +14656,8 @@ function startGamepadLoop() {
 					return;
 				}
 
-				const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-				const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
+				const left = c4cPad().left;
+				const right = c4cPad().right;
 				const action = !!(keys[' '] || touchState.fire || gamepadState.fire);
 
 				if (g.msgT > 0) g.msgT--;
@@ -15622,11 +15684,11 @@ function startGamepadLoop() {
 			if (g.msgT > 0) g.msgT--;
 			if (g.selectFlash > 0) g.selectFlash--;
 
-			const left = keys['ArrowLeft'] || keys['a'] || keys['A'] || touchState.left || gamepadState.left;
-			const right = keys['ArrowRight'] || keys['d'] || keys['D'] || touchState.right || gamepadState.right;
-			const up = keys['ArrowUp'] || keys['w'] || keys['W'] || touchState.up || gamepadState.up || gamepadState.jump;
-			const down = keys['ArrowDown'] || keys['s'] || keys['S'] || touchState.down || gamepadState.down || gamepadState.slide;
-			const fire = !!(keys[' '] || touchState.fire || gamepadState.fire);
+			const left = c4cPad().left;
+			const right = c4cPad().right;
+			const up = c4cPad().up;
+			const down = c4cPad().down;
+			const fire = c4cPad().fire;
 
 			// INTRO — readable but skippable
 			if (g.phase === 'intro') {
