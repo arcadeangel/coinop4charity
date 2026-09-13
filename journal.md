@@ -8,7 +8,7 @@ The only way you could be a better player than the developer, is if you were a b
 
 And losers, I will pull from a classic quote here to dodge your questions,
 
-"You have learnt something. That always feels at first as if you have lost something." - Major Barbara 
+"You have learnt something. That always feels at first as if you have lost something." - Andrew Undershaft, Major Barbara 
 
 Now let the games begin.
 
