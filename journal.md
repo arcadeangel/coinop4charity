@@ -6,7 +6,7 @@ The first of many rounds of bounties is now live. Up to $1,000 in grants towards
 
 The only way you could be a better player than the developer, is if you were a better person than the developer. 
 
-And losers (I say that with endearment having been a quite bitter one), I will pull from a classic quote here to dodge your questions...
+And losers (I say that with endearment having been a quite bitter one myself for a great many years), I will pull from a classic quote here to dodge your questions...
 
 "You have learnt something. That always feels at first as if you have lost something." - Andrew Undershaft, Major Barbara 
 
