@@ -2,7 +2,7 @@
 
 ## 09.12.26 20:20  First round of bounties live
 
-The first of many rounds of bounties is now live. Up to $1,000 for participating locations this semester. More public bounties and grand prizes will be announced next.
+The first of many rounds of bounties is now live. Up to $1,000 in grants towards parts and prizes for participating locations this semester. We will cover the cost of parts, prizes or scholarships, and provide additional amended budgeting for our partners if needed. More public bounties and grand prizes will be announced next.
 
 The only way you could be a better player than the developer, is if you were a better person than the developer. Now let the games begin.
 
