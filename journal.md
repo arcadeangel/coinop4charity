@@ -4,7 +4,13 @@
 
 The first of many rounds of bounties is now live. Up to $1,000 in grants towards parts and prizes for participating locations this semester. We will cover the cost of parts, prizes or scholarships, and provide additional amended budgeting for our partners if needed. More public bounties and grand prizes will be announced next.
 
-The only way you could be a better player than the developer, is if you were a better person than the developer. Now let the games begin.
+The only way you could be a better player than the developer, is if you were a better person than the developer. 
+
+And losers, I will pull from a classic quote here to dodge your questions,
+
+"You have learnt something. That always feels at first as if you have lost something." - Major Barbara 
+
+Now let the games begin.
 
 ## 09.11.26 11:11  Pitching the city and university
 
