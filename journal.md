@@ -1,5 +1,9 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+## 09.14.26 01:23  Hypocrisy in New York
+
+A few weeks ago we emailed DYCD, NYC Parks and Rec, NYC City Hall and the even the Mayor's Fund. We literally emailed all of New York and offered to replicate our system there, we figured in the realm of their free resource initiatives there would be some synergy. Also offered to  provide coverage, maintenance and full blown arcades for all 200+ youth centers throughout NYC. We emailed multiple departments and still did not receive a response from any one of them. Weak. Fake. It seems like they are a total scam at this point. Again, just to reiterate, so far we have had zero response from anyone in the state of New York regarding dropping off free arcade games for free play at youth centere and homeless shelters. Due to the apathy and push back  we have allowed a voluntary media liason, Colonel Harry Tsang,  to simply take over our media department starting Tuesday. He is sharp witted, against the status quo, and turns into a rabid dog when fighting. Colonel Tsang will be publishing raw data, our communication, and probably adding to the unemployment rate since the Colonel doesn't lie or pull any punches in his publishings.
+
 ## 09.12.26 20:20  First round of bounties live
 
 The first of many rounds of bounties is now live. Up to $1,000 in grants towards parts and prizes for participating locations this semester. We will cover the cost of parts, prizes or scholarships, and provide additional amended budgeting for our partners if needed. More public bounties and grand prizes will be announced next.
