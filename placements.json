@@ -409,8 +409,17 @@
     "name": "Street Fighter",
     "number": "045",
     "location": "Real Talk Youth Impact Program (Las Vegas)",
-    "notes": "In loving memory of Bryan Ward and Darrell Wayne Caldwell Jr. Donated by the Ward family as of 2026-09-09. 1300 S Jones Blvd.",
-    "placed": "Free play. Donated on 2026-09-09",
+    "notes": "From our buddy Jaxson's collection who says he is waiting for the right time to quit his job and join our pirate ship. He seemed to be serious. Donated on 2026-09-15.",
+    "placed": "Free play. Donated on 2026-09-15",
+    "status": "active"
+  },
+  {
+    "id": "atari-50th-anniversary-01",
+    "name": "Atari 50th Anniversary Limited Editiom",
+    "number": "046",
+    "location": "Real Talk Youth Impact Program (Las Vegas)",
+    "notes": "In loving memory of Bryan Ward and also Sheree's nephew Darrell Wayne Caldwell Jr. Donated by the Ward family as of 2026-09-15. 1300 S Jones Blvd.",
+    "placed": "Free play. Donated on 2026-09-15",
     "status": "active"
   },
   {
