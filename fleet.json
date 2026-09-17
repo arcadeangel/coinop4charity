@@ -340,16 +340,6 @@
     "location": "shop"
   },
   {
-    "id": "street-fighter-03",
-    "name": "Street Fighter",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Cabinet solid. From Eve and her son Cruz. Eve grew up on playing Street Fighter arcade style in a local shop. She said she saw a bit of herself in Chun-Li. Bought this cabinet because she wanted to share those memories and the experience with her son. Now after many years and him growing up and barely using it... they have decided to share it with you. Working great, monitor clean and controls are solid.",
-    "fmv_estimate": 350,
-    "location": "warehouse"
-  },
-  {
     "id": "mortal-kombat-01",
     "name": "Mortal Kombat",
     "type": "video",
