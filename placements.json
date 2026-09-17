@@ -466,5 +466,14 @@
   "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
   "placed": "Placed on 2026-09-16",
   "status": "active"
+},
+{
+  "id": "ms-pac-man-05",
+  "name": "Ms. Pac-Man",
+  "number": "050",
+  "location": "R.I.S.E. Homes (North Las Vegas)",
+  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+  "placed": "Placed on 2026-09-16",
+  "status": "active"
 }
 ]
