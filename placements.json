@@ -423,6 +423,15 @@
     "status": "active"
   },
   {
+    "id": "asteroids-01",
+    "name": "Asteroids",
+    "number": "047",
+    "location": "Real Talk Youth Impact Program (Las Vegas)",
+    "notes": "Donated by as of 2026-09-15. 1300 S Jones Blvd.",
+    "placed": "Free play. Upright cabinet with several games. Donated on 2026-09-15",
+    "status": "active"
+  },
+  {
     "id": "AtGames-Legends-Ultimate-Arcade-HD-01",
     "name": "Legends Ultimate Arcade",
     "number": "044",
@@ -443,7 +452,7 @@
   {
   "id": "the-simpsons-04",
   "name": "The Simpsons",
-  "number": "047",
+  "number": "048",
   "location": "R.I.S.E. Homes (North Las Vegas)",
   "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
   "placed": "Placed on 2026-09-16",
