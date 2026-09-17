@@ -340,16 +340,6 @@
     "location": "shop"
   },
   {
-    "id": "ms-pac-man-05",
-    "name": "Ms. Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "variety of Pacman titles Cleaned, tested, working fine.",
-    "fmv_estimate": 275,
-    "location": "warehouse"
-  },
-  {
     "id": "street-fighter-03",
     "name": "Street Fighter",
     "type": "video",
