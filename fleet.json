@@ -500,16 +500,6 @@
     "location": "warehouse"
   },
   {
-    "id": "asteroids-01",
-    "name": "Asteroids",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Solid multicade features Asteroids and lots of other games.",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
     "id": "cube-parallel-01",
     "name": "Cube Parallel Prize Redemption",
     "type": "redemption",
