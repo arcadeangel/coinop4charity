@@ -439,5 +439,14 @@
         "summary": "Custom arcade active as of 9/10. Cabinet featuring terminal games + interchangeable with 150 other licensed games."
       }
     ]
-  }
+  },
+  {
+  "id": "the-simpsons-04",
+  "name": "The Simpsons",
+  "number": "047",
+  "location": "R.I.S.E. Homes (North Las Vegas)",
+  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+  "placed": "Placed on 2026-09-16",
+  "status": "active",
+}
 ]
