@@ -4475,12 +4475,18 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			'centennial hills': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
 			'ymca of southern nevada': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
 			/* R.I.S.E. Homes — 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030
-			   Keys must beat generic "north las vegas" / "las vegas" (longest match wins). */
+			   Full location string MUST be longer than "north las vegas" or the city key wins. */
+			'r.i.s.e. homes (north las vegas)': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			'rise homes (north las vegas)': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'r.i.s.e. homes': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'r.i.s.e': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'rise homes': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'570 w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' }
+		};
+		const GENERIC_CITY_KEYS = {
+			'reno': 1, 'henderson': 1, 'north las vegas': 1, 'enterprise': 1,
+			'summerlin': 1, 'las vegas': 1, 'boulder city': 1
 		};
 
 		function shortLabelFromLocation(location) {
@@ -4596,20 +4602,17 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		function resolvePlacementCoord(p) {
 			const hay = String((p && p.location) || '') + ' ' + String((p && p.name) || '') + ' ' + String((p && p.site) || '');
 			const loc = hay.toLowerCase();
-			// Longest key first so "st. jude" / "centennial hills" beat generic city matches
 			const keys = Object.keys(PLACEMENT_COORDS).sort(function(a, b) { return b.length - a.length; });
+			let cityHit = null;
 			for (const key of keys) {
-				if (loc.includes(key)) {
-					const base = PLACEMENT_COORDS[key];
-					return {
-						lat: base.lat,
-						lng: base.lng,
-						label: base.label,
-						short: base.short
-					};
-				}
+				if (!loc.includes(key)) continue;
+				const base = PLACEMENT_COORDS[key];
+				const hit = { lat: base.lat, lng: base.lng, label: base.label, short: base.short };
+				// Partner site keys beat generic city names even if the city string is longer
+				if (!GENERIC_CITY_KEYS[key]) return hit;
+				if (!cityHit) cityHit = hit;
 			}
-			// Explicit coordinates on the placement (unknown site)
+			if (cityHit) return cityHit;
 			const lat = Number(p && p.lat);
 			const lng = Number(p && p.lng);
 			if (Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
