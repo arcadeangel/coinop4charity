@@ -3418,6 +3418,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		<div class="updates-panel" id="updatesPanel">
 			<h4>UPDATES</h4>
 			<div id="updatesList">
+				<div class="upd-row"><b>09.16</b> R.I.S.E. Homes mapped — 570 W Cheyenne Ave, North Las Vegas</div>
 				<div class="upd-row"><b>08.23</b> Kiosk low-RAM profile + Pixel Pad undo · smoother on older tablets</div>
 				<div class="upd-row"><b>09.06</b> Site cards show STEM labs run with the machines — James Club claw first</div>
 				<div class="upd-row"><b>08.21</b> Southern Highlands live — more machines on the floor</div>
@@ -4471,8 +4472,15 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			/* Same campus as St. Jude's Ranch — do not split into a second stacked pin */
 			'boulder city': { lat: 35.98515, lng: -114.84126, label: "St. Jude's Ranch", short: 'ST.JUDE' },
 			'centennial hills ymca': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
-   'centennial hills': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
-   'ymca of southern nevada': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' }
+			'centennial hills': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
+			'ymca of southern nevada': { lat: 36.2805, lng: -115.2662, label: 'YMCA Centennial Hills', short: 'YMCA.CH' },
+			/* R.I.S.E. Homes — 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030
+			   Keys must beat generic "north las vegas" / "las vegas" (longest match wins). */
+			'r.i.s.e. homes': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			'r.i.s.e': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			'rise homes': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			'570 w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			'w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' }
 		};
 
 		function shortLabelFromLocation(location) {
