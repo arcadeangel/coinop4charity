@@ -3,7 +3,7 @@
 ## 09.23.26 18:03 Simple things that count
 
 Pilots called it a joy-stick before anyone ever put one on a cabinet.
-Around 1910 it was just a wooden lever in an open cockpit. Joy plus stick. Not a brand. Not a patent. A nickname for the thing that let you tilt the world a few degrees and feel it answer back. The word stuck because the feeling stuck. Such a impactful feeling in such a simple controller.
+Around 1910 it was just a wooden lever in the cabin. Joy plus stick. Not a brand. Not a patent. A nickname for the thing that let you tilt the world a few degrees and feel it answer back. The word stuck because the feeling stuck. Such a impactful feeling in such a simple controller.
 I remember that feeling as a kid before I knew the word. It's funny the things we remember from  growing up... preserving and sharing the little things that bring all the fun are worth fighting for in today's world. You did not walk into a foster care or shelter looking for a lesson. You walked in because the lights were on and somebody who cares extended the invitation. One good run and the whole day rearranged itself. Homework waa finished, and you felt a sense of belonging. You deserve that round of NBA Jam with your new friends. 
 Sometimes that is still the only missing ingredient. The joy is what makes the glass half full as opposed to half empty.
 We can write policy, map HID profiles, file the background checks, swap the microswitches, and still miss the point if the room never laughs. Kids do not need another adult explaining resilience. They need a stick that moves when they move it. They need the cheap kind of joy that does not require a speech first.
