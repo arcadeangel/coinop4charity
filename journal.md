@@ -1,6 +1,6 @@
 ## Coin-Op 4 Charity — Dev Journal
 
-09.23.26 18:03 Simple things that count
+## 09.23.26 18:03 Simple things that count
 
 Pilots called it a joy-stick before anyone ever put one on a cabinet.
 Around 1910 it was just a wooden lever in an open cockpit. Joy plus stick. Not a brand. Not a patent. A nickname for the thing that let you tilt the world a few degrees and feel it answer back. The word stuck because the feeling stuck. Such a impactful feeling in such a simple controller.
