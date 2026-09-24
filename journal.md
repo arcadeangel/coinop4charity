@@ -1,5 +1,16 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+09.23.26 18:03 Simple things that count
+
+Pilots called it a joy-stick before anyone ever put one on a cabinet.
+Around 1910 it was just a wooden lever in an open cockpit. Joy plus stick. Not a brand. Not a patent. A nickname for the thing that let you tilt the world a few degrees and feel it answer back. The word stuck because the feeling stuck. Such a impactful feeling in such a simple controller.
+I remember that feeling as a kid before I knew the word. It's funny the things we remember from  growing up... preserving and sharing the little things that bring all the fun are worth fighting for in today's world. You did not walk into a foster care or shelter looking for a lesson. You walked in because the lights were on and somebody who cares extended the invitation. One good run and the whole day rearranged itself. Homework waa finished, and you felt a sense of belonging. You deserve that round of NBA Jam with your new friends. 
+Sometimes that is still the only missing ingredient. The joy is what makes the glass half full as opposed to half empty.
+We can write policy, map HID profiles, file the background checks, swap the microswitches, and still miss the point if the room never laughs. Kids do not need another adult explaining resilience. They need a stick that moves when they move it. They need the cheap kind of joy that does not require a speech first.
+That is why the fleet exists. Not because arcade history is cute. Because the root word already told us what the tool was for. Joy first. Then the rest of the work. 
+
+We love you all.
+
 ## 09.22.26 18:42  New Arcades Live
 
 This week we have had new arcades live, had the pleasure of meeting the husband and wife team that run R.I.S.E. Homes after having some delivery rescheduling and bad planning on our behalf. They were great and it is nice seeing that sort of family environment in a foster care setting. They were both very inspirational and motivating, reminding us and the rest of the volunteers of what this entire mission represents. It is nice seeing a husband and wife making a difference together in their community outside of their own household. Thanks for all that you do. A few other partners have asked for us to volunteer so we are currently completing the necessary background checks to be able to assist them at live events such as career building workshops. We are fascinated with the work our partners are doing for the community, they are doing all of the heavy lifting while we are just swapping out microswitches and doing the easy stuff. 
