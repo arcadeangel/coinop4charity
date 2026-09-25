@@ -543,10 +543,10 @@
     "id": "ms-pac-man-1981-01",
     "name": "Ms. Pac-Man (1981)",
     "type": "video",
-    "status": "in progress",
-    "condition": "in progress",
-    "notes": "Cabinet solid. parts and crt there. Won't power on.",
-    "fmv_estimate": null,
+    "status": "ready",
+    "condition": "working",
+    "notes": "CRT overhaul by Sharp Image Repair. Cabinet solid. parts and crt there. Won't power on.",
+    "fmv_estimate": 1250,
     "location": "warehouse"
   },
   {
