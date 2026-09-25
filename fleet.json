@@ -80,12 +80,22 @@
     "location": "shop"
   },
   {
+    "id": "street-fighter-06",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet with full character anime side art",
+    "fmv_estimate": 400,
+    "location": "shop"
+  },
+  {
     "id": "wwe-supreme-series-01",
     "name": "WWE Supreme Series",
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Upright cabiney 5 different classic WWE games",
+    "notes": "Upright cabinet 5 different classic WWE games",
     "fmv_estimate": 400,
     "location": "shop"
   },
