@@ -90,6 +90,16 @@
     "location": "shop"
   },
   {
+    "id": "street-fighter-07",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
     "id": "wwe-supreme-series-01",
     "name": "WWE Supreme Series",
     "type": "video",
