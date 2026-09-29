@@ -370,16 +370,6 @@
     "location": "shop"
   },
   {
-    "id": "ms-pac-man-02",
-    "name": "Ms. Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Countercade with variety of Pacman titles Cleaned, tested, working.",
-    "fmv_estimate": 200,
-    "location": "shop"
-  },
-  {
     "id": "mortal-kombat-01",
     "name": "Mortal Kombat",
     "type": "video",
