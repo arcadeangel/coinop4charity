@@ -239,16 +239,6 @@
     "fmv_estimate": 250,
     "location": "shop"
   },
-    {
-    "id": "galaga-88-01",
-    "name": "Galaga 88",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Works great, a countercade, Different Galaga titles. Cleaned, tested, working.",
-    "fmv_estimate": 140,
-    "location": "shop"
-  },
   {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
@@ -427,16 +417,6 @@
     "condition": "working",
     "notes": "Big thank you again to Jason Landis and his family. Drove across town today hauling arcade cabinets generously donated one for free today and delivered it; thank you guys.",
     "fmv_estimate": 450,
-    "location": "shop"
-  },
-  {
-    "id": "nba-jam-02",
-    "name": "NBA Jam",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Single player countercade with two versions of NBA Jam plus NBA Hangtime, new in box",
-    "fmv_estimate": 100,
     "location": "shop"
   },
   {
