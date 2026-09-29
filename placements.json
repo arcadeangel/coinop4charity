@@ -532,5 +532,18 @@
     "lng": -115.1658,
     "site": "UMC Children's Hospital",
     "short": "UMC.CH"
+  },
+  {
+    "id": "wwe-supreme-series-02",
+    "name": "WWE Supreme Series",
+    "number": "056",
+    "location": "UMC Children's Hospital",
+    "notes": "Countercade. New partner site. UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
+    "placed": "placed on 2026-09-29",
+    "status": "active",
+    "lat": 36.1605,
+    "lng": -115.1658,
+    "site": "UMC Children's Hospital",
+    "short": "UMC.CH"
   }
 ]
