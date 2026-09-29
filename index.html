@@ -3418,6 +3418,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 		<div class="updates-panel" id="updatesPanel">
 			<h4>UPDATES</h4>
 			<div id="updatesList">
+				<div class="upd-row"><b>09.29</b> UMC Children's Hospital partner — 800 Hope Place, Las Vegas Medical District</div>
 				<div class="upd-row"><b>09.16</b> R.I.S.E. Homes mapped — 570 W Cheyenne Ave, North Las Vegas</div>
 				<div class="upd-row"><b>08.23</b> Kiosk low-RAM profile + Pixel Pad undo · smoother on older tablets</div>
 				<div class="upd-row"><b>09.06</b> Site cards show STEM labs run with the machines — James Club claw first</div>
@@ -4482,7 +4483,14 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			'r.i.s.e': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'rise homes': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
 			'570 w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
-			'w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' }
+			'w cheyenne': { lat: 36.21858, lng: -115.15147, label: 'R.I.S.E. Homes', short: 'RISE' },
+			/* UMC Children's Hospital — 800 Hope Place, Las Vegas, NV 89106
+			   Keys must beat generic "las vegas" or the pin drops downtown. */
+			'umc children\'s hospital': { lat: 36.1605, lng: -115.1658, label: "UMC Children's Hospital", short: 'UMC.CH' },
+			'umc childrens hospital': { lat: 36.1605, lng: -115.1658, label: "UMC Children's Hospital", short: 'UMC.CH' },
+			'umc children': { lat: 36.1605, lng: -115.1658, label: "UMC Children's Hospital", short: 'UMC.CH' },
+			'university medical center': { lat: 36.1605, lng: -115.1658, label: "UMC Children's Hospital", short: 'UMC.CH' },
+			'800 hope place': { lat: 36.1605, lng: -115.1658, label: "UMC Children's Hospital", short: 'UMC.CH' }
 		};
 		const GENERIC_CITY_KEYS = {
 			'reno': 1, 'henderson': 1, 'north las vegas': 1, 'enterprise': 1,
