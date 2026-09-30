@@ -90,16 +90,6 @@
     "location": "shop"
   },
   {
-    "id": "street-fighter-06",
-    "name": "Street Fighter",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright cabinet with full character anime side art",
-    "fmv_estimate": 400,
-    "location": "shop"
-  },
-  {
     "id": "street-fighter-07",
     "name": "Street Fighter",
     "type": "video",
