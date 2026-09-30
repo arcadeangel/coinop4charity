@@ -1,5 +1,11 @@
 ## Coin-Op 4 Charity — Dev Journal
 
+## 09.29.26 23:17 First hospital placements
+
+Just wrapped up the evening at Real Talk YIP in Las Vegas, spoke to a group of students who were eager to learn about coding and the Raspberry Pi. Great group of smart kids. They were a serious group of students who showed up to learn about career topics in an ongoing seminar. Sheree is a thoughtful and nurturing individual and role model of a leader whose heart is fully devoted to our community and youth. The students tonight were very respectful and you could sense their focus and overall decisiveness and sheer willpower in going the literal extra mile and getting things done, overtime. All of the qualities of a winner and I am certain that they will be successful at whatever they continue to put their minds to. It was also a good reflective  exercise for me so thank you Sheree.
+
+Earlier in the morning we had our first placements in a hospital at UMC Children's Hospital, one of the doctors there surgically gave us the best pointers on setting up a poster with our QR code that points to the game terminal and prizes and FAQ for our partner facilities so we are now working on that and appreciate the support and any other great suggestions like that which can help us and help make things easier for the kids we are trying to reach out to. We will be dropping off more games here in the next few days. Thank you Eve and the rest of your team for taking time from your busy day and saving lives to meet with us. I am so glad this happened today, ever since we started the org we have wanted to place arcade games in a children's hospital. Thank you for being the first one. We also have a few other sites in Las Vegas that we will be dropping off games to; and we will also be traveling to Reno to drop off some games at the Eddy House and a few other places that we are waiting to hear back from. There are a few different states we have spoken to as well in the last week and hope to be making some more major announcements soon. 
+
 ## 09.23.26 18:03 All you need is love...
 
 Pilots called it a joy-stick before anyone ever put one on a cabinet.
