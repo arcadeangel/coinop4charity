@@ -40,16 +40,6 @@
     "location": "shop"
   },
   {
-    "id": "pac-man-06",
-    "name": "Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "For wall mounting or countertops, large screen. Cleaned, tested, working.",
-    "fmv_estimate": 150,
-    "location": "shop"
-  },
-  {
     "id": "pac-man-04",
     "name": "Pac-Man",
     "type": "video",
