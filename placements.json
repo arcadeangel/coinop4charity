@@ -496,7 +496,7 @@
 },
 {
     "id": "ms-pac-man-02",
-    "name": "Ms. Pac Man",
+    "name": "Ms. Pac-Man",
     "number": "052",
     "location": "UMC Children's Hospital",
     "notes": "Countercade. New partner site. UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
@@ -565,6 +565,19 @@
   "number": "058",
   "location": "New Leaf Family Services (North Las Vegas)",
   "notes": "In loving memory of Bryan Ward thank you for this and thanks Friendly Hobbies. Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
+  "placed": "Placed on 2026-09-30",
+  "status": "active",
+  "lat": 36.2397,
+  "lng": -115.1848,
+  "site": "New Leaf Family Services",
+  "short": "NLFS"
+},
+{
+  "id": "pac-man-06",
+  "name": "Pac-Man",
+  "number": "059",
+  "location": "New Leaf Family Services (North Las Vegas)",
+  "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
   "placed": "Placed on 2026-09-30",
   "status": "active",
   "lat": 36.2397,
