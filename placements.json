@@ -596,9 +596,7 @@
     "lat": 39.52444,
     "lng": -119.80082,
     "notes": "Awaiting delivery. Youth shelter, ages 18–24, open 24/7. Free play.",
-    "stem": false,
-    "activities": []
-  },
+},
   {
     "id": "defender-01",
     "number": "061",
@@ -610,8 +608,5 @@
     "lat": 36.23992,
     "lng": -115.18455,
     "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services (Ste B).",
-    "stem": false,
-    "activities": []
   }
-]
 ]
