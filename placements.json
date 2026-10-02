@@ -450,51 +450,51 @@
     ]
   },
   {
-  "id": "the-simpsons-04",
-  "name": "The Simpsons",
-  "number": "048",
-  "location": "R.I.S.E. Homes (North Las Vegas)",
-  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
-  "placed": "Placed on 2026-09-16",
-  "status": "active"
-},
-{
-  "id": "space-invaders-03",
-  "name": "Space Invaders",
-  "number": "049",
-  "location": "R.I.S.E. Homes (North Las Vegas)",
-  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
-  "placed": "Placed on 2026-09-16",
-  "status": "active"
-},
-{
-  "id": "ms-pac-man-05",
-  "name": "Ms. Pac-Man",
-  "number": "050",
-  "location": "R.I.S.E. Homes (North Las Vegas)",
-  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
-  "placed": "Placed on 2026-09-16",
-  "status": "active"
-},
-{
-  "id": "nba-jam-05",
-  "name": "NBA Jam",
-  "number": "055",
-  "location": "R.I.S.E. Homes (North Las Vegas)",
-  "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
-  "placed": "Placed on 2026-09-29",
-  "status": "active"
-},
-{
-  "id": "street-fighter-03",
-  "name": "Street Fighter",
-  "number": "051",
-  "location": "R.I.S.E. Homes (North Las Vegas)",
-  "notes": "Thank you Eve and her son Cruz. Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
-  "placed": "Placed on 2026-09-16",
-  "status": "active"
-},
-{
+    "id": "the-simpsons-04",
+    "name": "The Simpsons",
+    "number": "048",
+    "location": "R.I.S.E. Homes (North Las Vegas)",
+    "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+    "placed": "Placed on 2026-09-16",
+    "status": "active"
+  },
+  {
+    "id": "space-invaders-03",
+    "name": "Space Invaders",
+    "number": "049",
+    "location": "R.I.S.E. Homes (North Las Vegas)",
+    "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+    "placed": "Placed on 2026-09-16",
+    "status": "active"
+  },
+  {
+    "id": "ms-pac-man-05",
+    "name": "Ms. Pac-Man",
+    "number": "050",
+    "location": "R.I.S.E. Homes (North Las Vegas)",
+    "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+    "placed": "Placed on 2026-09-16",
+    "status": "active"
+  },
+  {
+    "id": "nba-jam-05",
+    "name": "NBA Jam",
+    "number": "055",
+    "location": "R.I.S.E. Homes (North Las Vegas)",
+    "notes": "Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+    "placed": "Placed on 2026-09-29",
+    "status": "active"
+  },
+  {
+    "id": "street-fighter-03",
+    "name": "Street Fighter",
+    "number": "051",
+    "location": "R.I.S.E. Homes (North Las Vegas)",
+    "notes": "Thank you Eve and her son Cruz. Free play placement at R.I.S.E. Homes, 570 W Cheyenne Ave Ste 190, North Las Vegas, NV 89030. Transitional housing for youth experiencing homelessness.",
+    "placed": "Placed on 2026-09-16",
+    "status": "active"
+  },
+  {
     "id": "ms-pac-man-02",
     "name": "Ms. Pac-Man",
     "number": "052",
@@ -547,44 +547,44 @@
     "short": "UMC.CH"
   },
   {
-  "id": "street-fighter-06",
-  "name": "Street Fighter",
-  "number": "057",
-  "location": "New Leaf Family Services (North Las Vegas)",
-  "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
-  "placed": "Placed on 2026-09-30",
-  "status": "active",
-  "lat": 36.2397,
-  "lng": -115.1848,
-  "site": "New Leaf Family Services",
-  "short": "NLFS"
-},
-{
-  "id": "tempest-01",
-  "name": "Tempest",
-  "number": "058",
-  "location": "New Leaf Family Services (North Las Vegas)",
-  "notes": "In loving memory of Bryan Ward thank you for this and thanks Friendly Hobbies. Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
-  "placed": "Placed on 2026-09-30",
-  "status": "active",
-  "lat": 36.2397,
-  "lng": -115.1848,
-  "site": "New Leaf Family Services",
-  "short": "NLFS"
-},
-{
-  "id": "pac-man-06",
-  "name": "Pac-Man",
-  "number": "059",
-  "location": "New Leaf Family Services (North Las Vegas)",
-  "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
-  "placed": "Placed on 2026-09-30",
-  "status": "active",
-  "lat": 36.2397,
-  "lng": -115.1848,
-  "site": "New Leaf Family Services",
-  "short": "NLFS"
-},
+    "id": "street-fighter-06",
+    "name": "Street Fighter",
+    "number": "057",
+    "location": "New Leaf Family Services (North Las Vegas)",
+    "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
+    "placed": "Placed on 2026-09-30",
+    "status": "active",
+    "lat": 36.2397,
+    "lng": -115.1848,
+    "site": "New Leaf Family Services",
+    "short": "NLFS"
+  },
+  {
+    "id": "tempest-01",
+    "name": "Tempest",
+    "number": "058",
+    "location": "New Leaf Family Services (North Las Vegas)",
+    "notes": "In loving memory of Bryan Ward thank you for this and thanks Friendly Hobbies. Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
+    "placed": "Placed on 2026-09-30",
+    "status": "active",
+    "lat": 36.2397,
+    "lng": -115.1848,
+    "site": "New Leaf Family Services",
+    "short": "NLFS"
+  },
+  {
+    "id": "pac-man-06",
+    "name": "Pac-Man",
+    "number": "059",
+    "location": "New Leaf Family Services (North Las Vegas)",
+    "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
+    "placed": "Placed on 2026-09-30",
+    "status": "active",
+    "lat": 36.2397,
+    "lng": -115.1848,
+    "site": "New Leaf Family Services",
+    "short": "NLFS"
+  },
   {
     "id": "pac-man-09",
     "number": "060",
@@ -595,8 +595,8 @@
     "location": "Eddy House — 888 Willow St, Reno, NV 89502",
     "lat": 39.52444,
     "lng": -119.80082,
-    "notes": "Awaiting delivery. Youth shelter, ages 18–24, open 24/7. Free play.",
-},
+    "notes": "Awaiting delivery. Youth shelter, ages 18–24, open 24/7. Free play."
+  },
   {
     "id": "defender-01",
     "number": "061",
@@ -607,6 +607,6 @@
     "location": "Bridging The Gap — Adult Sickle Cell Foundation, 3435 W Craig Rd, North Las Vegas, NV 89032",
     "lat": 36.23992,
     "lng": -115.18455,
-    "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services (Ste B).",
+    "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services (Ste B)."
   }
 ]
