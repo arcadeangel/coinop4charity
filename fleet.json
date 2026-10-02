@@ -70,6 +70,16 @@
     "location": "shop"
   },
   {
+    "id": "class-of-81-ms-pac-man-galagaga-01",
+    "name": "Class of 81' Ms. Pac-Man and Galaga",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "3 Games on this Countercade. Cleaned, tested, working. Includes Ms. Pac-Man, Galaga, Dig Dug",
+    "fmv_estimate": 150,
+    "location": "shop"
+  },
+  {
     "id": "buddy-mattys-unofficial-home-depot-arcade-01",
     "name": "Buddy Matty's Unofficial Home Depot Cabinet",
     "type": "video",
