@@ -607,6 +607,18 @@
     "location": "Bridging The Gap — Adult Sickle Cell Foundation, 3435 W Craig Rd, North Las Vegas, NV 89032",
     "lat": 36.23992,
     "lng": -115.18455,
-    "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services (Ste B)."
+    "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services."
+  },
+  {
+    "id": "galaga-02",
+    "number": "062",
+    "name": "Galaga",
+    "status": "active",
+    "site": "Bridging The Gap — Adult Sickle Cell Foundation",
+    "short": "BTG",
+    "location": "Bridging The Gap — Adult Sickle Cell Foundation, 3435 W Craig Rd, North Las Vegas, NV 89032",
+    "lat": 36.23992,
+    "lng": -115.18455,
+    "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services."
   }
 ]
