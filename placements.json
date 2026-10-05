@@ -620,5 +620,23 @@
     "lat": 36.23992,
     "lng": -115.18455,
     "notes": "In loving memory of Bryan Ward, co founder of Friendly Hobbies who donated this machine. Same building as New Leaf Family Services."
+  },
+  {
+    "id": "c4c-custom-arcade-05",
+    "name": "C4C Custom Arcade",
+    "number": "063",
+    "location": "New Leaf Family Services (North Las Vegas)",
+    "notes": "Custom arcade that features AtGames Legends Gamer Pro and is also running Coin Op 4 Charity terminal games.",
+    "placed": "Project active on 2026-10-05.",
+    "status": "active",
+    "stem": true,
+    "activities": [
+      {
+        "title": "C4C Custom Arcade",
+        "badge": "STEM",
+        "status": "ready",
+        "summary": "Members and staff have AtGames Legends Gamer Pro that works as custom arcade cabinet with CoinOp4Charity terminal games."
+      }
+    ]
   }
 ]
