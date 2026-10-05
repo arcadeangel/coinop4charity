@@ -70,6 +70,16 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-11",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright LED Pacman, 8 games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 200,
+    "location": "shop"
+  },
+  {
     "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
@@ -112,6 +122,16 @@
   {
     "id": "rampage-03",
     "name": "Rampage",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
+    "id": "marvel-vs-capcom-2-01",
+    "name": "Marvel Vs. Capcom 2",
     "type": "video",
     "status": "ready",
     "condition": "working",
