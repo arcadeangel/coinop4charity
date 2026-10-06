@@ -603,10 +603,10 @@
     "id": "deer-hunting-usa-01",
     "name": "Deer Hunting USA",
     "type": "video",
-    "status": "in progress",
-    "condition": "in progress",
-    "notes": "Upright hunting game.",
-    "fmv_estimate": null,
+    "status": "ready",
+    "condition": "ready",
+    "notes": "CRT rehaul by Sharp Image Repair on 10/3/26 button also rewired. Upright hunting game.",
+    "fmv_estimate": 750,
     "location": "warehouse"
   },
   {
