@@ -140,6 +140,26 @@
     "location": "shop"
   },
   {
+    "id": "street-fighter-08",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "MyArcade handheld Street Fighter for small spaces or children's hospitals",
+    "fmv_estimate": 60,
+    "location": "shop"
+  },
+  {
+    "id": "street-fighter-09",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "MyArcade handheld Street Fighter for small spaces or children's hospitals",
+    "fmv_estimate": 60,
+    "location": "shop"
+  },
+  {
     "id": "rampage-03",
     "name": "Rampage",
     "type": "video",
