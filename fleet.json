@@ -419,16 +419,6 @@
     "fmv_estimate": 300,
     "location": "warehouse"
   },
-  {
-    "id": "mortal-kombat-05",
-    "name": "Mortal Kombat",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Leon in Henderson generously took a steep loss today and gave it away for practically free; He has a nice family crazy arcade collection a full site is basically games he hooked us up with.",
-    "fmv_estimate": 300,
-    "location": "shop"
-  },
    {
     "id": "mortal-kombat-06",
     "name": "Mortal Kombat",
