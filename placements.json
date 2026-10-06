@@ -638,5 +638,18 @@
         "summary": "Members and staff have AtGames Legends Gamer Pro that works as custom arcade cabinet with CoinOp4Charity terminal games."
       }
     ]
+  },
+  {
+    "id": "mortal-kombat-05",
+    "name": "Mortal Kombat",
+    "number": "064",
+    "location": "New Leaf Family Services (North Las Vegas)",
+    "notes": "Free play placement at New Leaf Family Services, 3435 W Craig Rd Ste B, North Las Vegas, NV 89032. Behavioral health / family wellness partner site. Machines on free-play.",
+    "placed": "Placed on 2026-10-05",
+    "status": "active",
+    "lat": 36.2397,
+    "lng": -115.1848,
+    "site": "New Leaf Family Services",
+    "short": "NLFS"
   }
 ]
