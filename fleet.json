@@ -250,6 +250,16 @@
     "location": "shop"
   },
   {
+    "id": "dig-dug-01",
+    "name": "Dig Dug",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Countercade perfect for hospitals and small settings. Includes different games.",
+    "fmv_estimate": 120,
+    "location": "shop"
+  },
+  {
     "id": "asteroids-04",
     "name": "Asteroids",
     "type": "video",
