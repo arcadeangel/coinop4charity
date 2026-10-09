@@ -439,6 +439,16 @@
     "fmv_estimate": 900,
     "location": "warehouse"
   },
+   {
+    "id": "arcade-legends-ultracade-01",
+    "name": "CGC Arcade Legends Ultracade  Multicade",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "clean cabinet, good monitor, needed centering and adjustment from Sharp Image Repair, reliable board. needed power cord.",
+    "fmv_estimate": 750,
+    "location": "warehouse"
+  },
   {
     "id": "hanaho-capcom-arcadepc-01",
     "name": "Hanaho Capcom ArcadePC Multicade",
