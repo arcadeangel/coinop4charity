@@ -100,16 +100,6 @@
     "location": "shop"
   },
   {
-    "id": "pac-man-14",
-    "name": "Pac-Man",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Thank you Dino! Wishing you a speedy recovery sir. Upright LED Pacman, 8 games liscensed. Cleaned, tested, working.",
-    "fmv_estimate": 175,
-    "location": "shop"
-  },
-  {
     "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
