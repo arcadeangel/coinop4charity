@@ -664,5 +664,17 @@
     "lng": -115.1848,
     "site": "New Leaf Family Services",
     "short": "NLFS"
+  },
+  {
+    "id": "pac-man-14",
+    "number": "066",
+    "name": "Pac-Man",
+    "status": "active",
+    "site": "Bridging The Gap — Adult Sickle Cell Foundation",
+    "short": "BTG",
+    "location": "Bridging The Gap — Adult Sickle Cell Foundation, 3435 W Craig Rd, North Las Vegas, NV 89032",
+    "lat": 36.23992,
+    "lng": -115.18455,
+    "notes": "Thank you to our friend Dino, we are wishing you a speedy recovery from heart surgery. Same building as New Leaf Family Services."
   }
 ]
