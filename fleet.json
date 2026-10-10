@@ -330,6 +330,16 @@
     "location": "shop"
   },
   {
+    "id": "nba-jam-08",
+    "name": "NBA Jam",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Works great. Different titles. Cleaned, tested, working.",
+    "fmv_estimate": 300,
+    "location": "shop"
+  },
+  {
     "id": "donkeykong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
