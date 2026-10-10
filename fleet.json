@@ -340,7 +340,7 @@
     "location": "shop"
   },
   {
-    "id": "donkeykong-1981-01",
+    "id": "donkey-kong-1981-01",
     "name": "Donkey Kong (1981)",
     "type": "video",
     "status": "limited",
@@ -350,7 +350,7 @@
     "location": "shop"
   },
   {
-    "id": "donkeykong-coleco-1982-01",
+    "id": "donkey-kong-coleco-1982-01",
     "name": "Donkey Kong Coleco Tabletop (1982)",
     "type": "video",
     "status": "ready",
