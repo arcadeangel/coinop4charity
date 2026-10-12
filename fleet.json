@@ -100,6 +100,15 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-15",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright LED Pacman, 8 games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 200,
+    "location": "shop"
+  {
     "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
