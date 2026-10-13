@@ -480,6 +480,26 @@
     "location": "shop"
   },
   {
+    "id": "atari-san-francisco-rush-the-rock-alcatraz-1997-01",
+    "name": "Atari San Francisco Rush The Rock: Alcatraz Edition)",
+    "type": "video",
+    "status": "limited",
+    "condition": "ready",
+    "notes": "Thank you Dave Rocco! Limited temporary availability only.  sit down racing simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+    "fmv_estimate": null,
+    "location": "shop"
+  },
+  {
+    "id": "atari-san-francisco-rush-the-rock-alcatraz-1997-02",
+    "name": "Atari San Francisco Rush The Rock: Alcatraz Edition)",
+    "type": "video",
+    "status": "limited",
+    "condition": "ready",
+    "notes": "Thank you Dave Rocco! Limited temporary availability only.  sit down racing simulator (skill-based). Available for short-term events or trial youth-center placements. Will be withdrawn after the agreed period. Not a permanent fleet asset.",
+    "fmv_estimate": null,
+    "location": "shop"
+  },
+  {
     "id": "mortal-kombat-01",
     "name": "Mortal Kombat",
     "type": "video",
