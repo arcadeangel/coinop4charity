@@ -676,5 +676,14 @@
     "lat": 36.23992,
     "lng": -115.18455,
     "notes": "Thank you to our friend Dino, we are wishing you a speedy recovery from heart surgery. Same building as New Leaf Family Services."
+  },
+  {
+    "id": "nba-jam-07",
+    "name": "NBA Jam",
+    "number": "067",
+    "location": "Boys & Girls Clubs of Southern NV – Southern Highlands",
+    "notes": "Donated. Upright cabinet. Free play. Working great.",
+    "placed": "Donated on 2026-10-15",
+    "status": "active"
   }
 ]
