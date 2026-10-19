@@ -688,7 +688,7 @@
   },
   {
     "id": "pac-man-1980-01",
-    "name": "Pac Man",
+    "name": "Pac Man (1980)",
     "number": "068",
     "location": "UMC Children's Hospital",
     "notes": "New partner site. On limited and restricted placement with CoinOp4Charity covering maintenance and moving. UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
@@ -699,4 +699,17 @@
     "site": "UMC Children's Hospital",
     "short": "UMC.CH"
   },
+  {
+    "id": "space-invaders-01",
+    "name": "Space Invaders (1978)",
+    "number": "069",
+    "location": "UMC Children's Hospital",
+    "notes": "New partner site. On limited and restricted placement with CoinOp4Charity covering maintenance and moving. UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
+    "placed": "placed on 2026-10-19",
+    "status": "active",
+    "lat": 36.1605,
+    "lng": -115.1658,
+    "site": "UMC Children's Hospital",
+    "short": "UMC.CH"
+  }
 ]
