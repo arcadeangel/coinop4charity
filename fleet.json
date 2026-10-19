@@ -320,16 +320,6 @@
     "location": "shop"
   },
   {
-    "id": "galaga-04",
-    "name": "Galaga",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Thank you Lucky Louis. Works great. Different titles. Cleaned, tested, working.",
-    "fmv_estimate": 200,
-    "location": "shop"
-  },
-  {
     "id": "tempest-02",
     "name": "Tempest",
     "type": "video",
