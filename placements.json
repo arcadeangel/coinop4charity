@@ -750,5 +750,18 @@
     "lng": -115.1658,
     "site": "UMC Children's Hospital",
     "short": "UMC.CH"
+  },
+  {
+    "id": "teenage-mutant-ninja-turtles-05",
+    "name": "Teenage Mutant Ninja Turtles",
+    "number": "073",
+    "location": "UMC Children's Hospital",
+    "notes": "New partner site. CoinOp4Charity partnered with UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
+    "placed": "placed on 2026-10-19",
+    "status": "active",
+    "lat": 36.1605,
+    "lng": -115.1658,
+    "site": "UMC Children's Hospital",
+    "short": "UMC.CH"
   }
 ]
