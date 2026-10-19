@@ -200,16 +200,6 @@
     "location": "shop"
   },
   {
-    "id": "marvel-vs-capcom-2-01",
-    "name": "Marvel Vs. Capcom 2",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright cabinet",
-    "fmv_estimate": 300,
-    "location": "shop"
-  },
-  {
     "id": "wwe-supreme-series-01",
     "name": "WWE Supreme Series",
     "type": "video",
