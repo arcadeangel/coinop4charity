@@ -20,16 +20,6 @@
     "location": "shop"
   },
   {
-    "id": "pac-man-1980-01",
-    "name": "Pac-Man (1980)",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Cleaned, tested, working. New glass and lights. Ready for placement.",
-    "fmv_estimate": 1600,
-    "location": "shop"
-  },
-  {
     "id": "pac-man-02",
     "name": "Pac-Man",
     "type": "video",
