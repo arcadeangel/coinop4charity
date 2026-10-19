@@ -380,16 +380,6 @@
     "location": "shop"
   },
   {
-    "id": "teenage-mutant-ninja-turtles-04",
-    "name": "Teenage Mutant Ninja Turtles",
-    "type": "video",
-    "status": "working",
-    "condition": "working",
-    "notes": "Works great no issues",
-    "fmv_estimate": 350,
-    "location": "shop"
-  },
-  {
     "id": "golden-tee-2005-01",
     "name": "Golden Tee (2005)",
     "type": "video",
