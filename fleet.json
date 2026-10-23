@@ -100,6 +100,16 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-16",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Crystal. Countercade LED Pacman, 8 games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 100,
+    "location": "shop"
+  },
+  {
     "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
@@ -327,6 +337,16 @@
     "condition": "working",
     "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
     "fmv_estimate": 175,
+    "location": "shop"
+  },
+  {
+    "id": "frogger-coleco-1981-01",
+    "name": "Frogger Coleco Tabletop (1981)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
+    "fmv_estimate": 150,
     "location": "shop"
   },
   {
