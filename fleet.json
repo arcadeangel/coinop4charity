@@ -110,6 +110,26 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-1980-02",
+    "name": "Pac-Man (1980)",
+    "type": "video",
+    "status": "in progress",
+    "condition": "in progress",
+    "notes": "fixing pcb board issues monitor turns on and is bricked",
+    "fmv_estimate": 2500,
+    "location": "shop"
+  },
+  {
+    "id": "hydro-thunder-01",
+    "name": "Hydro Thunder",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Dwight Mitchell from Phoenix for the game. Thank you to Arghtee from ZeroRest.co.uk and Club Jersey for connecting us with Maco and AJ from Audio Visual Cult and Grand Ave Studio in Phoenix, AZ for taking time out of your busy schedules to help others out of the kindness of your hearts and assist with pick up, delivery and storage. ",
+    "fmv_estimate": 1500,
+    "location": "shop"
+  },
+  {
     "id": "super-pac-man-01",
     "name": "Super Pac-Man",
     "type": "video",
