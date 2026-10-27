@@ -9,7 +9,7 @@ A lot of techs and collectors say don’t bother converting back, since Plus boa
 
 In other good news, we have boots on the ground in Arizona. No more "By The Time I Get To Arizona", we are already there. We made contact with an arcade collector who wanted to give us a few games like Hydro Thunder and a Golden Tee that needed CRT work, for next to nothing. A very special friend of the organization, Arghtee, founder of ZEROREST.co.uk put us in touch with our new friends and volunteers Macario and AJ over at Audio Visual Cult and Grand Ave Studios in Phoenix who handled the logistics the moving, trucks, pick ups, future drop offs and storage. Arghtee even offered to make a pitstop in Vegas during Thanksgiving while visiting to drop by a hospital or a shelter and do something special.
 
-Also thank you Angelo Johnson, publicly known as Ace The Face for also taking time out of your busy schedule to drop by the shop last weekend and volunteer your time in doing some touch ups and cosmetic repairs on Atari Rush The Rock. Thank you for also offering your time for possible future events and outreach.
+Also thank you Angelo Johnson, publicly known as Ace The Face for also taking time out of your busy schedule to drop by the shop last weekend and volunteer your time in doing some touch ups and cosmetic repairs on Atari Rush The Rock. Thank you for also offering your time for possible future events and outreach. Hope you enjoy the read from Sheree Corniel, one of our partners who interestingly enough is related to one of the artists you have worked with.
 
 ## 10.21.26 18:30 UMC Hospital featuring 1980 Pac Man & 1978 Space Invaders. Homage to the great men & women who paved the road to make it possible before us
 
