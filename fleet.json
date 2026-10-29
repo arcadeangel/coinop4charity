@@ -170,6 +170,16 @@
     "location": "shop"
   },
   {
+    "id": "ms-pac-man-07",
+    "name": "Ms. Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright LED Ms Pac Man, other games liscensed.  Cleaned, tested, working.",
+    "fmv_estimate": 200,
+    "location": "shop"
+  },
+  {
     "id": "the-simpsons-05",
     "name": "The Simpsons",
     "type": "video",
