@@ -490,16 +490,6 @@
     "location": "shop"
   },
   {
-    "id": "mortal-kombat-03",
-    "name": "Mortal Kombat",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Justin hooked this up at a steep discount, ordered riser today.",
-    "fmv_estimate": 280,
-    "location": "warehouse"
-  },
-  {
     "id": "mortal-kombat-04",
     "name": "Mortal Kombat",
     "type": "video",
