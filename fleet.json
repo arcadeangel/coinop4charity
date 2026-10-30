@@ -110,6 +110,16 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-17",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Pac-Man Countercade LED Pacman, 8 games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 100,
+    "location": "shop"
+  },
+  {
     "id": "pac-man-1980-02",
     "name": "Pac-Man (1980)",
     "type": "video",
@@ -418,6 +428,16 @@
     "notes": "Solid cabinet, good monitor touched up by Sharp Image, reliable board.",
     "fmv_estimate": 1600,
     "location": "shop"
+  },
+  {
+    "id": "golden-tee-2020-01",
+    "name": "Golden Tee (2020)",
+    "type": "video",
+    "status": "in progress",
+    "condition": "in progress",
+    "notes": "Solid cabinet, needs new monitor and bezel.",
+    "fmv_estimate": 2000,
+    "location": "Grand Ave Studios Phoenix, AZ"
   },
   {
     "id": "ultimate-arcade-2-01",
