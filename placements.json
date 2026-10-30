@@ -802,5 +802,18 @@
   "notes": "Free play placement. Pending delivery. Visitation center for children in foster care.",
   "placed": "Placed on 2026-10-29",
   "status": "active"
+},
+{
+  "id": "mortal-kombat-03",
+  "name": "Mortal Kombat",
+  "number": "077",
+  "location": "Arizonans for Children — 1112 West Camelback Road, Phoenix, AZ 85013",
+  "site": "Arizonans for Children",
+  "short": "AFC",
+  "lat": 33.509746,
+  "lng": -112.087514,
+  "notes": "Free play placement. Pending delivery. Visitation center for children in foster care.",
+  "placed": "Placed on 2026-10-29",
+  "status": "active"
 }
 ]
