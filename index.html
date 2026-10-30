@@ -1843,32 +1843,6 @@
 			margin-top: 4px;
 			opacity: 0.85;
 		}
-		.updates-panel {
-			border: 1px solid #00ff9f44;
-			background: rgba(0, 255, 159, 0.05);
-			padding: 10px 12px;
-			margin: 0 0 1.2rem;
-			text-align: left;
-		}
-		.updates-panel h4 {
-			font-size: 0.72rem;
-			letter-spacing: 0.16em;
-			color: #00ff9f;
-			text-align: center;
-			margin-bottom: 8px;
-		}
-		.updates-panel .upd-row {
-			font-size: 0.7rem;
-			letter-spacing: 0.04em;
-			color: #7dffc8;
-			margin: 5px 0;
-			line-height: 1.4;
-		}
-		.updates-panel .upd-row b {
-			color: #ffff99;
-			font-weight: bold;
-			margin-right: 6px;
-		}
 		.placements-stats {
 			font-size: 0.68rem;
 			letter-spacing: 0.1em;
@@ -2750,7 +2724,6 @@
 		body.kiosk-mode form,
 		body.kiosk-mode #stemPanel,
 		body.kiosk-mode #fleetPanel,
-		body.kiosk-mode #updatesPanel,
 		body.kiosk-mode .status,
 		body.kiosk-mode #shareBtn,
 		body.kiosk-mode #opsOpenBtn,
@@ -3165,6 +3138,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 				<span>BUILDER BOUNTIES UP TO $1,000 THIS SEMESTER IN CASH GRANTS FOR EACH PARTICIPATING LOCATION &nbsp;•&nbsp; 11 NEW ARCADES LIVE ON LOCATION &nbsp;•&nbsp; PRIZES AND MUCH MORE, CHECK WITH CENTERS FOR INFORMATION &nbsp;•&nbsp; </span>
 			</div>
 		</div>
+
 		<div class="logo">
 			COIN-OP<br>
 			<span>4 CHARITY</span>
@@ -3178,7 +3152,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 
 		<p class="mission" id="mission"></p>
 
-		<div class="trust-strip">
+<div class="trust-strip">
 			<strong>NEVADA NONPROFIT</strong><br>
 			new and restored arcade games placed free · no cost to partner youth programs · kids play free
 		</div>
@@ -3415,20 +3389,6 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<span>Free placement for youth programs</span>
 		</button>
 
-		<div class="updates-panel" id="updatesPanel">
-			<h4>UPDATES</h4>
-			<div id="updatesList">
-				<div class="upd-row"><b>10.01</b> Eddy House partner — 888 Willow St, Reno (youth 18–24, 24/7 shelter)</div>
-				<div class="upd-row"><b>10.01</b> Bridging The Gap — Adult Sickle Cell Foundation, same building as New Leaf — 3435 W Craig Rd, North Las Vegas</div>
-				<div class="upd-row"><b>09.30</b> New Leaf Family Services partner — 3435 W Craig Rd, North Las Vegas</div>
-				<div class="upd-row"><b>09.29</b> UMC Children's Hospital partner — 800 Hope Place, Las Vegas Medical District</div>
-				<div class="upd-row"><b>09.16</b> R.I.S.E. Homes mapped — 570 W Cheyenne Ave, North Las Vegas</div>
-				<div class="upd-row"><b>08.23</b> Kiosk low-RAM profile + Pixel Pad undo · smoother on older tablets</div>
-				<div class="upd-row"><b>09.06</b> Site cards show STEM labs run with the machines — James Club claw first</div>
-				<div class="upd-row"><b>08.21</b> Southern Highlands live — more machines on the floor</div>
-				<div class="upd-row"><b>08.20</b> First placements at James Club, North Las Vegas</div>
-			</div>
-		</div>
 
 		<details class="involve-details" id="involveDetails">
 			<summary>Get involved — contact form</summary>
@@ -3465,6 +3425,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			</form>
 			</div>
 		</details>
+
 
 		
 		<div class="fleet-panel" id="stemPanel">
@@ -3579,7 +3540,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			<button type="button" class="fx-toggle" id="fxToggle" title="Toggle visual effects">FX: ON</button>
 			<button type="button" class="fx-toggle" id="themeBtn" title="Cycle terminal theme">THEME: MINT</button>
 			<button type="button" class="fx-toggle" id="opsOpenBtn" title="Terminal settings">SETTINGS</button>
-			<div> TERMINAL v3.2.6 • We love you all. <span class="heart">♥</span></div>
+			<div> TERMINAL v3.2.7 • We love you all. <span class="heart">♥</span></div>
    <div class="footer-legal">
    <div>
     <a href="mailto:info@coinop4charity.org">info@coinop4charity.org</a>
@@ -3709,7 +3670,7 @@ body.kiosk-mode #stemPanel { display: none !important; }
 			canvas.width = w;
 			canvas.height = h;
 			const lines = [
-				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.6-BSP',
+				'COIN-OP 4 CHARITY  ·  TERMINAL v3.2.7',
 				'PHOSPHOR WARM-UP .............. OK',
 				'MEMORY CHECK  64K ............. OK',
 				'ARC-NET LINK .................. OK',
@@ -4992,27 +4953,6 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=c
 			});
 		})();
 
-		// Optional public updates.json (falls back to hardcoded rows in HTML)
-		(async function loadUpdates() {
-			var list = document.getElementById('updatesList');
-			if (!list) return;
-			try {
-				var r = await fetch('/updates.json', { cache: 'no-store' });
-				if (!r.ok) return;
-				var data = await r.json();
-				if (!Array.isArray(data) || !data.length) return;
-				list.innerHTML = '';
-				data.slice(0, 5).forEach(function(u) {
-					var row = document.createElement('div');
-					row.className = 'upd-row';
-					var date = (u.date || u.d || '').toString();
-					var msg = (u.text || u.msg || u.title || '').toString();
-					if (!msg) return;
-					row.innerHTML = '<b>' + date.replace(/</g, '') + '</b> ' + msg.replace(/</g, '');
-					list.appendChild(row);
-				});
-			} catch (e) {}
-		})();
 
 		// ========== TOP SCORE + SETTINGS + ATTRACT ==========
 		window.C4C_OPS = {
