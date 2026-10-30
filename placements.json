@@ -779,7 +779,7 @@
   },
   {
     "id": "claw-02",
-    "name": "Mini Claw Machine",
+    "name": "Claw Machine",
     "number": "075",
     "location": "UMC Children's Hospital",
     "notes": "New partner site. CoinOp4Charity partnered with UMC Children's Hospital, 800 Hope Place, Las Vegas, NV 89106. Nevada's pediatric trauma / children's hospital on the UMC Medical District campus. Machines on free-play.",
@@ -789,5 +789,18 @@
     "lng": -115.1658,
     "site": "UMC Children's Hospital",
     "short": "UMC.CH"
-  }
+  },
+  {
+  "id": "the-simpsons-05",
+  "name": "The Simpsons",
+  "number": "076",
+  "location": "Arizonans for Children — 1112 West Camelback Road, Phoenix, AZ 85013",
+  "site": "Arizonans for Children",
+  "short": "AFC",
+  "lat": 33.509746,
+  "lng": -112.087514,
+  "notes": "Free play placement. Pending delivery. Visitation center for children in foster care.",
+  "placed": "Placed on 2026-10-29",
+  "status": "active"
+}
 ]
