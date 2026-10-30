@@ -1,6 +1,6 @@
 ## Coin-Op 4 Charity — Journal
 
-## 10.30.26 23:23 First placements out of state
+## 10.29.26 23:23 First placements out of state
 
 You wake up at SeaTac, SFO, LAX. You wake up at O'Hare, Dallas-Fort Worth, BWI. Pacific, mountain, central. Lose an hour, gain an hour. This is your life, and it's ending one minute at a time. You wake up at Air Harbor International. If you wake up at a different time, in a different place, could you wake up as a different person?
 
