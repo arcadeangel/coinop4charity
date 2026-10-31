@@ -120,6 +120,16 @@
     "location": "shop"
   },
   {
+    "id": "pac-man-18",
+    "name": "Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright LED Pacman, 8 games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 250,
+    "location": "Florida storage"
+  },
+  {
     "id": "pac-man-1980-02",
     "name": "Pac-Man (1980)",
     "type": "video",
