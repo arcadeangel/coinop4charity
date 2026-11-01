@@ -3,6 +3,11 @@
 ## 11.01.26 12:22 Wants vs needs
 We have heard from more than one person that adults want and appreciate retrogames more than kids. Constructive criticism is great, but this logic is just plain selfish. Kids obviously need it more in the sense that play is how they process stress and build motor skills and social rules. Adults who say they need it more are usually talking about nostalgia, or escape, which is real but it’s a want that is dressed up as a need. A traumatized kid at a shelter or in a hospital doesn’t have a “want” — the machine is one of the few things in their day that’s predictable and theirs.
 
+Kids need the machines more. Not as a slogan—as mechanics. Play is how they process stress, wire motor skills, and practice the basic social rules that trauma scrambles. A cabinet gives them a closed loop they can finish. Adults who argue they need the retro cabinets more are almost always talking about nostalgia or a clean escape. That’s a want with better branding. Real, but secondary.
+A traumatized kid in a shelter or hospital doesn’t have that luxury of preference. The machine is one of the few things in their day that behaves the same way every time. Token in, game starts, no one else decides when it ends. That predictability is the point. Everything else around them is negotiated, delayed, or taken. The cabinet isn’t.
+
+We’ve got volunteers now moving on this in Florida and Arizona—people who understand the difference and are putting time into getting cabinets into the actual rooms instead of treating it like a side project for adult collectors. They’re not chasing the old high-score stories. In some instances they can even relate with the youth they serve on a personal level. The focus is on the kids who need something that stays put. That’s the work.
+
 ## 10.29.26 23:23 First placements out of state
 
 You wake up at SeaTac, SFO, LAX. You wake up at O'Hare, Dallas-Fort Worth, BWI. Pacific, mountain, central. Lose an hour, gain an hour. This is your life, and it's ending one minute at a time. You wake up at Air Harbor International. If you wake up at a different time, in a different place, could you wake up as a different person?
