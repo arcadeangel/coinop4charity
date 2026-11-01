@@ -1,6 +1,6 @@
 ## Coin-Op 4 Charity — Journal
 
-## 11.01.26 12:22 Wants vs needs
+## 11.01.26 12:22 Wants vs needs, a reflection
 
 We have sadly heard the FUD and devil's advocacy from more than one person; whether it is an educator, arcade collector or even a youth organizer. All sorts of people have tried to tell us that adults want and appreciate retrogames more than kids. Constructive criticism is great, but this logic is just plain selfish and revealing. Kids obviously need it more in the sense that play is how they process stress and build motor skills and social rules. Adults who say they need it more are usually talking about nostalgia, or escape, which is real but it’s a want that is dressed up as a need. A traumatized kid at a shelter or in a hospital doesn’t have a “want” — the machine is one of the few things in their day that’s predictable and theirs.
 
