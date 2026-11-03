@@ -239,6 +239,16 @@
     "fmv_estimate": 60,
     "location": "shop"
   },
+   {
+    "id": "street-fighter-10",
+    "name": "Street Fighter",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 350,
+    "location": "Florida storage"
+  },
   {
     "id": "rampage-03",
     "name": "Rampage",
