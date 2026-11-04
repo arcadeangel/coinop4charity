@@ -460,6 +460,16 @@
     "location": "Grand Ave Studios Phoenix, AZ"
   },
   {
+    "id": "golden-tee-03",
+    "name": "Golden Tee",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Cory. Solid cabinet.",
+    "fmv_estimate": 250,
+    "location": "shop"
+  },
+  {
     "id": "ultimate-arcade-2-01",
     "name": "CGC Ultimate Arcade 2 Multicade",
     "type": "video",
