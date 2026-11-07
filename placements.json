@@ -256,7 +256,7 @@
     "name": "Marvel Superheroes",
     "number": "029",
     "location": "YMCA - Centennial Hills",
-    "notes": "Donated during pilot test program, not a official partnership. Full upright cabinet. Free play. Working great.",
+    "notes": "Donated during pilot test program, not an official partnership. Full upright cabinet. Free play. Working great.",
     "placed": "Thank you Leon Nick from Henderson NV. 1 of 6 from this legend. Donated on 2026-09-01.",
     "status": "active"
   },
@@ -274,7 +274,7 @@
     "name": "The Simpsons",
     "number": "031",
     "location": "YMCA - Centennial Hills",
-    "notes": "Donated. Full upright cabinet. Free play. Working great.",
+    "notes": "Donated. Full upright cabinet. Free play. Donated during pilot test program, not an official partnership. Working great.",
     "placed": "Thank you Leon Nick from Henderson NV. 1 of 6 from this legend. Donated on 2026-09-01.",
     "status": "active"
   },
@@ -283,7 +283,7 @@
     "name": "Teenage Mutant Ninja Turtles",
     "number": "032",
     "location": "YMCA - Centennial Hills",
-    "notes": "Donated. Full upright cabinet. Free play. Working great.",
+    "notes": "Donated. Full upright cabinet. Free play. Donated during pilot test program, not an official partnership. Working great.",
     "placed": "Donated on 2026-09-01.",
     "status": "active"
   },
@@ -292,7 +292,7 @@
     "name": "Atari Classics: Centipede",
     "number": "033",
     "location": "YMCA - Centennial Hills",
-    "notes": "Donated and dropped off at the Y by Chris B. Full upright cabinet, lots of classic Atari games. Free play. Working great.",
+    "notes": "Facilitated and dropped off at the Y by volunteer and donor Chris B. Full upright cabinet, lots of classic Atari games. Donated during pilot test program, not an official partnership. Free play. Working great.",
     "placed": "Donated on 2026-09-04.",
     "status": "active"
   },
@@ -301,7 +301,7 @@
     "name": "Teenage Mutant Ninja Turtles",
     "number": "038",
     "location": "Boys & Girls Clubs of Southern NV – James Club",
-    "notes": "Donated. Full upright cabinet. Free play. Working great.",
+    "notes": "Donated. Full upright cabinet. Free play. Donated during pilot test program, not an official partnership. Working great.",
     "placed": "Donated on 2026-09-09",
     "status": "active"
   },
@@ -319,8 +319,8 @@
     "name": "C4C Custom Arcade",
     "number": "034",
     "location": "YMCA - Centennial Hills",
-    "notes": "Custom arcade cabinet in the works.",
-    "placed": "Project active on 2026-09-01.",
+    "notes": "Custom arcade cabinet possibly in the works, donated parts bsp y02.",
+    "placed": "Donated during pilot test program, not a official partnership. Project active on 2026-09-01.",
     "status": "active",
     "stem": true,
     "activities": [
@@ -328,7 +328,7 @@
         "title": "C4C Custom Arcade",
         "badge": "STEM",
         "status": "in progress",
-        "summary": "Members and staff working on custom arcade cabinet."
+        "summary": "Members and staff have parts available like bsp y02 and other resources to working on custom arcade cabinet in 2026."
       }
     ]
   },
@@ -337,7 +337,7 @@
     "name": "C4C Custom Arcade",
     "number": "035",
     "location": "Boys & Girls Clubs of Southern NV – James Club",
-    "notes": "Custom arcade cabinet in the works.",
+    "notes": "Custom arcade cabinet possibly in the works, donated parts during pilot program in 2026 like several bsp y02 and site compatible legends atgames pro along with other resources.",
     "placed": "Project active on 2026-09-01.",
     "status": "active",
     "stem": true,
@@ -346,7 +346,7 @@
         "title": "C4C Custom Arcade",
         "badge": "STEM",
         "status": "in progress",
-        "summary": "Members and staff working on custom arcade cabinet using site guides"
+        "summary": "Members and staff have parts to work on custom arcade cabinet using site guides"
       }
     ]
   },
@@ -355,7 +355,7 @@
     "name": "C4C Custom Arcade",
     "number": "036",
     "location": "Boys & Girls Clubs of Southern NV – Southern Highlands",
-    "notes": "Custom arcade cabinet in the works.",
+    "notes": "Donated bsp y02 during pilot test program, not a official partnership. Custom arcade cabinet possibly in the works, bsp y02 donated in 2026.",
     "placed": "Project active on 2026-09-01.",
     "status": "active",
     "stem": true,
@@ -364,7 +364,7 @@
         "title": "C4C Custom Arcade",
         "badge": "STEM",
         "status": "in progress",
-        "summary": "Members and staff working on custom arcade cabinet using site guides."
+        "summary": "Members and staff have parts and other resources available in 2026 to work on custom arcade cabinets using site guides."
       }
     ]
   },
