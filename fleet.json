@@ -130,6 +130,16 @@
     "location": "shop"
   },
   {
+    "id": "jr-pac-man-01",
+    "name": "Jr Pac-Man",
+    "type": "video",
+    "status": "working",
+    "condition": "working",
+    "notes": "Jr upright Arcade height for younger children featuring Pac-man, Galaga and Dig Dug",
+    "fmv_estimate": 100,
+    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
+  },
+  {
     "id": "hydro-thunder-01",
     "name": "Hydro Thunder",
     "type": "video",
