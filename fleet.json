@@ -200,16 +200,6 @@
     "location": "shop"
   },
   {
-    "id": "street-fighter-07",
-    "name": "Street Fighter",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright cabinet",
-    "fmv_estimate": 300,
-    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
-  },
-  {
     "id": "street-fighter-08",
     "name": "Street Fighter",
     "type": "video",
