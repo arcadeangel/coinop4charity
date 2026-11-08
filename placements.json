@@ -828,5 +828,18 @@
   "notes": "Free play placement. Thank you ZeroRest.co.uk and Grand Ave Studios in Phoenix. Visitation center for children in foster care.",
   "placed": "Placed on 2026-10-29",
   "status": "active"
+},
+{
+  "id": "jr-pac-man-01",
+  "name": "Jr Pac-Man",
+  "number": "078",
+  "location": "Child Crisis Arizona – Elmwood Teen Group Home",
+  "notes": "Free play placement at Child Crisis Arizona Elmwood Teen Group Home, 2355 E Elmwood St, Mesa, AZ 85213. Teen group home (boys ages 11-17) in the foster care system.",
+  "placed": "Placed on 2026-11-07",
+  "status": "active",
+  "lat": 33.4328,
+  "lng": -111.7803,
+  "site": "Child Crisis Arizona",
+  "short": "CCA"
 }
 ]
