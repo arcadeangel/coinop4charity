@@ -841,5 +841,18 @@
   "lng": -111.7803,
   "site": "Child Crisis Arizona",
   "short": "CCA"
+},
+{
+  "id": "street-fighter-07",
+  "name": "Street Fighter",
+  "number": "079",
+  "location": "Child Crisis Arizona – Elmwood Teen Group Home",
+  "notes": "Free play placement at Child Crisis Arizona Elmwood Teen Group Home, 2355 E Elmwood St, Mesa, AZ 85213. Teen group home (boys ages 11-17) in the foster care system.",
+  "placed": "Placed on 2026-11-07",
+  "status": "active",
+  "lat": 33.4328,
+  "lng": -111.7803,
+  "site": "Child Crisis Arizona",
+  "short": "CCA"
 }
 ]
