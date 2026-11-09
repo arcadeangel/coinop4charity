@@ -230,6 +230,16 @@
     "location": "Florida storage"
   },
   {
+    "id": "the-simpsons-06",
+    "name": "The Simpsons",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 350,
+    "location": "Florida storage"
+  },
+  {
     "id": "rampage-03",
     "name": "Rampage",
     "type": "video",
