@@ -240,6 +240,26 @@
     "location": "Florida storage"
   },
   {
+    "id": "asteroids-deluxe-02",
+    "name": "Asteroids Deluxe",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 300,
+    "location": "Florida storage"
+  },
+  {
+    "id": "centipede-03",
+    "name": "Centipede",
+    "type": "video",
+    "status": "in progress",
+    "condition": "in progress",
+    "notes": "Upright cabinet, likely needs new power supply.",
+    "fmv_estimate": 300,
+    "location": "Florida storage"
+  },
+  {
     "id": "rampage-03",
     "name": "Rampage",
     "type": "video",
