@@ -160,6 +160,16 @@
     "location": "shop"
   },
   {
+    "id": "tempest-03",
+    "name": "Tempest",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright LED tempest, and other Atari classic games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 200,
+    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
+  },
+  {
     "id": "centipede-01",
     "name": "Centipede",
     "type": "video",
