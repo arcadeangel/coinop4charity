@@ -270,16 +270,6 @@
     "location": "Florida storage"
   },
   {
-    "id": "rampage-03",
-    "name": "Rampage",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Upright cabinet",
-    "fmv_estimate": 300,
-    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
-  },
-  {
     "id": "wwe-supreme-series-01",
     "name": "WWE Supreme Series",
     "type": "video",
@@ -350,16 +340,6 @@
     "location": "shop"
   },
   {
-    "id": "dig-dug-01",
-    "name": "Dig Dug",
-    "type": "video",
-    "status": "ready",
-    "condition": "working",
-    "notes": "Countercade perfect for hospitals and small settings. Includes different games.",
-    "fmv_estimate": 120,
-    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
-  },
-  {
     "id": "asteroids-04",
     "name": "Asteroids",
     "type": "video",
@@ -415,8 +395,18 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Acquired from The Salvation Army Wilkes-Barre, thank you. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
+    "notes": "Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
     "fmv_estimate": 150,
+    "location": "shop"
+  },
+  {
+    "id": "pac-man-coleco-1981-01",
+    "name": "Pac-Man Coleco Tabletop (1981)",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Michael Liptscher. Classic 1982 Coleco tabletop mini-arcade (Model 2391). Battery or AC powered. Cleaned, tested, working. Compact size — ideal for smaller youth spaces or as a secondary unit. Original VFD display and controls intact.",
+    "fmv_estimate": 80,
     "location": "shop"
   },
   {
