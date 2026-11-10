@@ -867,5 +867,31 @@
   "lng": -111.7803,
   "site": "Child Crisis Arizona",
   "short": "CCA"
+},
+{
+  "id": "rampage-03",
+  "name": "Rampage",
+  "number": "081",
+  "location": "Child Crisis Arizona – Elmwood Teen Group Home",
+  "notes": "Special thanks to Grand Ave Studios. Free play placement at Child Crisis Arizona Elmwood Teen Group Home, 2355 E Elmwood St, Mesa, AZ 85213. Teen group home (boys ages 11-17) in the foster care system.",
+  "placed": "Placed on 2026-11-07",
+  "status": "active",
+  "lat": 33.4328,
+  "lng": -111.7803,
+  "site": "Child Crisis Arizona",
+  "short": "CCA"
+},
+{
+  "id": "dig-dug-01",
+  "name": "Dig Dug",
+  "number": "082",
+  "location": "Child Crisis Arizona – Elmwood Teen Group Home",
+  "notes": "Special thanks to Grand Ave Studios. Free play placement at Child Crisis Arizona Elmwood Teen Group Home, 2355 E Elmwood St, Mesa, AZ 85213. Teen group home (boys ages 11-17) in the foster care system.",
+  "placed": "Placed on 2026-11-07",
+  "status": "active",
+  "lat": 33.4328,
+  "lng": -111.7803,
+  "site": "Child Crisis Arizona",
+  "short": "CCA"
 }
 ]
