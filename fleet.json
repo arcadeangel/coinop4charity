@@ -179,6 +179,16 @@
     "fmv_estimate": 250,
     "location": "Phoenix, AZ Storage @ Grand Ave Studios"
   },
+    {
+    "id": "final-fight-02",
+    "name": "Capcom's Final Fight",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright Final Fight, and other games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 250,
+    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
+  },
   {
     "id": "centipede-01",
     "name": "Centipede",
