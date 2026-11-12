@@ -165,7 +165,7 @@
     "type": "video",
     "status": "ready",
     "condition": "working",
-    "notes": "Upright LED tempest, and other Atari classic games liscensed. Cleaned, tested, working.",
+    "notes": "Thank you Keith Detwiler. Upright LED tempest, and other Atari classic games liscensed. Cleaned, tested, working.",
     "fmv_estimate": 200,
     "location": "Phoenix, AZ Storage @ Grand Ave Studios"
   },
@@ -187,6 +187,17 @@
     "condition": "working",
     "notes": "Upright Final Fight, and other games liscensed. Cleaned, tested, working.",
     "fmv_estimate": 250,
+    "location": "Phoenix, AZ Storage @ Grand Ave Studios"
+  },
+    {
+    "id": "ms-pac-man-09",
+    "name": "Ms. Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you Keith Detwiler. Upright LED, wit
+     other classic games liscensed. Cleaned, tested, working.",
+    "fmv_estimate": 200,
     "location": "Phoenix, AZ Storage @ Grand Ave Studios"
   },
   {
