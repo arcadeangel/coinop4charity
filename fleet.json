@@ -400,6 +400,16 @@
     "location": "Phoenix, AZ Storage @ Grand Ave Studios"
   },
   {
+    "id": "asteroids-05",
+    "name": "Asteroids",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Wall mountable asteroids",
+    "fmv_estimate": 150,
+    "location": "shop"
+  },
+  {
     "id": "galaga-01",
     "name": "Galaga",
     "type": "video",
