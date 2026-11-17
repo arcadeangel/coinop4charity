@@ -279,6 +279,26 @@
     "fmv_estimate": 60,
     "location": "shop"
   },
+  {
+    "id": "jr-pac-man-02",
+    "name": "Jr Pac-Man",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet with several games junior sized",
+    "fmv_estimate": 150,
+    "location": "Grand Ave Studios, Phoenix AZ"
+  },
+  {
+    "id": "the-simpsons-07",
+    "name": "The Simpsons",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Upright cabinet",
+    "fmv_estimate": 300,
+    "location": "Grand Ave Studios Phoenix AZ"
+  },
    {
     "id": "street-fighter-10",
     "name": "Street Fighter",
