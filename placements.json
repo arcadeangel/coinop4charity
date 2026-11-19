@@ -893,5 +893,14 @@
   "lng": -111.8405,
   "site": "Child Crisis Arizona",
   "short": "CCA"
-}
+},
+{
+    "id": "final-fight-03",
+    "name": "Final Fight",
+    "number": "083",
+    "location": "St. Jude's Ranch For Children – Boulder City, NV",
+    "notes": "Thank you James Maldonado. Partner location. Full upright cabinet. Free play. Working great.",
+    "placed": "Donated on 2026-11-19",
+    "status": "active"
+  }
 ]
