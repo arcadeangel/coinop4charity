@@ -650,6 +650,16 @@
     "location": "shop"
   },
   {
+    "id": "mortal-kombat-07",
+    "name": "Mortal Kombat",
+    "type": "video",
+    "status": "in progress",
+    "condition": "in progress",
+    "notes": "Donated by James Maldonado.",
+    "fmv_estimate": 400,
+    "location": "warehouse"
+  },
+  {
     "id": "terminator-2-judgement-day-01",
     "name": "Terminator 2: Judgement Day",
     "type": "video",
