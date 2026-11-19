@@ -439,6 +439,16 @@
     "fmv_estimate": 400,
     "location": "shop"
   },
+    {
+    "id": "galaga-05",
+    "name": "Galaga",
+    "type": "video",
+    "status": "ready",
+    "condition": "working",
+    "notes": "Thank you James Maldonado. Cleaned, tested, working.",
+    "fmv_estimate": 350,
+    "location": "warehouse"
+  },
   {
     "id": "galaga-03",
     "name": "Galaga",
